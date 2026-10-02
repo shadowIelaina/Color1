@@ -1,0 +1,7 @@
+[gd_scene load_steps=1 format=3]
+
+[node name="World" type="Node2D"]
+
+[node name="Ground" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-2000, -2000, 2000, -2000, 2000, 2000, -2000, 2000)
+color = Color(0.18, 0.2, 0.24, 1)
