@@ -1,0 +1,126 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/level/room.gd" id="1_room"]
+[ext_resource type="Script" path="res://scripts/level/entrance.gd" id="2_entrance"]
+[ext_resource type="Script" path="res://scripts/level/door.gd" id="3_door"]
+[ext_resource type="Script" path="res://scripts/level/lever.gd" id="4_lever"]
+[ext_resource type="Script" path="res://scripts/level/gate.gd" id="5_gate"]
+[ext_resource type="Script" path="res://scripts/level/breakable_wall.gd" id="6_wall"]
+[ext_resource type="PackedScene" path="res://color_change/object.tscn" id="7_colorbox"]
+
+[sub_resource type="RectangleShape2D" id="Rect_door_v"]
+size = Vector2(48, 96)
+
+[sub_resource type="RectangleShape2D" id="Rect_door_h"]
+size = Vector2(96, 48)
+
+[sub_resource type="RectangleShape2D" id="Rect_switch"]
+size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="Rect_gate_v"]
+size = Vector2(24, 160)
+
+[sub_resource type="RectangleShape2D" id="Rect_wall_h"]
+size = Vector2(120, 24)
+
+[node name="RoomA" type="Node2D"]
+script = ExtResource("1_room")
+room_id = "room_a"
+camera_limits = Rect2(-400, -300, 800, 600)
+
+[node name="Ground" type="Polygon2D" parent="."]
+color = Color(0.18, 0.2, 0.24, 1)
+polygon = PackedVector2Array(-400, -300, 400, -300, 400, 300, -400, 300)
+
+[node name="spawn" type="Marker2D" parent="."]
+position = Vector2(-300, 0)
+script = ExtResource("2_entrance")
+entrance_id = "spawn"
+
+[node name="from_b" type="Marker2D" parent="."]
+position = Vector2(300, 0)
+script = ExtResource("2_entrance")
+entrance_id = "from_b"
+
+[node name="door_to_b" type="Area2D" parent="."]
+position = Vector2(400, 0)
+script = ExtResource("3_door")
+door_id = "door_to_b"
+target_scene = "res://rooms/room_b.tscn"
+target_entrance = "from_a"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="door_to_b"]
+shape = SubResource("Rect_door_v")
+
+[node name="Visual" type="Polygon2D" parent="door_to_b"]
+z_index = 5
+color = Color(0.5, 0.85, 0.5, 1)
+polygon = PackedVector2Array(-24, -48, 24, -48, 24, 48, -24, 48)
+
+[node name="door_to_b_locked" type="Area2D" parent="."]
+position = Vector2(0, -300)
+script = ExtResource("3_door")
+door_id = "door_to_b_locked"
+target_scene = "res://rooms/room_b.tscn"
+target_entrance = "from_a_side"
+required_key_id = "key_b"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="door_to_b_locked"]
+shape = SubResource("Rect_door_h")
+
+[node name="Visual" type="Polygon2D" parent="door_to_b_locked"]
+z_index = 5
+color = Color(0.9, 0.45, 0.45, 1)
+polygon = PackedVector2Array(-48, -24, 48, -24, 48, 24, -48, 24)
+
+[node name="lever_a" type="Node2D" parent="."]
+position = Vector2(-100, 200)
+script = ExtResource("4_lever")
+lever_id = "lever_a"
+
+[node name="InteractArea" type="Area2D" parent="lever_a"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="lever_a/InteractArea"]
+shape = SubResource("Rect_switch")
+
+[node name="Visual" type="Polygon2D" parent="lever_a"]
+color = Color(0.85, 0.85, 0.85, 1)
+polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[node name="gate_a" type="Node2D" parent="."]
+position = Vector2(0, 200)
+script = ExtResource("5_gate")
+gate_id = "gate_a"
+gate_type = "switch"
+required_id = "lever_a"
+
+[node name="Body" type="StaticBody2D" parent="gate_a"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gate_a/Body"]
+shape = SubResource("Rect_gate_v")
+
+[node name="Visual" type="Polygon2D" parent="gate_a"]
+color = Color(0.65, 0.55, 0.3, 1)
+polygon = PackedVector2Array(-12, -80, 12, -80, 12, 80, -12, 80)
+
+[node name="wall_a" type="Node2D" parent="."]
+position = Vector2(-200, -100)
+script = ExtResource("6_wall")
+wall_id = "wall_a"
+
+[node name="BreakArea" type="Area2D" parent="wall_a"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_a/BreakArea"]
+shape = SubResource("Rect_wall_h")
+
+[node name="Body" type="StaticBody2D" parent="wall_a"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_a/Body"]
+shape = SubResource("Rect_wall_h")
+
+[node name="Visual" type="Polygon2D" parent="wall_a"]
+color = Color(0.5, 0.4, 0.35, 1)
+polygon = PackedVector2Array(-60, -12, 60, -12, 60, 12, -60, 12)
+
+[node name="ColorBox" parent="." instance=ExtResource("7_colorbox")]
+position = Vector2(-100, -100)

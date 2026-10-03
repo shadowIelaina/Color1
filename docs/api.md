@@ -22,7 +22,7 @@
 EventBus.subscribe("color_applied", _on_color_applied)
 
 func _on_color_applied(payload) -> void:
-    var color: Color = payload["color"]
+	var color: Color = payload["color"]
 ```
 
 ### 事件表
@@ -64,17 +64,17 @@ ColorManager.get_semantic(color_name)       # 返回 "strength" 等
 
 ```gdscript
 func _on_color_applied(color: Color, color_name: String = "") -> void:
-    match color_name:
-        "red":
-            pass   # 变强
-        "blue":
-            pass   # 稳定
-        "green":
-            pass   # 生长/复制
-        "black":
-            pass   # 隐藏
-        "white":
-            pass   # 重置
+	match color_name:
+		"red":
+			pass   # 变强
+		"blue":
+			pass   # 稳定
+		"green":
+			pass   # 生长/复制
+		"black":
+			pass   # 隐藏
+		"white":
+			pass   # 重置
 ```
 
 ### 公开成员
@@ -100,8 +100,8 @@ signal color_applied(color: Color)
 
 ```gdscript
 func _on_color_applied(payload) -> void:
-    if 满足条件:
-        mark_solved()
+	if 满足条件:
+		mark_solved()
 ```
 
 ### 公开成员
