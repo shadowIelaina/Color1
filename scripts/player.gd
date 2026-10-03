@@ -32,9 +32,13 @@ const STATE_NAMES: Array[String] = ["idle", "walk", "run", "jump", "rotate"]
 @export_range(1.0, 8.0, 0.5) var pixel_scale := 1.0
 @export var animation_frames: SpriteFrames
 
+@export_group("Interact")
+@export_range(8.0, 256.0, 1.0) var interact_range := 48.0
+@export_range(1.0, 8.0, 0.5) var outline_width := 2.0
+@export var outline_color := Color(1.0, 0.95, 0.4)
+
 const FOOTPRINT_RADIUS := 4.0
-const INTERACT_RANGE := 48.0
-const INTERACT_FACING_MIN_DOT := 0.5
+const OUTLINE_SHADER := preload("res://shaders/outline.gdshader")
 
 ## 8 方向（屏幕坐标，y 向下），顺时针：下、左下、左、左上、上、右上、右、右下。
 const DIRS: Array[Vector2] = [
@@ -66,6 +70,9 @@ var selected_color_name := "绿"
 var _jump_t := 1.0
 var _rotate_t := 0.0
 var _base_sprite_offset := Vector2(0, -8)
+var _outline_material: ShaderMaterial
+var _highlighted: Node = null
+var _highlight_outline: Sprite2D = null
 
 @onready var sprite: AnimatedSprite2D = $Sprite
 @onready var collision: CollisionShape2D = $Collision
@@ -82,10 +89,15 @@ func _ready() -> void:
 	sprite.offset = _base_sprite_offset
 	_apply_animation()
 	color_changed.emit(selected_color, selected_color_name)
+	_outline_material = ShaderMaterial.new()
+	_outline_material.shader = OUTLINE_SHADER
+	_outline_material.set_shader_parameter("outline_width", outline_width)
+	_outline_material.set_shader_parameter("outline_color", outline_color)
 
 
 func _physics_process(delta: float) -> void:
 	_handle_color_input()
+	_update_highlight()
 
 	var input := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var running := Input.is_action_pressed("run")
@@ -194,27 +206,58 @@ func _select_color(c: Color, color_name: String) -> void:
 
 
 func _interact() -> void:
-	var target := _facing_colorable()
-	if target:
-		target.apply_color(selected_color)
+	var target := _nearest_colorable()
+	if target != null:
+		target.call("apply_color", selected_color)
 
 
-## 只取正前方（约 ±60° 内）且最近的那个 colorable 物体。
-func _facing_colorable() -> ColorableSprite:
-	var facing_vec := DIRS[facing]
-	var best: ColorableSprite = null
+## 取圆形范围内（interact_range）最近、且能上色（有 apply_color）的物体。
+func _nearest_colorable() -> Node:
+	var best: Node = null
 	var best_d := INF
-	for obj: ColorableSprite in get_tree().get_nodes_in_group("colorable"):
-		var delta: Vector2 = obj.global_position - global_position
-		var dist := delta.length()
-		if dist > INTERACT_RANGE or dist < 0.001:
+	for obj in get_tree().get_nodes_in_group("colorable"):
+		if not obj.has_method("apply_color"):
 			continue
-		if (delta / dist).dot(facing_vec) < INTERACT_FACING_MIN_DOT:
+		var n := obj as Node2D
+		if n == null:
+			continue
+		var dist := global_position.distance_to(n.global_position)
+		if dist > interact_range:
 			continue
 		if dist < best_d:
 			best_d = dist
-			best = obj
+			best = n
 	return best
+
+
+## 给当前最近的可上色物体加描边提示，目标变化时自动切换。
+func _update_highlight() -> void:
+	var target := _nearest_colorable()
+	if target == _highlighted:
+		return
+	_clear_highlight()
+	if target != null:
+		_highlighted = target
+		_add_outline(target)
+
+
+func _add_outline(target: Node) -> void:
+	var sprite := target as Sprite2D
+	if sprite == null:
+		return
+	_highlight_outline = Sprite2D.new()
+	_highlight_outline.texture = sprite.texture
+	_highlight_outline.centered = sprite.centered
+	_highlight_outline.material = _outline_material
+	_highlight_outline.show_behind_parent = true
+	sprite.add_child(_highlight_outline)
+
+
+func _clear_highlight() -> void:
+	if _highlight_outline != null:
+		_highlight_outline.queue_free()
+		_highlight_outline = null
+	_highlighted = null
 
 
 func _build_sprite_frames() -> SpriteFrames:

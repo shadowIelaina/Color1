@@ -13,6 +13,7 @@ func apply_color(color: Color, color_name: String = "") -> bool:
 	if color_name != "" and color_name not in supported_colors:
 		return false
 	current_color = color
+	modulate = color
 	_on_color_applied(color, color_name)
 	color_applied.emit(color)
 	EventBus.emit("color_applied", {"target": self, "color": color, "color_name": color_name})
@@ -21,6 +22,7 @@ func apply_color(color: Color, color_name: String = "") -> bool:
 
 func reset_color() -> void:
 	current_color = Color.WHITE
+	modulate = Color.WHITE
 	_on_reset()
 
 

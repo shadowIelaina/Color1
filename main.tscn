@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://d1jaadj1xgr2n"]
 
 [ext_resource type="Texture2D" uid="uid://b822yei8k4fii" path="res://art/else/ground.png" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://bhrr1nwhsdh4v" path="res://scripts/color/colorable.gd" id="3_5vw27"]
 [ext_resource type="Texture2D" uid="uid://ctk8y6plmrmec" path="res://art/else/plant.png" id="3_7mycd"]
 [ext_resource type="Script" uid="uid://bkgp83ocrv3oh" path="res://color_change/colorable_sprite.gd" id="4_5vw27"]
 [ext_resource type="Texture2D" uid="uid://c00g7qises46" path="res://art/else/rock.png" id="4_272bh"]
@@ -32,35 +33,41 @@ texture_filter = 1
 tile_map_data = PackedByteArray("AAD/////AAACAAIAAAD//wAAAAACAAIAAAD//wEAAAACAAIAAAAAAP//AAACAAIAAAAAAAAAAAACAAIAAAAAAAEAAAACAAIAAAABAP//AAACAAIAAAABAAAAAAACAAIAAAABAAEAAAACAAIAAAD+/wEAAAACAAIAAAD8//3/AAACAAIAAAD9//3/AAACAAIAAAD+//7/AAACAAIAAAACAAAAAAACAAIAAAACAAEAAAACAAIAAAADAAEAAAACAAIAAAADAAIAAAACAAIAAAD8//7/AAACAAIAAAD8////AAACAAIAAAD8/wAAAAACAAIAAAD8/wEAAAACAAIAAAD8/wIAAAACAAIAAAD8/wMAAAACAAIAAAD9//7/AAACAAIAAAD9////AAACAAIAAAD9/wAAAAACAAIAAAD9/wEAAAACAAIAAAD9/wIAAAACAAIAAAD9/wMAAAACAAIAAAD+//3/AAACAAIAAAD+////AAACAAIAAAD+/wAAAAACAAIAAAD+/wIAAAACAAIAAAD+/wMAAAACAAIAAAD///3/AAACAAIAAAD///7/AAACAAIAAAD//wIAAAACAAIAAAD//wMAAAACAAIAAAAAAP3/AAACAAIAAAAAAP7/AAACAAIAAAAAAAIAAAACAAIAAAAAAAMAAAACAAIAAAABAP3/AAACAAIAAAABAP7/AAACAAIAAAABAAIAAAACAAIAAAABAAMAAAACAAIAAAACAP3/AAACAAIAAAACAP7/AAACAAIAAAACAP//AAACAAIAAAACAAIAAAACAAIAAAACAAMAAAACAAIAAAADAP3/AAACAAIAAAADAP7/AAACAAIAAAADAP//AAACAAIAAAADAAAAAAACAAIAAAADAAMAAAACAAIAAAAEAP3/AAACAAIAAAAEAP7/AAACAAIAAAAEAP//AAACAAIAAAAEAAAAAAACAAIAAAAEAAEAAAACAAIAAAAEAAIAAAACAAIAAAAEAAMAAAACAAIAAAD5//3/AAACAAIAAAD5//7/AAACAAIAAAD5////AAACAAIAAAD5/wAAAAACAAIAAAD5/wEAAAACAAIAAAD5/wIAAAACAAIAAAD5/wMAAAACAAIAAAD6//3/AAACAAIAAAD6//7/AAACAAIAAAD6////AAACAAIAAAD6/wAAAAACAAIAAAD6/wEAAAACAAIAAAD6/wIAAAACAAIAAAD6/wMAAAACAAIAAAD7//3/AAACAAIAAAD7//7/AAACAAIAAAD7////AAACAAIAAAD7/wAAAAACAAIAAAD7/wEAAAACAAIAAAD7/wIAAAACAAIAAAD7/wMAAAACAAIAAAAFAP3/AAACAAIAAAAFAP7/AAACAAIAAAAFAP//AAACAAIAAAAFAAAAAAACAAIAAAAFAAEAAAACAAIAAAAFAAIAAAACAAIAAAAFAAMAAAACAAIAAAAGAP3/AAACAAIAAAAGAP7/AAACAAIAAAAGAP//AAACAAIAAAAGAAAAAAACAAIAAAAGAAEAAAACAAIAAAAGAAIAAAACAAIAAAAGAAMAAAACAAIAAAAHAP3/AAACAAIAAAAHAP7/AAACAAIAAAAHAP//AAACAAIAAAAHAAAAAAACAAIAAAAHAAEAAAACAAIAAAAHAAIAAAACAAIAAAAHAAMAAAACAAIAAAD5//z/AAACAAIAAAD6//z/AAACAAIAAAD7//z/AAACAAIAAAD8//z/AAACAAIAAAD///z/AAACAAIAAAAAAPz/AAACAAIAAAABAPv/AAACAAIAAAACAPr/AAACAAIAAAADAPr/AAACAAIAAAAEAPr/AAACAAIAAAAFAPr/AAACAAIAAAAGAPr/AAACAAIAAAAGAPv/AAACAAIAAAAGAPz/AAACAAIAAAABAPz/AAACAAIAAAACAPz/AAACAAIAAAACAPv/AAACAAIAAAADAPv/AAACAAIAAAAEAPv/AAACAAIAAAAFAPv/AAACAAIAAAAFAPz/AAACAAIAAAAEAPz/AAACAAIAAAADAPz/AAACAAIAAAD9//z/AAACAAIAAAD+//z/AAACAAIAAAAHAPz/AAACAAIAAAAIAP3/AAACAAIAAAAHAPv/AAACAAIAAAAAAPv/AAACAAIAAAD///v/AAACAAIAAAD+//v/AAACAAIAAAD9//v/AAACAAIAAAD8//v/AAACAAIAAAD7//v/AAACAAIAAAD6//v/AAACAAIAAAD5//v/AAACAAIAAAD5//r/AAACAAIAAAD6//r/AAACAAIAAAD7//r/AAACAAIAAAD8//r/AAACAAIAAAD9//r/AAACAAIAAAD+//r/AAACAAIAAAD///r/AAACAAIAAAAAAPr/AAACAAIAAAABAPr/AAACAAIAAAAHAPr/AAACAAIAAAA=")
 tile_set = SubResource("TileSet_vkqoe")
 
-[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=302727615]
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=302727615 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(-41, -28)
 texture = ExtResource("3_7mycd")
+script = ExtResource("3_5vw27")
 
-[node name="Sprite2D5" type="Sprite2D" parent="." unique_id=516619955]
+[node name="Sprite2D5" type="Sprite2D" parent="." unique_id=516619955 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(-55, 19)
 texture = ExtResource("3_7mycd")
+script = ExtResource("3_5vw27")
 
-[node name="Sprite2D6" type="Sprite2D" parent="." unique_id=1896639337]
+[node name="Sprite2D6" type="Sprite2D" parent="." unique_id=1896639337 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(21, 24)
 texture = ExtResource("3_7mycd")
+script = ExtResource("3_5vw27")
 
-[node name="Sprite2D7" type="Sprite2D" parent="." unique_id=367903884]
+[node name="Sprite2D7" type="Sprite2D" parent="." unique_id=367903884 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(75, -14)
 texture = ExtResource("3_7mycd")
+script = ExtResource("3_5vw27")
 
-[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=451102168]
+[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=451102168 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(-8, -57)
 texture = ExtResource("3_7mycd")
+script = ExtResource("3_5vw27")
 
-[node name="Sprite2D4" type="Sprite2D" parent="." unique_id=707353019]
+[node name="Sprite2D4" type="Sprite2D" parent="." unique_id=707353019 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(27, -43)
 texture = ExtResource("3_7mycd")
+script = ExtResource("3_5vw27")
 
 [node name="rock" type="Sprite2D" parent="." unique_id=1570849320 groups=["colorable"]]
 texture_filter = 1
@@ -111,6 +118,9 @@ texture = ExtResource("5_5vw27")
 script = ExtResource("4_5vw27")
 
 [node name="Player" parent="." unique_id=2123202084 groups=["player"] instance=ExtResource("5_lquwl")]
+interact_range = 27.0
+outline_width = 1.0
+outline_color = Color(0.011764706, 0.011764706, 0, 1)
 
 [node name="Camera" type="Camera2D" parent="Player" unique_id=1020546962]
 zoom = Vector2(4, 4)
