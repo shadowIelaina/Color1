@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_object"]
 size = Vector2(32, 26)
 
-[node name="ColorableObject" type="StaticBody2D" unique_id=2043507242 groups=["colorable"]]
+[node name="ColorableObject" type="Node2D" unique_id=2043507242 groups=["colorable"]]
 script = ExtResource("1_obj")
 
 [node name="Shadow" type="Polygon2D" parent="." unique_id=883688403]
@@ -20,6 +20,8 @@ polygon = PackedVector2Array(-16, 0, 16, 0, 16, -26, -16, -26)
 color = Color(0.78, 0.78, 0.8, 1)
 polygon = PackedVector2Array(-16, -26, -6, -34, 26, -34, 16, -26)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=141303738]
+[node name="Body" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body" unique_id=141303738]
 position = Vector2(0, -13)
 shape = SubResource("RectangleShape2D_object")

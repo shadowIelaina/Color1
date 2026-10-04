@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://b822yei8k4fii" path="res://art/else/ground.png" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://bhrr1nwhsdh4v" path="res://scripts/color/colorable.gd" id="3_5vw27"]
 [ext_resource type="Texture2D" uid="uid://ctk8y6plmrmec" path="res://art/else/plant.png" id="3_7mycd"]
-[ext_resource type="Script" uid="uid://bkgp83ocrv3oh" path="res://color_change/colorable_sprite.gd" id="4_5vw27"]
 [ext_resource type="Texture2D" uid="uid://c00g7qises46" path="res://art/else/rock.png" id="4_272bh"]
 [ext_resource type="Texture2D" uid="uid://f786ctid8622" path="res://art/else/tree.png" id="5_5vw27"]
 [ext_resource type="PackedScene" uid="uid://ckv74s8mkhqcg" path="res://scenes/player.tscn" id="5_lquwl"]
@@ -73,49 +72,49 @@ script = ExtResource("3_5vw27")
 texture_filter = 1
 position = Vector2(28, -11)
 texture = ExtResource("4_272bh")
-script = ExtResource("4_5vw27")
+script = ExtResource("3_5vw27")
 
 [node name="rock2" type="Sprite2D" parent="." unique_id=1501181945 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(-8, -35)
 texture = ExtResource("4_272bh")
-script = ExtResource("4_5vw27")
+script = ExtResource("3_5vw27")
 
 [node name="rock3" type="Sprite2D" parent="." unique_id=1137467717 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(-34, 45)
 texture = ExtResource("4_272bh")
-script = ExtResource("4_5vw27")
+script = ExtResource("3_5vw27")
 
 [node name="rock4" type="Sprite2D" parent="." unique_id=1506721740 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(-72, -49)
 texture = ExtResource("4_272bh")
-script = ExtResource("4_5vw27")
+script = ExtResource("3_5vw27")
 
 [node name="tree" type="Sprite2D" parent="." unique_id=52398653 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(-68, -26)
 texture = ExtResource("5_5vw27")
-script = ExtResource("4_5vw27")
+script = ExtResource("3_5vw27")
 
 [node name="tree2" type="Sprite2D" parent="." unique_id=1496909877 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(44, -50)
 texture = ExtResource("5_5vw27")
-script = ExtResource("4_5vw27")
+script = ExtResource("3_5vw27")
 
 [node name="tree3" type="Sprite2D" parent="." unique_id=970418027 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(-6, 10)
 texture = ExtResource("5_5vw27")
-script = ExtResource("4_5vw27")
+script = ExtResource("3_5vw27")
 
 [node name="tree4" type="Sprite2D" parent="." unique_id=1347543615 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(-39, -76)
 texture = ExtResource("5_5vw27")
-script = ExtResource("4_5vw27")
+script = ExtResource("3_5vw27")
 
 [node name="Player" parent="." unique_id=2123202084 groups=["player"] instance=ExtResource("5_lquwl")]
 interact_range = 27.0

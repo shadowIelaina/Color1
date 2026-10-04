@@ -1,12 +1,12 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/room.gd" id="1_room"]
-[ext_resource type="Script" path="res://scripts/entrance.gd" id="2_entrance"]
-[ext_resource type="Script" path="res://scripts/door.gd" id="3_door"]
-[ext_resource type="Script" path="res://scripts/lever.gd" id="4_lever"]
-[ext_resource type="Script" path="res://scripts/gate.gd" id="5_gate"]
-[ext_resource type="Script" path="res://scripts/key.gd" id="6_key"]
-[ext_resource type="Script" path="res://scripts/pushable_box.gd" id="7_box"]
+[ext_resource type="Script" path="res://scripts/rooms/room.gd" id="1_room"]
+[ext_resource type="Script" path="res://scripts/rooms/entrance.gd" id="2_entrance"]
+[ext_resource type="Script" path="res://scripts/entities/door.gd" id="3_door"]
+[ext_resource type="Script" path="res://scripts/entities/lever.gd" id="4_lever"]
+[ext_resource type="Script" path="res://scripts/entities/gate.gd" id="5_gate"]
+[ext_resource type="Script" path="res://scripts/entities/key.gd" id="6_key"]
+[ext_resource type="Script" path="res://scripts/entities/pushable_box.gd" id="7_box"]
 
 [sub_resource type="RectangleShape2D" id="Rect_door_v"]
 size = Vector2(48, 96)

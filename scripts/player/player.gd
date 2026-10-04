@@ -88,7 +88,8 @@ func _ready() -> void:
 	sprite.sprite_frames = animation_frames if animation_frames != null else _build_sprite_frames()
 	sprite.offset = _base_sprite_offset
 	_apply_animation()
-	color_changed.emit(selected_color, selected_color_name)
+	ColorManager.color_selected.connect(_on_color_selected)
+	_sync_color_from_manager()
 	_outline_material = ShaderMaterial.new()
 	_outline_material.shader = OUTLINE_SHADER
 	_outline_material.set_shader_parameter("outline_width", outline_width)
@@ -189,26 +190,25 @@ func _dir_from_input(v: Vector2) -> int:
 
 
 func _handle_color_input() -> void:
-	if Input.is_action_just_pressed("select_green"):
-		_select_color(Color(0.25, 0.85, 0.35), "绿")
-	elif Input.is_action_just_pressed("select_blue"):
-		_select_color(Color(0.3, 0.55, 1.0), "蓝")
-	elif Input.is_action_just_pressed("select_red"):
-		_select_color(Color(1.0, 0.3, 0.3), "红")
 	if Input.is_action_just_pressed("interact"):
 		_interact()
 
 
-func _select_color(c: Color, color_name: String) -> void:
-	selected_color = c
+func _on_color_selected(color: Color, color_name: String) -> void:
+	selected_color = color
 	selected_color_name = color_name
-	color_changed.emit(c, color_name)
+	color_changed.emit(color, color_name)
+
+
+func _sync_color_from_manager() -> void:
+	selected_color = ColorManager.current_color
+	selected_color_name = ColorManager.current_color_name
 
 
 func _interact() -> void:
 	var target := _nearest_colorable()
 	if target != null:
-		target.call("apply_color", selected_color)
+		target.call("apply_color", ColorManager.current_color, ColorManager.current_color_name)
 
 
 ## 取圆形范围内（interact_range）最近、且能上色（有 apply_color）的物体。
@@ -302,9 +302,6 @@ func _register_input_actions() -> void:
 	_add_action("run", [KEY_SHIFT])
 	_add_action("jump", [KEY_SPACE])
 	_add_action("rotate", [KEY_R])
-	_add_action("select_green", [KEY_1])
-	_add_action("select_blue", [KEY_2])
-	_add_action("select_red", [KEY_3])
 	_add_action("interact", [KEY_E])
 
 

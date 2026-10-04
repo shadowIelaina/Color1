@@ -22,7 +22,7 @@ EventBus="*res://scripts/core/event_bus.gd"
 GameState="*res://scripts/core/game_state.gd"
 ColorManager="*res://scripts/color/color_manager.gd"
 SaveManager="*res://scripts/core/save_manager.gd"
-SceneManager="*res://scripts/world/scene_manager.gd"
+SceneManager="*res://scripts/core/scene_manager.gd"
 AudioManager="*res://scripts/core/audio_manager.gd"
 
 [display]
