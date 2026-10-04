@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://f786ctid8622" path="res://art/else/tree.png" id="5_5vw27"]
 [ext_resource type="PackedScene" uid="uid://ckv74s8mkhqcg" path="res://scenes/player.tscn" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://c72jfj8on1i3d" path="res://color_change/hud.gd" id="7_kek77"]
+[ext_resource type="PackedScene" uid="uid://cfi8ga1nsgs8r" path="res://prefabs/items/wood.tscn" id="8_5vw27"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0xm2m"]
 texture = ExtResource("1_ig7tw")
@@ -73,24 +74,28 @@ texture_filter = 1
 position = Vector2(28, -11)
 texture = ExtResource("4_272bh")
 script = ExtResource("3_5vw27")
+shatterable = true
 
 [node name="rock2" type="Sprite2D" parent="." unique_id=1501181945 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(-8, -35)
 texture = ExtResource("4_272bh")
 script = ExtResource("3_5vw27")
+shatterable = true
 
 [node name="rock3" type="Sprite2D" parent="." unique_id=1137467717 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(-34, 45)
 texture = ExtResource("4_272bh")
 script = ExtResource("3_5vw27")
+shatterable = true
 
 [node name="rock4" type="Sprite2D" parent="." unique_id=1506721740 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(-72, -49)
 texture = ExtResource("4_272bh")
 script = ExtResource("3_5vw27")
+shatterable = true
 
 [node name="tree" type="Sprite2D" parent="." unique_id=52398653 groups=["colorable"]]
 texture_filter = 1
@@ -115,6 +120,15 @@ texture_filter = 1
 position = Vector2(-39, -76)
 texture = ExtResource("5_5vw27")
 script = ExtResource("3_5vw27")
+
+[node name="Wood" parent="." unique_id=1612372868 instance=ExtResource("8_5vw27")]
+position = Vector2(-80, 30)
+
+[node name="Wood2" parent="." unique_id=1540824213 instance=ExtResource("8_5vw27")]
+position = Vector2(96, 26)
+
+[node name="Wood3" parent="." unique_id=1449741940 instance=ExtResource("8_5vw27")]
+position = Vector2(54, 40)
 
 [node name="Player" parent="." unique_id=2123202084 groups=["player"] instance=ExtResource("5_lquwl")]
 interact_range = 27.0

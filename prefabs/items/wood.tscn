@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cfi8ga1nsgs8r"]
 
 [ext_resource type="Texture2D" uid="uid://dl6hhtg0yiioc" path="res://art/things/wood.png" id="1_tpewa"]
+[ext_resource type="Script" uid="uid://bhrr1nwhsdh4v" path="res://scripts/color/colorable.gd" id="2_colorable"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wood"]
 size = Vector2(25, 11)
@@ -12,7 +13,9 @@ collision_layer = 2
 position = Vector2(-0.5, -5.5)
 shape = SubResource("RectangleShape2D_wood")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2122906134]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2122906134 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(1, -5)
 texture = ExtResource("1_tpewa")
+script = ExtResource("2_colorable")
+duplicatable = true

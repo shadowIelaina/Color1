@@ -208,7 +208,7 @@ func _sync_color_from_manager() -> void:
 func _interact() -> void:
 	var target := _nearest_colorable()
 	if target != null:
-		target.call("apply_color", ColorManager.current_color, ColorManager.current_color_name)
+		target.call("apply_color", ColorManager.current_color, ColorManager.current_color_name, DIRS[facing])
 
 
 ## 取圆形范围内（interact_range）最近、且能上色（有 apply_color）的物体。
@@ -246,6 +246,7 @@ func _add_outline(target: Node) -> void:
 	if sprite == null:
 		return
 	_highlight_outline = Sprite2D.new()
+	_highlight_outline.name = "HighlightOutline"
 	_highlight_outline.texture = sprite.texture
 	_highlight_outline.centered = sprite.centered
 	_highlight_outline.material = _outline_material
