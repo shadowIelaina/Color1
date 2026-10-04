@@ -233,12 +233,12 @@ func _nearest_colorable() -> Node:
 ## 给当前最近的可上色物体加描边提示，目标变化时自动切换。
 func _update_highlight() -> void:
 	var target := _nearest_colorable()
-	if target == _highlighted:
-		return
-	_clear_highlight()
-	if target != null:
-		_highlighted = target
-		_add_outline(target)
+	if target != _highlighted:
+		_clear_highlight()
+		if target != null:
+			_highlighted = target
+			_add_outline(target)
+	_sync_outline()
 
 
 func _add_outline(target: Node) -> void:
@@ -249,9 +249,21 @@ func _add_outline(target: Node) -> void:
 	_highlight_outline.name = "HighlightOutline"
 	_highlight_outline.texture = sprite.texture
 	_highlight_outline.centered = sprite.centered
+	_highlight_outline.flip_h = sprite.flip_h
+	_highlight_outline.flip_v = sprite.flip_v
 	_highlight_outline.material = _outline_material
 	_highlight_outline.show_behind_parent = true
 	sprite.add_child(_highlight_outline)
+
+
+func _sync_outline() -> void:
+	if _highlight_outline == null:
+		return
+	var sprite := _highlighted as Sprite2D
+	if sprite == null:
+		return
+	_highlight_outline.flip_h = sprite.flip_h
+	_highlight_outline.flip_v = sprite.flip_v
 
 
 func _clear_highlight() -> void:

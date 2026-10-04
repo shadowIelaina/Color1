@@ -5,3 +5,4 @@ const PLAYER := 1
 const WORLD := 2
 const PUSHABLE := 4
 const TRIGGER := 8
+const ENEMY := 16

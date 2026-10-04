@@ -1,4 +1,4 @@
-# 系统接口文档（v0.2）
+# 系统接口文档（v0.3）
 
 > 给关卡 / 实体程序对接用。所有方法名、事件名、常量以此文档为准。
 > 全局单例直接用名字访问，例如 `EventBus.emit(...)`、`GameState.inventory`。
@@ -31,6 +31,7 @@ func _on_color_applied(payload) -> void:
 |---|---|---|
 | `color_selected` | `{ color: Color, color_name: String }` | 切换选中颜色 |
 | `color_applied` | `{ target: Node, color: Color, color_name: String }` | 某个 Colorable 被上色成功 |
+| `colorable_shattered` | `{ target: Node }` | 某个 Colorable 破碎（红→白） |
 | `puzzle_solved` | `{ puzzle_id: String }` | 某个谜题完成 |
 
 ## 3. 上色反馈接口（涌出/粒子/音效等）
@@ -38,15 +39,19 @@ func _on_color_applied(payload) -> void:
 上色成功的**统一入口**是 EventBus 的 `color_applied` 事件。需要做「涌出 / 粒子 / 音效」等反馈的模块，订阅它即可，不要改 `Colorable` 内部。
 
 ```gdscript
-# 例：EffectSpawner（关卡程序负责实现具体效果）
 func _ready() -> void:
     EventBus.subscribe("color_applied", _on_color_applied)
+    EventBus.subscribe("colorable_shattered", _on_shattered)
 
 func _on_color_applied(payload) -> void:
-    var node: Node2D = payload["target"]        # 被上色的节点
-    var color: Color = payload["color"]         # 上色后的颜色（可用于给效果染色）
+    var node: Node2D = payload["target"]
+    var color: Color = payload["color"]
     var color_name: String = payload["color_name"]
     # 在 node.global_position 生成涌出/粒子效果
+
+func _on_shattered(payload) -> void:
+    var node: Node2D = payload["target"]
+    # 在 node.global_position 播放破碎动画/粒子
 ```
 
 取值约定：
@@ -54,8 +59,6 @@ func _on_color_applied(payload) -> void:
 - 位置：`payload["target"].global_position`
 - 颜色：`payload["color"]`
 - 语义：`ColorManager.get_semantic(payload["color_name"])`
-
-> 是否用粒子暂未定：先按此接口接入，具体效果（粒子 / 贴图动画 / 音效）后面再填。
 
 ## 4. ColorManager
 
@@ -69,7 +72,7 @@ func _on_color_applied(payload) -> void:
 | black | hide（隐藏） | `ColorManager.BLACK` |
 | white | reset（重置） | `ColorManager.WHITE` |
 
-> 调色板存在 `ColorManager.PALETTE`（顺序对应数字键 1~5）。后续新增颜色时往 PALETTE 追加即可，选色键会自动跟着扩展。
+> 调色板在 `ColorManager.PALETTE`（顺序对应数字键 1~5）。新增颜色时往 PALETTE 追加即可，选色键自动扩展。
 
 ### 公开成员
 
@@ -77,7 +80,7 @@ func _on_color_applied(payload) -> void:
 ColorManager.current_color       # 当前选中色
 ColorManager.current_color_name  # 当前选中色名（"red" 等）
 ColorManager.select_color(color, color_name)
-ColorManager.select_color_by_index(index)   # 0~4，对应调色板顺序
+ColorManager.select_color_by_index(index)   # 0~4
 ColorManager.get_semantic(color_name)       # 返回 "strength" 等
 signal color_selected(color: Color, color_name: String)
 ```
@@ -90,24 +93,31 @@ signal color_selected(color: Color, color_name: String)
 
 | 需求 | 怎么做 |
 |---|---|
-| 额外反馈（涌出/粒子/音效） | 订阅 `EventBus` 的 `color_applied`（见第 3 节），不改变色 |
+| 额外反馈（涌出/粒子/音效） | 订阅 `EventBus` 的 `color_applied` / `colorable_shattered`，不改变色 |
 | 替换变色本身 | 继承 `Colorable`，覆写 `_on_color_applied` / `_on_reset` |
 
-### 默认表现
+### 已实现的颜色特性（基类默认行为）
 
-默认 `_on_color_applied` 做 `modulate = color`（整体染色，适合 Sprite 类）。
+| 颜色 | 行为 |
+|---|---|
+| 红 red | 记录 `traits["strength"]`；默认 modulate 变红（变硬/重） |
+| 蓝 blue | 记录 `traits["stability"]`；默认 modulate 变蓝（敌人/落石据此冻结） |
+| 绿 green | 记录 `traits["grow"]`；若 `duplicatable=true` 且之前不是绿，朝玩家方向复制一份 |
+| 白 white | 收回该物体复制出的副本；若 `shatterable=true` 且之前是红，则破碎消失 |
+| 黑 black | 记录 `traits["hide"]`（隐身表现暂未实现） |
+
+> 敌人/机关通过读 `traits` 来消费特性，例如小鸟 AI 用 `colorable.traits.get("stability", false)` 判断是否冻结。
 
 ### 替换变色本身
 
-继承 `Colorable`，只覆写钩子。`apply_color` 仍会负责：`current_color`、`supported_colors` 检查、发 `color_applied` 信号和 EventBus 事件；你只需写「变色」这一件事。
+继承 `Colorable`，只覆写钩子。`apply_color` 仍负责 `current_color`、`supported_colors` 检查、发信号和 EventBus 事件。
 
 ```gdscript
 class_name MyColorable
 extends Colorable
 
-func _on_color_applied(color: Color, color_name: String = "") -> void:
-    # 自定义变色：改多个子节点颜色、换贴图、播放动画等
-    # 注意：不要调用 super._on_color_applied()，否则会再叠加默认的 modulate 染色
+func _on_color_applied(color: Color, color_name: String = "", direction: Vector2 = Vector2.ZERO) -> void:
+    # 自定义变色；不要调用 super._on_color_applied()，否则会叠加默认 modulate
     pass
 
 func _on_reset() -> void:
@@ -115,16 +125,27 @@ func _on_reset() -> void:
     pass
 ```
 
-真实示例：`res://color_change/colorable_object.gd`（`ColorableObject`）就是覆写钩子，把 `Front` / `Top` 两个多边形的颜色改成上色颜色。
+真实示例：`res://color_change/colorable_object.gd`（`ColorableObject`）覆写钩子改 Front/Top 多边形颜色。
 
 ### 公开成员
 
 ```gdscript
-var current_color: Color
-var supported_colors: Array[String]   # 该物体支持哪些颜色
+@export var supported_colors: Array[String]
+@export var duplicatable: bool    # 绿色时是否复制
+@export var shatterable: bool     # 红→白是否破碎
 
-func apply_color(color: Color, color_name: String = "") -> bool
+var current_color: Color
+var current_color_name: String
+var previous_color_name: String
+var traits: Dictionary            # {"strength": true, "stability": true, ...}
+
+func apply_color(color, color_name = "", direction = Vector2.ZERO) -> bool
 func reset_color() -> void
+func record_trait(color_name) -> void
+func duplicate_in_direction(direction, offset = 32.0) -> Colorable
+func shatter() -> void
+func _retract_copies() -> void
+
 signal color_applied(color: Color)
 ```
 
@@ -135,12 +156,6 @@ signal color_applied(color: Color)
 状态机：`INACTIVE → ACTIVE → SOLVED`。
 
 满足条件后调用 `mark_solved()`，框架会自动发 `solved` 信号和 `puzzle_solved` 事件。
-
-```gdscript
-func _on_color_applied(payload) -> void:
-    if 满足条件:
-        mark_solved()
-```
 
 ### 公开成员
 
@@ -202,7 +217,7 @@ SaveManager.save(data: Dictionary) -> bool
 SaveManager.load() -> Dictionary
 ```
 
-存档只存纯数据。配合 GameState 使用：
+配合 GameState：
 
 ```gdscript
 SaveManager.save(GameState.to_dict())
@@ -238,3 +253,6 @@ AudioManager.play_sfx(stream)
 | `CollisionLayers.WORLD` | 2 | 墙/地面/障碍 |
 | `CollisionLayers.PUSHABLE` | 4 | 可推物体 |
 | `CollisionLayers.TRIGGER` | 8 | 交互/判定区域 |
+| `CollisionLayers.ENEMY` | 16 | 敌人（不挡玩家） |
+
+> 敌人用 `ENEMY` 层，物理上不撞玩家；要检测「敌人碰到玩家」请给敌人加 `Area2D`（mask 指向 `PLAYER`），用 `body_entered` 判定。

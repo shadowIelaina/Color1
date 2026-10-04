@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://c00g7qises46" path="res://art/else/rock.png" id="4_272bh"]
 [ext_resource type="Texture2D" uid="uid://f786ctid8622" path="res://art/else/tree.png" id="5_5vw27"]
 [ext_resource type="PackedScene" uid="uid://ckv74s8mkhqcg" path="res://scenes/player.tscn" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://cg6cmec44rmdl" path="res://prefabs/creatures/bird.tscn" id="7_4c57u"]
 [ext_resource type="Script" uid="uid://c72jfj8on1i3d" path="res://color_change/hud.gd" id="7_kek77"]
 [ext_resource type="PackedScene" uid="uid://cfi8ga1nsgs8r" path="res://prefabs/items/wood.tscn" id="8_5vw27"]
 
@@ -129,6 +130,9 @@ position = Vector2(96, 26)
 
 [node name="Wood3" parent="." unique_id=1449741940 instance=ExtResource("8_5vw27")]
 position = Vector2(54, 40)
+
+[node name="Bird" parent="." unique_id=1669856651 instance=ExtResource("7_4c57u")]
+position = Vector2(52, 4)
 
 [node name="Player" parent="." unique_id=2123202084 groups=["player"] instance=ExtResource("5_lquwl")]
 interact_range = 27.0
