@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dky3yfyc48va5"]
+
+[ext_resource type="Texture2D" uid="uid://gkwl62kn7105" path="res://art/creature/songshu.png" id="1_7hc0y"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_suoyk"]
+radius = 6.0
+height = 16.0
+
+[node name="Squirrel" type="CharacterBody2D" unique_id=1523864534]
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1522483792]
+shape = SubResource("CapsuleShape2D_suoyk")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1907513243]
+texture_filter = 1
+position = Vector2(-8, 8)
+texture = ExtResource("1_7hc0y")

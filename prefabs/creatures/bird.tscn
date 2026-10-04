@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cg6cmec44rmdl"]
+
+[ext_resource type="Texture2D" uid="uid://dkqnwdejwhwpp" path="res://art/creature/bird.png" id="1_cgf8u"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vkqoe"]
+radius = 6.0
+height = 18.0
+
+[node name="Bird" type="CharacterBody2D" unique_id=1669856651]
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=143229657]
+shape = SubResource("CapsuleShape2D_vkqoe")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1973440425]
+texture_filter = 1
+texture = ExtResource("1_cgf8u")

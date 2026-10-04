@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cfi8ga1nsgs8r"]
+
+[ext_resource type="Texture2D" uid="uid://dl6hhtg0yiioc" path="res://art/things/wood.png" id="1_tpewa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wood"]
+size = Vector2(25, 11)
+
+[node name="Wood" type="StaticBody2D" unique_id=1612372868]
+collision_layer = 2
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1101449962]
+position = Vector2(-0.5, -5.5)
+shape = SubResource("RectangleShape2D_wood")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2122906134]
+texture_filter = 1
+position = Vector2(1, -5)
+texture = ExtResource("1_tpewa")
