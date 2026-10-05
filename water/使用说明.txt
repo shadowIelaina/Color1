@@ -1,0 +1,63 @@
+水波 Shader 使用说明
+====================
+
+本文件夹（res://water/）包含：
+  - water.gdshader          程序化水波着色器（彩色版）
+  - water_bw.gdshader       程序化水波着色器（黑白版，只输出灰度）
+  - water_material.tres     彩色版现成材质
+  - water_bw_material.tres  黑白版现成材质
+  - 使用说明.txt            本文件
+
+一、在任意 TileMap 场景上使用
+----------------------------
+
+方法 A（最快，直接用现成材质）：
+  1. 打开目标场景，选中 TileMap（或 TileMapLayer）节点。
+  2. 在右侧 Inspector 里找到 CanvasItem -> Material 属性。
+  3. 点 Material 右边的下拉箭头 -> Load -> 选择对应材质：
+	   - 彩色版：res://water/water_material.tres
+	   - 黑白版：res://water/water_bw_material.tres
+	 （也可以直接把 .tres 从「文件系统」面板拖到 Material 槽上）
+
+方法 B（手动新建材质指向 shader）：
+  1. 选中 TileMap 节点。
+  2. Inspector -> Material -> 新建「New ShaderMaterial」。
+  3. 点开该材质，在 Shader 槽新建「New Shader」-> 选择对应 shader：
+	   - 彩色版：res://water/water.gdshader
+	   - 黑白版：res://water/water_bw.gdshader
+  4. 想复用的话，把材质右键「Save As」存成 .tres。
+
+二、彩色版 vs 黑白版
+--------------------
+- 彩色版 water.gdshader：深蓝 -> 浅蓝渐变 + 波峰高光 + 波光闪烁。
+- 黑白版 water_bw.gdshader：完全相同的波纹，只输出灰度（黑 -> 白）。
+  两者切换只需把 TileMap 的 material 换成对应材质即可。
+
+三、可调参数（在材质的 Shader Parameters 里改）
+--------------------------------------------
+
+彩色版（water.gdshader）：
+  deep_color         深水色（默认深蓝）
+  shallow_color      浅水色（默认浅蓝）
+  crest_color        波峰高光色（默认近白）
+  wave_speed         波动速度（0~2，默认 0.45）
+  wave_strength      起伏强度（0~0.6，默认 0.24）
+  large_wave_scale   大波纹波长（越大越稀疏，默认 96）
+  small_ripple_scale 细波纹波长（默认 24）
+  ground_flatten     2.5D 地面压扁（默认 0.55）
+
+黑白版（water_bw.gdshader）：
+  dark_level         最暗灰度（0~1，默认 0.05，0=纯黑）
+  light_level        最亮灰度（0~1，默认 0.95，1=纯白）
+  wave_speed         波动速度（默认 0.45）
+  wave_strength      起伏强度（默认 0.24）
+  large_wave_scale   大波纹波长（默认 96）
+  small_ripple_scale 细波纹波长（默认 24）
+  ground_flatten     2.5D 地面压扁（默认 0.55）
+
+四、注意事项
+------------
+- 波纹用节点局部坐标生成，跨 tile 无缝、随地图固定（相机移动水不漂移）。
+- TileMap 建议放在原点、scale=1、无旋转；若节点整体缩放/旋转，波纹会跟着变形。
+- 同样适用于 Godot 4.3+ 的 TileMapLayer 节点（同样设 material）。
+- 纯白 / 纯色 tile 效果最好：shader 不采样 tile 贴图，会完全覆盖 tile 颜色。

@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://c7v4t9y2b6m0n"]
+
+[ext_resource type="Script" uid="uid://d8p2k7m3n5qxw" path="res://effects/freeze_spread/freeze_spread.gd" id="1_script"]
+[ext_resource type="Material" uid="uid://b6252iuelp1bu" path="res://effects/life_ring/add_glow.tres" id="2_mat"]
+[ext_resource type="Texture2D" uid="uid://djg3g0rcqg0le" path="res://effects/life_ring/glow_soft.tres" id="3_tex"]
+
+[sub_resource type="Gradient" id="Gradient_core"]
+offsets = PackedFloat32Array(0, 0.35, 1)
+colors = PackedColorArray(0.7, 0.95, 1, 1, 0.4, 0.75, 1, 0.85, 0.15, 0.45, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_core"]
+gradient = SubResource("Gradient_core")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_core"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 4.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 22.0
+radial_accel_min = -50.0
+radial_accel_max = -50.0
+damping_min = 1.5
+damping_max = 1.5
+scale_min = 0.28
+scale_max = 0.5
+color_ramp = SubResource("GradientTexture1D_core")
+
+[sub_resource type="Gradient" id="Gradient_spread"]
+offsets = PackedFloat32Array(0, 0.3, 0.75, 1)
+colors = PackedColorArray(0.5, 0.9, 1, 1, 0.35, 0.7, 1, 0.9, 0.75, 0.95, 1, 0.7, 0.85, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_spread"]
+gradient = SubResource("Gradient_spread")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_spread"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.0
+emission_ring_radius = 12.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 45.0
+radial_accel_min = 260.0
+radial_accel_max = 260.0
+scale_min = 0.18
+scale_max = 0.34
+color_ramp = SubResource("GradientTexture1D_spread")
+
+[sub_resource type="Gradient" id="Gradient_frost"]
+offsets = PackedFloat32Array(0, 0.5, 0.85, 1)
+colors = PackedColorArray(0.55, 0.85, 1, 0.9, 0.35, 0.6, 1, 1, 0.85, 0.95, 1, 1, 0.8, 0.95, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_frost"]
+gradient = SubResource("Gradient_frost")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_frost"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.0
+emission_ring_radius = 110.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+initial_velocity_min = 15.0
+initial_velocity_max = 35.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -110.0
+radial_accel_max = -110.0
+damping_min = 1.8
+damping_max = 1.8
+scale_min = 0.15
+scale_max = 0.3
+color_ramp = SubResource("GradientTexture1D_frost")
+
+[node name="FreezeSpread" type="Node2D" unique_id=1468235731]
+script = ExtResource("1_script")
+
+[node name="Core" type="GPUParticles2D" parent="." unique_id=1930477264]
+material = ExtResource("2_mat")
+amount = 40
+texture = ExtResource("3_tex")
+lifetime = 1.1
+one_shot = true
+explosiveness = 0.7
+process_material = SubResource("ParticleProcessMaterial_core")
+
+[node name="Spread" type="GPUParticles2D" parent="." unique_id=861024657]
+material = ExtResource("2_mat")
+amount = 130
+texture = ExtResource("3_tex")
+lifetime = 1.5
+one_shot = true
+explosiveness = 0.8
+process_material = SubResource("ParticleProcessMaterial_spread")
+
+[node name="Frost" type="GPUParticles2D" parent="." unique_id=570133982]
+material = ExtResource("2_mat")
+amount = 90
+texture = ExtResource("3_tex")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.85
+process_material = SubResource("ParticleProcessMaterial_frost")

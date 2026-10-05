@@ -1,0 +1,108 @@
+========================================================================
+  碎掉着色器（Shatter）使用说明
+========================================================================
+
+一、这是什么
+------------------------------------------------------------------------
+一个 CanvasItem 着色器（shader），把带贴图的物体切成网格碎片，
+让碎片「向下掉落 + 旋转 + 逐渐消失」，用来表现「物品碎掉」的效果。
+
+它本身只是一个 shader，本身不会动；需要一个脚本去动画它的 progress
+参数（0 = 完好 → 1 = 完全碎掉落下）。本文件夹已提供好驱动脚本和演示场景。
+
+
+二、文件清单
+------------------------------------------------------------------------
+res://shaders/shatter.gdshader        着色器本体
+res://shaders/shatter.gdshader.uid    着色器 uid（Godot 自动生成/识别用）
+res://effects/shatter/shatter.gd      驱动组件（class_name Shatter）
+res://effects/shatter/shatter.gd.uid  驱动脚本 uid
+res://effects/shatter/shatter.tscn    演示场景（rock 贴图 + 驱动）
+
+
+三、快速上手（三种方式）
+------------------------------------------------------------------------
+方式 1：直接看演示
+  在 Godot 编辑器中打开 res://effects/shatter/shatter.tscn，
+  即可看到岩石反复碎掉下落的循环预览（loop 默认开启）。
+
+方式 2：用驱动组件（推荐，最省事）
+  1. 给要碎掉的 Sprite2D 添加一个子节点 Node2D；
+  2. 把 res://effects/shatter/shatter.gd 挂到这个子节点上；
+  3. 触发破碎：
+        $子节点名.shatter()
+
+  （也可以不挂成子节点：把驱动放到任意位置，用它的 target 属性指向
+    要碎掉的 Sprite2D，再调用 shatter()。）
+
+方式 3：程序化套用（不依赖驱动组件）
+  gdscript:
+      const SHATTER := preload("res://shaders/shatter.gdshader")
+
+      var mat := ShaderMaterial.new()
+      mat.shader = SHATTER
+      mat.set_shader_parameter("shards", Vector2(4, 4))
+      mat.set_shader_parameter("seed_value", randi())
+      sprite.material = mat
+
+      # 之后每帧把 progress 从 0 递增到 1，或用 Tween：
+      var tween := create_tween()
+      tween.tween_method(
+          func(v): mat.set_shader_parameter("progress", v),
+          0.0, 1.0, 1.2)
+
+
+四、着色器参数（uniform）
+------------------------------------------------------------------------
+progress            float   破碎进度 0~1，由脚本驱动
+shards              vec2    碎片行列数，总数 = shards.x * shards.y
+seed_value          float   随机种子；不同物体给不同值，碎裂姿态不同
+fall_strength       float   下落强度，越大掉得越远
+drift_strength      float   横向漂移强度
+rotation_strength   float   碎片旋转强度（弧度）
+
+
+五、驱动脚本参数（Shatter 组件，Inspector 里可调）
+------------------------------------------------------------------------
+target             CanvasItem  要破碎的目标（默认 = 父节点）
+duration           float       破碎动画时长（秒），默认 1.2
+shards             Vector2     碎片行列数，默认 (4, 4)
+seed_value         float       随机种子，默认 0
+loop               bool        是否循环（编辑器预览建议开），默认 true
+cycle_duration     float       一次完整循环时长（秒），默认 3.0
+
+方法：
+  shatter()        触发一次破碎
+
+
+六、接入游戏示例（按颜色触发）
+------------------------------------------------------------------------
+示例：在可上色物体的 apply_color 里，当颜色是「碎掉」时触发：
+
+  gdscript:
+      func apply_color(c: Color) -> void:
+          modulate = c
+          # 触发破碎
+          var shatter := preload("res://effects/shatter/shatter.gd").new()
+          add_child(shatter)
+          shatter.target = self
+          shatter.loop = false
+          shatter.shatter()
+
+
+七、注意事项
+------------------------------------------------------------------------
+1. 只对「带贴图的 Sprite2D」生效。
+   着色器用 texture(TEXTURE, uv) 采样；纯 Polygon2D（无贴图）没有
+   可采样的贴图，需要另写顶点版本。
+
+2. 套用时会覆盖目标原有的 material。
+   碎掉的对象本来就要消失，一般没有冲突；若目标有需要保留的材质
+   （如描边 outline），请自行合并或改用别的方式。
+
+3. progress 必须由脚本推进，shader 自己不会动。
+
+4. 编辑器里如果曾看到「return 在 fragment 处理器中使用不正确」的报错，
+   那是旧版本的缓存错误，重新聚焦/重启编辑器即会自动清除；当前源码
+   已无此问题，运行时编译正常。
+========================================================================

@@ -1,6 +1,6 @@
 class_name Room
 extends Node2D
-## 单个房间：承载门/机关/可收集物。
+## 单个房间：承载门、机关、可收集物。
 ## 负责进出场标记、相机边界、Y 排序、状态保存与恢复（遍历 StatefulObject）。
 
 @export var room_id: String = ""

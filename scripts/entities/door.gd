@@ -1,6 +1,6 @@
 class_name Door
 extends Area2D
-## 门：玩家进入触发切房。可加锁（required_key_id）。
+## 门：玩家进入触发切房，可加锁（required_key_id）。
 
 @export var door_id: String = ""
 @export var target_scene: String = ""      # 目标房间 res:// 场景路径

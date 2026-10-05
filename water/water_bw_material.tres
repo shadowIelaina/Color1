@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://6k1mali7j0bh"]
+
+[ext_resource type="Shader" uid="uid://cqjkwa3ncgxk2" path="res://water/water_bw.gdshader" id="1_74s6o"]
+
+[resource]
+shader = ExtResource("1_74s6o")
+shader_parameter/dark_level = 0.05
+shader_parameter/light_level = 0.95
+shader_parameter/wave_speed = 0.45
+shader_parameter/wave_strength = 0.24
+shader_parameter/large_wave_scale = 96.0
+shader_parameter/small_ripple_scale = 24.0
+shader_parameter/ground_flatten = 0.55

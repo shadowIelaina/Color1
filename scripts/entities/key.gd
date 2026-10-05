@@ -1,6 +1,6 @@
 class_name Key
 extends StatefulObject
-## 钥匙：玩家碰到即拾取到 GameState 背包。
+## 钥匙：玩家碰到即拾取到 GameState 背包（inventory）。
 ## 若被消耗，重进房间后会重新出现（防软锁）。
 
 @export var key_id: String = ""

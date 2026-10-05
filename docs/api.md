@@ -22,7 +22,7 @@
 EventBus.subscribe("color_applied", _on_color_applied)
 
 func _on_color_applied(payload) -> void:
-    var color: Color = payload["color"]
+	var color: Color = payload["color"]
 ```
 
 ### 事件表
@@ -157,6 +157,11 @@ signal color_applied(color: Color)
 
 满足条件后调用 `mark_solved()`，框架会自动发 `solved` 信号和 `puzzle_solved` 事件。
 
+```gdscript
+func _on_color_applied(payload) -> void:
+	if 满足条件:
+		mark_solved()
+```
 ### 公开成员
 
 ```gdscript

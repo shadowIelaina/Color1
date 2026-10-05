@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://2gy78l3npe8b"]
+
+[ext_resource type="Script" uid="uid://cnmy62c71023o" path="res://effects/life_ringback/life_ringback.gd" id="1_ucrfw"]
+[ext_resource type="Material" uid="uid://b6252iuelp1bu" path="res://effects/life_ring/add_glow.tres" id="1_w6j4y"]
+[ext_resource type="Texture2D" uid="uid://djg3g0rcqg0le" path="res://effects/life_ring/glow_soft.tres" id="2_v16dh"]
+
+[sub_resource type="Gradient" id="Gradient_ring"]
+offsets = PackedFloat32Array(0, 0.5, 0.9, 1)
+colors = PackedColorArray(0.8, 1, 0.5, 0.95, 0.3, 0.95, 0.4, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ring"]
+gradient = SubResource("Gradient_ring")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ringback"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.0
+emission_ring_radius = 169.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -150.0
+radial_accel_max = -150.0
+scale_min = 0.22
+scale_max = 0.3
+color_ramp = SubResource("GradientTexture1D_ring")
+sub_emitter_mode = 2
+sub_emitter_amount_at_end = 1
+
+[sub_resource type="Gradient" id="Gradient_burst"]
+offsets = PackedFloat32Array(0, 0.6, 1)
+colors = PackedColorArray(1, 1, 0.95, 1, 1, 1, 0.9, 0.7, 1, 1, 0.9, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_burst"]
+gradient = SubResource("Gradient_burst")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_burst"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 600.0
+radial_accel_max = 600.0
+scale_min = 0.12
+scale_max = 0.32
+color_ramp = SubResource("GradientTexture1D_burst")
+
+[node name="LifeRingBack" type="Node2D" unique_id=903079044]
+script = ExtResource("1_ucrfw")
+
+[node name="Ring" type="GPUParticles2D" parent="." unique_id=45567107]
+material = ExtResource("1_w6j4y")
+emitting = false
+amount = 100
+sub_emitter = NodePath("../Burst")
+texture = ExtResource("2_v16dh")
+lifetime = 1.5
+one_shot = true
+speed_scale = 0.7
+explosiveness = 0.9
+process_material = SubResource("ParticleProcessMaterial_ringback")
+
+[node name="Burst" type="GPUParticles2D" parent="." unique_id=1390145280]
+material = ExtResource("1_w6j4y")
+emitting = false
+amount = 128
+texture = ExtResource("2_v16dh")
+lifetime = 0.4
+speed_scale = 0.7
+process_material = SubResource("ParticleProcessMaterial_burst")

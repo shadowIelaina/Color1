@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://1dgw4ulbq1v2"]
+
+[ext_resource type="Texture2D" uid="uid://b822yei8k4fii" path="res://art/else/ground.png" id="1_3ou0o"]
+[ext_resource type="Material" uid="uid://6k1mali7j0bh" path="res://water/water_bw_material.tres" id="1_dm5ig"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jblqv"]
+texture = ExtResource("1_3ou0o")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/terrain_set = 0
+0:0/0/terrains_peering_bit/bottom_right_corner = 0
+1:0/0 = 0
+1:0/0/terrain_set = 0
+1:0/0/terrains_peering_bit/bottom_right_corner = 0
+1:0/0/terrains_peering_bit/bottom_side = 0
+1:0/0/terrains_peering_bit/bottom_left_corner = 0
+0:1/0 = 0
+0:1/0/terrain_set = 0
+0:1/0/terrains_peering_bit/right_side = 0
+0:1/0/terrains_peering_bit/bottom_right_corner = 0
+0:1/0/terrains_peering_bit/top_right_corner = 0
+1:1/0 = 0
+1:1/0/terrain_set = 0
+1:1/0/terrain = 0
+1:1/0/terrains_peering_bit/right_side = 0
+1:1/0/terrains_peering_bit/bottom_right_corner = 0
+1:1/0/terrains_peering_bit/bottom_side = 0
+1:1/0/terrains_peering_bit/bottom_left_corner = 0
+1:1/0/terrains_peering_bit/left_side = 0
+1:1/0/terrains_peering_bit/top_left_corner = 0
+1:1/0/terrains_peering_bit/top_side = 0
+1:1/0/terrains_peering_bit/top_right_corner = 0
+
+[sub_resource type="TileSet" id="TileSet_bhunq"]
+tile_size = Vector2i(32, 32)
+terrain_set_0/mode = 0
+terrain_set_0/terrain_0/name = "water"
+terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
+sources/0 = SubResource("TileSetAtlasSource_jblqv")
+
+[node name="Water" type="Node2D" unique_id=1195872401]
+
+[node name="TileMap" type="TileMap" parent="." unique_id=1314027196]
+material = ExtResource("1_dm5ig")
+tile_set = SubResource("TileSet_bhunq")
+format = 2
+layer_0/tile_data = PackedInt32Array(720911, 65536, 1, 655375, 65536, 1, 589839, 65536, 1, 524303, 65536, 1, 458767, 65536, 1, 393231, 65536, 1, 327695, 65536, 1, 262159, 65536, 1, 196623, 65536, 1, 131087, 65536, 1, 720910, 65536, 1, 655374, 65536, 1, 589838, 65536, 1, 524302, 65536, 1, 458766, 65536, 1, 393230, 65536, 1, 327694, 65536, 1, 262158, 65536, 1, 196622, 65536, 1, 131086, 65536, 1, 720909, 65536, 1, 655373, 65536, 1, 589837, 65536, 1, 524301, 65536, 1, 458765, 65536, 1, 393229, 65536, 1, 327693, 65536, 1, 262157, 65536, 1, 196621, 65536, 1, 131085, 65536, 1, 720908, 65536, 1, 655372, 65536, 1, 589836, 65536, 1, 524300, 65536, 1, 458764, 65536, 1, 393228, 65536, 1, 327692, 65536, 1, 262156, 65536, 1, 196620, 65536, 1, 131084, 65536, 1, 720907, 65536, 1, 655371, 65536, 1, 589835, 65536, 1, 524299, 65536, 1, 458763, 65536, 1, 393227, 65536, 1, 327691, 65536, 1, 262155, 65536, 1, 196619, 65536, 1, 131083, 65536, 1, 720906, 65536, 1, 655370, 65536, 1, 589834, 65536, 1, 524298, 65536, 1, 458762, 65536, 1, 393226, 65536, 1, 327690, 65536, 1, 262154, 65536, 1, 196618, 65536, 1, 131082, 65536, 1, 720905, 65536, 1, 655369, 65536, 1, 589833, 65536, 1, 524297, 65536, 1, 458761, 65536, 1, 393225, 65536, 1, 327689, 65536, 1, 262153, 65536, 1, 196617, 65536, 1, 131081, 65536, 1, 720904, 65536, 1, 655368, 65536, 1, 589832, 65536, 1, 524296, 65536, 1, 458760, 65536, 1, 393224, 65536, 1, 327688, 65536, 1, 262152, 65536, 1, 196616, 65536, 1, 131080, 65536, 1, 720903, 65536, 1, 655367, 65536, 1, 589831, 65536, 1, 524295, 65536, 1, 458759, 65536, 1, 393223, 65536, 1, 327687, 65536, 1, 262151, 65536, 1, 196615, 65536, 1, 131079, 65536, 1, 720902, 65536, 1, 655366, 65536, 1, 589830, 65536, 1, 524294, 65536, 1, 458758, 65536, 1, 393222, 65536, 1, 327686, 65536, 1, 262150, 65536, 1, 196614, 65536, 1, 131078, 65536, 1, 196613, 0, 1, 131077, 0, 1, 65541, 0, 0, 65542, 65536, 0, 65543, 65536, 0, 262149, 0, 1, 327685, 0, 1, 393221, 0, 1, 458757, 0, 1, 524293, 0, 1, 589829, 0, 1, 655365, 0, 1, 720901, 0, 1, 65544, 65536, 0, 65545, 65536, 0, 65546, 65536, 0, 65547, 65536, 0, 65548, 65536, 0, 65549, 65536, 0, 65550, 65536, 0, 65551, 65536, 0)
