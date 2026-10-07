@@ -1,6 +1,8 @@
 [gd_scene format=4 uid="uid://d1jaadj1xgr2n"]
 
+[ext_resource type="Script" uid="uid://d188ygjs2i1gp" path="res://shaders/Grass.gd" id="1_4c57u"]
 [ext_resource type="Texture2D" uid="uid://b822yei8k4fii" path="res://art/else/ground.png" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://dnhd0dq7q1p4d" path="res://art/picture_boluo/草2tm.png" id="2_efxa6"]
 [ext_resource type="Material" uid="uid://ch3lmavyoq8h7" path="res://water/water_material.tres" id="2_kek77"]
 [ext_resource type="Script" uid="uid://bkgp83ocrv3oh" path="res://color_change/colorable_sprite.gd" id="4_5vw27"]
 [ext_resource type="Texture2D" uid="uid://c00g7qises46" path="res://art/else/rock.png" id="4_272bh"]
@@ -8,6 +10,9 @@
 [ext_resource type="Script" uid="uid://c72jfj8on1i3d" path="res://color_change/hud.gd" id="7_kek77"]
 [ext_resource type="PackedScene" uid="uid://dj86vqolar41r" path="res://prefabs/items/interaction/box.tscn" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bgfnfyk13xrue" path="res://prefabs/items/static prop/tree.tscn" id="9_kek77"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
+size = Vector2(14, 17.5)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0xm2m"]
 texture = ExtResource("1_ig7tw")
@@ -43,6 +48,20 @@ texture = ExtResource("1_ig7tw")
 sources/0 = SubResource("TileSetAtlasSource_4c57u")
 
 [node name="Node2D" type="Node2D" unique_id=43455269]
+
+[node name="Grass" type="Area2D" parent="." unique_id=485715521]
+position = Vector2(45, -11)
+script = ExtResource("1_4c57u")
+
+[node name="Sprite2D" type="Sprite2D" parent="Grass" unique_id=2104443305]
+position = Vector2(-216.91823, 19.622818)
+scale = Vector2(0.036885608, 0.028757373)
+texture = ExtResource("2_efxa6")
+offset = Vector2(28, -379)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grass" unique_id=451902581]
+position = Vector2(-217, 11)
+shape = SubResource("RectangleShape2D_riqys")
 
 [node name="water" type="TileMapLayer" parent="." unique_id=1734819765]
 texture_filter = 1
@@ -123,3 +142,6 @@ position = Vector2(99, -34)
 
 [node name="Box" parent="." unique_id=2085654712 instance=ExtResource("8_5vw27")]
 position = Vector2(337, 7)
+
+[connection signal="body_entered" from="Grass" to="Grass" method="_on_body_entered"]
+[connection signal="body_exited" from="Grass" to="Grass" method="_on_body_exited"]
