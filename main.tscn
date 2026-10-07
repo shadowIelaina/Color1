@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ckv74s8mkhqcg" path="res://scenes/player.tscn" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://c72jfj8on1i3d" path="res://color_change/hud.gd" id="7_kek77"]
 [ext_resource type="PackedScene" uid="uid://dj86vqolar41r" path="res://prefabs/items/interaction/box.tscn" id="8_5vw27"]
+[ext_resource type="PackedScene" uid="uid://cth270frtlesc" path="res://prefabs/items/interaction/ice_block.tscn" id="9_4c57u"]
 [ext_resource type="PackedScene" uid="uid://bgfnfyk13xrue" path="res://prefabs/items/static prop/tree.tscn" id="9_kek77"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0xm2m"]
@@ -61,14 +62,6 @@ interact_range = 27.0
 [node name="Camera" type="Camera2D" parent="Player" unique_id=1020546962]
 zoom = Vector2(4, 4)
 
-[node name="rock" type="Sprite2D" parent="." unique_id=1570849320 groups=["colorable"]]
-modulate = Color(0, 0.5568628, 1, 1)
-texture_filter = 1
-position = Vector2(100, -13)
-scale = Vector2(2.6875, 2.25)
-texture = ExtResource("4_272bh")
-script = ExtResource("4_5vw27")
-
 [node name="rock2" type="Sprite2D" parent="." unique_id=322543601 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(405, -12)
@@ -87,12 +80,15 @@ script = ExtResource("4_5vw27")
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1213313800]
 script = ExtResource("7_kek77")
 
-[node name="ColorLabel" type="Label" parent="HUD" unique_id=475737284]
+[node name="ColorLabel" type="RichTextLabel" parent="HUD" unique_id=475737284]
 offset_left = 12.0
 offset_top = 8.0
-offset_right = 13.0
-offset_bottom = 31.0
-theme_override_font_sizes/font_size = 20
+offset_right = 512.0
+offset_bottom = 64.0
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
 
 [node name="Tree" parent="." unique_id=293502526 instance=ExtResource("9_kek77")]
 position = Vector2(-77, -69)
@@ -123,3 +119,6 @@ position = Vector2(99, -34)
 
 [node name="Box" parent="." unique_id=2085654712 instance=ExtResource("8_5vw27")]
 position = Vector2(337, 7)
+
+[node name="IceBlock" parent="." unique_id=1237292441 instance=ExtResource("9_4c57u")]
+position = Vector2(102, -12)

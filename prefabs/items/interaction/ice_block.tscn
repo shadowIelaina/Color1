@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cth270frtlesc"]
+
+[ext_resource type="Script" uid="uid://6ry3er0t2slq" path="res://color_change/ice_block.gd" id="1_ice"]
+[ext_resource type="Texture2D" uid="uid://c00g7qises46" path="res://art/else/rock.png" id="2_rock"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ice"]
+size = Vector2(35, 25)
+
+[node name="IceBlock" type="StaticBody2D" unique_id=1422217170]
+collision_layer = 2
+script = ExtResource("1_ice")
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1993002428]
+position = Vector2(1.5, 3.5)
+shape = SubResource("RectangleShape2D_ice")
+
+[node name="Visual" type="Sprite2D" parent="." unique_id=1938576913]
+modulate = Color(0.3, 0.55, 1, 1)
+texture_filter = 1
+scale = Vector2(2.6875, 2.25)
+texture = ExtResource("2_rock")

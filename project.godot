@@ -17,10 +17,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-EventBus="*res://scripts/core/event_bus.gd"
-ColorManager="*res://scripts/color/color_manager.gd"
-SaveManager="*res://scripts/core/save_manager.gd"
-AudioManager="*res://scripts/core/audio_manager.gd"
 GameState="*res://scripts/game_state.gd"
 SceneManager="*res://scripts/scene_manager.gd"
 _mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
