@@ -27,6 +27,8 @@ color_change/
   colorable_sprite.gd   ← 可上色物体（Sprite2D 版，石头）
   colorable_object.gd   ← 可上色物体（Polygon2D 版，箱子）
   ice_block.gd          ← 冰块闸门（预先赋蓝的挡路物）
+  water_cell.gd         ← 单个水格（赋予蓝 → 结冰；吸收蓝 → 融回水）
+  water_spawner.gd      ← 把 Water 层每个水 tile 铺成 WaterCell 网格
   hud.gd                ← HUD 显示颜色库与当前选中
 
 scripts/player.gd       ← 吸收/赋予/描边（唯一直接操作元素系统的入口）
@@ -36,14 +38,16 @@ effects/                ← 元素 VFX（flame_spread / freeze_spread / shatter 
 prefabs/items/…         ← 冰块等预制体
 ```
 
+附注：另有独立的**伪 2.5D 高度系统**（`HeightMap` autoload：`scripts/height_map.gd` + `scripts/ground_height.gd`，每格 256px），管理站立高度、台阶碰撞与水格凹坑/结冰填平，和颜色涌现层正交。
+
 ## 涌现怎么发生：四个机制
 
 ### 1. 单一数据源（element_rules.gd）
 
 颜色名 → 元素 id → 行为配置，全在 `ELEMENTS` 表里：
 
-- `"红" → "burn"`：蔓延 `spreads=true`、半径 70、烧 `burn_duration=2.6s` 后碎裂。
-- `"蓝" → "freeze"`：不蔓延、半径 55（预留）。
+- `"红" → "burn"`：蔓延 `spreads=true`、半径 1120、烧 `burn_duration=2.6s` 后碎裂。
+- `"蓝" → "freeze"`：不蔓延、半径 880（预留）。
 - `"绿" → "grow"`：搁置（已注释）。
 
 **加新元素 = 加一行表**，行为代码不用动。颜色语义靠**中文颜色名**穿线：`apply_color(color, color_name)` → `element_for_color_name(color_name)` → 元素 id。

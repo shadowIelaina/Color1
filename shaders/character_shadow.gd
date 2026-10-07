@@ -18,10 +18,12 @@ const SHADER := preload("res://shaders/character_shadow.gdshader")
 @export var shadow_color := Color(0.0, 0.0, 0.0, 0.45)
 ## 软边模糊半径（帧像素）。0 = 硬边剪影。
 @export_range(0.0, 8.0, 0.25) var softness := 1.0
-## 跳起时阴影收缩幅度（每像素腾空高度）。0 = 不收缩。
-@export_range(0.0, 0.1, 0.005) var jump_scale_falloff := 0.03
-## 跳起时阴影变淡幅度（每像素腾空高度）。0 = 不变淡。
-@export_range(0.0, 0.1, 0.005) var jump_alpha_falloff := 0.02
+## 跳起时阴影收缩幅度（每「帧像素」腾空高度）。0 = 不收缩。
+## 注意：_update_lift 里 lift 取自 _source.offset.y 的差值，是帧像素（jump_height=12），
+## 不会被 sprite.scale(=pixel_scale) 放大，所以这里保持帧像素单位，别跟着 16→256 迁移 ×/÷。
+@export_range(0.0, 0.1, 0.001) var jump_scale_falloff := 0.03
+## 跳起时阴影变淡幅度（每「帧像素」腾空高度）。0 = 不变淡。
+@export_range(0.0, 0.1, 0.001) var jump_alpha_falloff := 0.02
 
 var _source: AnimatedSprite2D
 var _mat: ShaderMaterial

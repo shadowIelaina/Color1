@@ -17,7 +17,7 @@ const ELEMENTS := {
 		"color": Color(1.0, 0.3, 0.3),
 		"vfx": "res://effects/flame_spread/flame_spread.tscn",
 		"spreads": true,
-		"spread_radius": 70.0,
+		"spread_radius": 1120.0,
 		"spread_delay": 0.9,
 		"burn_duration": 2.6,
 	},
@@ -26,7 +26,7 @@ const ELEMENTS := {
 		"color": Color(0.3, 0.55, 1.0),
 		"vfx": "res://effects/freeze_spread/freeze_spread.tscn",
 		"spreads": false,
-		"spread_radius": 55.0,
+		"spread_radius": 880.0,
 		"spread_delay": 0.7,
 	},
 }

@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 GameState="*res://scripts/game_state.gd"
 SceneManager="*res://scripts/scene_manager.gd"
 _mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
+HeightMap="*res://scripts/height_map.gd"
 
 [display]
 

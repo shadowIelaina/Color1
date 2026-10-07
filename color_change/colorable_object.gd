@@ -6,7 +6,7 @@ const Rules := preload("res://scripts/element/element_rules.gd")
 const Behavior := preload("res://scripts/element/element_behavior.gd")
 
 @export var fill_duration := 0.5
-@export var fill_softness := 14.0
+@export var fill_softness := 224.0
 @export var initial_color_name := ""
 
 @onready var front: Polygon2D = $Front
@@ -48,12 +48,13 @@ func _make_material(base: Color) -> ShaderMaterial:
 	return m
 
 
-func apply_color(c: Color, color_name: String = "", from_pos: Vector2 = Vector2.INF) -> void:
+func apply_color(c: Color, color_name: String = "", from_pos: Vector2 = Vector2.INF) -> bool:
 	var origin := global_position if from_pos == Vector2.INF else from_pos
 	_start_fill(c, origin)
 	var element := Rules.element_for_color_name(color_name)
 	if element != "":
 		_behavior.call("apply", element)
+	return true
 
 
 func has_color() -> bool:

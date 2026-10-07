@@ -96,6 +96,8 @@ func _do_spread(element_id: String) -> void:
 		var n := obj as Node2D
 		if n == null or not is_instance_valid(n):
 			continue
+		if not n.has_method("apply_color"):
+			continue  # 冰块等不可上色物体也在 colorable 组里，但没有 apply_color。
 		if _parent.global_position.distance_to(n.global_position) <= radius:
 			n.call("apply_color", cfg["color"], cfg["color_name"], _parent.global_position)
 

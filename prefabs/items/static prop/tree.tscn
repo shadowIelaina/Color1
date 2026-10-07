@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bgfnfyk13xrue"]
 
-[ext_resource type="Shader" uid="uid://d1c66tsprtjdc" path="res://prefabs/items/static prop/tree_shadow.gdshader" id="1_ffnw6"]
+[ext_resource type="Shader" uid="uid://d1c66tsprtjdc" path="res://shaders/tree_shadow.gdshader" id="1_ffnw6"]
 [ext_resource type="Texture2D" uid="uid://f786ctid8622" path="res://art/else/tree.png" id="1_uc26x"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bhunq"]
@@ -14,7 +14,7 @@ shader_parameter/blur_far = 0.50000002375
 shader_parameter/fade_distance = 0.250000011875
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yddip"]
-size = Vector2(25, 7)
+size = Vector2(26, 7)
 
 [node name="Tree" type="StaticBody2D" unique_id=293502526]
 collision_layer = 2
@@ -26,5 +26,5 @@ position = Vector2(-1, -32)
 texture = ExtResource("1_uc26x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2124807367]
-position = Vector2(0, -8)
+position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_yddip")
