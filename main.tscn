@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dj86vqolar41r" path="res://prefabs/items/interaction/box.tscn" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://cth270frtlesc" path="res://prefabs/items/interaction/ice_block.tscn" id="9_4c57u"]
 [ext_resource type="PackedScene" uid="uid://bgfnfyk13xrue" path="res://prefabs/items/static prop/tree.tscn" id="9_kek77"]
+[ext_resource type="PackedScene" uid="uid://dolv6j8e0ihcs" path="res://prefabs/items/static prop/grass_1.tscn" id="9_ycdy4"]
 [ext_resource type="Texture2D" uid="uid://d3khnodyni036" path="res://art/else/water_tile.png" id="11_water"]
 [ext_resource type="Texture2D" uid="uid://0qan6dnpaqvt" path="res://art/else/草块2.png" id="12_dg77c"]
 [ext_resource type="Script" uid="uid://b1mxwxqbqny2x" path="res://color_change/water_spawner.gd" id="12_spawn"]
@@ -4253,6 +4254,9 @@ scale = Vector2(16, 16)
 [node name="Tree19" parent="." unique_id=1922101521 instance=ExtResource("9_kek77")]
 position = Vector2(1584, -544)
 scale = Vector2(16, 16)
+
+[node name="Grass_1" parent="." unique_id=11092768 instance=ExtResource("9_ycdy4")]
+position = Vector2(218, 573)
 
 [node name="Box" parent="." unique_id=2085654712 instance=ExtResource("8_5vw27")]
 position = Vector2(5392, 112)
