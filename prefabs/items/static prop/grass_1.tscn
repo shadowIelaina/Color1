@@ -15,23 +15,23 @@ subdivide_depth = 8
 load_path = "res://.godot/imported/草2tm.png-981474d04ad665c2400edd52514345c4.ctex"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
-size = Vector2(14.064453, 15.818134)
+size = Vector2(141.97119, 217.09006)
 
-[node name="Grass" type="Area2D" unique_id=11092768]
+[node name="Grass_1" type="Area2D" unique_id=11092768]
 script = ExtResource("1_t8gtf")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=2062227521]
 material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-212, 7)
+position = Vector2(-13.199907, -136.98924)
 rotation = 3.1326253
-scale = Vector2(21.000004, 23)
+scale = Vector2(340.45093, 374.83566)
 mesh = SubResource("QuadMesh_bhunq")
 texture = SubResource("CompressedTexture2D_4c57u")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1916586368]
-position = Vector2(-211, 7.999999)
-rotation = -0.008086503
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(-5.0972977, -119.53155)
+rotation = -0.008086499
+scale = Vector2(0.99999934, 0.99999934)
 shape = SubResource("RectangleShape2D_riqys")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

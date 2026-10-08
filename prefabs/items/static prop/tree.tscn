@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://bgfnfyk13xrue"]
 
 [ext_resource type="Shader" uid="uid://d1c66tsprtjdc" path="res://shaders/tree_shadow.gdshader" id="1_ffnw6"]
-[ext_resource type="Texture2D" uid="uid://f786ctid8622" path="res://art/else/tree.png" id="1_uc26x"]
-[ext_resource type="Script" path="res://color_change/colorable_static.gd" id="2_colorable"]
+[ext_resource type="Script" uid="uid://gqvrelg3yrr8" path="res://color_change/colorable_static.gd" id="2_colorable"]
+[ext_resource type="Texture2D" uid="uid://dc3ylx7pvejn4" path="res://art/picture_boluo/树1tm.png" id="3_mh1gu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bhunq"]
 shader = ExtResource("1_ffnw6")
 shader_parameter/tilt = -17.99999658
 shader_parameter/stretch = 0.5
-shader_parameter/shadow_shift = Vector2(0.01, -0.09)
+shader_parameter/shadow_shift = Vector2(-0.03, -0.165)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
 shader_parameter/blur_near = 2.000000095
 shader_parameter/blur_far = 0.50000002375
@@ -24,8 +24,9 @@ script = ExtResource("2_colorable")
 [node name="Visual" type="Sprite2D" parent="." unique_id=401944506]
 texture_filter = 1
 material = SubResource("ShaderMaterial_bhunq")
-position = Vector2(-1, -32)
-texture = ExtResource("1_uc26x")
+position = Vector2(-1.0000004, -32)
+scale = Vector2(0.073730476, 0.07409667)
+texture = ExtResource("3_mh1gu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2124807367]
 position = Vector2(0, -4)
