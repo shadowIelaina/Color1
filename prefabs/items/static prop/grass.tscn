@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dolv6j8e0ihcs"]
+
+[ext_resource type="Script" uid="uid://d188ygjs2i1gp" path="res://shaders/Grass.gd" id="1_t8gtf"]
+[ext_resource type="Shader" uid="uid://ctce02nln2wmn" path="res://shaders/Grass_act.gdshader" id="2_kwoa3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_riqys"]
+shader = ExtResource("2_kwoa3")
+shader_parameter/bend_amount = 0.0
+shader_parameter/wind_strength = 0.03
+
+[sub_resource type="QuadMesh" id="QuadMesh_bhunq"]
+subdivide_depth = 8
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4c57u"]
+load_path = "res://.godot/imported/草2tm.png-981474d04ad665c2400edd52514345c4.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
+size = Vector2(14.064453, 15.818134)
+
+[node name="Grass" type="Area2D" unique_id=11092768]
+script = ExtResource("1_t8gtf")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=2062227521]
+material = SubResource("ShaderMaterial_riqys")
+position = Vector2(-212, 7)
+rotation = 3.1326253
+scale = Vector2(21.000004, 23)
+mesh = SubResource("QuadMesh_bhunq")
+texture = SubResource("CompressedTexture2D_4c57u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1916586368]
+position = Vector2(-211, 7.999999)
+rotation = -0.008086503
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_riqys")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
