@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://ckv74s8mkhqcg" path="res://scenes/player.tscn" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://c72jfj8on1i3d" path="res://color_change/hud.gd" id="7_kek77"]
 [ext_resource type="PackedScene" uid="uid://dj86vqolar41r" path="res://prefabs/items/interaction/box.tscn" id="8_5vw27"]
-[ext_resource type="PackedScene" uid="uid://bgfnfyk13xrue" path="res://prefabs/items/static prop/tree.tscn" id="9_kek77"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0xm2m"]
 texture = ExtResource("1_ig7tw")
@@ -117,31 +116,31 @@ offset_right = 13.0
 offset_bottom = 31.0
 theme_override_font_sizes/font_size = 20
 
-[node name="Tree" parent="." unique_id=293502526 instance=ExtResource("9_kek77")]
+[node name="Tree" parent="." unique_id=293502526]
 position = Vector2(-77, -69)
 
-[node name="Tree2" parent="." unique_id=1149916635 instance=ExtResource("9_kek77")]
+[node name="Tree2" parent="." unique_id=1149916635]
 position = Vector2(-30, 12)
 
-[node name="Tree3" parent="." unique_id=1032288248 instance=ExtResource("9_kek77")]
+[node name="Tree3" parent="." unique_id=1032288248]
 position = Vector2(-15, -69)
 
-[node name="Tree5" parent="." unique_id=28741101 instance=ExtResource("9_kek77")]
+[node name="Tree5" parent="." unique_id=28741101]
 position = Vector2(42, -66)
 
-[node name="Tree12" parent="." unique_id=1660845532 instance=ExtResource("9_kek77")]
+[node name="Tree12" parent="." unique_id=1660845532]
 position = Vector2(13, -64)
 
-[node name="Tree6" parent="." unique_id=1437633200 instance=ExtResource("9_kek77")]
+[node name="Tree6" parent="." unique_id=1437633200]
 position = Vector2(71, -57)
 
-[node name="Tree7" parent="." unique_id=1429417795 instance=ExtResource("9_kek77")]
+[node name="Tree7" parent="." unique_id=1429417795]
 position = Vector2(96, -67)
 
-[node name="Tree18" parent="." unique_id=1212508881 instance=ExtResource("9_kek77")]
+[node name="Tree18" parent="." unique_id=1212508881]
 position = Vector2(98, -49)
 
-[node name="Tree19" parent="." unique_id=1922101521 instance=ExtResource("9_kek77")]
+[node name="Tree19" parent="." unique_id=1922101521]
 position = Vector2(99, -34)
 
 [node name="Box" parent="." unique_id=2085654712 instance=ExtResource("8_5vw27")]
