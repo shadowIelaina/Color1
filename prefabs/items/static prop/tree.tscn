@@ -2,6 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://d1c66tsprtjdc" path="res://shaders/tree_shadow.gdshader" id="1_ffnw6"]
 [ext_resource type="Texture2D" uid="uid://f786ctid8622" path="res://art/else/tree.png" id="1_uc26x"]
+[ext_resource type="Script" path="res://color_change/colorable_static.gd" id="2_colorable"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bhunq"]
 shader = ExtResource("1_ffnw6")
@@ -18,8 +19,9 @@ size = Vector2(26, 7)
 
 [node name="Tree" type="StaticBody2D" unique_id=293502526]
 collision_layer = 2
+script = ExtResource("2_colorable")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=401944506]
+[node name="Visual" type="Sprite2D" parent="." unique_id=401944506]
 texture_filter = 1
 material = SubResource("ShaderMaterial_bhunq")
 position = Vector2(-1, -32)

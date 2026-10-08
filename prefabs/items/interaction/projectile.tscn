@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/projectile.gd" id="1_proj"]
+[ext_resource type="Texture2D" path="res://art/else/rock.png" id="2_rock"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_proj"]
+radius = 16.0
+
+[node name="Projectile" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 7
+script = ExtResource("1_proj")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_proj")
+
+[node name="Visual" type="Sprite2D" parent="."]
+modulate = Color(1, 0.55, 0.2, 1)
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("2_rock")

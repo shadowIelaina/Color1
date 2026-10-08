@@ -4,14 +4,23 @@ extends CanvasLayer
 const Rules := preload("res://scripts/element/element_rules.gd")
 
 @onready var color_label: RichTextLabel = $ColorLabel
+@onready var win_label: Label = $WinLabel
 
 
 func _ready() -> void:
+	add_to_group("hud")
+	if win_label:
+		win_label.visible = false
 	var player := get_tree().get_first_node_in_group("player")
 	if player:
 		player.inventory_changed.connect(_on_inventory_changed)
 		var snap: Dictionary = player.palette_snapshot()
 		_on_inventory_changed(snap["inventory"], snap["selected"])
+
+
+func show_win() -> void:
+	if win_label:
+		win_label.visible = true
 
 
 func _on_inventory_changed(inventory: Dictionary, selected_element: String) -> void:

@@ -38,7 +38,7 @@ effects/                ← 元素 VFX（flame_spread / freeze_spread / shatter 
 prefabs/items/…         ← 冰块等预制体
 ```
 
-附注：另有独立的**伪 2.5D 高度系统**（`HeightMap` autoload：`scripts/height_map.gd` + `scripts/ground_height.gd`，每格 256px），管理站立高度、台阶碰撞与水格凹坑/结冰填平，和颜色涌现层正交。
+附注：另有独立的**通行性地图**（`HeightMap` autoload：`scripts/height_map.gd`，每格 256px），只存「可站 / 不可站」——水不可站、冰可站，驱动「冻结水面过河」，和颜色涌现层正交。
 
 ## 涌现怎么发生：四个机制
 

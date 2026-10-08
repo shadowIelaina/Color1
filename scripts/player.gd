@@ -41,10 +41,6 @@ const STATE_NAMES: Array[String] = ["idle", "walk", "run", "jump", "rotate"]
 const FOOTPRINT_RADIUS := 64.0
 const OUTLINE_SHADER := preload("res://shaders/outline.gdshader")
 const Rules := preload("res://scripts/element/element_rules.gd")
-## 站立高度平滑收敛速率（每秒 lerp 比例），走上/走下台阶时身体不会瞬移。
-## 注意：这是「每秒」速率（lerp 权重 = HEIGHT_LERP × delta），不是像素位移，迁移 16→256 时千万别 ×16；
-## 否则 delta=1/60 时权重 224/60≈3.7>1，lerpf 会过冲并振荡发散，身体被甩出屏幕（掉进水里就看不到人）。
-const HEIGHT_LERP := 14.0
 ## 水格碰撞层（water_cell.gd 里 collision_layer=2）。站在水里时临时忽略这层，让玩家能在水里走动。
 const WATER_COLLISION_LAYER := 2
 
@@ -85,17 +81,14 @@ var _rotate_t := 0.0
 ## 贴图基准偏移，单位是「帧像素」，会被 sprite.scale(=pixel_scale) 一起放大：-8×16 = -128 世界像素。
 ## 别在这里写世界像素（会被再 ×16）。
 var _base_sprite_offset := Vector2(0, -8)
-## 当前站立高度（像素）：采样自 HeightMap，驱动身体与影子的视觉抬升。
-## 注意：站高放 position.y，跳跃离地仍放 offset.y（CharacterShadow 靠 offset 判离地）。
-var current_z := 0.0
 var _outline_material: ShaderMaterial
 var _highlighted: Node = null
 var _highlight_outline: Sprite2D = null
-var _revealed_water: Node = null   # 当前悬停、露出南岸水面的水格
 var _freeze_preview_water: Node = null   # 当前显示冻结预览的水格
 var _freeze_preview_on := false          # 预览当前是否开启（含「手里是蓝」这一条件）
 var _base_collision_mask := 0    # 场景里配好的碰撞掩码（含水层）
 var _in_water := false           # 是否正站在水里（不可站水格）→ 临时忽略水层碰撞以便踩水
+var _knockback_vel := Vector2.ZERO   # 被飞行物命中时的击退速度（逐帧衰减）
 
 @onready var sprite: AnimatedSprite2D = $Sprite
 @onready var collision: CollisionShape2D = $Collision
@@ -123,9 +116,9 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	_handle_color_input()
 	_update_highlight()
-	_update_water_reveal()
-	_update_height(delta)
+	_update_water_preview()
 	_update_water_wade()
+	_knockback_vel = _knockback_vel.move_toward(Vector2.ZERO, 2500.0 * delta)
 
 	var input := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var running := Input.is_action_pressed("run")
@@ -150,7 +143,7 @@ func _physics_process(delta: float) -> void:
 			state = State.IDLE
 		_update_hop_visual()
 		_apply_animation()
-		velocity = _apply_step_collision(velocity)
+		velocity += _knockback_vel
 		move_and_slide()
 		_push_boxes(input, delta)
 		return
@@ -174,7 +167,7 @@ func _physics_process(delta: float) -> void:
 
 	sprite.offset = _base_sprite_offset
 	_apply_animation()
-	velocity = _apply_step_collision(velocity)
+	velocity += _knockback_vel
 	move_and_slide()
 	_push_boxes(input, delta)
 
@@ -197,61 +190,19 @@ func _update_hop_visual() -> void:
 	sprite.offset = Vector2(_base_sprite_offset.x, _base_sprite_offset.y - height)
 
 
-## 采样脚下高度，平滑逼近，把站高画到身体（向北抬升）与影子（一起上抬）。
-## 影子始终在脚底下方 64px；身体中心始终在脚底上方 128px，任何高度都保持一致。
-##
-## y-sort 约定：前后遮挡只用本节点（CharacterBody2D）的 position.y（脚底世界 Y）排序，
-## 高度只把贴图往上抬（-current_z），不改变排序锚点——凸起=上移，前后仍由南北 Y 决定。
-func _update_height(delta: float) -> void:
-	var h := HeightMap.sample_z(global_position)
-	current_z = lerpf(current_z, h, HEIGHT_LERP * delta)
-	sprite.position.y = -current_z
-	shadow.position.y = 64.0 - current_z
+## 被飞行物命中：沿 dir 方向给一个短促击退（velocity 逐帧衰减，见 _physics_process 顶部）。
+func knockback(dir: Vector2, strength := 700.0) -> void:
+	_knockback_vel = dir.normalized() * strength
 
 
 ## 站在水里（不可站水格）时，临时忽略水层碰撞，让玩家能在水里走动（踩水）；
 ## 爬回岸/冰（可站）后恢复碰撞。这样「掉进水里」后能挪动，而不是被困在一格里。
 func _update_water_wade() -> void:
-	var in_water := not bool(HeightMap.sample(global_position).get("walkable", true))
+	var in_water := not HeightMap.is_walkable(global_position)
 	if in_water == _in_water:
 		return
 	_in_water = in_water
 	collision_mask = (_base_collision_mask & ~WATER_COLLISION_LAYER) if in_water else _base_collision_mask
-
-
-## 台阶碰撞：探测前进方向前方一格的高度，落差超过一格台阶（HeightMap.CELL）就锁掉对应轴，
-## 让玩家沿悬崖边缘滑动，而不是跨上两格高的台子或直接掉下悬崖。
-func _apply_step_collision(vel: Vector2) -> Vector2:
-	if vel == Vector2.ZERO:
-		return vel
-	var from_cell := HeightMap.sample(global_position)
-	var from_z := float(from_cell.get("z", 0.0))
-	var from_walkable := bool(from_cell.get("walkable", true))
-	var out := vel
-	# 半格探测：脚底再往前半格就落到下一格，避免贴边时读成自己这一格。
-	var probe := HeightMap.CELL * 0.5
-	if out.x != 0.0:
-		var px := global_position + Vector2(signf(out.x) * probe, 0.0)
-		if not _can_enter(from_z, from_walkable, px):
-			out.x = 0.0
-	if out.y != 0.0:
-		var py := global_position + Vector2(0.0, signf(out.y) * probe)
-		if not _can_enter(from_z, from_walkable, py):
-			out.y = 0.0
-	return out
-
-
-## 能否走进目标格：先看高差（台阶上限），再补一条——站在水里（不可站）时不能直接
-## 往上爬到岸（水边当作墙），只能走楼梯（同高/逐级可站格）或结冰把自己抬起来再上。
-func _can_enter(from_z: float, from_walkable: bool, target_pos: Vector2) -> bool:
-	var cell := HeightMap.sample(target_pos)
-	var to_z := float(cell.get("z", 0.0))
-	var to_walkable := bool(cell.get("walkable", true))
-	if not HeightMap.can_step(from_z, to_z):
-		return false
-	if not from_walkable and to_walkable and to_z > from_z:
-		return false
-	return true
 
 
 ## 推动接触到的可推箱（PushableBody）。
@@ -371,7 +322,8 @@ func _absorb() -> void:
 	var el := str(info.get("element", ""))
 	if el == "":
 		return
-	_inventory[el] = int(_inventory.get(el, 0)) + 1
+	var amt := int(info.get("amount", 1))
+	_inventory[el] = int(_inventory.get(el, 0)) + amt
 	_select_element(el)  # 吸收后自动选中新拿到的颜色
 
 
@@ -471,7 +423,7 @@ func _clear_highlight() -> void:
 	_highlighted = null
 
 
-## 鼠标下、未结冰的水格（用于露出南岸被挡的水面）。只找水，不管是否带色/可赋予。
+## 鼠标下、未结冰的水格（用于冻结预览）。只找水，不管是否带色/可赋予。
 func _water_at_mouse() -> Node:
 	var mp := get_global_mouse_position()
 	var best: Node = null
@@ -490,20 +442,10 @@ func _water_at_mouse() -> Node:
 	return best
 
 
-## 悬停水面反馈：南侧岸半透明露出水；手里是蓝时再叠一个半透明冰块预览（提示「可结冰」）。
-func _update_water_reveal() -> void:
+## 悬停水面反馈：手里是蓝时叠一个半透明冰块预览（提示「可结冰」）。
+func _update_water_preview() -> void:
 	var w := _water_at_mouse()
-	# 冻结预览（半透明冰块）：仅当手里正好是「蓝」。
 	var preview_on := w != null and _selected_element == "freeze"
-	# 南岸露出（未结冰水格提示可点）。手里是蓝时不要露出：半透明冰块预览本身就是提示，
-	# 若同时再把南岸弄半透明露出蓝水，那片蓝水会被误看成冰块侧墙，像把岸边的地块遮住了。
-	var reveal_target: Node = w if (w != null and not preview_on) else null
-	if reveal_target != _revealed_water:
-		if is_instance_valid(_revealed_water) and _revealed_water.has_method("set_reveal"):
-			_revealed_water.set_reveal(false)
-		_revealed_water = reveal_target
-		if reveal_target != null:
-			reveal_target.set_reveal(true)
 	if w != _freeze_preview_water or preview_on != _freeze_preview_on:
 		if is_instance_valid(_freeze_preview_water) and _freeze_preview_water.has_method("set_freeze_preview"):
 			_freeze_preview_water.set_freeze_preview(false)

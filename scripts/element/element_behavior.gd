@@ -136,9 +136,17 @@ func _clear_vfx() -> void:
 func _shatter() -> void:
 	if _parent == null or not is_instance_valid(_parent):
 		return
+	# 碎裂目标：优先取父节点本身的贴图；否则取它的 "visual" 子贴图（colorable_static 等）。
+	var target: CanvasItem = null
 	if _parent is Sprite2D:
+		target = _parent
+	else:
+		var visual: CanvasItem = _parent.get("visual")
+		if visual is Sprite2D:
+			target = visual
+	if target != null:
 		var shatter := SHATTER.new()
-		shatter.target = _parent
+		shatter.target = target
 		shatter.loop = false
 		_parent.add_child(shatter)
 		shatter.shatter()

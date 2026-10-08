@@ -1,22 +1,18 @@
-class_name IceBlock
+class_name Ember
 extends StaticBody2D
-## 带蓝的冰块：吸收其蓝色后破碎、返还蓝并消失。
-## - 作为「蓝色种子闸门」（ice_block.tscn，seed_amount=3）：挡路 + 开局被赋蓝，吸收后放行并给 3 量蓝。
-## - 作为「冰墙」（ice_wall.tscn，seed_amount=1）：冻水上再点一下生成的可融墙，吸收后融化返还 1 蓝。
+## 火种（余烬）：开局已被赋予红色并挡住玩家。玩家吸收其红色后，火种熄灭（破碎）、获得红并放行。
+## 红色（燃烧）的初始种子来源，对标 ice_block.gd 的红色版本。
 
 const Rules := preload("res://scripts/element/element_rules.gd")
 const SHATTER := preload("res://effects/shatter/shatter.gd")
 
-## 破碎动画结束后销毁本节点（秒）。
+## 熄灭动画结束后销毁本节点（秒）。
 @export var shatter_delay := 1.4
-
-## 吸收后返还的蓝色数量。默认 3（蓝色种子闸门）；冰墙复用设 1（融化返还 1 蓝）。
-@export var seed_amount := 3
 
 @onready var visual: Sprite2D = $Visual
 @onready var collision: CollisionShape2D = $Collision
 
-var _has_blue := true
+var _has_red := true
 
 
 func _ready() -> void:
@@ -24,7 +20,7 @@ func _ready() -> void:
 
 
 func has_color() -> bool:
-	return _has_blue
+	return _has_red
 
 
 ## 点击命中：世界坐标点是否落在 Visual 贴图矩形内。
@@ -32,21 +28,20 @@ func contains_point(world_pos: Vector2) -> bool:
 	return visual.get_rect().has_point(visual.to_local(world_pos))
 
 
-## 吸收蓝色：返回元素信息，同时冰块破碎放行。
+## 吸收红色：返回元素信息，同时火种熄灭放行。
 func absorb_color() -> Dictionary:
-	if not _has_blue:
+	if not _has_red:
 		return {"element": "", "color": Color.WHITE, "color_name": ""}
-	_has_blue = false
+	_has_red = false
 	_break()
 	return {
-		"element": "freeze",
-		"color": Rules.config("freeze")["color"],
-		"color_name": Rules.config("freeze")["color_name"],
-		"amount": seed_amount,
+		"element": "burn",
+		"color": Rules.config("burn")["color"],
+		"color_name": Rules.config("burn")["color_name"],
 	}
 
 
-## 破碎并放行：先移除碰撞（立刻可通行），再播破碎动画，最后销毁。
+## 熄灭并放行：先移除碰撞（立刻可通行），再播破碎动画，最后销毁。
 func _break() -> void:
 	collision.set_deferred("disabled", true)
 	var shatter := SHATTER.new()
