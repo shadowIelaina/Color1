@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://color_change/ice_block.gd" id="1_ice"]
+[ext_resource type="Texture2D" path="res://art/else/rock.png" id="2_rock"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(180, 150)
+
+[node name="IceWall" type="StaticBody2D"]
+collision_layer = 2
+script = ExtResource("1_ice")
+seed_amount = 1
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Visual" type="Sprite2D" parent="."]
+modulate = Color(0.7, 0.85, 1, 1)
+texture_filter = 1
+scale = Vector2(12.5, 11.25)
+texture = ExtResource("2_rock")

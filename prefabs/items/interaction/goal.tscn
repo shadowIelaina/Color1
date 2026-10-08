@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/goal.gd" id="1_goal"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_goal"]
+radius = 80.0
+
+[node name="Goal" type="Area2D"]
+collision_mask = 1
+script = ExtResource("1_goal")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_goal")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Ring" type="Polygon2D" parent="Visual"]
+color = Color(1, 0.84, 0.25, 0.85)
+polygon = PackedVector2Array(0, -40, 40, 0, 0, 40, -40, 0)
+
+[node name="Core" type="Polygon2D" parent="Visual"]
+color = Color(1, 0.55, 0.1, 0.9)
+polygon = PackedVector2Array(0, -20, 20, 0, 0, 20, -20, 0)

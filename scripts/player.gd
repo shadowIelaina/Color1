@@ -3,6 +3,8 @@ extends CharacterBody2D
 
 ## 变色玩法：换色时发出，供 HUD 更新显示。
 signal color_changed(new_color: Color, color_name: String)
+## 颜色库/选中变化时发出，供 HUD 显示整套调色盘与当前选中。
+signal inventory_changed(inventory: Dictionary, selected_element: String)
 
 ## 角色控制器：2D 场景下的 2.5D 俯视（3/4）角色。
 ## 白盒阶段只做移动、朝向和动画状态机，不包含碰撞玩法逻辑。
@@ -18,8 +20,8 @@ enum State {
 const STATE_NAMES: Array[String] = ["idle", "walk", "run", "jump", "rotate"]
 
 @export_group("Movement")
-@export_range(0.0, 2000.0, 1.0) var walk_speed := 120.0
-@export_range(0.0, 3000.0, 1.0) var run_speed := 220.0
+@export_range(0.0, 20000.0, 1.0) var walk_speed := 1920.0
+@export_range(0.0, 30000.0, 1.0) var run_speed := 3520.0
 
 @export_group("Jump")
 @export_range(0.0, 200.0, 1.0) var jump_height := 12.0
@@ -29,15 +31,18 @@ const STATE_NAMES: Array[String] = ["idle", "walk", "run", "jump", "rotate"]
 @export_range(0.05, 2.0, 0.05) var rotate_duration := 0.5
 
 @export_group("Visual")
-@export_range(1.0, 8.0, 0.5) var pixel_scale := 1.0
+@export_range(1.0, 32.0, 0.5) var pixel_scale := 16.0
 @export var animation_frames: SpriteFrames
 
 @export_group("Interact")
-@export_range(8.0, 256.0, 1.0) var interact_range := 48.0
+@export_range(8.0, 4096.0, 1.0) var interact_range := 768.0
 @export_range(0.2, 2.0, 0.1) var outline_width := 0.6
 
-const FOOTPRINT_RADIUS := 4.0
+const FOOTPRINT_RADIUS := 64.0
 const OUTLINE_SHADER := preload("res://shaders/outline.gdshader")
+const Rules := preload("res://scripts/element/element_rules.gd")
+## 水格碰撞层（water_cell.gd 里 collision_layer=2）。站在水里时临时忽略这层，让玩家能在水里走动。
+const WATER_COLLISION_LAYER := 2
 
 ## 8 方向（屏幕坐标，y 向下），顺时针：下、左下、左、左上、上、右上、右、右下。
 const DIRS: Array[Vector2] = [
@@ -63,21 +68,36 @@ const DIR_FLIP: Array[bool] = [false, true, true, true, false, false, false, fal
 
 var state: int = State.IDLE
 var facing: int = 0
-var selected_color := Color(0.25, 0.85, 0.35)
-var selected_color_name := "绿"
+## 当前选中元素对应的颜色/名称（供 HUD 与描边显示）。
+var selected_color := Color.WHITE
+var selected_color_name := "无"
+## 颜色库：玩家持有的元素种子（元素 id -> 数量）。种子守恒：只能从世界色源吸收获得。
+var _inventory: Dictionary = {}
+## 当前选中、用于「赋予」的元素 id；空 = 未持有任何元素。
+var _selected_element := ""
 
 var _jump_t := 1.0
 var _rotate_t := 0.0
+## 贴图基准偏移，单位是「帧像素」，会被 sprite.scale(=pixel_scale) 一起放大：-8×16 = -128 世界像素。
+## 别在这里写世界像素（会被再 ×16）。
 var _base_sprite_offset := Vector2(0, -8)
 var _outline_material: ShaderMaterial
 var _highlighted: Node = null
 var _highlight_outline: Sprite2D = null
+var _freeze_preview_water: Node = null   # 当前显示冻结预览的水格
+var _freeze_preview_on := false          # 预览当前是否开启（含「手里是蓝」这一条件）
+var _base_collision_mask := 0    # 场景里配好的碰撞掩码（含水层）
+var _in_water := false           # 是否正站在水里（不可站水格）→ 临时忽略水层碰撞以便踩水
+var _knockback_vel := Vector2.ZERO   # 被飞行物命中时的击退速度（逐帧衰减）
 
 @onready var sprite: AnimatedSprite2D = $Sprite
 @onready var collision: CollisionShape2D = $Collision
+@onready var shadow: Sprite2D = $Shadow
 
 
 func _ready() -> void:
+	add_to_group("player")
+	_base_collision_mask = collision_mask
 	_register_input_actions()
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	sprite.scale = Vector2(pixel_scale, pixel_scale)
@@ -87,16 +107,18 @@ func _ready() -> void:
 	sprite.sprite_frames = animation_frames if animation_frames != null else _build_sprite_frames()
 	sprite.offset = _base_sprite_offset
 	_apply_animation()
-	color_changed.emit(selected_color, selected_color_name)
 	_outline_material = ShaderMaterial.new()
 	_outline_material.shader = OUTLINE_SHADER
 	_outline_material.set_shader_parameter("outline_width", outline_width)
-	_outline_material.set_shader_parameter("outline_color", selected_color)
+	_select_element("")  # 初始化 HUD + 描边 + 首次信号
 
 
 func _physics_process(delta: float) -> void:
 	_handle_color_input()
 	_update_highlight()
+	_update_water_preview()
+	_update_water_wade()
+	_knockback_vel = _knockback_vel.move_toward(Vector2.ZERO, 2500.0 * delta)
 
 	var input := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var running := Input.is_action_pressed("run")
@@ -121,6 +143,7 @@ func _physics_process(delta: float) -> void:
 			state = State.IDLE
 		_update_hop_visual()
 		_apply_animation()
+		velocity += _knockback_vel
 		move_and_slide()
 		_push_boxes(input, delta)
 		return
@@ -144,6 +167,7 @@ func _physics_process(delta: float) -> void:
 
 	sprite.offset = _base_sprite_offset
 	_apply_animation()
+	velocity += _knockback_vel
 	move_and_slide()
 	_push_boxes(input, delta)
 
@@ -164,6 +188,21 @@ func _start_rotate() -> void:
 func _update_hop_visual() -> void:
 	var height := sin(_jump_t * PI) * jump_height
 	sprite.offset = Vector2(_base_sprite_offset.x, _base_sprite_offset.y - height)
+
+
+## 被飞行物命中：沿 dir 方向给一个短促击退（velocity 逐帧衰减，见 _physics_process 顶部）。
+func knockback(dir: Vector2, strength := 700.0) -> void:
+	_knockback_vel = dir.normalized() * strength
+
+
+## 站在水里（不可站水格）时，临时忽略水层碰撞，让玩家能在水里走动（踩水）；
+## 爬回岸/冰（可站）后恢复碰撞。这样「掉进水里」后能挪动，而不是被困在一格里。
+func _update_water_wade() -> void:
+	var in_water := not HeightMap.is_walkable(global_position)
+	if in_water == _in_water:
+		return
+	_in_water = in_water
+	collision_mask = (_base_collision_mask & ~WATER_COLLISION_LAYER) if in_water else _base_collision_mask
 
 
 ## 推动接触到的可推箱（PushableBody）。
@@ -206,53 +245,149 @@ func _dir_from_input(v: Vector2) -> int:
 
 
 func _handle_color_input() -> void:
-	if Input.is_action_just_pressed("select_green"):
-		_select_color(Color(0.25, 0.85, 0.35), "绿")
-	elif Input.is_action_just_pressed("select_blue"):
-		_select_color(Color(0.3, 0.55, 1.0), "蓝")
-	elif Input.is_action_just_pressed("select_red"):
-		_select_color(Color(1.0, 0.3, 0.3), "红")
+	if Input.is_action_just_pressed("absorb"):
+		_absorb()
 	if Input.is_action_just_pressed("interact"):
-		_interact()
+		_grant()
+	if Input.is_action_just_pressed("cycle_color_up"):
+		_cycle_selection(1)
+	if Input.is_action_just_pressed("cycle_color_down"):
+		_cycle_selection(-1)
 
 
-func _select_color(c: Color, color_name: String) -> void:
-	selected_color = c
-	selected_color_name = color_name
-	# 描边跟随玩家当前选择的颜色。
+## 当前选中元素的颜色（未选中时为白）。
+func _color_of(element_id: String) -> Color:
+	return Rules.config(element_id).get("color", Color.WHITE)
+
+
+## 当前选中元素的颜色名（未选中时为「无」）。
+func _color_name_of(element_id: String) -> String:
+	return str(Rules.config(element_id).get("color_name", ""))
+
+
+## 更新选中元素：同步描边颜色 + 发射 UI 信号。
+func _select_element(element_id: String) -> void:
+	_selected_element = element_id
+	selected_color = _color_of(element_id)
+	selected_color_name = _color_name_of(element_id) if element_id != "" else "无"
+	# 描边跟随当前选中的颜色。
 	if _outline_material != null:
-		_outline_material.set_shader_parameter("outline_color", c)
-	color_changed.emit(c, color_name)
+		_outline_material.set_shader_parameter("outline_color", selected_color)
+	color_changed.emit(selected_color, selected_color_name)
+	inventory_changed.emit(_inventory, _selected_element)
 
 
-func _interact() -> void:
-	var target := _nearest_colorable()
-	if target != null:
-		target.call("apply_color", selected_color, global_position)
+## 仅数量变化（选中不变）时刷新 UI。
+func _notify_inventory() -> void:
+	inventory_changed.emit(_inventory, _selected_element)
 
 
-## 取圆形范围内（interact_range）最近、且能上色（有 apply_color）的物体。
-func _nearest_colorable() -> Node:
+## 供 HUD 在连接前读取颜色库快照。
+func palette_snapshot() -> Dictionary:
+	return {"inventory": _inventory.duplicate(), "selected": _selected_element}
+
+
+## 颜色库里按固定顺序（burn→freeze→grow）列出持有中的元素，用于滚轮循环。
+func _held_elements() -> Array:
+	var order := ["burn", "freeze", "grow"]
+	var out: Array = []
+	for el in order:
+		if int(_inventory.get(el, 0)) > 0:
+			out.append(el)
+	for el in _inventory:
+		if int(_inventory[el]) > 0 and not out.has(el):
+			out.append(el)
+	return out
+
+
+## 滚轮在颜色库中循环切换选中元素。dir = +1 下一个 / -1 上一个。
+func _cycle_selection(dir: int) -> void:
+	var held := _held_elements()
+	if held.is_empty():
+		return
+	var idx := held.find(_selected_element)
+	if idx == -1:
+		idx = 0
+	else:
+		idx = posmod(idx + dir, held.size())
+	_select_element(held[idx])
+
+
+## 吸收：从鼠标指向的带色物体抽走元素，存入颜色库（种子守恒）。
+func _absorb() -> void:
+	var target := _colored_at_mouse()
+	if target == null:
+		return
+	var info: Dictionary = target.call("absorb_color")
+	var el := str(info.get("element", ""))
+	if el == "":
+		return
+	var amt := int(info.get("amount", 1))
+	_inventory[el] = int(_inventory.get(el, 0)) + amt
+	_select_element(el)  # 吸收后自动选中新拿到的颜色
+
+
+## 赋予：把当前选中的元素种到鼠标指向的可上色物体，消耗一颗种子（种子守恒）。
+func _grant() -> void:
+	if _selected_element == "":
+		return
+	var target := _grantable_at_mouse()
+	if target == null:
+		return
+	var cfg := Rules.config(_selected_element)
+	# 只在目标真的吃下这个颜色时才扣种子（水只吃蓝、已结冰不再吃，避免白扣）。
+	var applied: bool = bool(target.call("apply_color", cfg.get("color", Color.WHITE), cfg.get("color_name", ""), global_position))
+	if not applied:
+		return
+	_inventory[_selected_element] = int(_inventory[_selected_element]) - 1
+	if int(_inventory[_selected_element]) <= 0:
+		_inventory.erase(_selected_element)
+		var rest := _held_elements()
+		_select_element(rest[0] if not rest.is_empty() else "")
+	else:
+		_notify_inventory()
+
+
+## 鼠标当前指向、且在 "colorable" group 里的物体（重叠时取 z_index 最高/最上层）。
+func _colorable_at_mouse() -> Node:
+	var mp := get_global_mouse_position()
 	var best: Node = null
-	var best_d := INF
+	var best_z := -INF
 	for obj in get_tree().get_nodes_in_group("colorable"):
-		if not obj.has_method("apply_color"):
+		if not obj.has_method("contains_point"):
 			continue
-		var n := obj as Node2D
-		if n == null:
+		if not bool(obj.call("contains_point", mp)):
 			continue
-		var dist := global_position.distance_to(n.global_position)
-		if dist > interact_range:
-			continue
-		if dist < best_d:
-			best_d = dist
-			best = n
+		var z := float(obj.get("z_index"))
+		if z >= best_z:
+			best_z = z
+			best = obj
 	return best
 
 
-## 给当前最近的可上色物体加描边提示，目标变化时自动切换。
+## 鼠标下、且当前带颜色（可被吸收）的物体。
+func _colored_at_mouse() -> Node:
+	var t := _colorable_at_mouse()
+	if t != null and t.has_method("absorb_color") and t.has_method("has_color") and bool(t.call("has_color")):
+		return t
+	return null
+
+
+## 鼠标下、且能上色（可被赋予）的物体。
+func _grantable_at_mouse() -> Node:
+	var t := _colorable_at_mouse()
+	if t != null and t.has_method("apply_color"):
+		return t
+	return null
+
+
+## 给鼠标指向的可交互物体加描边提示，目标变化时自动切换。
+## 优先级：带色（可吸收/溶解）> 可赋予（可上色）。这样手里攥着颜色时，
+## 鼠标下的冰/带色物仍提示「可吸收」，而不是误导成「可赋予」。
 func _update_highlight() -> void:
-	var target := _nearest_colorable()
+	var target := _colored_at_mouse()
+	if target == null and _selected_element != "":
+		target = _grantable_at_mouse()
 	if target == _highlighted:
 		return
 	_clear_highlight()
@@ -262,7 +397,7 @@ func _update_highlight() -> void:
 
 
 func _add_outline(target: Node) -> void:
-	var sprite := target as Sprite2D
+	var sprite := _outline_sprite(target)
 	if sprite == null:
 		return
 	_highlight_outline = Sprite2D.new()
@@ -273,11 +408,51 @@ func _add_outline(target: Node) -> void:
 	sprite.add_child(_highlight_outline)
 
 
+## 取画描边要挂的 Sprite2D：目标本身是 Sprite2D（石头）直接用；
+## 否则取它的 Visual 子节点（冰块是 StaticBody2D，贴图在 Visual 上）。
+func _outline_sprite(target: Node) -> Sprite2D:
+	if target is Sprite2D:
+		return target
+	return target.get_node_or_null("Visual") as Sprite2D
+
+
 func _clear_highlight() -> void:
-	if _highlight_outline != null:
+	if is_instance_valid(_highlight_outline):
 		_highlight_outline.queue_free()
-		_highlight_outline = null
+	_highlight_outline = null
 	_highlighted = null
+
+
+## 鼠标下、未结冰的水格（用于冻结预览）。只找水，不管是否带色/可赋予。
+func _water_at_mouse() -> Node:
+	var mp := get_global_mouse_position()
+	var best: Node = null
+	var best_z := -INF
+	for obj in get_tree().get_nodes_in_group("colorable"):
+		if not obj.has_method("is_frozen") or not obj.has_method("contains_point"):
+			continue
+		if bool(obj.call("is_frozen")):
+			continue
+		if not bool(obj.call("contains_point", mp)):
+			continue
+		var z := float(obj.get("z_index"))
+		if z >= best_z:
+			best_z = z
+			best = obj
+	return best
+
+
+## 悬停水面反馈：手里是蓝时叠一个半透明冰块预览（提示「可结冰」）。
+func _update_water_preview() -> void:
+	var w := _water_at_mouse()
+	var preview_on := w != null and _selected_element == "freeze"
+	if w != _freeze_preview_water or preview_on != _freeze_preview_on:
+		if is_instance_valid(_freeze_preview_water) and _freeze_preview_water.has_method("set_freeze_preview"):
+			_freeze_preview_water.set_freeze_preview(false)
+		_freeze_preview_water = w if preview_on else null
+		_freeze_preview_on = preview_on
+		if preview_on:
+			w.set_freeze_preview(true)
 
 
 func _build_sprite_frames() -> SpriteFrames:
@@ -322,10 +497,12 @@ func _register_input_actions() -> void:
 	_add_action("run", [KEY_SHIFT])
 	_add_action("jump", [KEY_SPACE])
 	_add_action("rotate", [KEY_R])
-	_add_action("select_green", [KEY_1])
-	_add_action("select_blue", [KEY_2])
-	_add_action("select_red", [KEY_3])
-	_add_action("interact", [KEY_E])
+	# 吸收/赋予改用鼠标：右键吸收、左键赋予。
+	_add_mouse_action("absorb", MOUSE_BUTTON_RIGHT)
+	_add_mouse_action("interact", MOUSE_BUTTON_LEFT)
+	# 预留：以后有多种颜色时用滚轮切换选择。
+	_add_mouse_action("cycle_color_up", MOUSE_BUTTON_WHEEL_UP)
+	_add_mouse_action("cycle_color_down", MOUSE_BUTTON_WHEEL_DOWN)
 
 
 func _add_action(action: String, keys: Array) -> void:
@@ -336,3 +513,15 @@ func _add_action(action: String, keys: Array) -> void:
 		var ev := InputEventKey.new()
 		ev.physical_keycode = k
 		InputMap.action_add_event(action, ev)
+
+
+## 给动作绑定一个鼠标按键（左键/右键/滚轮等）。pressed 必须显式置 true，
+## 否则 is_action_just_pressed 会在「松开」时才触发。
+func _add_mouse_action(action: String, button: MouseButton) -> void:
+	if InputMap.has_action(action):
+		return
+	InputMap.add_action(action)
+	var ev := InputEventMouseButton.new()
+	ev.button_index = button
+	ev.pressed = true
+	InputMap.action_add_event(action, ev)
