@@ -1,8 +1,9 @@
 [gd_scene format=4 uid="uid://d1jaadj1xgr2n"]
 
 [ext_resource type="Script" uid="uid://d188ygjs2i1gp" path="res://shaders/Grass.gd" id="1_4c57u"]
+[ext_resource type="PackedScene" uid="uid://dolv6j8e0ihcs" path="res://prefabs/items/static prop/grass.tscn" id="1_efxa6"]
 [ext_resource type="Texture2D" uid="uid://b822yei8k4fii" path="res://art/else/ground.png" id="1_ig7tw"]
-[ext_resource type="Texture2D" uid="uid://dnhd0dq7q1p4d" path="res://art/picture_boluo/草2tm.png" id="2_efxa6"]
+[ext_resource type="Shader" uid="uid://ctce02nln2wmn" path="res://shaders/Grass_act.gdshader" id="2_dg77c"]
 [ext_resource type="Material" uid="uid://ch3lmavyoq8h7" path="res://water/water_material.tres" id="2_kek77"]
 [ext_resource type="Script" uid="uid://bkgp83ocrv3oh" path="res://color_change/colorable_sprite.gd" id="4_5vw27"]
 [ext_resource type="Texture2D" uid="uid://c00g7qises46" path="res://art/else/rock.png" id="4_272bh"]
@@ -10,9 +11,6 @@
 [ext_resource type="Script" uid="uid://c72jfj8on1i3d" path="res://color_change/hud.gd" id="7_kek77"]
 [ext_resource type="PackedScene" uid="uid://dj86vqolar41r" path="res://prefabs/items/interaction/box.tscn" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bgfnfyk13xrue" path="res://prefabs/items/static prop/tree.tscn" id="9_kek77"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
-size = Vector2(14, 17.5)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0xm2m"]
 texture = ExtResource("1_ig7tw")
@@ -47,21 +45,27 @@ texture = ExtResource("1_ig7tw")
 [sub_resource type="TileSet" id="TileSet_co6qv"]
 sources/0 = SubResource("TileSetAtlasSource_4c57u")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_riqys"]
+shader = ExtResource("2_dg77c")
+shader_parameter/bend_amount = 0.0
+shader_parameter/wind_strength = 0.03
+
+[sub_resource type="QuadMesh" id="QuadMesh_bhunq"]
+subdivide_depth = 8
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_efxa6"]
+load_path = "res://.godot/imported/草2tm.png-981474d04ad665c2400edd52514345c4.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
+size = Vector2(14.064453, 15.818134)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dg77c"]
+load_path = "res://.godot/imported/草2tm.png-981474d04ad665c2400edd52514345c4.ctex"
+
 [node name="Node2D" type="Node2D" unique_id=43455269]
 
-[node name="Grass" type="Area2D" parent="." unique_id=485715521]
-position = Vector2(45, -11)
-script = ExtResource("1_4c57u")
-
-[node name="Sprite2D" type="Sprite2D" parent="Grass" unique_id=2104443305]
-position = Vector2(-216.91823, 19.622818)
-scale = Vector2(0.036885608, 0.028757373)
-texture = ExtResource("2_efxa6")
-offset = Vector2(28, -379)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Grass" unique_id=451902581]
-position = Vector2(-217, 11)
-shape = SubResource("RectangleShape2D_riqys")
+[node name="Grass" parent="." unique_id=11092768 instance=ExtResource("1_efxa6")]
+position = Vector2(16, -11)
 
 [node name="water" type="TileMapLayer" parent="." unique_id=1734819765]
 texture_filter = 1
@@ -143,5 +147,43 @@ position = Vector2(99, -34)
 [node name="Box" parent="." unique_id=2085654712 instance=ExtResource("8_5vw27")]
 position = Vector2(337, 7)
 
-[connection signal="body_entered" from="Grass" to="Grass" method="_on_body_entered"]
-[connection signal="body_exited" from="Grass" to="Grass" method="_on_body_exited"]
+[node name="Grass2" type="Area2D" parent="." unique_id=1141428114]
+position = Vector2(24, -11)
+script = ExtResource("1_4c57u")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Grass2" unique_id=735600687]
+material = SubResource("ShaderMaterial_riqys")
+position = Vector2(-212, 7)
+rotation = 3.1326253
+scale = Vector2(21.000004, 23)
+mesh = SubResource("QuadMesh_bhunq")
+texture = SubResource("CompressedTexture2D_efxa6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grass2" unique_id=932918153]
+position = Vector2(-210.96805, 7.9656734)
+rotation = -0.008086503
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_riqys")
+
+[node name="Grass3" type="Area2D" parent="." unique_id=1020923943]
+position = Vector2(7, -11)
+script = ExtResource("1_4c57u")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Grass3" unique_id=112939321]
+material = SubResource("ShaderMaterial_riqys")
+position = Vector2(-212, 7)
+rotation = 3.1326253
+scale = Vector2(21.000004, 23)
+mesh = SubResource("QuadMesh_bhunq")
+texture = SubResource("CompressedTexture2D_dg77c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grass3" unique_id=1801544334]
+position = Vector2(-211, 7.999999)
+rotation = -0.008086503
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_riqys")
+
+[connection signal="body_entered" from="Grass2" to="Grass2" method="_on_body_entered"]
+[connection signal="body_exited" from="Grass2" to="Grass2" method="_on_body_exited"]
+[connection signal="body_entered" from="Grass3" to="Grass3" method="_on_body_entered"]
+[connection signal="body_exited" from="Grass3" to="Grass3" method="_on_body_exited"]
