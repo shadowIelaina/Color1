@@ -36,14 +36,13 @@ const STATE_NAMES: Array[String] = ["idle", "walk", "run", "jump", "rotate"]
 
 @export_group("Interact")
 @export_range(8.0, 4096.0, 1.0) var interact_range := 768.0
-@export_range(0.2, 2.0, 0.1) var outline_width := 0.6
 
 @export_group("Light")
 ## 玩家自带微光半径（世界像素，256px ≈ 1 格）。暗房里照亮自身周围；相机 zoom 0.25，太小在屏幕上根本看不见。
 @export_range(8.0, 4096.0, 8.0) var light_radius := 384.0
 
 const FOOTPRINT_RADIUS := 64.0
-const OUTLINE_SHADER := preload("res://shaders/outline.gdshader")
+const OUTLINE_SHADER := preload("res://shaders/outline_colorful.gdshader")
 const Rules := preload("res://scripts/element/element_rules.gd")
 ## 水格碰撞层（water_cell.gd 里 collision_layer=2）。站在水里时临时忽略这层，让玩家能在水里走动。
 const WATER_COLLISION_LAYER := 2
@@ -113,7 +112,6 @@ func _ready() -> void:
 	_apply_animation()
 	_outline_material = ShaderMaterial.new()
 	_outline_material.shader = OUTLINE_SHADER
-	_outline_material.set_shader_parameter("outline_width", outline_width)
 	_select_element("")  # 初始化 HUD + 描边 + 首次信号
 	_setup_light()
 
@@ -282,9 +280,7 @@ func _select_element(element_id: String) -> void:
 	_selected_element = element_id
 	selected_color = _color_of(element_id)
 	selected_color_name = _color_name_of(element_id) if element_id != "" else "无"
-	# 描边跟随当前选中的颜色。
-	if _outline_material != null:
-		_outline_material.set_shader_parameter("outline_color", selected_color)
+	# 描边改用彩虹 shader，颜色不再随选中元素变化，无需设置 outline_color。
 	color_changed.emit(selected_color, selected_color_name)
 	inventory_changed.emit(_inventory, _selected_element)
 	GameState.set_elements(_inventory.duplicate())
