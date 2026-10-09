@@ -4,18 +4,17 @@ extends RefCounted
 ## 状态 = (房间, 已持有钥匙集合)。锁门需要钥匙已在集合中才能通过。
 ## 注：开关/能力门默认视为「到达该房间即可解开」，不参与 BFS。
 
-## 测试关卡图（与 room_a / room_b 对应），关卡策划需在此维护。
+## 测试关卡图（与 level_1 / level_2 对应），关卡策划需在此维护。
 static func test_graph() -> Dictionary:
 	return {
-		"start": "room_a",
-		"rooms": ["room_a", "room_b"],
+		"start": "level_1",
+		"rooms": ["level_1", "level_2"],
 		"doors": [
-			{"from": "room_a", "to": "room_b", "key": ""},
-			{"from": "room_b", "to": "room_a", "key": ""},
-			{"from": "room_a", "to": "room_b", "key": "key_b"},
+			{"from": "level_1", "to": "level_2", "key": ""},
+			{"from": "level_2", "to": "level_1", "key": "level2_key"},
 		],
 		"keys": [
-			{"room": "room_b", "key": "key_b"},
+			{"room": "level_2", "key": "level2_key"},
 		],
 	}
 

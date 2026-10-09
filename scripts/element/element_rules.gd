@@ -19,7 +19,6 @@ const ELEMENTS := {
 		"spreads": false,
 		"spread_radius": 1120.0,
 		"spread_delay": 0.9,
-		"burn_duration": 2.6,
 	},
 	"freeze": {
 		"color_name": "蓝",

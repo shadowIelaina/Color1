@@ -2,47 +2,59 @@
 
 [ext_resource type="Script" path="res://scripts/game_container.gd" id="1_game"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_player"]
-[ext_resource type="Script" path="res://scripts/game_hud.gd" id="3_hud"]
+[ext_resource type="Script" path="res://color_change/hud.gd" id="3_hud"]
+[ext_resource type="Script" path="res://scripts/darkness_overlay.gd" id="4_darkness"]
+[ext_resource type="Material" path="res://shaders/darkness_material.tres" id="5_mat"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_game")
+start_room = "res://scenes/level_1.tscn"
+start_entrance = "spawn"
 
 [node name="RoomContainer" type="Node2D" parent="."]
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_player")]
+interact_range = 432.0
+light_radius = 152.0
 
 [node name="Camera" type="Camera2D" parent="Player"]
-zoom = Vector2(4, 4)
+zoom = Vector2(0.25, 0.25)
 position_smoothing_enabled = true
 
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("3_hud")
 
-[node name="ColorLabel" type="Label" parent="HUD"]
+[node name="ColorLabel" type="RichTextLabel" parent="HUD"]
 offset_left = 12.0
 offset_top = 8.0
-offset_right = 240.0
-offset_bottom = 34.0
-theme_override_font_sizes/font_size = 20
+offset_right = 512.0
+offset_bottom = 64.0
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
 
-[node name="KeysLabel" type="Label" parent="HUD"]
-offset_left = 12.0
-offset_top = 40.0
-offset_right = 320.0
-offset_bottom = 66.0
-theme_override_font_sizes/font_size = 20
+[node name="WinLabel" type="Label" parent="HUD"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -80.0
+offset_right = 300.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 72
+text = "过关！"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="RoomLabel" type="Label" parent="HUD"]
-offset_left = 12.0
-offset_top = 72.0
-offset_right = 320.0
-offset_bottom = 98.0
-theme_override_font_sizes/font_size = 20
-
-[node name="HintLabel" type="Label" parent="HUD"]
-offset_left = 12.0
-offset_top = 104.0
-offset_right = 520.0
-offset_bottom = 130.0
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+[node name="Darkness" type="Polygon2D" parent="."]
+z_index = 100
+material = ExtResource("5_mat")
+polygon = PackedVector2Array(-20000, -20000, 20000, -20000, 20000, 20000, -20000, 20000)
+script = ExtResource("4_darkness")

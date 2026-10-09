@@ -8,6 +8,7 @@ signal room_entered(room_id: String)
 signal room_exited(room_id: String)
 
 const SWITCH_COOLDOWN := 0.4  # 切房冷却，防重复触发
+const SAFE_POS := Vector2(1e7, 1e7)  # 切房瞬间玩家的临时安全位，避免与新房拾取区重叠误触发
 
 var player: Node2D = null
 var room_container: Node = null
@@ -34,6 +35,9 @@ func _process(delta: float) -> void:
 
 
 ## 核心：切换到目标场景，并把玩家定位到目标入口。
+## 场景增删（add_child/queue_free）不能在物理回调（如门 Area2D 的 body_entered）里同步执行，
+## 否则会触发 "Can't change this state while flushing queries"。这里同步只置切换守卫，实际切房
+## 用 call_deferred 放到帧末执行。
 func change_room(target_scene: String, target_entrance: String) -> void:
 	if _switching:
 		return
@@ -42,7 +46,10 @@ func change_room(target_scene: String, target_entrance: String) -> void:
 		return
 	_switching = true
 	_cooldown = SWITCH_COOLDOWN
+	_do_change_room.call_deferred(target_scene, target_entrance)
 
+
+func _do_change_room(target_scene: String, target_entrance: String) -> void:
 	# 1. 退出并卸载旧房
 	if current_room != null and is_instance_valid(current_room):
 		room_exited.emit(current_room.get("room_id"))
@@ -50,6 +57,9 @@ func change_room(target_scene: String, target_entrance: String) -> void:
 			current_room.exit()
 		current_room.queue_free()
 		current_room = null
+		GameState.current_room = null
+		GameState.current_room_id = ""
+		HeightMap.clear()
 
 	# 2. 加载新房
 	var packed: PackedScene = load(target_scene)
@@ -57,6 +67,9 @@ func change_room(target_scene: String, target_entrance: String) -> void:
 		push_error("无法加载房间场景：%s" % target_scene)
 		return
 	var new_room: Node = packed.instantiate()
+	# 先把玩家挪到远处安全位：新房 Area2D 入树时若与玩家旧位置重叠，会在下一物理帧
+	# 误触发拾取/开门。add_child 前移开，稍后（第 4 步）再定位到入口。
+	player.global_position = SAFE_POS
 	room_container.add_child(new_room)
 	current_room = new_room
 

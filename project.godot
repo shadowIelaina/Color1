@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Color"
-run/main_scene="res://main.tscn"
+run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -19,8 +19,8 @@ config/icon="res://icon.svg"
 
 GameState="*res://scripts/game_state.gd"
 SceneManager="*res://scripts/scene_manager.gd"
-_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 HeightMap="*res://scripts/height_map.gd"
+_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 
 [display]
 

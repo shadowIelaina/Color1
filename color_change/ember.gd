@@ -9,6 +9,9 @@ const SHATTER := preload("res://effects/shatter/shatter.gd")
 ## 熄灭动画结束后销毁本节点（秒）。
 @export var shatter_delay := 1.4
 
+## 吸收后返还的红色数量。默认 3（红色种子闸门），对标 ice_block 的蓝色种子闸门。
+@export var seed_amount := 3
+
 @onready var visual: Sprite2D = $Visual
 @onready var collision: CollisionShape2D = $Collision
 
@@ -38,6 +41,7 @@ func absorb_color() -> Dictionary:
 		"element": "burn",
 		"color": Rules.config("burn")["color"],
 		"color_name": Rules.config("burn")["color_name"],
+		"amount": seed_amount,
 	}
 
 
