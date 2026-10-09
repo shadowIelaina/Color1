@@ -14,14 +14,14 @@ colors = PackedColorArray(0.9490196, 0.18431373, 0, 1, 0.91764706, 0.3372549, 0.
 script = ExtResource("1_xdgfk")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=1503679871]
-amount = 2000
-lifetime = 0.5
+amount = 1500
+lifetime = 1.2
 emission_shape = 1
-emission_sphere_radius = 10.0
+emission_sphere_radius = 20.0
 gravity = Vector2(0, -600)
-radial_accel_min = -50.0
-radial_accel_max = -40.0
-scale_amount_min = 0.5
-scale_amount_max = 2.0
+radial_accel_min = 40.0
+radial_accel_max = 40.0
+scale_amount_min = 5.0
+scale_amount_max = 17.5
 scale_amount_curve = SubResource("Curve_bhunq")
 color_ramp = SubResource("Gradient_riqys")

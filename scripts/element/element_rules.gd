@@ -15,7 +15,7 @@ const ELEMENTS := {
 	"burn": {
 		"color_name": "红",
 		"color": Color(1.0, 0.3, 0.3),
-		"vfx": "res://effects/flame_spread/flame_spread.tscn",
+		"vfx": "res://shaders/fire.tscn",
 		"spreads": false,
 		"spread_radius": 1120.0,
 		"spread_delay": 0.9,
