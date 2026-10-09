@@ -3,6 +3,8 @@ extends TileMapLayer
 ## WaterCell 节点（复用冻结/冰/通行性逻辑），然后清掉标记 tile。
 ## 这样你就能像画地面一样，在 Water 层上画任意形状的水。
 ## 水面/冰外观在这里的 Inspector 编辑，会复制给本层每一个水格。
+## 深/浅水各用一层 TileMapLayer：深水层 shallow=false（挡路），浅水层 shallow=true（可走），
+## 两层用不同的 water_texture/ice_texture 区分外观。
 
 const WaterCellScript := preload("res://color_change/water_cell.gd")
 
@@ -16,6 +18,8 @@ const WaterCellScript := preload("res://color_change/water_cell.gd")
 @export var ice_color := Color(0.88, 0.95, 1.0)
 ## 冻结预览（半透明冰块提示）透明度。
 @export_range(0.0, 1.0, 0.05) var freeze_preview_alpha := 0.4
+## 本层是浅水（true，可行走）还是深水（false，挡路）。深/浅水各用一层 TileMapLayer 画。
+@export var shallow := false
 
 
 func _ready() -> void:
@@ -28,6 +32,7 @@ func _ready() -> void:
 		wc.ice_texture = ice_texture
 		wc.ice_color = ice_color
 		wc.freeze_preview_alpha = freeze_preview_alpha
+		wc.shallow = shallow
 		add_child(wc)
 	# 清掉标记 tile，只留 WaterCell 子节点画真实水面。
 	clear()

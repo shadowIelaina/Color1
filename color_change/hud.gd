@@ -6,9 +6,14 @@ const Rules := preload("res://scripts/element/element_rules.gd")
 @onready var color_label: RichTextLabel = $ColorLabel
 @onready var win_label: Label = $WinLabel
 
+var hint_label: Label
+var _hint_tween: Tween
+
 
 func _ready() -> void:
 	add_to_group("hud")
+	hint_label = _make_hint_label()
+	GameState.hint.connect(show_hint)
 	if win_label:
 		win_label.visible = false
 	var player := get_tree().get_first_node_in_group("player")
@@ -21,6 +26,37 @@ func _ready() -> void:
 func show_win() -> void:
 	if win_label:
 		win_label.visible = true
+
+
+## 顶部短暂提示（如「门已解锁」）：显示 1.5 秒后淡出。
+func show_hint(text: String) -> void:
+	if hint_label == null:
+		return
+	hint_label.text = text
+	hint_label.modulate.a = 1.0
+	hint_label.visible = true
+	if _hint_tween and _hint_tween.is_valid():
+		_hint_tween.kill()
+	_hint_tween = create_tween()
+	_hint_tween.tween_interval(1.5)
+	_hint_tween.tween_property(hint_label, "modulate:a", 0.0, 0.4)
+	_hint_tween.tween_callback(func():
+		hint_label.visible = false
+		hint_label.modulate.a = 1.0
+	)
+
+
+## 代码里创建提示 Label（全屏居中），免去改 .tscn。
+func _make_hint_label() -> Label:
+	var l := Label.new()
+	l.name = "HintLabel"
+	l.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	l.add_theme_font_size_override("font_size", 24)
+	l.visible = false
+	add_child(l)
+	return l
 
 
 func _on_inventory_changed(inventory: Dictionary, selected_element: String) -> void:

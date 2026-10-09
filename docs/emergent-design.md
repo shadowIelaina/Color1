@@ -38,7 +38,7 @@ effects/                ← 元素 VFX（flame_spread / freeze_spread / shatter 
 prefabs/items/…         ← 冰块等预制体
 ```
 
-附注：另有独立的**通行性地图**（`HeightMap` autoload：`scripts/height_map.gd`，每格 256px），只存「可站 / 不可站」——水不可站、冰可站，驱动「冻结水面过河」，和颜色涌现层正交。
+附注：另有独立的**通行性地图**（`HeightMap` autoload：`scripts/height_map.gd`，每格 256px），只存「可站 / 不可站」——深水不可站、浅水可站、冰可站，驱动「冻结水面过河」，和颜色涌现层正交。深/浅水怎么画见 [`water-system.md`](water-system.md)。
 
 ## 涌现怎么发生：四个机制
 
@@ -46,7 +46,7 @@ prefabs/items/…         ← 冰块等预制体
 
 颜色名 → 元素 id → 行为配置，全在 `ELEMENTS` 表里：
 
-- `"红" → "burn"`：蔓延 `spreads=true`、半径 1120、烧 `burn_duration=2.6s` 后碎裂。
+- `"红" → "burn"`：持续燃烧 + 提供暖橙照明；被「蓝」冻结则**摧毁**（不蔓延、半径 1120 预留）。
 - `"蓝" → "freeze"`：不蔓延、半径 880（预留）。
 - `"绿" → "grow"`：搁置（已注释）。
 
@@ -58,9 +58,9 @@ prefabs/items/…         ← 冰块等预制体
 
 它的状态机就是涌现的温床：
 
-- `apply("freeze")` 作用在**燃烧中**的物体 → 熄灭火焰（freeze × burn 交互）。
+- `apply("freeze")` 作用在**燃烧中**的物体 → 熄灭并**摧毁**（freeze × burn → 销毁交互）。
 - `apply("burn")` 作用在**冻结中**的物体 → 先解冻再燃烧（burn × freeze 交互）。
-- burn 的 `spreads=true` → 定时查找 `"colorable"` group 半径内邻居，重新 `apply_color` → **燃烧连锁蔓延**，火势从几何上涌现。
+- burn 的 `spreads=true` → 定时查找 `"colorable"` group 半径内邻居，重新 `apply_color` → **燃烧连锁蔓延**，火势从几何上涌现。（当前 `spreads` 暂设为 `false`，先不蔓延。）
 
 这些交互不是手写的配对，而是**元素状态机之间互相调用**自然产生的结果。
 
@@ -100,6 +100,18 @@ prefabs/items/…         ← 冰块等预制体
 - **上色**：`shaders/color_fill_texture.gdshader`（Sprite 版）与 `color_fill.gdshader`（Polygon2D 版）负责颜色填充 + 从玩家侧扩散；物体 `modulate` 保持白，避免双重叠加。
 - **元素效果**：`ElementBehavior` 播 VFX、处理蔓延、碎裂（`effects/shatter`）。
 - **描边**：`shaders/outline.gdshader` 在可交互物体周围画虚线；玩家用当前选中颜色上色描边。描边统一挂在目标「贴图」上——目标本身是 Sprite2D（石头）直接用，否则取其 `Visual` 子节点（冰块）。
+
+## 黑暗与照明（CanvasModulate + PointLight2D）
+
+「有些关卡是暗房」用 Godot 2D 光照实现：
+
+- **全局变暗**：场景根下有一个 `CanvasModulate`（`"darkness"` group）。`RoomZone` 勾 `dark` 的房，玩家进入时把它 `color` 渐变成暗色；亮房/默认渐变回白。
+- **光源**（`PointLight2D` 径向光池，暗处照出亮圈）：
+  - **玩家微光**：玩家自带一圈暖白小光，能看清自己和脚边。
+  - **燃烧发光**：物体被赋予「红」燃烧时，`ElementBehavior` 挂一个暖橙 `PointLight2D`（火苗般微闪）；吸收红熄灭或加蓝摧毁时光随之消失。
+- **不做阴影遮挡**：MVP 不用 `LightOccluder`，光池直接叠加在暗背景上，够用且便宜。
+
+详细搭法见 [`lighting.md`](lighting.md)。
 
 ## 延伸：加新元素 / 新物体怎么加
 

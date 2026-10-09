@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://by7wgjc88b0vq"]
+
+[ext_resource type="Shader" path="res://shaders/darkness.gdshader" id="1_8yxsa"]
+
+[resource]
+shader = ExtResource("1_8yxsa")
+shader_parameter/dark_color = Color(0, 0, 0, 1)
+shader_parameter/darkness = 0.0
+shader_parameter/softness = 0.18
+shader_parameter/light_count = 0
+shader_parameter/light_pos = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/light_radius = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)

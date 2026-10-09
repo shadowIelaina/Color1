@@ -1,7 +1,8 @@
 class_name WaterCell
 extends StaticBody2D
-## 单个水格：初始为水（阻挡玩家）。被赋予「蓝」(freeze) 后结冰——冰块填满格、可通行；
-## 吸收蓝色则冰融回水、重新挡路。
+## 单个水格：初始为水。被赋予「蓝」(freeze) 后结冰——冰块填满格、可通行；吸收蓝色则冰融回水。
+## 分深/浅水：深水（默认）阻挡玩家、需冻结成冰才能过；浅水（shallow=true）不挡路、可直接行走。
+## 两者都能冻结，仅美术不同（浅水用更浅/半透明的贴图，让玩家区分）。
 ## 属于 "colorable" group，实现 contains_point / apply_color 契约，供玩家鼠标赋予。
 ## 平面 2D 视觉：水/冰都是一张平铺的格贴图（或纯色），无伪 2.5D 落差。
 
@@ -24,6 +25,8 @@ const FADE_TIME := 0.2
 @export var ice_color := Color(0.88, 0.95, 1.0)
 ## 冻结预览（半透明冰块提示）透明度。悬停未结冰水格、手里是蓝时，叠一个半透明冰块预览。
 @export_range(0.0, 1.0, 0.05) var freeze_preview_alpha := 0.4
+## 浅水：玩家可直接在上面行走（不挡路、可站）。深水（默认 false）：挡路、需冻结成冰才能过。
+@export var shallow := false
 
 var _frozen := false
 var _col: CollisionShape2D
@@ -31,13 +34,11 @@ var _water: Node2D   # 水面 Sprite2D / Polygon2D
 var _ice: Node2D     # 冰 Sprite2D / Polygon2D
 var _preview: Node2D # 冻结预览（半透明冰）
 var _tween: Tween
-var _player_standing := false   # 玩家正站在这块冰上（掉进水里后）：碰撞保持关闭，等玩家离开本格再恢复
 var _ice_wall: Node = null       # 本格上生成的可融冰墙
 
 
 func _ready() -> void:
 	add_to_group("colorable")
-	collision_layer = 2   # 阻挡玩家（玩家 mask 6 = 层 2+3）
 	collision_mask = 0
 	_build_collision()
 	_build_water()
@@ -45,7 +46,13 @@ func _ready() -> void:
 	_build_preview()
 	_ice.visible = false
 	_preview.visible = false
-	HeightMap.set_walkable(global_position, false)   # 水：不可站
+	if shallow:
+		collision_layer = 0      # 浅水：不挡玩家，可直接行走
+		_col.disabled = true
+		HeightMap.set_walkable(global_position, true)
+	else:
+		collision_layer = 2      # 深水：阻挡玩家（玩家 mask 6 = 层 2+3）
+		HeightMap.set_walkable(global_position, false)
 
 
 ## 点击命中：世界坐标点是否落在本格范围内。
@@ -84,15 +91,14 @@ func absorb_color() -> Dictionary:
 		return {"element": "", "color": Color.WHITE, "color_name": ""}
 	if _has_wall():
 		return {"element": "", "color": Color.WHITE, "color_name": ""}  # 有冰墙先融墙再融水
-	_frozen = false
-	# 玩家正站在这块冰上时先别恢复碰撞：否则碰撞会把玩家顶出去。
-	# 改为让玩家「掉进水里」（walkable 变 false），等玩家离开本格再恢复碰撞。
+	# 玩家正站在这块冰上时禁止吸收：否则冰一融化玩家就掉进水里。
 	if _player_on_cell(get_tree().get_first_node_in_group("player")):
-		_player_standing = true
-	else:
-		_col.set_deferred("disabled", false)  # 恢复碰撞 → 重新挡路
+		return {"element": "", "color": Color.WHITE, "color_name": ""}
+	_frozen = false
+	if not shallow:
+		_col.set_deferred("disabled", false)  # 深水恢复碰撞 → 重新挡路
 	_fade_to(_ice, _water)
-	HeightMap.set_walkable(global_position, false)  # 冰融回水：不可站
+	HeightMap.set_walkable(global_position, shallow)  # 深水不可站、浅水可站
 	return {
 		"element": "freeze",
 		"color": Rules.config("freeze")["color"],
@@ -137,22 +143,12 @@ func _fade_to(from_vis: Node2D, to_vis: Node2D) -> void:
 	)
 
 
-## 玩家是否正站在本格（脚底在本格范围内）。用于「吸收脚下的冰 → 掉进水里」：
-## 碰撞已禁用，用紧贴的一格矩形判断即可。
+## 玩家是否正站在本格（脚底在本格范围内）。用于「玩家站在冰上时禁止吸收」，
+## 避免冰融化把玩家坑进水里。
 func _player_on_cell(player: Node) -> bool:
 	if player == null or not (player is Node2D):
 		return false
 	return Rect2(-cell_size * 0.5, cell_size).has_point(to_local((player as Node2D).global_position))
-
-
-## 每帧：掉进水里后，等玩家离开本格再恢复碰撞（重新挡路）。
-func _physics_process(_delta: float) -> void:
-	if not _player_standing:
-		return
-	var player := get_tree().get_first_node_in_group("player")
-	if player == null or not _player_on_cell(player):
-		_player_standing = false
-		_col.set_deferred("disabled", false)
 
 
 func _build_collision() -> void:

@@ -38,6 +38,10 @@ const STATE_NAMES: Array[String] = ["idle", "walk", "run", "jump", "rotate"]
 @export_range(8.0, 4096.0, 1.0) var interact_range := 768.0
 @export_range(0.2, 2.0, 0.1) var outline_width := 0.6
 
+@export_group("Light")
+## 玩家自带微光半径（世界像素，256px ≈ 1 格）。暗房里照亮自身周围；相机 zoom 0.25，太小在屏幕上根本看不见。
+@export_range(8.0, 4096.0, 8.0) var light_radius := 384.0
+
 const FOOTPRINT_RADIUS := 64.0
 const OUTLINE_SHADER := preload("res://shaders/outline.gdshader")
 const Rules := preload("res://scripts/element/element_rules.gd")
@@ -111,6 +115,14 @@ func _ready() -> void:
 	_outline_material.shader = OUTLINE_SHADER
 	_outline_material.set_shader_parameter("outline_width", outline_width)
 	_select_element("")  # 初始化 HUD + 描边 + 首次信号
+	_setup_light()
+
+
+## 玩家自带微光：黑暗房间里照亮自身周围（遮罩挖洞；亮房里遮罩全透明，无影响）。
+func _setup_light() -> void:
+	var l := LightSource.new()
+	l.radius = light_radius
+	add_child(l)
 
 
 func _physics_process(delta: float) -> void:
@@ -275,11 +287,13 @@ func _select_element(element_id: String) -> void:
 		_outline_material.set_shader_parameter("outline_color", selected_color)
 	color_changed.emit(selected_color, selected_color_name)
 	inventory_changed.emit(_inventory, _selected_element)
+	GameState.set_elements(_inventory.duplicate())
 
 
 ## 仅数量变化（选中不变）时刷新 UI。
 func _notify_inventory() -> void:
 	inventory_changed.emit(_inventory, _selected_element)
+	GameState.set_elements(_inventory.duplicate())
 
 
 ## 供 HUD 在连接前读取颜色库快照。
@@ -354,6 +368,8 @@ func _colorable_at_mouse() -> Node:
 	var best: Node = null
 	var best_z := -INF
 	for obj in get_tree().get_nodes_in_group("colorable"):
+		if not GameState.is_in_current_scene(obj):
+			continue
 		if not obj.has_method("contains_point"):
 			continue
 		if not bool(obj.call("contains_point", mp)):
@@ -429,6 +445,8 @@ func _water_at_mouse() -> Node:
 	var best: Node = null
 	var best_z := -INF
 	for obj in get_tree().get_nodes_in_group("colorable"):
+		if not GameState.is_in_current_scene(obj):
+			continue
 		if not obj.has_method("is_frozen") or not obj.has_method("contains_point"):
 			continue
 		if bool(obj.call("is_frozen")):

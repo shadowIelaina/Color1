@@ -1,6 +1,8 @@
 class_name ColorableSprite
 extends Sprite2D
 ## 可上色物体（Sprite 版）：初始保持原色，被上色后颜色从靠近玩家的一侧扩散直到填满整个贴图。
+## 注意：本类基类是 Sprite2D（无碰撞），无法继承 StaticBody2D 的 ColorableBase，故元素转发
+## 与 ElementBehavior 装配在此处自带（类型化调用，逻辑与 ColorableBase 对齐）。
 
 const FILL_SHADER := preload("res://shaders/color_fill_texture.gdshader")
 const Rules := preload("res://scripts/element/element_rules.gd")
@@ -9,15 +11,18 @@ const Behavior := preload("res://scripts/element/element_behavior.gd")
 @export var fill_duration := 0.5
 @export var fill_softness := 224.0
 @export var initial_color_name := ""
+## 燃烧光斑中心偏移（世界像素，相对贴图中心，Y 向下为正）。转发给 ElementBehavior。
+@export var light_offset := Vector2.ZERO
 
 var _mat: ShaderMaterial
 var _tween: Tween
 var _current_color: Color
 var _initial_color: Color
-var _behavior: Node2D
+var _behavior: ElementBehavior
 
 
 func _ready() -> void:
+	add_to_group("colorable")
 	_current_color = modulate
 	_initial_color = modulate
 	_mat = ShaderMaterial.new()
@@ -32,6 +37,8 @@ func _ready() -> void:
 	modulate = Color.WHITE
 	_behavior = Behavior.new()
 	_behavior.name = "ElementBehavior"
+	_behavior.light_offset = light_offset
+	_behavior.shatter_target = self
 	add_child(_behavior)
 	_seed_initial_color()
 
@@ -41,12 +48,12 @@ func apply_color(c: Color, color_name: String = "", from_pos: Vector2 = Vector2.
 	_start_fill(c, origin)
 	var element := Rules.element_for_color_name(color_name)
 	if element != "":
-		_behavior.call("apply", element)
+		_behavior.apply(element)
 	return true
 
 
 func has_color() -> bool:
-	return bool(_behavior.call("has_element"))
+	return _behavior.has_element()
 
 
 ## 点击命中：世界坐标点是否落在贴图矩形内（get_rect + to_local 自动处理缩放/偏移）。
@@ -56,8 +63,8 @@ func contains_point(world_pos: Vector2) -> bool:
 
 ## 抽走当前颜色/元素：返回颜色信息，并把物体还原成初始色。
 func absorb_color() -> Dictionary:
-	var el := str(_behavior.call("current_element"))
-	_behavior.call("clear")
+	var el := _behavior.current_element()
+	_behavior.clear()
 	_reset_visual()
 	var cfg := Rules.config(el)
 	return {
@@ -83,7 +90,7 @@ func _seed_initial_color() -> void:
 	_current_color = cfg["color"]
 	_mat.set_shader_parameter("base_color", cfg["color"])
 	_mat.set_shader_parameter("fill_color", cfg["color"])
-	_behavior.call("apply", el)
+	_behavior.apply(el)
 
 
 func _start_fill(c: Color, origin: Vector2) -> void:

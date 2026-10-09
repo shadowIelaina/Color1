@@ -1,0 +1,55 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room.gd" id="1_room"]
+[ext_resource type="Script" path="res://scripts/entrance.gd" id="2_entrance"]
+[ext_resource type="Script" path="res://scripts/door.gd" id="3_door"]
+[ext_resource type="Script" path="res://scripts/key.gd" id="4_key"]
+
+[sub_resource type="RectangleShape2D" id="Rect_door"]
+size = Vector2(64, 96)
+
+[sub_resource type="RectangleShape2D" id="Rect_key"]
+size = Vector2(40, 40)
+
+[node name="Level2" type="Node2D"]
+script = ExtResource("1_room")
+room_id = "level_2"
+
+[node name="Ground" type="Polygon2D" parent="."]
+color = Color(0.18, 0.2, 0.24, 1)
+polygon = PackedVector2Array(-400, -300, 400, -300, 400, 300, -400, 300)
+
+[node name="spawn" type="Marker2D" parent="."]
+position = Vector2(-300, 0)
+script = ExtResource("2_entrance")
+entrance_id = "spawn"
+
+[node name="level2_key" type="Node2D" parent="."]
+position = Vector2(0, 0)
+script = ExtResource("4_key")
+key_id = "level2_key"
+
+[node name="PickupArea" type="Area2D" parent="level2_key"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="level2_key/PickupArea"]
+shape = SubResource("Rect_key")
+
+[node name="Visual" type="Polygon2D" parent="level2_key"]
+color = Color(1, 0.85, 0.3, 1)
+polygon = PackedVector2Array(-12, -16, 12, -16, 8, 0, 0, 16, -8, 0)
+
+[node name="to_level_1" type="Area2D" parent="."]
+position = Vector2(300, 0)
+script = ExtResource("3_door")
+door_id = "to_level_1"
+target_scene = "res://scenes/level_1.tscn"
+target_entrance = "spawn"
+unlock_options = Array[String](["key:level2_key"])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="to_level_1"]
+shape = SubResource("Rect_door")
+
+[node name="Visual" type="Polygon2D" parent="to_level_1"]
+z_index = 5
+color = Color(0.5, 0.85, 0.5, 1)
+polygon = PackedVector2Array(-32, -48, 32, -48, 32, 48, -32, 48)

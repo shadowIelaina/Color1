@@ -1,12 +1,13 @@
 extends Node
 ## GameState（Autoload 单例）：全局常驻状态。
 ## - 按房间 ID 保存 RoomMeta（进入/通关/收集/机关状态）
-## - 钥匙背包 / 开关 / 能力
+## - 钥匙背包 / 关键道具 / 开关 / 能力 / 元素
 ## - 广播全局信号（item_collected、gate_opened、hint 等）
 
 signal item_collected(item_id: String)
 signal key_added(key_id: String)
 signal key_used(key_id: String)
+signal prop_added(prop_id: String)
 signal gate_opened(gate_id: String)
 signal hint(text: String)
 signal room_state_changed(room_id: String)
@@ -16,6 +17,8 @@ var inventory: Dictionary = {}    # key_id -> true（当前持有的钥匙）
 var used_keys: Dictionary = {}    # key_id -> true（被消耗过，用于钥匙重刷）
 var switches: Dictionary = {}     # switch_id -> bool
 var abilities: Dictionary = {}    # ability_id -> bool
+var props: Dictionary = {}        # prop_id -> true（关键道具背包）
+var elements: Dictionary = {}     # element_id -> count（由玩家 inventory 同步，供元素门）
 
 var current_room_id: String = ""
 var current_room: Node = null
@@ -29,6 +32,8 @@ func reset() -> void:
 	used_keys.clear()
 	switches.clear()
 	abilities.clear()
+	props.clear()
+	elements.clear()
 	current_room_id = ""
 	current_room = null
 
@@ -99,6 +104,76 @@ func set_ability(ability_id: String) -> void:
 
 func has_ability(ability_id: String) -> bool:
 	return abilities.get(ability_id, false) == true
+
+
+# —— 关键道具（道具门条件）——
+func add_prop(prop_id: String) -> void:
+	if has_prop(prop_id):
+		return
+	props[prop_id] = true
+	prop_added.emit(prop_id)
+
+
+func has_prop(prop_id: String) -> bool:
+	return props.get(prop_id, false) == true
+
+
+# —— 元素（由玩家 inventory 同步，供「元素门」条件）——
+func set_elements(e: Dictionary) -> void:
+	elements = e
+
+
+func has_element(element_id: String) -> bool:
+	return int(elements.get(element_id, 0)) > 0
+
+
+# —— 统一条件查询（门 / 闸 / 机关通用）——
+func has_flag(kind: String, id: String) -> bool:
+	match kind:
+		"key":
+			return has_key(id)
+		"item":
+			return has_prop(id)
+		"switch":
+			return is_switch_on(id)
+		"ability":
+			return has_ability(id)
+		"element":
+			return has_element(id)
+		_:
+			return false
+
+
+## 解析 "kind:id" 并查询条件（供门的 unlock_options 使用）。
+func meets_flag(spec: String) -> bool:
+	var i := spec.find(":")
+	if i <= 0:
+		return false
+	return has_flag(spec.substr(0, i), spec.substr(i + 1))
+
+
+## 消耗一个条件里的可消耗项（当前只有钥匙可消耗；道具/开关/能力/元素不消耗）。
+func consume_flag(spec: String) -> bool:
+	var i := spec.find(":")
+	if i <= 0:
+		return false
+	var kind := spec.substr(0, i)
+	var id := spec.substr(i + 1)
+	if kind == "key" and has_key(id):
+		return consume_key(id)
+	return false
+
+
+# —— 作用域：节点是否属于当前大场景（切场景后把全局搜索限定在「当前关内」）——
+func is_in_current_scene(node: Node) -> bool:
+	if current_room == null or not is_instance_valid(current_room):
+		return true   # 未启用切场景（单场景）或切换间隙：全部放行
+	var cur: Node = node
+	while cur != null:
+		if cur == current_room:
+			return true
+		cur = cur.get_parent()
+	return false
 
 
 # —— 软锁检查（BFS，见 reachability.gd）——

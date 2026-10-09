@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://6nw7ks4pibxb"]
+[gd_scene format=4]
 
 [ext_resource type="Script" uid="uid://bkgp83ocrv3oh" path="res://color_change/colorable_sprite.gd" id="4_5vw27"]
 [ext_resource type="Texture2D" uid="uid://c00g7qises46" path="res://art/else/rock.png" id="4_272bh"]
@@ -17,6 +17,10 @@
 [ext_resource type="Material" uid="uid://by7wgjc88b0vq" path="res://shaders/darkness_material.tres" id="16_yaehf"]
 [ext_resource type="Script" uid="uid://bwht6afqxmfus" path="res://scripts/darkness_overlay.gd" id="17_074og"]
 [ext_resource type="PackedScene" path="res://prefabs/items/interaction/trap.tscn" id="17_trap"]
+[ext_resource type="Script" path="res://scripts/room.gd" id="18_room"]
+[ext_resource type="Script" path="res://scripts/entrance.gd" id="19_entrance"]
+[ext_resource type="Script" path="res://scripts/door.gd" id="20_door"]
+[ext_resource type="Script" path="res://scripts/room_door.gd" id="21_roomdoor"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4c57u"]
 texture = ExtResource("13_grass")
@@ -4157,7 +4161,15 @@ sources/0 = SubResource("TileSetAtlasSource_ycdy4")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yaehf"]
 size = Vector2(1320, 920)
 
-[node name="Node2D" type="Node2D" unique_id=43455269]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(64, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
+size = Vector2(128, 160)
+
+[node name="Level1" type="Node2D"]
+script = ExtResource("18_room")
+room_id = "level_1"
 y_sort_enabled = true
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=1123909002]
@@ -4174,13 +4186,6 @@ tile_set = SubResource("TileSet_water")
 script = ExtResource("12_spawn")
 shallow = true
 
-[node name="Player" parent="." unique_id=2123202084 groups=["player"] instance=ExtResource("5_lquwl")]
-interact_range = 432.0
-light_radius = 152.0
-
-[node name="Camera" type="Camera2D" parent="Player" unique_id=1020546962]
-zoom = Vector2(0.25, 0.25)
-
 [node name="rock2" type="Sprite2D" parent="." unique_id=322543601 groups=["colorable"]]
 texture_filter = 1
 position = Vector2(6480, -192)
@@ -4195,38 +4200,6 @@ position = Vector2(4656, -1792)
 scale = Vector2(43, 36)
 texture = ExtResource("4_272bh")
 script = ExtResource("4_5vw27")
-
-[node name="HUD" type="CanvasLayer" parent="." unique_id=1213313800]
-script = ExtResource("7_kek77")
-
-[node name="ColorLabel" type="RichTextLabel" parent="HUD" unique_id=475737284]
-offset_left = 12.0
-offset_top = 8.0
-offset_right = 512.0
-offset_bottom = 64.0
-theme_override_font_sizes/normal_font_size = 20
-bbcode_enabled = true
-fit_content = true
-scroll_active = false
-
-[node name="WinLabel" type="Label" parent="HUD" unique_id=1440000001]
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -300.0
-offset_top = -80.0
-offset_right = 300.0
-offset_bottom = 80.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
-theme_override_font_sizes/font_size = 72
-text = "过关！"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Tree" parent="." unique_id=293502526 instance=ExtResource("9_kek77")]
 position = Vector2(-1232, -1104)
@@ -4301,9 +4274,41 @@ scale = Vector2(16, 16)
 position = Vector2(-452, 2470)
 scale = Vector2(16, 16)
 
-[node name="Darkness" type="Polygon2D" parent="." unique_id=64078576]
-z_index = 100
-material = ExtResource("16_yaehf")
-position = Vector2(367, -63)
-polygon = PackedVector2Array(-20000, -20000, 20000, -20000, 20000, 20000, -20000, 20000)
-script = ExtResource("17_074og")
+[node name="spawn" type="Marker2D" parent="."]
+position = Vector2(0, 0)
+script = ExtResource("19_entrance")
+entrance_id = "spawn"
+
+[node name="to_level_2" type="Area2D" parent="."]
+position = Vector2(512, 0)
+script = ExtResource("20_door")
+door_id = "to_level_2"
+target_scene = "res://scenes/level_2.tscn"
+target_entrance = "spawn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="to_level_2"]
+shape = SubResource("RectangleShape2D_door")
+
+[node name="Visual" type="Polygon2D" parent="to_level_2"]
+z_index = 5
+color = Color(0.5, 0.85, 0.5, 1)
+polygon = PackedVector2Array(-32, -48, 32, -48, 32, 48, -32, 48)
+
+[node name="OneWayGate" type="StaticBody2D" parent="."]
+position = Vector2(2560, -192)
+script = ExtResource("21_roomdoor")
+door_id = "oneway_gate"
+unlock_side = Vector2(1, 0)
+
+[node name="Collision" type="CollisionShape2D" parent="OneWayGate"]
+shape = SubResource("RectangleShape2D_door")
+
+[node name="Visual" type="Polygon2D" parent="OneWayGate"]
+z_index = 5
+color = Color(0.85, 0.6, 0.3, 1)
+polygon = PackedVector2Array(-32, -48, 32, -48, 32, 48, -32, 48)
+
+[node name="Trigger" type="Area2D" parent="OneWayGate"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OneWayGate/Trigger"]
+shape = SubResource("RectangleShape2D_trigger")

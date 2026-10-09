@@ -1,9 +1,17 @@
 class_name Goal
 extends Area2D
-## 目标：玩家踏入即过关。放在需要靠颜色解谜才能到达的位置。
-## 过关后广播 reached，并让 HUD 显示「过关！」。
+## 目标（「踩上即通关」这一种触发源）：玩家踏入即触发通关效果。
+## 放在需要靠颜色解谜才能到达的位置。
+##
+## 通关效果统一走 RoomEffects（开门 + HUD 反馈）；本脚本只负责「踩上」这个条件。
+## 以后换通关标准（元素门/收集门）时，写一个新触发源、调同样的 RoomEffects 即可。
 
 signal reached
+
+## 触发后要解锁的门 id 列表（对应 RoomDoor.door_id，可多扇 → 支持分叉/多出口）。留空则不解锁门。
+@export var unlock_door_ids: Array[String] = []
+## 是否为最后一间房的目标：true 显示「过关！」；false 显示「门已解锁」提示。
+@export var is_final := false
 
 @onready var visual: Node2D = $Visual
 
@@ -29,6 +37,5 @@ func _on_body_entered(body: Node) -> void:
 		return
 	_reached = true
 	reached.emit()
-	var hud := get_tree().get_first_node_in_group("hud")
-	if hud and hud.has_method("show_win"):
-		hud.show_win()
+	RoomEffects.unlock(self, unlock_door_ids)
+	RoomEffects.notify(self, is_final, not unlock_door_ids.is_empty())

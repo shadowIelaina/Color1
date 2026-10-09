@@ -2,18 +2,31 @@ class_name ElementBehavior
 extends Node2D
 
 ## 元素行为组件：挂在可上色物体上，驱动「燃烧 / 冻结」的行为。
-## 纯逻辑层——VFX 播放、状态、蔓延链式、烧尽碎裂、冻结交互。
+## 纯逻辑层——VFX 播放、状态、蔓延链式、冻结摧毁、燃烧照明。
 ## 视觉上色由父节点的 colorable_* 脚本负责，这里只做元素效果。
+## 视觉中心 / 碎裂目标由宿主装配时显式注入（visual_center / shatter_target），
+## 组件不反向猜宿主结构（不再 get("visual")）。
 
 const Rules := preload("res://scripts/element/element_rules.gd")
 const SHATTER := preload("res://effects/shatter/shatter.gd")
+
+## 燃烧光斑半径（世界像素，256px ≈ 1 格）。燃烧物在此挖出一片可见区域（塞尔达式遮罩挖洞），越小越聚焦。
+@export_range(16.0, 2048.0, 8.0) var light_radius := 352.0
+## 燃烧光斑中心偏移（世界像素，相对视觉中心 visual_center；Y 向下为正，往上移用负 Y）。
+## 默认 ZERO；物体贴图视觉中心与根原点不一致时，在物品脚本的 Inspector 里微调此值。
+@export var light_offset := Vector2.ZERO
 
 var _burning := false
 var _frozen := false
 var _element := ""
 
 var _parent: Node2D
+## 由宿主装配时注入：视觉中心在父局部坐标里的偏移（燃烧光斑 / 碎裂定位用）。
+var visual_center := Vector2.ZERO
+## 由宿主装配时注入：碎裂时要碎裂的贴图节点；null = 非贴图物体，走淡出兜底。
+var shatter_target: CanvasItem = null
 var _vfx: Node
+var _light: Node2D
 
 
 func _ready() -> void:
@@ -44,6 +57,7 @@ func clear() -> void:
 	_frozen = false
 	_element = ""
 	_clear_vfx()
+	_free_light()
 
 
 func _apply_burn() -> void:
@@ -57,16 +71,19 @@ func _apply_burn() -> void:
 	_burning = true
 	_element = "burn"
 	_spawn_vfx("burn")
+	_spawn_light()
 	_schedule_spread("burn")
-	_schedule_burnout()
 
 
 func _apply_freeze() -> void:
-	# 冻结正在燃烧的物体 = 熄灭火焰（交互：freeze × burn）。
+	# 冻结正在燃烧的物体 = 熄灭并摧毁（交互：freeze × burn → 销毁）。
 	if _burning:
 		_burning = false
 		_element = ""
 		_clear_vfx()
+		_free_light()
+		_shatter()
+		return
 
 	if _frozen:
 		return
@@ -93,6 +110,8 @@ func _do_spread(element_id: String) -> void:
 	for obj in get_tree().get_nodes_in_group("colorable"):
 		if obj == _parent:
 			continue
+		if not GameState.is_in_current_scene(obj):
+			continue
 		var n := obj as Node2D
 		if n == null or not is_instance_valid(n):
 			continue
@@ -102,18 +121,22 @@ func _do_spread(element_id: String) -> void:
 			n.call("apply_color", cfg["color"], cfg["color_name"], _parent.global_position)
 
 
-func _schedule_burnout() -> void:
-	var cfg := Rules.config("burn")
-	get_tree().create_timer(cfg["burn_duration"]).timeout.connect(_burn_out)
+## 点燃时在燃烧物视觉中心放一个光照标记，黑暗遮罩会在此挖出一片可见区域。
+func _spawn_light() -> void:
+	_free_light()
+	if _parent == null or not is_instance_valid(_parent):
+		return
+	var l := LightSource.new()
+	l.radius = light_radius
+	l.position = visual_center + light_offset
+	_parent.add_child(l)
+	_light = l
 
 
-func _burn_out() -> void:
-	if not _burning:
-		return  # 已被冻结熄灭，不碎裂。
-	_burning = false
-	_element = ""
-	_clear_vfx()
-	_shatter()
+func _free_light() -> void:
+	if _light != null and is_instance_valid(_light):
+		_light.queue_free()
+	_light = null
 
 
 func _spawn_vfx(element_id: String) -> void:
@@ -136,17 +159,10 @@ func _clear_vfx() -> void:
 func _shatter() -> void:
 	if _parent == null or not is_instance_valid(_parent):
 		return
-	# 碎裂目标：优先取父节点本身的贴图；否则取它的 "visual" 子贴图（colorable_static 等）。
-	var target: CanvasItem = null
-	if _parent is Sprite2D:
-		target = _parent
-	else:
-		var visual: CanvasItem = _parent.get("visual")
-		if visual is Sprite2D:
-			target = visual
-	if target != null:
+	# 碎裂目标由宿主注入（shatter_target）；非贴图物体（Polygon2D 等）为 null，走淡出兜底。
+	if shatter_target != null and is_instance_valid(shatter_target):
 		var shatter := SHATTER.new()
-		shatter.target = target
+		shatter.target = shatter_target
 		shatter.loop = false
 		_parent.add_child(shatter)
 		shatter.shatter()
