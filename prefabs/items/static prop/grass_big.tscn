@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://ba8r5yga0iqst"]
+
+[ext_resource type="Shader" uid="uid://cb1p1d7bp1546" path="res://shaders/Grass_big_act.gdshader" id="1_2ehwd"]
+[ext_resource type="Texture2D" uid="uid://dixwnvuh2ewkr" path="res://art/picture_boluo/草1tm.png" id="2_4yeeq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_riqys"]
+shader = ExtResource("1_2ehwd")
+shader_parameter/bend_amount = 0.0
+shader_parameter/wind_strength = 0.03
+
+[sub_resource type="QuadMesh" id="QuadMesh_bhunq"]
+
+[node name="Grass_big" type="Node2D" unique_id=79254097]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=316229404]
+material = SubResource("ShaderMaterial_riqys")
+position = Vector2(-6.000002, -155)
+rotation = 3.1361961
+scale = Vector2(431.8361, 415.50894)
+mesh = SubResource("QuadMesh_bhunq")
+texture = ExtResource("2_4yeeq")
