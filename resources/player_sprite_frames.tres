@@ -1,26 +1,14 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://ovwahcmis1mw"]
 
+[ext_resource type="Texture2D" uid="uid://cajc8vwmpli8y" path="res://art/player/idle/1.PNG" id="1_b5lat"]
+[ext_resource type="Texture2D" uid="uid://donov7brddb8s" path="res://art/player/idle/2.PNG" id="2_y4q4s"]
+[ext_resource type="Texture2D" uid="uid://biqsealsnuhfp" path="res://art/player/idle/3.PNG" id="3_imak5"]
+[ext_resource type="Texture2D" uid="uid://bgp4gra7riq3" path="res://art/player/idle/4.PNG" id="4_c4mrb"]
 [ext_resource type="Texture2D" uid="uid://cns7ke57mvkqm" path="res://art/player/16x16/16x16 Idle-Sheet.png" id="tex_idle"]
 [ext_resource type="Texture2D" uid="uid://cu5iapqt16nap" path="res://art/player/16x16/16x16 Jump-Sheet.png" id="tex_jump"]
 [ext_resource type="Texture2D" uid="uid://1yjh07hl5gnj" path="res://art/player/16x16/16x16 Rotate-Sheet.png" id="tex_rotate"]
 [ext_resource type="Texture2D" uid="uid://c05ikxa88ritd" path="res://art/player/16x16/16x16 Run-Sheet.png" id="tex_run"]
 [ext_resource type="Texture2D" uid="uid://q47dua60cgt2" path="res://art/player/16x16/16x16 Walk-Sheet.png" id="tex_walk"]
-
-[sub_resource type="AtlasTexture" id="atlas_1"]
-atlas = ExtResource("tex_idle")
-region = Rect2(0, 0, 24, 24)
-
-[sub_resource type="AtlasTexture" id="atlas_2"]
-atlas = ExtResource("tex_idle")
-region = Rect2(24, 0, 24, 24)
-
-[sub_resource type="AtlasTexture" id="atlas_3"]
-atlas = ExtResource("tex_idle")
-region = Rect2(48, 0, 24, 24)
-
-[sub_resource type="AtlasTexture" id="atlas_4"]
-atlas = ExtResource("tex_idle")
-region = Rect2(72, 0, 24, 24)
 
 [sub_resource type="AtlasTexture" id="atlas_5"]
 atlas = ExtResource("tex_idle")
@@ -422,16 +410,16 @@ region = Rect2(72, 72, 24, 24)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("atlas_1")
+"texture": ExtResource("1_b5lat")
 }, {
 "duration": 1.0,
-"texture": SubResource("atlas_2")
+"texture": ExtResource("2_y4q4s")
 }, {
 "duration": 1.0,
-"texture": SubResource("atlas_3")
+"texture": ExtResource("3_imak5")
 }, {
 "duration": 1.0,
-"texture": SubResource("atlas_4")
+"texture": ExtResource("4_c4mrb")
 }],
 "loop": 1,
 "name": &"idle_down",

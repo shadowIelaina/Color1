@@ -31,7 +31,7 @@ const STATE_NAMES: Array[String] = ["idle", "walk", "run", "jump", "rotate"]
 @export_range(0.05, 2.0, 0.05) var rotate_duration := 0.5
 
 @export_group("Visual")
-@export_range(1.0, 32.0, 0.5) var pixel_scale := 16.0
+@export_range(0.01, 32.0, 0.001) var pixel_scale := 0.28
 @export var animation_frames: SpriteFrames
 
 @export_group("Interact")
@@ -46,6 +46,10 @@ const OUTLINE_SHADER := preload("res://shaders/outline_colorful.gdshader")
 const Rules := preload("res://scripts/element/element_rules.gd")
 ## 水格碰撞层（water_cell.gd 里 collision_layer=2）。站在水里时临时忽略这层，让玩家能在水里走动。
 const WATER_COLLISION_LAYER := 2
+## 高清图脚底距画布中心的帧像素（1294×1626 画布，脚底 bbox 底≈1518，中心 813 → 705）。
+const FEET_FRAME_OFFSET := 705.0
+## 影子压扁比例（y = x × 这个）。原像素图 shadow scale (16, 7.2) → 0.45。
+const SHADOW_FLATTEN := 0.45
 
 ## 8 方向（屏幕坐标，y 向下），顺时针：下、左下、左、左上、上、右上、右、右下。
 const DIRS: Array[Vector2] = [
@@ -81,9 +85,8 @@ var _selected_element := ""
 
 var _jump_t := 1.0
 var _rotate_t := 0.0
-## 贴图基准偏移，单位是「帧像素」，会被 sprite.scale(=pixel_scale) 一起放大：-8×16 = -128 世界像素。
-## 别在这里写世界像素（会被再 ×16）。
-var _base_sprite_offset := Vector2(0, -8)
+## 贴图基准偏移（帧像素，会被 sprite.scale 一起缩放）。高清图本身已居中，置 0 即可。
+var _base_sprite_offset := Vector2.ZERO
 var _outline_material: ShaderMaterial
 var _highlighted: Node = null
 var _highlight_outline: Sprite2D = null
@@ -95,7 +98,7 @@ var _knockback_vel := Vector2.ZERO   # 被飞行物命中时的击退速度（�
 
 @onready var sprite: AnimatedSprite2D = $Sprite
 @onready var collision: CollisionShape2D = $Collision
-@onready var shadow: Sprite2D = $Shadow
+@onready var shadow: CharacterShadow = $Shadow
 
 
 func _ready() -> void:
@@ -104,6 +107,10 @@ func _ready() -> void:
 	_register_input_actions()
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	sprite.scale = Vector2(pixel_scale, pixel_scale)
+	# 脚底对齐玩家原点：画布居中，脚底在中心下方 FEET_FRAME_OFFSET 帧像素。
+	sprite.position.y = -FEET_FRAME_OFFSET * pixel_scale
+	# 影子跟随玩家尺寸（宽同玩家、高按比例压扁），只改 pixel_scale 就整体联动。
+	shadow.set_rest_scale(Vector2(pixel_scale, pixel_scale * SHADOW_FLATTEN))
 	var shape := collision.shape as CircleShape2D
 	if shape:
 		shape.radius = FOOTPRINT_RADIUS * pixel_scale

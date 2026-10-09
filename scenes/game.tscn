@@ -1,30 +1,28 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://b40074xlk0qff"]
 
-[ext_resource type="Script" path="res://scripts/game_container.gd" id="1_game"]
-[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_player"]
-[ext_resource type="Script" path="res://color_change/hud.gd" id="3_hud"]
-[ext_resource type="Script" path="res://scripts/darkness_overlay.gd" id="4_darkness"]
-[ext_resource type="Material" path="res://shaders/darkness_material.tres" id="5_mat"]
+[ext_resource type="Script" uid="uid://cwyuk0m83tvqs" path="res://scripts/game_container.gd" id="1_game"]
+[ext_resource type="PackedScene" uid="uid://ckv74s8mkhqcg" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="Script" uid="uid://c72jfj8on1i3d" path="res://color_change/hud.gd" id="3_hud"]
+[ext_resource type="Script" uid="uid://bwht6afqxmfus" path="res://scripts/darkness_overlay.gd" id="4_darkness"]
+[ext_resource type="Material" uid="uid://by7wgjc88b0vq" path="res://shaders/darkness_material.tres" id="5_mat"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" unique_id=594129523]
 script = ExtResource("1_game")
-start_room = "res://scenes/level_1.tscn"
-start_entrance = "spawn"
 
-[node name="RoomContainer" type="Node2D" parent="."]
+[node name="RoomContainer" type="Node2D" parent="." unique_id=1196933740]
 
-[node name="Player" parent="." groups=["player"] instance=ExtResource("2_player")]
+[node name="Player" parent="." unique_id=152436479 groups=["player"] instance=ExtResource("2_player")]
+pixel_scale = 0.28
 interact_range = 432.0
 light_radius = 152.0
 
-[node name="Camera" type="Camera2D" parent="Player"]
+[node name="Camera" type="Camera2D" parent="Player" unique_id=1471997350]
 zoom = Vector2(0.25, 0.25)
-position_smoothing_enabled = false
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1261757595]
 script = ExtResource("3_hud")
 
-[node name="ColorLabel" type="RichTextLabel" parent="HUD"]
+[node name="ColorLabel" type="RichTextLabel" parent="HUD" unique_id=513933860]
 offset_left = 12.0
 offset_top = 8.0
 offset_right = 512.0
@@ -34,7 +32,7 @@ bbcode_enabled = true
 fit_content = true
 scroll_active = false
 
-[node name="WinLabel" type="Label" parent="HUD"]
+[node name="WinLabel" type="Label" parent="HUD" unique_id=1813536092]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -53,7 +51,7 @@ text = "过关！"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Darkness" type="Polygon2D" parent="."]
+[node name="Darkness" type="Polygon2D" parent="." unique_id=1840203514]
 z_index = 100
 material = ExtResource("5_mat")
 polygon = PackedVector2Array(-20000, -20000, 20000, -20000, 20000, 20000, -20000, 20000)

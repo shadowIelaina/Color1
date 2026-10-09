@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://csm8oq2wnf1sc" path="res://shaders/character_shadow.gd" id="3_qhqgy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhqgy"]
-size = Vector2(128, 64)
+size = Vector2(128, 41)
 
 [node name="Player" type="CharacterBody2D" unique_id=2123202084]
 collision_mask = 6
@@ -15,17 +15,19 @@ animation_frames = ExtResource("2_frames")
 [node name="Shadow" type="Sprite2D" parent="." unique_id=1668871434]
 texture_filter = 1
 position = Vector2(0, 64)
-scale = Vector2(16, 7.2)
+scale = Vector2(0.28, 0.126)
 skew = -0.3
 script = ExtResource("3_qhqgy")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1266022386]
 texture_filter = 1
-scale = Vector2(16, 16)
+position = Vector2(0, -197)
+scale = Vector2(0.2, 0.2)
 sprite_frames = ExtResource("2_frames")
 animation = &"idle_down"
+frame_progress = 0.19528179
 offset = Vector2(0, -8)
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=1738913374]
-position = Vector2(0, 32)
+position = Vector2(0, 43.5)
 shape = SubResource("RectangleShape2D_qhqgy")

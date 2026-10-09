@@ -44,6 +44,12 @@ func _ready() -> void:
 	material = _mat
 
 
+## 角色侧设置影子基准缩放（宽×高），并同步当前缩放（例如跟随角色的 pixel_scale）。
+func set_rest_scale(v: Vector2) -> void:
+	_rest_scale = v
+	scale = v
+
+
 func _process(_delta: float) -> void:
 	if _source == null:
 		return
