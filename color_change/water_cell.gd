@@ -27,6 +27,8 @@ const FADE_TIME := 0.2
 @export_range(0.0, 1.0, 0.05) var freeze_preview_alpha := 0.4
 ## 浅水：玩家可直接在上面行走（不挡路、可站）。深水（默认 false）：挡路、需冻结成冰才能过。
 @export var shallow := false
+## 是否由本 WaterCell 绘制基础水面。使用 TileMapLayer 贴图时设为 false，只保留碰撞和结冰。
+@export var draw_water := true
 
 var _frozen := false
 var _col: CollisionShape2D
@@ -41,7 +43,8 @@ func _ready() -> void:
 	add_to_group("colorable")
 	collision_mask = 0
 	_build_collision()
-	_build_water()
+	if draw_water:
+		_build_water()
 	_build_ice()
 	_build_preview()
 	_ice.visible = false
@@ -132,14 +135,17 @@ func _fade_to(from_vis: Node2D, to_vis: Node2D) -> void:
 	if _tween and _tween.is_valid():
 		_tween.kill()
 	_tween = create_tween()
-	to_vis.modulate.a = 0.0
-	to_vis.visible = true
 	_tween.set_parallel(true)
-	_tween.tween_property(from_vis, "modulate:a", 0.0, FADE_TIME)
-	_tween.tween_property(to_vis, "modulate:a", 1.0, FADE_TIME)
+	if from_vis != null:
+		_tween.tween_property(from_vis, "modulate:a", 0.0, FADE_TIME)
+	if to_vis != null:
+		to_vis.modulate.a = 0.0
+		to_vis.visible = true
+		_tween.tween_property(to_vis, "modulate:a", 1.0, FADE_TIME)
 	_tween.chain().tween_callback(func():
-		from_vis.visible = false
-		from_vis.modulate.a = 1.0
+		if from_vis != null:
+			from_vis.visible = false
+			from_vis.modulate.a = 1.0
 	)
 
 
