@@ -24,6 +24,7 @@ lifetime_randomness = 0.3
 emission_shape = 1
 emission_sphere_radius = 25.0
 gravity = Vector2(0, -600)
+initial_velocity_max = 50.0
 radial_accel_min = -50.0
 radial_accel_max = -40.0
 angle_min = 150.0
