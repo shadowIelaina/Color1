@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://b1xpv0e7xuwl"]
 
-[ext_resource type="Script" uid="uid://bjldr2c2iw34c" path="res://fire.gd" id="1_xdgfk"]
+[ext_resource type="Script" uid="uid://bjldr2c2iw34c" path="res://shaders/fire.gd" id="1_xdgfk"]
 
 [sub_resource type="Curve" id="Curve_bhunq"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.9948981, 0.4017858), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.40476197), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_riqys"]
@@ -14,14 +14,20 @@ colors = PackedColorArray(0.9490196, 0.18431373, 0, 1, 0.91764706, 0.3372549, 0.
 script = ExtResource("1_xdgfk")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=1503679871]
-amount = 1500
+position = Vector2(-1, -30)
+amount = 2000
 lifetime = 1.2
+speed_scale = 0.75
+explosiveness = 0.1
+randomness = 0.5
+lifetime_randomness = 0.3
 emission_shape = 1
-emission_sphere_radius = 20.0
+emission_sphere_radius = 25.0
 gravity = Vector2(0, -600)
-radial_accel_min = 40.0
-radial_accel_max = 40.0
-scale_amount_min = 5.0
-scale_amount_max = 17.5
+radial_accel_min = -50.0
+radial_accel_max = -40.0
+angle_min = 150.0
+angle_max = 150.0
+scale_amount_max = 25.0
 scale_amount_curve = SubResource("Curve_bhunq")
 color_ramp = SubResource("Gradient_riqys")
