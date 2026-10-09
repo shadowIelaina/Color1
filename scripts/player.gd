@@ -210,7 +210,10 @@ func knockback(dir: Vector2, strength := 700.0) -> void:
 ## 站在水里（不可站水格）时，临时忽略水层碰撞，让玩家能在水里走动（踩水）；
 ## 爬回岸/冰（可站）后恢复碰撞。这样「掉进水里」后能挪动，而不是被困在一格里。
 func _update_water_wade() -> void:
-	var in_water := not HeightMap.is_walkable(global_position)
+	# 用碰撞盒中心采样，而不是玩家节点原点。玩家碰撞盒相对原点有偏移，
+	# 否则从不同方向进入水格时，进水/出水判定会不一致，导致卡死。
+	var sample_pos := global_position + collision.position
+	var in_water := not HeightMap.is_walkable(sample_pos)
 	if in_water == _in_water:
 		return
 	_in_water = in_water

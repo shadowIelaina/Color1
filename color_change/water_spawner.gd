@@ -20,9 +20,19 @@ const WaterCellScript := preload("res://color_change/water_cell.gd")
 @export_range(0.0, 1.0, 0.05) var freeze_preview_alpha := 0.4
 ## 本层是浅水（true，可行走）还是深水（false，挡路）。深/浅水各用一层 TileMapLayer 画。
 @export var shallow := false
+## 基础水面是否直接使用本 TileMapLayer 的 tile 贴图。
+## true：保留你画的 tile，WaterCell 只负责碰撞/结冰/预览，不再画基础水。
+## false：沿用旧逻辑，清掉 tile，由 WaterCell 用 water_texture / water_color 画水。
+@export var render_water_from_tilemap := true
+## 是否生成逐格 WaterCell。
+## true：水格会拥有碰撞、结冰、可上色等玩法逻辑（水很多时开销较大）。
+## false：本层变成纯视觉水面，只显示 tilemap 贴图，不生成 WaterCell（性能最好）。
+@export var spawn_cells := true
 
 
 func _ready() -> void:
+	if not spawn_cells:
+		return
 	for cell in get_used_cells():
 		var wc := WaterCellScript.new()
 		wc.name = "Water_%d_%d" % [cell.x, cell.y]
@@ -33,6 +43,8 @@ func _ready() -> void:
 		wc.ice_color = ice_color
 		wc.freeze_preview_alpha = freeze_preview_alpha
 		wc.shallow = shallow
+		wc.draw_water = not render_water_from_tilemap
 		add_child(wc)
-	# 清掉标记 tile，只留 WaterCell 子节点画真实水面。
-	clear()
+	# 用 tilemap 显示水面时保留 tile；否则清掉 tile，交给 WaterCell 画水。
+	if not render_water_from_tilemap:
+		clear()

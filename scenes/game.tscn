@@ -19,7 +19,7 @@ light_radius = 152.0
 
 [node name="Camera" type="Camera2D" parent="Player"]
 zoom = Vector2(0.25, 0.25)
-position_smoothing_enabled = true
+position_smoothing_enabled = false
 
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("3_hud")
