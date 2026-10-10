@@ -5,6 +5,10 @@ extends CharacterBody2D
 signal color_changed(new_color: Color, color_name: String)
 ## 颜色库/选中变化时发出，供 HUD 显示整套调色盘与当前选中。
 signal inventory_changed(inventory: Dictionary, selected_element: String)
+## 血量变化（current / max）。HUD 据此刷新红心。
+signal health_changed(health: int, max_health: int)
+## 血量归零死亡（重生由 Player 自行处理，这里只广播，供音效/演出等监听）。
+signal died
 
 ## 角色控制器：2D 场景下的 2.5D 俯视（3/4）角色。
 ## 白盒阶段只做移动、朝向和动画状态机，不包含碰撞玩法逻辑。
@@ -16,8 +20,6 @@ enum State {
 	JUMP,
 	ROTATE,
 }
-
-const STATE_NAMES: Array[String] = ["idle", "walk", "run", "jump", "rotate"]
 
 @export_group("Movement")
 @export_range(0.0, 20000.0, 1.0) var walk_speed := 1920.0
@@ -41,37 +43,33 @@ const STATE_NAMES: Array[String] = ["idle", "walk", "run", "jump", "rotate"]
 ## 玩家自带微光半径（世界像素，256px ≈ 1 格）。暗房里照亮自身周围；相机 zoom 0.25，太小在屏幕上根本看不见。
 @export_range(8.0, 4096.0, 8.0) var light_radius := 384.0
 
+@export_group("Health")
+## 最大血量（红心数）。初始 1 颗心；后续可加「心之容器」提高上限。
+@export_range(1, 20, 1) var max_health := 1
+
 const FOOTPRINT_RADIUS := 64.0
 const OUTLINE_SHADER := preload("res://shaders/outline_colorful.gdshader")
 const Rules := preload("res://scripts/element/element_rules.gd")
+const DepthSort := preload("res://scripts/depth_sort.gd")
 ## 水格碰撞层（water_cell.gd 里 collision_layer=2）。站在水里时临时忽略这层，让玩家能在水里走动。
 const WATER_COLLISION_LAYER := 2
 ## 高清图脚底距画布中心的帧像素（1294×1626 画布，脚底 bbox 底≈1518，中心 813 → 705）。
 const FEET_FRAME_OFFSET := 705.0
 ## 影子压扁比例（y = x × 这个）。原像素图 shadow scale (16, 7.2) → 0.45。
 const SHADOW_FLATTEN := 0.45
+## 受击后无敌时长（毫秒），防止机关连发瞬间秒杀。
+const INVINCIBLE_MS := 1000
 
-## 8 方向（屏幕坐标，y 向下），顺时针：下、左下、左、左上、上、右上、右、右下。
+## 4 方向（屏幕坐标，y 向下）：下、左、上、右。
 const DIRS: Array[Vector2] = [
 	Vector2(0, 1),
-	Vector2(-0.7071068, 0.7071068),
 	Vector2(-1, 0),
-	Vector2(-0.7071068, -0.7071068),
 	Vector2(0, -1),
-	Vector2(0.7071068, -0.7071068),
 	Vector2(1, 0),
-	Vector2(0.7071068, 0.7071068),
 ]
 
-## 素材里实际画出来的 5 个方向（从上到下 5 行）：
-## 下、右下、右、右上、上。左侧方向通过 flip_h 镜像得到。
-const DIR_NAMES: Array[String] = ["down", "down_right", "right", "up_right", "up"]
-
-## 8 方向索引 -> 素材 5 行索引。
-const DIR_DRAW: Array[int] = [0, 1, 2, 3, 4, 3, 2, 1]
-
-## 8 方向索引 -> 是否需要水平镜像。
-const DIR_FLIP: Array[bool] = [false, true, true, true, false, false, false, false]
+## 素材里实际画的 4 个方向。左右各有独立素材，不再用 flip_h 镜像。
+const DIR_NAMES: Array[String] = ["down", "left", "up", "right"]
 
 var state: int = State.IDLE
 var facing: int = 0
@@ -95,6 +93,8 @@ var _freeze_preview_on := false          # 预览当前是否开启（含「手�
 var _base_collision_mask := 0    # 场景里配好的碰撞掩码（含水层）
 var _in_water := false           # 是否正站在水里（不可站水格）→ 临时忽略水层碰撞以便踩水
 var _knockback_vel := Vector2.ZERO   # 被飞行物命中时的击退速度（逐帧衰减）
+var health := 1
+var _invincible_until := 0
 
 @onready var sprite: AnimatedSprite2D = $Sprite
 @onready var collision: CollisionShape2D = $Collision
@@ -103,6 +103,7 @@ var _knockback_vel := Vector2.ZERO   # 被飞行物命中时的击退速度（�
 
 func _ready() -> void:
 	add_to_group("player")
+	health = max_health
 	_base_collision_mask = collision_mask
 	_register_input_actions()
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -136,6 +137,8 @@ func _physics_process(delta: float) -> void:
 	_update_water_preview()
 	_update_water_wade()
 	_knockback_vel = _knockback_vel.move_toward(Vector2.ZERO, 2500.0 * delta)
+	# 深度排序：按脚底世界 Y 更新 z_index，让玩家被南侧的树/岩石正确遮挡。
+	z_index = DepthSort.z_for(global_position.y)
 
 	var input := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var running := Input.is_action_pressed("run")
@@ -212,6 +215,48 @@ func knockback(dir: Vector2, strength := 700.0) -> void:
 	_knockback_vel = dir.normalized() * strength
 
 
+## 受伤：扣血并广播 health_changed。受击后有短暂无敌，防止机关连发瞬间秒杀。
+func take_damage(amount := 1) -> void:
+	if amount <= 0:
+		return
+	if Time.get_ticks_msec() < _invincible_until:
+		return
+	_invincible_until = Time.get_ticks_msec() + INVINCIBLE_MS
+	health = maxi(health - amount, 0)
+	health_changed.emit(health, max_health)
+	if health <= 0:
+		_die()
+
+
+## 死亡：广播 died，然后回出生点重生（满血 + 短暂无敌）。
+func _die() -> void:
+	died.emit()
+	_respawn()
+
+
+## 重生：回到当前房间出生点，恢复满血并给略长一点的无敌时间。
+func _respawn() -> void:
+	health = max_health
+	velocity = Vector2.ZERO
+	_knockback_vel = Vector2.ZERO
+	global_position = _spawn_position()
+	_invincible_until = Time.get_ticks_msec() + INVINCIBLE_MS * 2
+	health_changed.emit(health, max_health)
+
+
+## 出生点：当前房间的 "spawn" 入口位置（约定每个房间都有 entrance_id=spawn）。
+func _spawn_position() -> Vector2:
+	var room := GameState.current_room as Room
+	if room == null:
+		return global_position  # 兜底：不知道出生点就原地满血复活
+	return room.get_entrance_position("spawn")
+
+
+## 供 HUD 在连接信号前读取当前血量快照。
+func health_snapshot() -> Dictionary:
+	return {"health": health, "max_health": max_health}
+
+
 ## 站在水里（不可站水格）时，临时忽略水层碰撞，让玩家能在水里走动（踩水）；
 ## 爬回岸/冰（可站）后恢复碰撞。这样「掉进水里」后能挪动，而不是被困在一格里。
 func _update_water_wade() -> void:
@@ -242,14 +287,12 @@ func _push_boxes(dir: Vector2, delta: float) -> void:
 
 
 func _apply_animation() -> void:
-	if state == State.ROTATE:
-		sprite.play("rotate")
-		sprite.flip_h = false
-		return
-	var drawn := DIR_DRAW[facing]
-	var anim := "%s_%s" % [STATE_NAMES[state], DIR_NAMES[drawn]]
-	sprite.play(anim)
-	sprite.flip_h = DIR_FLIP[facing]
+	sprite.flip_h = false  # 左右各有独立素材，不再镜像
+	# 目前只有 4 方向的 walk 与朝下的 idle 动画；run/jump/rotate 暂复用，后续补。
+	if state == State.IDLE or state == State.ROTATE:
+		sprite.play("idle_down")
+	else:
+		sprite.play("walk_%s" % DIR_NAMES[facing])
 
 
 func _dir_from_input(v: Vector2) -> int:
@@ -480,37 +523,8 @@ func _update_water_preview() -> void:
 
 
 func _build_sprite_frames() -> SpriteFrames:
-	var sf := SpriteFrames.new()
-
-	_add_sheet(sf, "idle", preload("res://art/player/16x16/16x16 Idle-Sheet.png"), 4, 24, 6.0)
-	_add_sheet(sf, "walk", preload("res://art/player/16x16/16x16 Walk-Sheet.png"), 4, 24, 8.0)
-	_add_sheet(sf, "run", preload("res://art/player/16x16/16x16 Run-Sheet.png"), 6, 24, 12.0)
-	_add_sheet(sf, "jump", preload("res://art/player/16x16/16x16 Jump-Sheet.png"), 5, 22, 12.0)
-
-	sf.add_animation("rotate")
-	sf.set_animation_speed("rotate", 16.0)
-	sf.set_animation_loop("rotate", false)
-	var rotate_tex: Texture2D = preload("res://art/player/16x16/16x16 Rotate-Sheet.png")
-	for c in range(8):
-		var at := AtlasTexture.new()
-		at.atlas = rotate_tex
-		at.region = Rect2(c * 24, 0, 24, 24)
-		sf.add_frame("rotate", at)
-
-	return sf
-
-
-func _add_sheet(sf: SpriteFrames, state_name: String, tex: Texture2D, cols: int, frame_h: int, fps: float) -> void:
-	for d in range(DIR_NAMES.size()):
-		var anim := "%s_%s" % [state_name, DIR_NAMES[d]]
-		sf.add_animation(anim)
-		sf.set_animation_speed(anim, fps)
-		sf.set_animation_loop(anim, true)
-		for c in range(cols):
-			var at := AtlasTexture.new()
-			at.atlas = tex
-			at.region = Rect2(c * 24, d * frame_h, 24, frame_h)
-			sf.add_frame(anim, at)
+	# 兜底：场景里已外挂 player_sprite_frames.tres，这里直接复用同一份资源。
+	return preload("res://resources/player_sprite_frames.tres")
 
 
 func _register_input_actions() -> void:

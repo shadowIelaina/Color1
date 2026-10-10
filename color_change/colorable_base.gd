@@ -6,6 +6,7 @@ extends StaticBody2D
 
 const Rules := preload("res://scripts/element/element_rules.gd")
 const Behavior := preload("res://scripts/element/element_behavior.gd")
+const DepthSort := preload("res://scripts/depth_sort.gd")
 
 ## 燃烧光斑半径（世界像素，256px ≈ 1 格）。转发给 ElementBehavior，可在实例上调。
 @export_range(16.0, 2048.0, 8.0) var light_radius := 352.0
@@ -18,6 +19,8 @@ var _behavior: ElementBehavior
 
 
 func _ready() -> void:
+	# 深度排序：按脚底世界 Y 定 z_index，让玩家走到树/箱子后（北）侧时被它们挡住。
+	z_index = DepthSort.z_for(global_position.y)
 	add_to_group("colorable")
 	_setup_behavior()
 	_seed_initial_color()
