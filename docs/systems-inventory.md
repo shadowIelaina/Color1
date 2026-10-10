@@ -22,18 +22,23 @@
 | `scene_manager.gd` | Autoload | 卸载旧房→加载新房→定位入口；`SAFE_POS` 防瞬移拾取；`call_deferred` 防 "flushing queries"；0.4s 切关冷却 |
 | `room.gd` | 大场景根 | entrance 查找、enter/exit、状态 save/restore、`_is_descendant` 作用域样板 |
 | `entrance.gd` | 入口标记 | 供 `get_entrance_position` 定位 |
-| `door.gd` | `SceneExit` (Area2D) | 大场景出口门，触发切关，`consume_key` 消耗钥匙 |
+| `door.gd` | `Door` (Area2D) | 大场景出口传送门：触发切关；`required_key_id`（1:1 钥匙门）/ `unlock_options` 可选锁（全留空 = 纯传送点） |
 | `room_zone.gd` | `RoomZone` (Area2D) | 房分区：相机锁 + 暗房压黑/渐亮 + 房名 |
-| `room_door.gd` | `RoomDoor` (StaticBody2D) | 物理门：`unlock_options`(OR 条件)/`unlock_side`(单向锁死)/`starts_open`/`consume_on_open`；子节点 Collision/Visual/Trigger |
+| `room_door.gd` | `RoomDoor` (StaticBody2D) | 物理门：`required_key_id`(1:1 钥匙门)/`unlock_options`(OR 条件)/`unlock_side`(单向锁死)/`starts_open`；子节点 Collision/Visual/Trigger |
+| `one_way_gate.gd` | `OneWayGate` (StaticBody2D) | 真正单向通道：只能沿 `pass_dir` 穿过一次，反向永久封堵（`block_scale` 放大阻挡区） |
+| `lock_condition.gd` | `LockCondition` (RefCounted) | 条件锁模型：`"kind:id"` 解析/校验、OR 判定、单向判定；被 `Door`/`RoomDoor`/`level_lint` 复用（单一事实源） |
+| `key_lock.gd` | `KeyLock` (RefCounted) | 1:1 钥匙锁：是否需要钥匙/判定/消耗/全部文案；被 `Door`/`RoomDoor` 复用（单一事实源） |
 
 ## 2. 状态 / 持久化系统
 
 | 脚本 | 职责 |
 |---|---|
-| `game_state.gd` | 信号 `item_collected/key_added/key_used/prop_added/gate_opened/hint/room_state_changed`；背包 `inventory/used_keys/switches/abilities/props/elements`；统一条件 `has_flag/meets_flag/consume_flag`（key/item/switch/ability/element）；`is_in_current_scene(node)` 切关作用域过滤 |
+| `game_state.gd` | 信号 `item_collected/key_added/key_used/prop_added/ability_added/switch_changed/gate_opened/hint/notice/room_state_changed`；状态 `keys/used_keys/key_names/switches/abilities/props/elements`；统一条件 `has_flag/meets_flag`（item/switch/ability/element）+ 钥匙 `add_key/has_key/consume_key/was_key_used/key_display`；`is_in_current_scene(node)` 切关作用域过滤 |
 | `stateful_object.gd` | 持久化基类（`stateful` group + `state_id`，`save_state/restore_state`） |
-| `key.gd` | 钥匙拾取（`key_id`） |
+| `key.gd` | 钥匙拾取（`key_id`/`key_name`，1:1 钥匙门的钥匙来源） |
 | `item_pickup.gd` | 关键道具拾取（`prop_id` → `GameState.props`，供道具门） |
+| `ability_pickup.gd` | 能力拾取（`ability_id` → `GameState.abilities`，供能力门） |
+| `switch.gd` | 开关/压力板/拉杆（`switch_id` + `toggle`/`one_shot`/`starts_on`），踩上/靠近置位，供开关门 |
 | `breakable_wall.gd` | 可破坏墙（触碰即破，白盒占位） |
 
 ## 3. 玩家系统

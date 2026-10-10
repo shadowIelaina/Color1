@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://dw51x1w6kcdb7"]
+[gd_scene format=4 uid="uid://bqm7p6irjqkse"]
 
 [ext_resource type="Texture2D" uid="uid://cnygc4osqxh02" path="res://art/picture_boluo/土墙块（湖水过渡）1.png" id="3_tr1x6"]
 [ext_resource type="Script" uid="uid://bkgp83ocrv3oh" path="res://color_change/colorable_sprite.gd" id="4_5vw27"]
@@ -15,14 +15,14 @@
 [ext_resource type="Texture2D" uid="uid://jbbq0d4vwblq" path="res://art/else/grass.png" id="13_grass"]
 [ext_resource type="Script" uid="uid://co6ajp7px4q56" path="res://scripts/room_zone.gd" id="14_vivmo"]
 [ext_resource type="PackedScene" path="res://prefabs/items/interaction/ember.tscn" id="15_2cqfq"]
-[ext_resource type="PackedScene" uid="uid://cb56q1q7r7fke" path="res://prefabs/items/interaction/trap.tscn" id="17_trap"]
+[ext_resource type="PackedScene" path="res://prefabs/items/interaction/trap.tscn" id="17_trap"]
 [ext_resource type="Script" uid="uid://darjnda0vdwpq" path="res://scripts/room.gd" id="18_room"]
 [ext_resource type="PackedScene" uid="uid://ba8r5yga0iqst" path="res://prefabs/items/static prop/grass_big.tscn" id="18_x2xxo"]
 [ext_resource type="Script" uid="uid://dru8kg3d2ewcb" path="res://scripts/entrance.gd" id="19_entrance"]
 [ext_resource type="TileSet" uid="uid://cl6c4hem6ttq3" path="res://art/else/flow_arrow_tileset.tres" id="19_isj1j"]
 [ext_resource type="Script" uid="uid://5mnsopbqo3o5" path="res://scripts/door.gd" id="20_door"]
 [ext_resource type="Script" uid="uid://cj32gld0g6dep" path="res://scripts/flow_marker_spawner.gd" id="20_so66j"]
-[ext_resource type="Script" uid="uid://d3ly0amefea5t" path="res://scripts/room_door.gd" id="21_roomdoor"]
+[ext_resource type="Script" path="res://scripts/one_way_gate.gd" id="21_oneway"]
 [ext_resource type="Script" uid="uid://c87fgfsseq82n" path="res://color_change/air_wall_spawner.gd" id="22_airwall"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4c57u"]
@@ -4225,9 +4225,6 @@ size = Vector2(1320, 920)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
 size = Vector2(64, 96)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
-size = Vector2(128, 160)
-
 [node name="Level1" type="Node2D" unique_id=1753068649]
 y_sort_enabled = true
 script = ExtResource("18_room")
@@ -4303,9 +4300,9 @@ polygon = PackedVector2Array(-32, -48, 32, -48, 32, 48, -32, 48)
 
 [node name="OneWayGate" type="StaticBody2D" parent="." unique_id=465708706]
 position = Vector2(-3441, 93)
-script = ExtResource("21_roomdoor")
-door_id = "oneway_gate"
-unlock_side = Vector2(-1, 0)
+script = ExtResource("21_oneway")
+pass_dir = Vector2(1, 0)
+block_scale = Vector2(4, 9)
 
 [node name="Collision" type="CollisionShape2D" parent="OneWayGate" unique_id=2117144384]
 shape = SubResource("RectangleShape2D_door")
@@ -4314,11 +4311,6 @@ shape = SubResource("RectangleShape2D_door")
 z_index = 5
 color = Color(0.85, 0.6, 0.3, 1)
 polygon = PackedVector2Array(-32, -48, 32, -48, 32, 48, -32, 48)
-
-[node name="Trigger" type="Area2D" parent="OneWayGate" unique_id=2081495947]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="OneWayGate/Trigger" unique_id=524648749]
-shape = SubResource("RectangleShape2D_trigger")
 
 [node name="Trees" type="Node2D" parent="." unique_id=1211072197]
 y_sort_enabled = true

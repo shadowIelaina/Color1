@@ -7,14 +7,25 @@ const Rules := preload("res://scripts/element/element_rules.gd")
 @onready var win_label: Label = $WinLabel
 
 var hint_label: Label
+var status_label: Label
+var notice_label: Label
 var _hint_tween: Tween
+var _notice_tween: Tween
 
 
 func _ready() -> void:
 	add_to_group("hud")
 	hint_label = _make_hint_label()
+	status_label = _make_status_label()
+	notice_label = _make_notice_label()
 	_make_hearts()
 	GameState.hint.connect(show_hint)
+	GameState.notice.connect(show_notice)
+	GameState.key_added.connect(_refresh_status)
+	GameState.key_used.connect(_refresh_status)
+	GameState.prop_added.connect(_refresh_status)
+	GameState.ability_added.connect(_refresh_status)
+	_refresh_status()
 	if win_label:
 		win_label.visible = false
 	var player := get_tree().get_first_node_in_group("player")
@@ -61,6 +72,85 @@ func _make_hint_label() -> Label:
 	l.visible = false
 	add_child(l)
 	return l
+
+
+## 道具 / 能力持有行（左上角，颜色库下方），由 GameState 信号驱动刷新。
+func _make_status_label() -> Label:
+	var l := Label.new()
+	l.name = "StatusLabel"
+	l.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	l.offset_left = 12.0
+	l.offset_top = 64.0
+	l.offset_right = 720.0
+	l.offset_bottom = 96.0
+	l.add_theme_font_size_override("font_size", 18)
+	l.add_theme_color_override("font_color", Color(0.95, 0.9, 0.6))
+	l.visible = false
+	add_child(l)
+	return l
+
+
+func _refresh_status(_a = null, _b = null) -> void:
+	if status_label == null:
+		return
+	var parts: Array[String] = []
+	var key_ids := GameState.held_key_ids()
+	if not key_ids.is_empty():
+		var names: Array[String] = []
+		for k in key_ids:
+			names.append(GameState.key_display(k))
+		parts.append("钥匙：%s" % ", ".join(names))
+	var props := _true_keys(GameState.props)
+	if not props.is_empty():
+		parts.append("道具：%s" % ", ".join(props))
+	var abilities := _true_keys(GameState.abilities)
+	if not abilities.is_empty():
+		parts.append("能力：%s" % ", ".join(abilities))
+	status_label.text = "　".join(parts)
+	status_label.visible = not parts.is_empty()
+
+
+## 取字典里值为 true 的键（背包用 id -> true 存法），排序后返回。
+static func _true_keys(d: Dictionary) -> Array[String]:
+	var out: Array[String] = []
+	for k in d:
+		if d[k] == true:
+			out.append(str(k))
+	out.sort()
+	return out
+
+
+## 左上角短暂消息行（拾取道具 / 门被解锁等），显示 2 秒后淡出。
+func _make_notice_label() -> Label:
+	var l := Label.new()
+	l.name = "NoticeLabel"
+	l.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	l.offset_left = 12.0
+	l.offset_top = 96.0
+	l.offset_right = 720.0
+	l.offset_bottom = 128.0
+	l.add_theme_font_size_override("font_size", 20)
+	l.add_theme_color_override("font_color", Color(1.0, 0.95, 0.5))
+	l.visible = false
+	add_child(l)
+	return l
+
+
+func show_notice(text: String) -> void:
+	if notice_label == null:
+		return
+	notice_label.text = text
+	notice_label.modulate.a = 1.0
+	notice_label.visible = true
+	if _notice_tween and _notice_tween.is_valid():
+		_notice_tween.kill()
+	_notice_tween = create_tween()
+	_notice_tween.tween_interval(2.0)
+	_notice_tween.tween_property(notice_label, "modulate:a", 0.0, 0.5)
+	_notice_tween.tween_callback(func():
+		notice_label.visible = false
+		notice_label.modulate.a = 1.0
+	)
 
 
 func _on_inventory_changed(inventory: Dictionary, selected_element: String) -> void:

@@ -10,11 +10,14 @@ extends EditorScript
 ##   2. Goal：unlock_door_ids 指向不存在的 RoomDoor.door_id（同场景）
 ##   3. RoomDoor：door_id 空/重复；无锁、无玩家触发区、又无 Goal 引用时可能永远打不开
 ##   4. Entrance：entrance_id 空/重复
-##   5. unlock_options 格式："kind:id"，kind ∈ key/item/switch/ability/element
+##   5. unlock_options 格式："kind:id"，kind ∈ item/switch/ability/element（复用 LockCondition）
 ##   6. RoomZone：缺矩形碰撞盒 / 被缩放 / 被旋转
 ##   7. 场景整体：无入口、无 Goal（提示级）
+##   8. Switch：switch_id 空/重复
+##   9. AbilityPickup：ability_id 空/重复
+##  10. Key：key_id 空/重复；required_key_id 与门一一对应（同一钥匙不被两扇门引用）
 
-const VALID_KINDS: Array[String] = ["key", "item", "switch", "ability", "element"]
+const Lock := preload("res://scripts/lock_condition.gd")
 
 var _errors := 0
 var _warnings := 0
@@ -36,8 +39,10 @@ func _run() -> void:
 	var room_doors: Array[RoomDoor] = []
 	var goals: Array[Goal] = []
 	var entrances: Array[Entrance] = []
-	var keys: Array[Key] = []
 	var items: Array[ItemPickup] = []
+	var abilities: Array[AbilityPickup] = []
+	var switches: Array[Switch] = []
+	var keys: Array[Key] = []
 	var zones: Array[RoomZone] = []
 	for n in all:
 		if n is Door:
@@ -48,10 +53,14 @@ func _run() -> void:
 			goals.append(n as Goal)
 		if n is Entrance:
 			entrances.append(n as Entrance)
-		if n is Key:
-			keys.append(n as Key)
 		if n is ItemPickup:
 			items.append(n as ItemPickup)
+		if n is AbilityPickup:
+			abilities.append(n as AbilityPickup)
+		if n is Switch:
+			switches.append(n as Switch)
+		if n is Key:
+			keys.append(n as Key)
 		if n is RoomZone:
 			zones.append(n as RoomZone)
 
@@ -61,7 +70,10 @@ func _run() -> void:
 	_check_entrances(entrances)
 	_check_zones(zones)
 	_check_scene(entrances, goals)
-	_check_unlock_options(doors, room_doors, keys, items)
+	_check_switches(switches)
+	_check_abilities(abilities)
+	_check_unlock_options(doors, room_doors, items, abilities, switches)
+	_check_keys(keys, doors, room_doors)
 
 	print("==== 体检结束：%d 错误 / %d 警告 / %d 提示 ====" % [_errors, _warnings, _infos])
 
@@ -84,8 +96,6 @@ func _check_doors(doors: Array[Door]) -> void:
 			_err("%s：target_entrance 为空" % label)
 		elif not _scene_has_entrance(d.target_scene, d.target_entrance):
 			_err("%s：目标场景 %s 里找不到 entrance_id=%s" % [label, d.target_scene, d.target_entrance])
-		if d.required_key_id != "":
-			_info("%s：使用了旧字段 required_key_id（等价 key:%s），建议改用 unlock_options" % [label, d.required_key_id])
 
 
 ## 目标场景里是否存在指定 entrance_id 的入口（加载目标场景临时实例扫描）。
@@ -190,35 +200,112 @@ func _check_scene(entrances: Array[Entrance], goals: Array[Goal]) -> void:
 
 
 # —— 5. 锁条件 unlock_options ——
-func _check_unlock_options(doors: Array[Door], room_doors: Array[RoomDoor], keys: Array[Key], items: Array[ItemPickup]) -> void:
+func _check_unlock_options(
+	doors: Array[Door],
+	room_doors: Array[RoomDoor],
+	items: Array[ItemPickup],
+	abilities: Array[AbilityPickup],
+	switches: Array[Switch]
+) -> void:
+	var known := {
+		"item": _ids_of(items, "prop_id"),
+		"ability": _ids_of(abilities, "ability_id"),
+		"switch": _ids_of(switches, "switch_id"),
+	}
+	for d in doors:
+		_check_opts(_path(d), d.unlock_options, known)
+	for r in room_doors:
+		_check_opts(_path(r), r.unlock_options, known)
+
+
+## 取一组节点上某个 String 属性的取值集合（id -> true）。
+func _ids_of(nodes: Array, prop: String) -> Dictionary:
+	var out: Dictionary = {}
+	for n in nodes:
+		out[str(n.get(prop))] = true
+	return out
+
+
+func _check_opts(label: String, opts: Array[String], known: Dictionary) -> void:
+	for opt in opts:
+		var p := Lock.parse(opt)
+		if p.is_empty():
+			_err("%s：锁条件「%s」格式错误，应为「kind:id」，kind ∈ %s" % [label, opt, ", ".join(Lock.KINDS)])
+			continue
+		var kind: String = p["kind"]
+		var id: String = p["id"]
+		if kind == "element":
+			continue   # 元素来自玩家背包，无场景内来源要求
+		if known.has(kind) and not known[kind].has(id):
+			_info("%s：锁条件「%s」引用的 %s id 在本场景找不到（可能在其他场景）" % [label, opt, kind])
+
+
+# —— 8. 开关 Switch ——
+func _check_switches(switches: Array[Switch]) -> void:
+	var seen: Dictionary = {}
+	for s in switches:
+		var sid: String = s.switch_id
+		if sid == "":
+			_warn("%s：switch_id 为空，将回退为节点名「%s」" % [_path(s), String(s.name)])
+			continue
+		if seen.has(sid):
+			_err("%s：switch_id「%s」重复" % [_path(s), sid])
+		seen[sid] = true
+
+
+# —— 9. 能力 AbilityPickup ——
+func _check_abilities(abilities: Array[AbilityPickup]) -> void:
+	var seen: Dictionary = {}
+	for a in abilities:
+		var aid: String = a.ability_id
+		if aid == "":
+			_warn("%s：ability_id 为空，将回退为节点名「%s」" % [_path(a), String(a.name)])
+			continue
+		if seen.has(aid):
+			_err("%s：ability_id「%s」重复" % [_path(a), aid])
+		seen[aid] = true
+
+
+# —— 10. 钥匙 Key（1:1 钥匙门）——
+func _check_keys(keys: Array[Key], doors: Array[Door], room_doors: Array[RoomDoor]) -> void:
 	var key_ids: Dictionary = {}
 	for k in keys:
-		key_ids[k.key_id] = true
-	var prop_ids: Dictionary = {}
-	for it in items:
-		prop_ids[it.prop_id] = true
-	for d in doors:
-		_check_opts(_path(d), d.unlock_options, key_ids, prop_ids)
-	for r in room_doors:
-		_check_opts(_path(r), r.unlock_options, key_ids, prop_ids)
-
-
-func _check_opts(label: String, opts: Array[String], key_ids: Dictionary, prop_ids: Dictionary) -> void:
-	for opt in opts:
-		var i := opt.find(":")
-		if i <= 0:
-			_err("%s：锁条件「%s」格式错误，应为「kind:id」" % [label, opt])
+		var kid: String = k.key_id
+		if kid == "":
+			_warn("%s：key_id 为空，将回退为节点名「%s」" % [_path(k), String(k.name)])
 			continue
-		var kind := opt.substr(0, i)
-		var id := opt.substr(i + 1)
-		if not VALID_KINDS.has(kind):
-			_err("%s：锁条件「%s」的 kind「%s」非法，应为 key/item/switch/ability/element" % [label, opt, kind])
-		elif id == "":
-			_err("%s：锁条件「%s」的 id 为空" % [label, opt])
-		elif kind == "key" and not key_ids.has(id):
-			_info("%s：锁条件「%s」引用的钥匙在本场景找不到（可能在其他场景）" % [label, opt])
-		elif kind == "item" and not prop_ids.has(id):
-			_info("%s：锁条件「%s」引用的道具在本场景找不到（可能在其他场景）" % [label, opt])
+		if key_ids.has(kid):
+			_err("%s：key_id「%s」与另一把钥匙重复" % [_path(k), kid])
+		key_ids[kid] = true
+
+	var door_keys: Dictionary = {}   # key_id -> 引用它的门（用于排查一一对应）
+	for d in doors:
+		_check_door_key(_path(d), d.required_key_id, d.unlock_options, key_ids, door_keys)
+	for r in room_doors:
+		_check_door_key(_path(r), r.required_key_id, r.unlock_options, key_ids, door_keys)
+
+	for k in keys:
+		if k.key_id != "" and not door_keys.has(k.key_id):
+			_info("%s：钥匙「%s」没有被任何门引用（确认是否有意）" % [_path(k), k.key_id])
+
+
+func _check_door_key(
+	label: String,
+	required_key_id: String,
+	opts: Array[String],
+	key_ids: Dictionary,
+	door_keys: Dictionary
+) -> void:
+	if required_key_id == "":
+		return
+	if not opts.is_empty():
+		_warn("%s：同时配置 required_key_id 与 unlock_options（按钥匙优先，确认是否有意）" % label)
+	if not key_ids.has(required_key_id):
+		_info("%s：required_key_id「%s」在本场景找不到对应钥匙（可能在其他场景）" % [label, required_key_id])
+	if door_keys.has(required_key_id):
+		_err("%s：钥匙「%s」已被 %s 引用（钥匙与门应一一对应）" % [label, required_key_id, door_keys[required_key_id]])
+	else:
+		door_keys[required_key_id] = label
 
 
 # —— 输出辅助 ——
