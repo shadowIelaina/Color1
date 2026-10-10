@@ -43,9 +43,14 @@
 
 ---
 
-## 3. 门（三种，复用一个锁模型）
+## 3. 门
 
-锁模型统一为 `unlock_options`：一个 `String` 数组，每条是 `"kind:id"`，**满足任意一条即开**（OR）。`kind ∈ key / item / switch / ability / element`。留空数组 = 无锁，直接开。
+门的解锁分**两套并列机制**，每扇门通常只用一种：
+
+- `required_key_id`（**1:1 钥匙门**）：需要一把对应钥匙，**开门即消耗销毁**（见 §3e）。
+- `unlock_options`（**条件 OR 锁**）：`String` 数组，每条是 `"kind:id"`，**满足任意一条即开**（OR），`kind ∈ item / switch / ability / element`；满足即永久、**不消耗**。
+
+两者都留空 = 无锁，直接开；同时配置时**钥匙优先**。
 
 ### 3a. RoomDoor —— 房与房之间（原地开，不切场景）
 
@@ -61,28 +66,28 @@ RoomDoor (StaticBody2D + room_door.gd)
 | 字段 | 作用 |
 |---|---|
 | `door_id` | 唯一 id，供 `Goal.unlock_door_ids` 匹配 |
-| `unlock_options` | 锁条件 OR 列表，如 `["key:bronze","item:torch"]` |
+| `required_key_id` | 1:1 钥匙门：需要该 id 的钥匙，开门时消耗销毁；留空 = 不用钥匙 |
+| `unlock_options` | 条件 OR 列表，如 `["item:torch","switch:bridge"]` |
 | `unlock_side` | 单向法线（见 §3c） |
 | `starts_open` | 开局就开 |
-| `consume_on_open` | 开门时消耗钥匙（只消耗 `key` 类，道具/开关/能力/元素不消耗） |
 | `open_fade` | 开门淡出时长 |
 
 门是 `stateful` 的：**离开这关再回来，开合状态会保持**（Room 进出场自动 save/restore）。
 
 ### 3b. Door —— 关与关之间（切场景出口）
 
-节点：`Area2D` + `door.gd`，可选 `Visual` 子节点（门贴图，锁时发红/可开时发绿）。
+节点：`Area2D` + `door.gd`，可选 `Visual` 子节点（门贴图，未满足锁时整体调暗，可开后恢复正常）。
 
 | 字段 | 作用 |
 |---|---|
 | `target_scene` | 目标大场景路径，如 `res://scenes/level_2.tscn` |
 | `target_entrance` | 目标场景里 `Entrance.entrance_id`（如 `spawn`） |
-| `unlock_options` / `unlock_side` | 同上 |
-| `required_key_id` / `consume_key` | **旧字段**（等价 `["key:<id>"]`），新关别用了 |
+| `required_key_id` | 1:1 钥匙门（见 §3e）；留空 = 不用钥匙 |
+| `unlock_options` / `unlock_side` | 条件锁 / 单向（同上）；全留空 = 纯传送点 |
 
-玩家踩上 → 检查锁 → `SceneManager.change_room(target_scene, target_entrance)` 切关。
+玩家踩上 → 检查锁（无锁直接传送）→ `SceneManager.change_room(target_scene, target_entrance)` 切关。
 
-### 3c. 单向门（`unlock_side`）
+### 3c. 单向可开（`unlock_side`）
 
 `unlock_side` 是一个**单位向量，指向「能开门的那一侧」**。判定 `(玩家位置 - 门位置).dot(unlock_side) > 0`。
 
@@ -90,7 +95,32 @@ RoomDoor (StaticBody2D + room_door.gd)
 - 只能从左边开 → `Vector2(-1, 0)`。
 - `Vector2.ZERO`（默认）= 双向都能开。
 
-`level_1` 里的 `OneWayGate` 是现成例子：`unlock_side = Vector2(1, 0)`，从左边靠近提示「这扇门只能从对面开启」。
+注意：这控制的是「从哪侧能**开**」，门一旦打开即双向通行。若要真正只能朝一个方向穿过，用 §3d。
+
+### 3d. 真正单向通道（`OneWayGate`）
+
+节点：`StaticBody2D` + `one_way_gate.gd`。子节点 `Visual`（橙点贴图）+ `Collision`（矩形）。
+
+| 字段 | 作用 |
+|---|---|
+| `pass_dir` | 允许穿过的方向（单位向量，如 `Vector2(1, 0)`） |
+| `block_scale` | 阻挡区 = `Visual` 宽高 × 此值（`Vector2.ZERO` = 用手配的 `Collision`） |
+| `open_reach` / `close_clearance` | 入口探测距离 / 穿过后重新封堵的余量（须 > 玩家碰撞盒半宽 64） |
+
+玩家只能沿 `pass_dir` 穿过一次：从入口侧靠近自动放行，穿到出口侧后自动封堵；从出口侧靠近不开门 → 反向进不去。
+
+`level_1` 里的 `OneWayGate` 是现成例子：`pass_dir = Vector2(1, 0)`（只能从左往右过）。
+
+### 3e. 钥匙门（`required_key_id`，1:1）
+
+一把钥匙开一扇门，**开门时钥匙被消耗销毁**。
+
+- **钥匙**：`Node2D` 挂 `key.gd`，子节点 `PickupArea`(Area2D) + `Visual`。字段 `key_id`（唯一键，门的 `required_key_id` 与之一致）/ `key_name`（显示名）。
+- 碰钥匙 → 左上记录「拾取了钥匙：<名>」，钥匙从世界消失（**用过不再刷新**）。
+- 碰钥匙门 → 有钥匙：消耗销毁 + 左上「用「<名>」打开了门」+ 开门/传送；无钥匙：居中提示「门锁住了，需要「<名>」」。
+- 门的开启状态持久化：`Door` 记 `opened_gates`，`RoomDoor` 走 `stateful`。
+
+> 钥匙与门**一一对应**；`level_lint` 会检查同一钥匙是否被多扇门引用、门是否同时配了钥匙与 `unlock_options`。文案集中在 `KeyLock`。
 
 ---
 
@@ -107,22 +137,25 @@ RoomDoor (StaticBody2D + room_door.gd)
 
 ---
 
-## 5. 钥匙 / 道具 / 元素门
+## 5. 钥匙 / 道具 / 能力 / 开关 / 元素门
 
 | 节点 | 脚本 | 字段 | 结构 |
 |---|---|---|---|
-| 钥匙 | `key.gd` | `key_id` | `Node2D` + `PickupArea`(Area2D) + `Visual` |
+| 钥匙 | `key.gd` | `key_id` / `key_name` | `Node2D` + `PickupArea`(Area2D) + `Visual` |
 | 关键道具 | `item_pickup.gd` | `prop_id` | 同上 |
+| 能力 | `ability_pickup.gd` | `ability_id` | 同上 |
+| 开关 | `switch.gd` | `switch_id` / `toggle` / `one_shot` / `starts_on` | `Area2D` + 可选 `Visual` |
 
-两者都是碰到即拾取进 `GameState`；被消耗的钥匙重进关会重新出现（防软锁）。
+钥匙被钥匙门消耗销毁（见 §3e）；道具/能力碰到即拾取进 `GameState`，永久保留；开关是触发区，玩家进入即置位（模式见 [`lock-system.md`](lock-system.md)）。`unlock_options` 锁不消耗任何持有物。
 
-锁条件写法：
+锁条件写法（`LockCondition` 统一模型，详见 [`lock-system.md`](lock-system.md)）：
 
 ```
-unlock_options = ["key:level2_key"]      # 需要某把钥匙
 unlock_options = ["item:torch"]          # 需要某关键道具
+unlock_options = ["ability:dash"]        # 需要某能力
+unlock_options = ["switch:bridge"]       # 需要某开关已开
 unlock_options = ["element:burn"]        # 玩家持有「红」元素即可
-unlock_options = ["key:a", "item:b"]     # 钥匙 或 道具，满足其一
+unlock_options = ["item:torch", "switch:bridge"]  # 道具 或 开关，满足其一
 ```
 
 ---
@@ -136,17 +169,15 @@ scenes/game.tscn                    ← 常驻容器，run/main_scene，不动
 scenes/level_1.tscn  (根 Room, room_id="level_1")
   ├─ spawn (Entrance, entrance_id="spawn")
   ├─ … 内容：水/树/箱/冰/陷阱/火种 + DarkRoom(RoomZone, dark=true) …
-  ├─ OneWayGate (RoomDoor, unlock_side=(1,0))   ← 房内单向门示例
+  ├─ OneWayGate (OneWayGate, pass_dir=(1,0))   ← 真正单向通道示例
   └─ to_level_2 (Door, target_scene="res://scenes/level_2.tscn", target_entrance="spawn")
 
 scenes/level_2.tscn  (根 Room, room_id="level_2")
   ├─ spawn (Entrance)
-  ├─ level2_key (Key, key_id="level2_key")
-  └─ to_level_1 (Door, target_scene="res://scenes/level_1.tscn",
-                 unlock_options=["key:level2_key"], consume_key=true)
+  └─ to_level_1 (Door, target_scene="res://scenes/level_1.tscn", target_entrance="spawn")
 ```
 
-`level_2` 没钥匙时 `to_level_1` 提示「门锁住了」，捡了 `level2_key` 才能开回 `level_1`。
+两个出口门均无锁：`level_1` 的 `to_level_2` 与 `level_2` 的 `to_level_1` 都是纯传送点，踩上即切关。
 
 ---
 
@@ -155,6 +186,6 @@ scenes/level_2.tscn  (根 Room, room_id="level_2")
 - **运行跑 `scenes/game.tscn`（F5）**，不要直接 F6 跑某个 `level_x.tscn`——后者没有 Player/Camera/HUD/Darkness 常驻层。
 - **改 `.tscn` 要在编辑器里改**（或先 `force_reload`），否则下次 autosave 用内存态冲掉磁盘手改。
 - **切关自动 `HeightMap.clear()`**、玩家先挪到 `SAFE_POS` 防瞬移拾取，关卡侧无需处理。
-- **单向门方向别填错**：`unlock_side` 指向「能开的那侧」，不是「挡的那侧」。
+- **单向方向别填错**：`unlock_side` 指向「能开的那侧」（不是挡的那侧）；`OneWayGate.pass_dir` 指向「允许穿过的方向」。
 - **颜色跨房全局、种子不恢复**：每间房要放自己的元素来源（蓝→冰闸门、红→火种），否则跨房预算会软锁。
-- **软锁自查**：`scripts/reachability.gd` 的 `test_graph()` 维护一份关卡图（房/门/钥匙），加关后更新它并跑 `self_test()`。
+- **软锁自查**：`scripts/reachability.gd` 的 `test_graph()` 维护一份关卡图（房/门），加关后更新它并跑 `self_test()`。

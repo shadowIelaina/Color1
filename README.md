@@ -42,7 +42,9 @@
 
 关卡/房间怎么搭（Goal 解锁门、RoomZone 锁相机、跨房颜色），详见 [`docs/room-system.md`](docs/room-system.md)。
 
-完整上手手册（新建关卡/房/门/钥匙/道具的字段与步骤），详见 [`docs/level-system-usage.md`](docs/level-system-usage.md)。
+完整上手手册（新建关卡/房/门/道具的字段与步骤），详见 [`docs/level-system-usage.md`](docs/level-system-usage.md)。
+
+门与锁系统（1:1 钥匙门、条件锁模型 `LockCondition`、道具/能力/开关/元素门、真正单向的 `OneWayGate`），详见 [`docs/lock-system.md`](docs/lock-system.md)。
 
 水面深/浅怎么画（深水挡路、浅水可走 + 美术区分），详见 [`docs/water-system.md`](docs/water-system.md)。
 

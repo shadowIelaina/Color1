@@ -26,11 +26,12 @@ tile 是 **256px**，物品手拖容易对不齐。在 2D 视图顶部工具栏 
 | `ember.tscn` | `ember` | `seed_amount`（默认 3） |
 | `trap.tscn` | `trap` | `fire_interval` / `aim_at_player` / `fixed_direction` |
 | `goal.tscn` | `goal` | `unlock_door_ids` / `is_final` |
-| 自建 `StaticBody2D` | `room_door` | `door_id` / `unlock_options` / `unlock_side` |
-| 自建 `Area2D` | `door` | `target_scene` / `target_entrance` / `unlock_options` |
+| 自建 `StaticBody2D` | `room_door` | `door_id` / `required_key_id` / `unlock_options` / `unlock_side` |
+| 自建 `Area2D` | `door` | `target_scene` / `target_entrance` / `required_key_id` / `unlock_options` |
+| 自建 `StaticBody2D` | `one_way_gate` | `pass_dir` / `block_scale`（真正单向，只能朝一边穿过） |
 | `Marker2D` | `entrance` | `entrance_id` |
 | 自建 `Area2D` | `room_zone` | `room_name` / `dark` |
-| 自建 `Node2D` | `key` | `key_id` |
+| 自建 `Node2D` | `key` | `key_id` / `key_name` |
 | 自建 `Node2D` | `item_pickup` | `prop_id` |
 
 ## 3. 接线清单（id 配对，最容易错）
@@ -39,7 +40,7 @@ tile 是 **256px**，物品手拖容易对不齐。在 2D 视图顶部工具栏 
 |---|---|
 | Goal 开哪扇门 | `Goal.unlock_door_ids` → `RoomDoor.door_id`（**同场景**） |
 | 切关落在哪 | `Door.target_entrance` → 目标场景里的 `Entrance.entrance_id` |
-| 钥匙锁 | `unlock_options=["key:xxx"]` → 某处 `Key.key_id` |
+| 钥匙锁（1:1） | 门 `required_key_id` → 某处 `Key.key_id`（一一对应，开门消耗钥匙） |
 | 道具锁 | `unlock_options=["item:xxx"]` → 某处 `ItemPickup.prop_id` |
 | 元素锁 | `unlock_options=["element:burn"/"freeze"/"grow"]` |
 
