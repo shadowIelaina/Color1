@@ -11,6 +11,9 @@ const CELL := 256.0
 ## Vector2i(grid) -> bool（可站）
 var _cells := {}
 
+## Vector2i(grid) -> int 流向（0=无，1=右 2=下 3=左 4=上）
+var _flows := {}
+
 
 func _grid(world_pos: Vector2) -> Vector2i:
 	return Vector2i(floor(world_pos.x / CELL), floor(world_pos.y / CELL))
@@ -26,5 +29,16 @@ func is_walkable(world_pos: Vector2) -> bool:
 	return bool(_cells.get(_grid(world_pos), true))
 
 
+## 设置单个 256px 格的流向（0=无，1=右 2=下 3=左 4=上）。
+func set_flow(world_pos: Vector2, dir: int) -> void:
+	_flows[_grid(world_pos)] = dir
+
+
+## 采样某世界坐标的流向。未注册的格子默认无流向（0）。
+func flow_at(world_pos: Vector2) -> int:
+	return int(_flows.get(_grid(world_pos), 0))
+
+
 func clear() -> void:
 	_cells.clear()
+	_flows.clear()

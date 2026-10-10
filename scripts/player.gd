@@ -43,6 +43,10 @@ enum State {
 ## 玩家自带微光半径（世界像素，256px ≈ 1 格）。暗房里照亮自身周围；相机 zoom 0.25，太小在屏幕上根本看不见。
 @export_range(8.0, 4096.0, 8.0) var light_radius := 384.0
 
+@export_group("Water Flow")
+## 水流推力（像素/秒）。流向由脚下浅水格子的流向标记决定（见 flow_marker_spawner.gd）。
+@export_range(0.0, 2000.0, 1.0) var flow_strength := 600.0
+
 @export_group("Health")
 ## 最大血量（红心数）。初始 1 颗心；后续可加「心之容器」提高上限。
 @export_range(1, 20, 1) var max_health := 1
@@ -137,6 +141,11 @@ func _physics_process(delta: float) -> void:
 	_update_water_preview()
 	_update_water_wade()
 	_knockback_vel = _knockback_vel.move_toward(Vector2.ZERO, 2500.0 * delta)
+	# 水流推力：脚下浅水格的流向标记（HeightMap）非 0 时被冲走；结冰那格不推。
+	var flow_vel := Vector2.ZERO
+	var flow_dir := HeightMap.flow_at(global_position)
+	if flow_dir != 0 and not _on_frozen_ice():
+		flow_vel = _flow_vector(flow_dir) * flow_strength
 	# 深度排序：按脚底世界 Y 更新 z_index，让玩家被南侧的树/岩石正确遮挡。
 	z_index = DepthSort.z_for(global_position.y)
 
@@ -164,6 +173,7 @@ func _physics_process(delta: float) -> void:
 		_update_hop_visual()
 		_apply_animation()
 		velocity += _knockback_vel
+		velocity += flow_vel
 		move_and_slide()
 		_push_boxes(input, delta)
 		return
@@ -188,6 +198,7 @@ func _physics_process(delta: float) -> void:
 	sprite.offset = _base_sprite_offset
 	_apply_animation()
 	velocity += _knockback_vel
+	velocity += flow_vel
 	move_and_slide()
 	_push_boxes(input, delta)
 
@@ -213,6 +224,35 @@ func _update_hop_visual() -> void:
 ## 被飞行物命中：沿 dir 方向给一个短促击退（velocity 逐帧衰减，见 _physics_process 顶部）。
 func knockback(dir: Vector2, strength := 700.0) -> void:
 	_knockback_vel = dir.normalized() * strength
+
+
+## 流向编号 → 方向向量（屏幕坐标）。1=右 2=下 3=左 4=上，其它=无。
+func _flow_vector(dir: int) -> Vector2:
+	match dir:
+		1:
+			return Vector2.RIGHT
+		2:
+			return Vector2.DOWN
+		3:
+			return Vector2.LEFT
+		4:
+			return Vector2.UP
+		_:
+			return Vector2.ZERO
+
+
+## 脚下那格是不是已结冰的浅水（WaterCell.is_frozen()）。结冰后水流不推人。
+func _on_frozen_ice() -> bool:
+	for obj in get_tree().get_nodes_in_group("colorable"):
+		if not GameState.is_in_current_scene(obj):
+			continue
+		if not obj.has_method("is_frozen") or not obj.has_method("contains_point"):
+			continue
+		if not bool(obj.call("is_frozen")):
+			continue
+		if bool(obj.call("contains_point", global_position)):
+			return true
+	return false
 
 
 ## 受伤：扣血并广播 health_changed。受击后有短暂无敌，防止机关连发瞬间秒杀。

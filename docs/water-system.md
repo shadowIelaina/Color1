@@ -43,6 +43,34 @@
 - **融化**：右键吸收冰格 → 深水恢复挡路、浅水恢复可走（玩家正站在冰上时禁止吸收，避免掉进深水）。
 - **冰墙**：对已结冰的水格再点一下 → 生成可融冰墙（消耗 1 蓝）。
 
+## 浅水流向（每格把玩家冲走）
+
+### 一句话
+
+浅水可以带流向：在**箭头标记层**上画箭头，玩家站到那一格就被往箭头方向冲；**结冰的那格不推人**。
+
+### 使用步骤
+
+1. 选中关卡里的 **`WaterFlow`** 层（`TileMapLayer`，已挂 `flow_marker_spawner.gd`，与浅水层同原点、同 256 格）。
+2. 用箭头 tile 在**浅水格**上画流向，atlas 约定：`(0,0)=→` `(1,0)=↓` `(2,0)=←` `(3,0)=↑`。
+3. 完成。箭头只用于编辑器里标记，进游戏自动隐藏；玩家站上去就被往箭头方向冲。
+
+### 规则
+
+- 结冰格不推人（冰可站、该格水流失效）。
+- 只有 4 个正交方向，没有斜向流。
+- 推力大小：`player.gd` 的 `flow_strength`（默认 600 px/s）。
+
+### 占位贴图
+
+`art/else/flow_arrows.png` 是临时黄箭头，方便先测试。正式图替换它即可（保持四张一行：→↓←↑），或在 `flow_marker_spawner.gd` 的 export 里改四个 atlas 坐标（`atlas_right/down/left/up`）。
+
+### 代码位置
+
+- `scripts/flow_marker_spawner.gd` —— 箭头层生成器，`_ready` 把箭头 tile 读成流向写进 `HeightMap`，然后 `visible=false`。
+- `scripts/height_map.gd` —— `set_flow` / `flow_at`（编码 0=无 1=右 2=下 3=左 4=上）。
+- `scripts/player.gd` —— `_flow_vector()` + `flow_strength`，脚下采样 `HeightMap.flow_at` 得推力。
+
 ## 代码位置
 
 - `color_change/water_cell.gd` —— `@export var shallow := false` 决定单格深/浅；`_ready` / `absorb_color` 按它设碰撞层与 `HeightMap` 通行性。

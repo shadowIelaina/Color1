@@ -1,13 +1,20 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://b7o804cj3lcek"]
 
-[ext_resource type="Script" path="res://scripts/trap.gd" id="1_trap"]
-[ext_resource type="Texture2D" path="res://art/else/rock.png" id="2_rock"]
+[ext_resource type="Script" uid="uid://bscejtwyvu1ia" path="res://scripts/trap.gd" id="1_trap"]
+[ext_resource type="Texture2D" uid="uid://dyb3pjtx3pshj" path="res://art/picture_boluo/铁球tm.png" id="2_ball"]
 
-[node name="Trap" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ball"]
+radius = 38.013157
+
+[node name="Trap" type="Area2D" unique_id=737959813]
+scale = Vector2(4, 4)
+collision_layer = 0
 script = ExtResource("1_trap")
 
-[node name="Visual" type="Sprite2D" parent="."]
-modulate = Color(0.5, 0.4, 0.6, 1)
+[node name="Visual" type="Sprite2D" parent="." unique_id=669205107]
 texture_filter = 1
-scale = Vector2(4, 4)
-texture = ExtResource("2_rock")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_ball")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=163437304]
+shape = SubResource("CircleShape2D_ball")
