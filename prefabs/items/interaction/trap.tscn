@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://b7o804cj3lcek"]
+[gd_scene format=3 uid="uid://cb56q1q7r7fke"]
 
 [ext_resource type="Script" uid="uid://bscejtwyvu1ia" path="res://scripts/trap.gd" id="1_trap"]
 [ext_resource type="Texture2D" uid="uid://dyb3pjtx3pshj" path="res://art/picture_boluo/铁球tm.png" id="2_ball"]
@@ -10,6 +10,8 @@ radius = 38.013157
 scale = Vector2(4, 4)
 collision_layer = 0
 script = ExtResource("1_trap")
+travel = Vector2(1800, 0)
+speed = 600.0
 
 [node name="Visual" type="Sprite2D" parent="." unique_id=669205107]
 texture_filter = 1
