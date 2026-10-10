@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cgnearjvqfmmv"]
+
+[ext_resource type="Script" path="res://scripts/water_flow.gd" id="1_flow"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_flow"]
+size = Vector2(3432, 8287)
+
+[node name="WaterFlow" type="Area2D" unique_id=264530969]
+collision_layer = 0
+script = ExtResource("1_flow")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1532290695]
+position = Vector2(-100, -208.5)
+shape = SubResource("RectangleShape2D_flow")

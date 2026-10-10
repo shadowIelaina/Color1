@@ -1,0 +1,15 @@
+[gd_resource type="TileSet" format=3 uid="uid://cl6c4hem6ttq3"]
+
+[ext_resource type="Texture2D" uid="uid://chjc8nud1bgri" path="res://art/else/flow_arrows.png" id="1_arrows"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_arrows"]
+texture = ExtResource("1_arrows")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+
+[resource]
+tile_size = Vector2i(256, 256)
+sources/0 = SubResource("TileSetAtlasSource_arrows")

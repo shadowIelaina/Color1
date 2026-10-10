@@ -10,20 +10,16 @@
 [ext_resource type="Texture2D" uid="uid://0qan6dnpaqvt" path="res://art/else/草块2.png" id="12_dg77c"]
 [ext_resource type="Script" uid="uid://b1mxwxqbqny2x" path="res://color_change/water_spawner.gd" id="12_spawn"]
 [ext_resource type="Texture2D" uid="uid://jbbq0d4vwblq" path="res://art/else/grass.png" id="13_grass"]
-[ext_resource type="Shader" uid="uid://d1c66tsprtjdc" path="res://shaders/tree_shadow.gdshader" id="13_x2fux"]
-[ext_resource type="Texture2D" uid="uid://dc3ylx7pvejn4" path="res://art/picture_boluo/树1tm.png" id="14_s7g0b"]
 [ext_resource type="Script" uid="uid://co6ajp7px4q56" path="res://scripts/room_zone.gd" id="14_vivmo"]
 [ext_resource type="PackedScene" path="res://prefabs/items/interaction/ember.tscn" id="15_2cqfq"]
-[ext_resource type="Shader" uid="uid://ctce02nln2wmn" path="res://shaders/Grass_act.gdshader" id="15_mmfjm"]
-[ext_resource type="Shader" uid="uid://cb1p1d7bp1546" path="res://shaders/Grass_big_act.gdshader" id="16_k8ld0"]
-[ext_resource type="Texture2D" uid="uid://dixwnvuh2ewkr" path="res://art/picture_boluo/草1tm.png" id="17_mbb35"]
-[ext_resource type="PackedScene" path="res://prefabs/items/interaction/trap.tscn" id="17_trap"]
+[ext_resource type="PackedScene" uid="uid://b7o804cj3lcek" path="res://prefabs/items/interaction/trap.tscn" id="17_trap"]
 [ext_resource type="Script" uid="uid://darjnda0vdwpq" path="res://scripts/room.gd" id="18_room"]
 [ext_resource type="PackedScene" uid="uid://ba8r5yga0iqst" path="res://prefabs/items/static prop/grass_big.tscn" id="18_x2xxo"]
 [ext_resource type="Script" uid="uid://dru8kg3d2ewcb" path="res://scripts/entrance.gd" id="19_entrance"]
+[ext_resource type="TileSet" uid="uid://cl6c4hem6ttq3" path="res://art/else/flow_arrow_tileset.tres" id="19_isj1j"]
 [ext_resource type="Script" uid="uid://5mnsopbqo3o5" path="res://scripts/door.gd" id="20_door"]
+[ext_resource type="Script" uid="uid://cj32gld0g6dep" path="res://scripts/flow_marker_spawner.gd" id="20_so66j"]
 [ext_resource type="Script" uid="uid://d3ly0amefea5t" path="res://scripts/room_door.gd" id="21_roomdoor"]
-[ext_resource type="Script" uid="uid://dv6tdhv000vt4" path="res://scripts/pushable_body.gd" id="22_iw4em"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4c57u"]
 texture = ExtResource("13_grass")
@@ -4186,46 +4182,6 @@ size = Vector2(64, 96)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
 size = Vector2(128, 160)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bhunq"]
-shader = ExtResource("13_x2fux")
-shader_parameter/tilt = -17.99999658
-shader_parameter/stretch = 0.5
-shader_parameter/shadow_shift = Vector2(-0.03, -0.165)
-shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
-shader_parameter/blur_near = 2.000000095
-shader_parameter/blur_far = 0.50000002375
-shader_parameter/fade_distance = 0.250000011875
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yddip"]
-size = Vector2(26, 7)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_riqys"]
-shader = ExtResource("15_mmfjm")
-shader_parameter/bend_amount = 0.0
-shader_parameter/wind_strength = 0.03
-
-[sub_resource type="QuadMesh" id="QuadMesh_bhunq"]
-subdivide_depth = 8
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4c57u"]
-load_path = "res://.godot/imported/草2tm.png-981474d04ad665c2400edd52514345c4.ctex"
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
-size = Vector2(141.97119, 217.09006)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nossa"]
-shader = ExtResource("16_k8ld0")
-shader_parameter/bend_amount = 0.0
-shader_parameter/wind_strength = 0.03
-
-[sub_resource type="QuadMesh" id="QuadMesh_hjqri"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ice"]
-size = Vector2(35, 25)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ember"]
-size = Vector2(35, 25)
-
 [node name="Level1" type="Node2D" unique_id=1753068649]
 y_sort_enabled = true
 script = ExtResource("18_room")
@@ -4757,7 +4713,7 @@ position = Vector2(-14217, -2461)
 position = Vector2(-9144, -5880)
 
 [node name="Trap4" parent="Traps" unique_id=1710956786 instance=ExtResource("17_trap")]
-position = Vector2(-11611, 1192)
+position = Vector2(-1106, -985)
 
 [node name="Trap5" parent="Traps" unique_id=1879676759 instance=ExtResource("17_trap")]
 position = Vector2(-9620, -3211)
@@ -4780,3 +4736,9 @@ scale = Vector2(16, 16)
 [node name="Ember2" parent="Interactables" unique_id=1501727551 instance=ExtResource("15_2cqfq")]
 position = Vector2(-10351, 8059)
 scale = Vector2(16, 16)
+
+[node name="WaterFlow" type="TileMapLayer" parent="." unique_id=1100431437]
+z_index = 10
+tile_map_data = PackedByteArray("AADU/+D/AAADAAAAAADU/+H/AAADAAAAAADU/+L/AAADAAAAAADU/+P/AAADAAAAAADU/+T/AAADAAAAAADU/+X/AAADAAAAAADU/+b/AAADAAAAAADU/+f/AAADAAAAAADU/+j/AAADAAAAAADU/+n/AAADAAAAAADU/+r/AAADAAAAAADU/+v/AAADAAAAAADU/+z/AAADAAAAAADU/+3/AAADAAAAAADU/+7/AAADAAAAAADU/+//AAADAAAAAADV/+D/AAADAAAAAADV/+H/AAADAAAAAADV/+L/AAADAAAAAADV/+P/AAADAAAAAADV/+T/AAADAAAAAADV/+X/AAADAAAAAADV/+b/AAADAAAAAADV/+f/AAADAAAAAADV/+j/AAADAAAAAADV/+n/AAADAAAAAADV/+r/AAADAAAAAADV/+v/AAADAAAAAADV/+z/AAADAAAAAADV/+3/AAADAAAAAADV/+7/AAADAAAAAADV/+//AAADAAAAAADW/+D/AAADAAAAAADW/+H/AAADAAAAAADW/+L/AAADAAAAAADW/+P/AAADAAAAAADW/+T/AAADAAAAAADW/+X/AAADAAAAAADW/+b/AAADAAAAAADW/+f/AAADAAAAAADW/+j/AAADAAAAAADW/+n/AAADAAAAAADW/+r/AAADAAAAAADW/+v/AAADAAAAAADW/+z/AAADAAAAAADW/+3/AAADAAAAAADW/+7/AAADAAAAAADW/+//AAADAAAAAADX/+D/AAADAAAAAADX/+H/AAADAAAAAADX/+L/AAADAAAAAADX/+P/AAADAAAAAADX/+T/AAADAAAAAADX/+X/AAADAAAAAADX/+b/AAADAAAAAADX/+f/AAADAAAAAADX/+j/AAADAAAAAADX/+n/AAADAAAAAADX/+r/AAADAAAAAADX/+v/AAADAAAAAADX/+z/AAADAAAAAADX/+3/AAADAAAAAADX/+7/AAADAAAAAADX/+//AAADAAAAAADY/+D/AAADAAAAAADY/+H/AAADAAAAAADY/+L/AAADAAAAAADY/+P/AAADAAAAAADY/+T/AAADAAAAAADY/+X/AAADAAAAAADY/+b/AAADAAAAAADY/+f/AAADAAAAAADY/+j/AAADAAAAAADY/+n/AAADAAAAAADY/+r/AAADAAAAAADY/+v/AAADAAAAAADY/+z/AAADAAAAAADY/+3/AAADAAAAAADY/+7/AAADAAAAAADY/+//AAADAAAAAADZ/+D/AAADAAAAAADZ/+H/AAADAAAAAADZ/+L/AAADAAAAAADZ/+P/AAADAAAAAADZ/+T/AAADAAAAAADZ/+X/AAADAAAAAADZ/+b/AAADAAAAAADZ/+f/AAADAAAAAADZ/+j/AAADAAAAAADZ/+n/AAADAAAAAADZ/+r/AAADAAAAAADZ/+v/AAADAAAAAADZ/+z/AAADAAAAAADZ/+3/AAADAAAAAADZ/+7/AAADAAAAAADZ/+//AAADAAAAAADU//D/AAADAAAAAADU//H/AAADAAAAAADU//L/AAADAAAAAADU//P/AAADAAAAAADU//T/AAADAAAAAADU//X/AAADAAAAAADU//b/AAADAAAAAADU//f/AAADAAAAAADU//j/AAADAAAAAADU//n/AAADAAAAAADU//r/AAADAAAAAADU//v/AAADAAAAAADU//z/AAADAAAAAADU//3/AAADAAAAAADV//D/AAADAAAAAADV//H/AAADAAAAAADV//L/AAADAAAAAADV//P/AAADAAAAAADV//T/AAADAAAAAADV//X/AAADAAAAAADV//b/AAADAAAAAADV//f/AAADAAAAAADV//j/AAADAAAAAADV//n/AAADAAAAAADV//r/AAADAAAAAADV//v/AAADAAAAAADV//z/AAADAAAAAADV//3/AAADAAAAAADW//D/AAADAAAAAADW//H/AAADAAAAAADW//L/AAADAAAAAADW//P/AAADAAAAAADW//T/AAADAAAAAADW//X/AAADAAAAAADW//b/AAADAAAAAADW//f/AAADAAAAAADW//j/AAADAAAAAADW//n/AAADAAAAAADW//r/AAADAAAAAADW//v/AAADAAAAAADW//z/AAADAAAAAADW//3/AAADAAAAAADX//D/AAADAAAAAADX//H/AAADAAAAAADX//L/AAADAAAAAADX//P/AAADAAAAAADX//T/AAADAAAAAADX//X/AAADAAAAAADX//b/AAADAAAAAADX//f/AAADAAAAAADX//j/AAADAAAAAADX//n/AAADAAAAAADX//r/AAADAAAAAADX//v/AAADAAAAAADX//z/AAADAAAAAADX//3/AAADAAAAAADY//D/AAADAAAAAADY//H/AAADAAAAAADY//L/AAADAAAAAADY//P/AAADAAAAAADY//T/AAADAAAAAADY//X/AAADAAAAAADY//b/AAADAAAAAADY//f/AAADAAAAAADY//j/AAADAAAAAADY//n/AAADAAAAAADY//r/AAADAAAAAADY//v/AAADAAAAAADY//z/AAADAAAAAADY//3/AAADAAAAAADZ//D/AAADAAAAAADZ//H/AAADAAAAAADZ//L/AAADAAAAAADZ//P/AAADAAAAAADZ//T/AAADAAAAAADZ//X/AAADAAAAAADZ//b/AAADAAAAAADZ//f/AAADAAAAAADZ//j/AAADAAAAAADZ//n/AAADAAAAAADZ//r/AAADAAAAAADZ//v/AAADAAAAAADZ//z/AAADAAAAAADZ//3/AAADAAAAAAA=")
+tile_set = ExtResource("19_isj1j")
+script = ExtResource("20_so66j")

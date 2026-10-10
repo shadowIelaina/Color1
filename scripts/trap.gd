@@ -1,40 +1,39 @@
 class_name Trap
-extends Node2D
-## 机关：周期性朝玩家（或固定方向）发射飞行物，供「冰墙挡弹」玩法使用。
+extends Area2D
+## 铁球机关：在两个设定点之间来回滚动，玩家碰到就掉血。
+## 点 A = 节点自身 position（关卡里摆放的位置）；点 B = position + travel。
+## speed 匀速往返；碰到玩家按 damage 扣血（受击无敌由 Player.take_damage 内部处理）。
 
-@export var fire_interval := 2.0          # 发射间隔（秒）
-@export var projectile_speed := 900.0     # 飞行物速度
-@export var aim_at_player := true         # true=朝玩家当前位置瞄准；false=用 fixed_direction
-@export var fixed_direction := Vector2.RIGHT
+const DepthSort := preload("res://scripts/depth_sort.gd")
 
-const PROJECTILE := preload("res://prefabs/items/interaction/projectile.tscn")
+@export var travel := Vector2(400, 0)   # 点 B 相对点 A 的偏移（世界像素）
+@export var speed := 400.0               # 往返速度（像素/秒）
+@export var damage := 1                  # 玩家碰到一次的伤害
 
-var _timer := 0.0
+var _origin := Vector2.ZERO
+var _going_to_b := true
+var _ball_radius := 60.0
 
 
 func _ready() -> void:
-	_timer = fire_interval * 0.5   # 开局半拍后开火，给玩家反应时间
+	_origin = position
+	var collision := $CollisionShape2D as CollisionShape2D
+	if collision != null:
+		var circle := collision.shape as CircleShape2D
+		if circle != null:
+			_ball_radius = circle.radius
+	body_entered.connect(_on_body_entered)
 
 
 func _physics_process(delta: float) -> void:
-	_timer -= delta
-	if _timer <= 0.0:
-		_timer = fire_interval
-		_fire()
+	var dest := _origin + travel if _going_to_b else _origin
+	position = position.move_toward(dest, speed * delta)
+	if position == dest:
+		_going_to_b = not _going_to_b
+	# 深度排序：铁球按底部（脚底）Y 定 z，与玩家/树一致，玩家走到球后（北）侧会被球挡住。
+	z_index = DepthSort.z_for(global_position.y + _ball_radius)
 
 
-func _fire() -> void:
-	var dir := _aim()
-	var p := PROJECTILE.instantiate()
-	p.setup(dir)
-	p.speed = projectile_speed
-	add_child(p)
-	p.position = dir * 40.0   # 从炮口前发射（相对机关）
-
-
-func _aim() -> Vector2:
-	if aim_at_player:
-		var player := get_tree().get_first_node_in_group("player")
-		if player != null:
-			return (player.global_position - global_position).normalized()
-	return fixed_direction.normalized()
+func _on_body_entered(body: Node2D) -> void:
+	if body != null and body.is_in_group("player") and body.has_method("take_damage"):
+		body.call("take_damage", damage)
