@@ -14,7 +14,7 @@ animation_frames = ExtResource("2_frames")
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=1668871434]
 texture_filter = 1
-position = Vector2(0, 64)
+position = Vector2(30, 70)
 scale = Vector2(0.28, 0.126)
 skew = -0.3
 script = ExtResource("3_qhqgy")
