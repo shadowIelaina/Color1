@@ -4319,151 +4319,41 @@ scale = Vector2(16, 16)
 light_radius = 608.0
 light_offset = Vector2(0, 25)
 
-[node name="Visual2" type="Sprite2D" parent="Trees/Tree_01" unique_id=401944506]
-texture_filter = 1
-material = SubResource("ShaderMaterial_bhunq")
-position = Vector2(-1.0000004, -32)
-scale = Vector2(0.073730476, 0.07409667)
-texture = ExtResource("14_s7g0b")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Trees/Tree_01" unique_id=2124807367]
-position = Vector2(0, -3)
-shape = SubResource("RectangleShape2D_yddip")
-
 [node name="Tree_02" parent="Trees" unique_id=1032288248 instance=ExtResource("9_kek77")]
 position = Vector2(-2880, 1399)
 scale = Vector2(16, 16)
-
-[node name="Visual2" type="Sprite2D" parent="Trees/Tree_02" unique_id=348558227]
-texture_filter = 1
-material = SubResource("ShaderMaterial_bhunq")
-position = Vector2(-1.0000004, -32)
-scale = Vector2(0.073730476, 0.07409667)
-texture = ExtResource("14_s7g0b")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Trees/Tree_02" unique_id=1528403950]
-position = Vector2(0, -3)
-shape = SubResource("RectangleShape2D_yddip")
 
 [node name="Tree_03" parent="Trees" unique_id=1922101521 instance=ExtResource("9_kek77")]
 position = Vector2(-2781, -540)
 scale = Vector2(16, 16)
 
-[node name="Visual2" type="Sprite2D" parent="Trees/Tree_03" unique_id=1966658490]
-texture_filter = 1
-material = SubResource("ShaderMaterial_bhunq")
-position = Vector2(-1.0000004, -32)
-scale = Vector2(0.073730476, 0.07409667)
-texture = ExtResource("14_s7g0b")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Trees/Tree_03" unique_id=2135467200]
-position = Vector2(0, -3)
-shape = SubResource("RectangleShape2D_yddip")
-
 [node name="Tree_04" parent="Trees" unique_id=1660845532 instance=ExtResource("9_kek77")]
 position = Vector2(-718, -1900)
 scale = Vector2(16, 16)
-
-[node name="Visual2" type="Sprite2D" parent="Trees/Tree_04" unique_id=1505533191]
-texture_filter = 1
-material = SubResource("ShaderMaterial_bhunq")
-position = Vector2(-1.0000004, -32)
-scale = Vector2(0.073730476, 0.07409667)
-texture = ExtResource("14_s7g0b")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Trees/Tree_04" unique_id=1125725818]
-position = Vector2(0, -3)
-shape = SubResource("RectangleShape2D_yddip")
 
 [node name="Tree_05" parent="Trees" unique_id=28741101 instance=ExtResource("9_kek77")]
 position = Vector2(-453, 1499)
 scale = Vector2(16, 16)
 
-[node name="Visual2" type="Sprite2D" parent="Trees/Tree_05" unique_id=2016708001]
-texture_filter = 1
-material = SubResource("ShaderMaterial_bhunq")
-position = Vector2(-1.0000004, -32)
-scale = Vector2(0.073730476, 0.07409667)
-texture = ExtResource("14_s7g0b")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Trees/Tree_05" unique_id=1437564943]
-position = Vector2(0, -3)
-shape = SubResource("RectangleShape2D_yddip")
-
 [node name="Tree_06" parent="Trees" unique_id=1437633200 instance=ExtResource("9_kek77")]
 position = Vector2(803, -1959)
 scale = Vector2(16, 16)
-
-[node name="Visual2" type="Sprite2D" parent="Trees/Tree_06" unique_id=1033381717]
-texture_filter = 1
-material = SubResource("ShaderMaterial_bhunq")
-position = Vector2(-1.0000004, -32)
-scale = Vector2(0.073730476, 0.07409667)
-texture = ExtResource("14_s7g0b")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Trees/Tree_06" unique_id=470194905]
-position = Vector2(0, -3)
-shape = SubResource("RectangleShape2D_yddip")
 
 [node name="Tree_07" parent="Trees" unique_id=1212508881 instance=ExtResource("9_kek77")]
 position = Vector2(1647, 1532)
 scale = Vector2(16, 16)
 
-[node name="Visual2" type="Sprite2D" parent="Trees/Tree_07" unique_id=738341367]
-texture_filter = 1
-material = SubResource("ShaderMaterial_bhunq")
-position = Vector2(-1.0000004, -32)
-scale = Vector2(0.073730476, 0.07409667)
-texture = ExtResource("14_s7g0b")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Trees/Tree_07" unique_id=638436902]
-position = Vector2(0, -3)
-shape = SubResource("RectangleShape2D_yddip")
-
 [node name="Tree_08" parent="Trees" unique_id=543569372 instance=ExtResource("9_kek77")]
 position = Vector2(1815, -9512)
 scale = Vector2(16, 16)
-
-[node name="Visual2" type="Sprite2D" parent="Trees/Tree_08" unique_id=1106558364]
-texture_filter = 1
-material = SubResource("ShaderMaterial_bhunq")
-position = Vector2(-1.0000004, -32)
-scale = Vector2(0.073730476, 0.07409667)
-texture = ExtResource("14_s7g0b")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Trees/Tree_08" unique_id=289307452]
-position = Vector2(0, -3)
-shape = SubResource("RectangleShape2D_yddip")
 
 [node name="Tree_09" parent="Trees" unique_id=293502526 instance=ExtResource("9_kek77")]
 position = Vector2(5923, -1110)
 scale = Vector2(16, 16)
 
-[node name="Visual2" type="Sprite2D" parent="Trees/Tree_09" unique_id=89167444]
-texture_filter = 1
-material = SubResource("ShaderMaterial_bhunq")
-position = Vector2(-1.0000004, -32)
-scale = Vector2(0.073730476, 0.07409667)
-texture = ExtResource("14_s7g0b")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Trees/Tree_09" unique_id=1238869371]
-position = Vector2(0, -3)
-shape = SubResource("RectangleShape2D_yddip")
-
 [node name="Tree_10" parent="Trees" unique_id=1429417795 instance=ExtResource("9_kek77")]
 position = Vector2(5949, 1082)
 scale = Vector2(16, 16)
-
-[node name="Visual2" type="Sprite2D" parent="Trees/Tree_10" unique_id=1829312860]
-texture_filter = 1
-material = SubResource("ShaderMaterial_bhunq")
-position = Vector2(-1.0000004, -32)
-scale = Vector2(0.073730476, 0.07409667)
-texture = ExtResource("14_s7g0b")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Trees/Tree_10" unique_id=1095939196]
-position = Vector2(0, -3)
-shape = SubResource("RectangleShape2D_yddip")
 
 [node name="Grass" type="Node2D" parent="." unique_id=1733797289]
 y_sort_enabled = true
@@ -4471,1090 +4361,194 @@ y_sort_enabled = true
 [node name="Grass_1" parent="Grass" unique_id=11092768 instance=ExtResource("9_ycdy4")]
 position = Vector2(-38, 1672)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_1" unique_id=2062227521]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_1" unique_id=1916586368]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_2" parent="Grass" unique_id=77139002 instance=ExtResource("9_ycdy4")]
 position = Vector2(-1482, 646)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_2" unique_id=525425481]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_2" unique_id=179958875]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_3" parent="Grass" unique_id=493239384 instance=ExtResource("9_ycdy4")]
 position = Vector2(5304, -2038)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_3" unique_id=1560281575]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_3" unique_id=1265246681]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_4" parent="Grass" unique_id=1720896419 instance=ExtResource("9_ycdy4")]
 position = Vector2(3945, -858)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_4" unique_id=2030576499]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_4" unique_id=347684642]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_5" parent="Grass" unique_id=1220009776 instance=ExtResource("9_ycdy4")]
 position = Vector2(4182, 2026)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_5" unique_id=492657836]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_5" unique_id=1932644795]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_6" parent="Grass" unique_id=145247667 instance=ExtResource("9_ycdy4")]
 position = Vector2(487, -7896)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_6" unique_id=547736357]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_6" unique_id=201766609]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_7" parent="Grass" unique_id=581623479 instance=ExtResource("9_ycdy4")]
 position = Vector2(-8388, -7140)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_7" unique_id=1861505251]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_7" unique_id=122057420]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_8" parent="Grass" unique_id=864143477 instance=ExtResource("9_ycdy4")]
 position = Vector2(-7524, -7140)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_8" unique_id=388057703]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_8" unique_id=1731429505]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_9" parent="Grass" unique_id=764963752 instance=ExtResource("9_ycdy4")]
 position = Vector2(-7620, -8081)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_9" unique_id=1665791568]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_9" unique_id=1196484064]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_10" parent="Grass" unique_id=1835897389 instance=ExtResource("9_ycdy4")]
 position = Vector2(-8446, -8018)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_10" unique_id=843879989]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_10" unique_id=1081738900]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_11" parent="Grass" unique_id=1824351080 instance=ExtResource("9_ycdy4")]
 position = Vector2(-2945, 1500)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_11" unique_id=2082492202]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_11" unique_id=670464525]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_12" parent="Grass" unique_id=1479208073 instance=ExtResource("9_ycdy4")]
 position = Vector2(-3147, 1316)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_12" unique_id=1509880770]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_12" unique_id=1594305947]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_13" parent="Grass" unique_id=605425957 instance=ExtResource("9_ycdy4")]
 position = Vector2(-2460, 1090)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_13" unique_id=1136233260]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_13" unique_id=613550191]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_14" parent="Grass" unique_id=1976474488 instance=ExtResource("9_ycdy4")]
 position = Vector2(-924, 1331)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_14" unique_id=2103862677]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_14" unique_id=1643395916]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_15" parent="Grass" unique_id=1727859037 instance=ExtResource("9_ycdy4")]
 position = Vector2(-564, 1776)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_15" unique_id=170843844]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_15" unique_id=1940678779]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_16" parent="Grass" unique_id=674454512 instance=ExtResource("9_ycdy4")]
 position = Vector2(-2689, -234)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_16" unique_id=841559969]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_16" unique_id=541204137]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_17" parent="Grass" unique_id=2122815968 instance=ExtResource("9_ycdy4")]
 position = Vector2(-2419, -477)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_17" unique_id=1251084077]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_17" unique_id=752766872]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_18" parent="Grass" unique_id=971647342 instance=ExtResource("9_ycdy4")]
 position = Vector2(-3086, -612)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_18" unique_id=632540786]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_18" unique_id=453488118]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_19" parent="Grass" unique_id=376595588 instance=ExtResource("9_ycdy4")]
 position = Vector2(-1051, -1795)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_19" unique_id=294187234]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_19" unique_id=1190265552]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_20" parent="Grass" unique_id=614505807 instance=ExtResource("9_ycdy4")]
 position = Vector2(-1722, 683)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_20" unique_id=1072250603]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_20" unique_id=135382518]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_21" parent="Grass" unique_id=1174851338 instance=ExtResource("9_ycdy4")]
 position = Vector2(-1591, 834)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_21" unique_id=247325047]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_21" unique_id=1126899190]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_22" parent="Grass" unique_id=2030342636 instance=ExtResource("9_ycdy4")]
 position = Vector2(-2398, 789)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_22" unique_id=558823060]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_22" unique_id=2034201414]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_23" parent="Grass" unique_id=679638964 instance=ExtResource("9_ycdy4")]
 position = Vector2(735, -1705)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_23" unique_id=544533848]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_23" unique_id=858219185]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_24" parent="Grass" unique_id=192822198 instance=ExtResource("9_ycdy4")]
 position = Vector2(1016, -1580)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_24" unique_id=243761366]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_24" unique_id=2034093569]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_25" parent="Grass" unique_id=491896859 instance=ExtResource("9_ycdy4")]
 position = Vector2(1231, 1536)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_25" unique_id=1608030749]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_25" unique_id=1935143009]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_26" parent="Grass" unique_id=820894057 instance=ExtResource("9_ycdy4")]
 position = Vector2(1464, 1811)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_26" unique_id=1080732568]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_26" unique_id=1135437660]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_27" parent="Grass" unique_id=2010226918 instance=ExtResource("9_ycdy4")]
 position = Vector2(-1371, 823)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_27" unique_id=288928367]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_27" unique_id=1406120060]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_28" parent="Grass" unique_id=430434691 instance=ExtResource("9_ycdy4")]
 position = Vector2(-708, 671)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_28" unique_id=103985241]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_28" unique_id=1806208116]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_29" parent="Grass" unique_id=2030910799 instance=ExtResource("9_ycdy4")]
 position = Vector2(-241, 660)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_29" unique_id=1705026644]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_29" unique_id=2066332481]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_30" parent="Grass" unique_id=1018753774 instance=ExtResource("9_ycdy4")]
 position = Vector2(5578, 1306)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_30" unique_id=266062003]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_30" unique_id=814002503]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_31" parent="Grass" unique_id=619125438 instance=ExtResource("9_ycdy4")]
 position = Vector2(6135, 1474)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_31" unique_id=1635714594]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_31" unique_id=55564977]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_32" parent="Grass" unique_id=301201811 instance=ExtResource("9_ycdy4")]
 position = Vector2(5923, -662)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_32" unique_id=266544199]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_32" unique_id=263202920]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_33" parent="Grass" unique_id=600998963 instance=ExtResource("9_ycdy4")]
 position = Vector2(6175, -914)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_33" unique_id=562998834]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_33" unique_id=1527926430]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_34" parent="Grass" unique_id=1507454101 instance=ExtResource("9_ycdy4")]
 position = Vector2(5479, -1215)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_34" unique_id=1696423774]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_34" unique_id=965173891]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_35" parent="Grass" unique_id=1595537694 instance=ExtResource("9_ycdy4")]
 position = Vector2(3755, -836)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_35" unique_id=41566509]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_35" unique_id=1683038607]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_36" parent="Grass" unique_id=1224648219 instance=ExtResource("9_ycdy4")]
 position = Vector2(3820, -983)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_36" unique_id=36486214]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_36" unique_id=1757938166]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_37" parent="Grass" unique_id=2095281525 instance=ExtResource("9_ycdy4")]
 position = Vector2(3903, -652)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_37" unique_id=2116449344]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_37" unique_id=1217965963]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_38" parent="Grass" unique_id=2012657096 instance=ExtResource("9_ycdy4")]
 position = Vector2(3677, -666)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_38" unique_id=2023176823]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_38" unique_id=330958072]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_39" parent="Grass" unique_id=1944270840 instance=ExtResource("9_ycdy4")]
 position = Vector2(1988, -9316)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_39" unique_id=750840409]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_39" unique_id=1148874762]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_40" parent="Grass" unique_id=966469668 instance=ExtResource("9_ycdy4")]
 position = Vector2(1792, -9205)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_40" unique_id=976355962]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_40" unique_id=111371772]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_41" parent="Grass" unique_id=968107130 instance=ExtResource("9_ycdy4")]
 position = Vector2(1421, -9502)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_41" unique_id=641076576]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_41" unique_id=1167190478]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_42" parent="Grass" unique_id=487379124 instance=ExtResource("9_ycdy4")]
 position = Vector2(1898, -7852)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_42" unique_id=533591004]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_42" unique_id=831237699]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_43" parent="Grass" unique_id=1889447766 instance=ExtResource("9_ycdy4")]
 position = Vector2(699, -7852)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_43" unique_id=1427173025]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_43" unique_id=813667015]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_44" parent="Grass" unique_id=127998287 instance=ExtResource("9_ycdy4")]
 position = Vector2(7158, -124)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_44" unique_id=233035801]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_44" unique_id=1999609626]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_45" parent="Grass" unique_id=1449020965 instance=ExtResource("9_ycdy4")]
 position = Vector2(7631, -374)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_45" unique_id=1215636985]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_45" unique_id=2000395450]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_46" parent="Grass" unique_id=410736528 instance=ExtResource("9_ycdy4")]
 position = Vector2(8057, -387)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_46" unique_id=55500493]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_46" unique_id=531546363]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_47" parent="Grass" unique_id=498495299 instance=ExtResource("9_ycdy4")]
 position = Vector2(8379, -105)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_47" unique_id=2020762301]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_47" unique_id=992639487]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_48" parent="Grass" unique_id=1394109932 instance=ExtResource("9_ycdy4")]
 position = Vector2(8944, -407)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_48" unique_id=1620279357]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_48" unique_id=1187449451]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_49" parent="Grass" unique_id=551841274 instance=ExtResource("9_ycdy4")]
 position = Vector2(6685, -249)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_49" unique_id=2004376560]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_49" unique_id=1226997962]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_50" parent="Grass" unique_id=323383491 instance=ExtResource("9_ycdy4")]
 position = Vector2(4575, -4691)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_50" unique_id=1199032377]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_50" unique_id=1920957929]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_51" parent="Grass" unique_id=251039293 instance=ExtResource("9_ycdy4")]
 position = Vector2(5805, -9283)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_51" unique_id=125567987]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_51" unique_id=782130519]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_52" parent="Grass" unique_id=943592400 instance=ExtResource("9_ycdy4")]
 position = Vector2(6120, -8935)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_52" unique_id=1651184030]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_52" unique_id=919997386]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_53" parent="Grass" unique_id=416224339 instance=ExtResource("9_ycdy4")]
 position = Vector2(6205, -9611)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_53" unique_id=572908873]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_53" unique_id=1263037618]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_54" parent="Grass" unique_id=615655323 instance=ExtResource("9_ycdy4")]
 position = Vector2(4485, -9401)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_54" unique_id=729602263]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_54" unique_id=806745089]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_55" parent="Grass" unique_id=1350771779 instance=ExtResource("9_ycdy4")]
 position = Vector2(3835, -8954)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_55" unique_id=621128042]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_55" unique_id=1120953260]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_56" parent="Grass" unique_id=969485589 instance=ExtResource("9_ycdy4")]
 position = Vector2(2719, -9335)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_56" unique_id=1923106864]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_56" unique_id=1610969294]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_57" parent="Grass" unique_id=1256721666 instance=ExtResource("9_ycdy4")]
 position = Vector2(664, -9414)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_57" unique_id=703006805]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_57" unique_id=1176642116]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_58" parent="Grass" unique_id=1713965819 instance=ExtResource("9_ycdy4")]
 position = Vector2(-518, -8954)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_58" unique_id=590211578]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_58" unique_id=18037269]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_59" parent="Grass" unique_id=1761958486 instance=ExtResource("9_ycdy4")]
 position = Vector2(-1411, -9453)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_59" unique_id=433601650]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_59" unique_id=2073083641]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_60" parent="Grass" unique_id=1854987836 instance=ExtResource("9_ycdy4")]
 position = Vector2(-1923, -9499)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_60" unique_id=1631374599]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_60" unique_id=1643425088]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_61" parent="Grass" unique_id=636981679 instance=ExtResource("9_ycdy4")]
 position = Vector2(-1522, -8908)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_61" unique_id=1629874180]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_61" unique_id=1490897553]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_62" parent="Grass" unique_id=2147397607 instance=ExtResource("9_ycdy4")]
 position = Vector2(1390, -6700)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_62" unique_id=207230181]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_62" unique_id=67720838]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="Grass_63" parent="Grass" unique_id=776668406 instance=ExtResource("9_ycdy4")]
 position = Vector2(757, -6589)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_63" unique_id=56132417]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_63" unique_id=1054658757]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
-
 [node name="Grass_64" parent="Grass" unique_id=176484936 instance=ExtResource("9_ycdy4")]
 position = Vector2(4832, -8256)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="Grass/Grass_64" unique_id=1291046673]
-material = SubResource("ShaderMaterial_riqys")
-position = Vector2(-13.199907, -136.98924)
-rotation = 3.1326253
-scale = Vector2(340.45093, 374.83566)
-mesh = SubResource("QuadMesh_bhunq")
-texture = SubResource("CompressedTexture2D_4c57u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Grass/Grass_64" unique_id=789016639]
-position = Vector2(-5.0972977, -119.53155)
-rotation = -0.008086499
-scale = Vector2(0.99999934, 0.99999934)
-shape = SubResource("RectangleShape2D_riqys")
 
 [node name="GrassBig" type="Node2D" parent="." unique_id=944446294]
 y_sort_enabled = true
@@ -5562,623 +4556,175 @@ y_sort_enabled = true
 [node name="Grass_big" parent="GrassBig" unique_id=79254097 instance=ExtResource("18_x2xxo")]
 position = Vector2(-2282, 1444)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big" unique_id=316229404]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big2" parent="GrassBig" unique_id=323315875 instance=ExtResource("18_x2xxo")]
 position = Vector2(-997, 1606)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big2" unique_id=1407543988]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big3" parent="GrassBig" unique_id=472998815 instance=ExtResource("18_x2xxo")]
 position = Vector2(4097, -2534)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big3" unique_id=1891225477]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big4" parent="GrassBig" unique_id=543067263 instance=ExtResource("18_x2xxo")]
 position = Vector2(4589, 942)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big4" unique_id=740033040]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big5" parent="GrassBig" unique_id=933545374 instance=ExtResource("18_x2xxo")]
 position = Vector2(3284, -9042)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big5" unique_id=2100888464]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big6" parent="GrassBig" unique_id=1352576789 instance=ExtResource("18_x2xxo")]
 position = Vector2(-1115, -9075)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big6" unique_id=195029916]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big7" parent="GrassBig" unique_id=1450114974 instance=ExtResource("18_x2xxo")]
 position = Vector2(2809, -5113)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big7" unique_id=1597311198]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big8" parent="GrassBig" unique_id=1305020549 instance=ExtResource("18_x2xxo")]
 position = Vector2(-1924, 932)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big8" unique_id=1746232842]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big9" parent="GrassBig" unique_id=1137234674 instance=ExtResource("18_x2xxo")]
 position = Vector2(-2955, -277)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big9" unique_id=850288469]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big10" parent="GrassBig" unique_id=1363266708 instance=ExtResource("18_x2xxo")]
 position = Vector2(-2115, -223)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big10" unique_id=633825817]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big11" parent="GrassBig" unique_id=2046377610 instance=ExtResource("18_x2xxo")]
 position = Vector2(-691, -1641)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big11" unique_id=458615678]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big12" parent="GrassBig" unique_id=2068276434 instance=ExtResource("18_x2xxo")]
 position = Vector2(-1948, -709)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big12" unique_id=1353050316]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big13" parent="GrassBig" unique_id=1910820253 instance=ExtResource("18_x2xxo")]
 position = Vector2(-351, -1480)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big13" unique_id=1680253484]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big14" parent="GrassBig" unique_id=1102082727 instance=ExtResource("18_x2xxo")]
 position = Vector2(365, -1761)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big14" unique_id=544688070]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big15" parent="GrassBig" unique_id=252585192 instance=ExtResource("18_x2xxo")]
 position = Vector2(1171, -1815)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big15" unique_id=1525796992]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big16" parent="GrassBig" unique_id=1937451986 instance=ExtResource("18_x2xxo")]
 position = Vector2(1803, 1823)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big16" unique_id=975782685]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big17" parent="GrassBig" unique_id=2000708559 instance=ExtResource("18_x2xxo")]
 position = Vector2(-1546, -369)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big17" unique_id=485943300]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big18" parent="GrassBig" unique_id=1576046919 instance=ExtResource("18_x2xxo")]
 position = Vector2(-970, -249)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big18" unique_id=879274406]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big19" parent="GrassBig" unique_id=1839780300 instance=ExtResource("18_x2xxo")]
 position = Vector2(-1564, 1230)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big19" unique_id=103760163]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big20" parent="GrassBig" unique_id=1688206072 instance=ExtResource("18_x2xxo")]
 position = Vector2(1043, -599)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big20" unique_id=2087580594]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big21" parent="GrassBig" unique_id=245673376 instance=ExtResource("18_x2xxo")]
 position = Vector2(515, -436)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big21" unique_id=1631458248]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big22" parent="GrassBig" unique_id=678319302 instance=ExtResource("18_x2xxo")]
 position = Vector2(1023, 511)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big22" unique_id=196471021]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big23" parent="GrassBig" unique_id=506313947 instance=ExtResource("18_x2xxo")]
 position = Vector2(1551, 333)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big23" unique_id=1391750281]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big24" parent="GrassBig" unique_id=882511734 instance=ExtResource("18_x2xxo")]
 position = Vector2(1684, -738)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big24" unique_id=1289965829]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big25" parent="GrassBig" unique_id=1047816964 instance=ExtResource("18_x2xxo")]
 position = Vector2(-970, -971)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big25" unique_id=2086118029]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big26" parent="GrassBig" unique_id=1696804586 instance=ExtResource("18_x2xxo")]
 position = Vector2(3643, 678)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big26" unique_id=976167838]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big27" parent="GrassBig" unique_id=196925642 instance=ExtResource("18_x2xxo")]
 position = Vector2(5546, 745)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big27" unique_id=1870457694]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big28" parent="GrassBig" unique_id=590365373 instance=ExtResource("18_x2xxo")]
 position = Vector2(6192, 464)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big28" unique_id=906654652]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big29" parent="GrassBig" unique_id=706931648 instance=ExtResource("18_x2xxo")]
 position = Vector2(5580, -819)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big29" unique_id=1897768331]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big30" parent="GrassBig" unique_id=971903078 instance=ExtResource("18_x2xxo")]
 position = Vector2(3748, -1870)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big30" unique_id=925487964]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big31" parent="GrassBig" unique_id=125748079 instance=ExtResource("18_x2xxo")]
 position = Vector2(4600, -1104)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big31" unique_id=826335953]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big32" parent="GrassBig" unique_id=966094753 instance=ExtResource("18_x2xxo")]
 position = Vector2(1627, -9327)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big32" unique_id=1850147915]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big33" parent="GrassBig" unique_id=122432952 instance=ExtResource("18_x2xxo")]
 position = Vector2(2276, -9494)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big33" unique_id=1302168126]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big34" parent="GrassBig" unique_id=373893536 instance=ExtResource("18_x2xxo")]
 position = Vector2(1515, -7871)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big34" unique_id=747244894]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big35" parent="GrassBig" unique_id=591779182 instance=ExtResource("18_x2xxo")]
 position = Vector2(1056, -7871)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big35" unique_id=57005491]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big36" parent="GrassBig" unique_id=1712202349 instance=ExtResource("18_x2xxo")]
 position = Vector2(4667, 102)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big36" unique_id=296678325]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big37" parent="GrassBig" unique_id=1387802101 instance=ExtResource("18_x2xxo")]
 position = Vector2(7826.0005, -123)
 rotation = 0.06617923
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big37" unique_id=1381434844]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big38" parent="GrassBig" unique_id=1699269193 instance=ExtResource("18_x2xxo")]
 position = Vector2(8804, -123.00006)
 rotation = 0.06617923
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big38" unique_id=494641191]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big39" parent="GrassBig" unique_id=1046164417 instance=ExtResource("18_x2xxo")]
 position = Vector2(9493.001, -116)
 rotation = 0.06617923
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big39" unique_id=1673386066]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big40" parent="GrassBig" unique_id=51473828 instance=ExtResource("18_x2xxo")]
 position = Vector2(9316, -451)
 rotation = 0.06617923
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big40" unique_id=1700328224]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big41" parent="GrassBig" unique_id=201942204 instance=ExtResource("18_x2xxo")]
 position = Vector2(10018.999, -234.00012)
 rotation = 0.06617923
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big41" unique_id=1874345408]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big42" parent="GrassBig" unique_id=630679313 instance=ExtResource("18_x2xxo")]
 position = Vector2(4878, -3946)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big42" unique_id=1849673796]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big43" parent="GrassBig" unique_id=406844755 instance=ExtResource("18_x2xxo")]
 position = Vector2(5655, -8996)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big43" unique_id=1534647475]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big44" parent="GrassBig" unique_id=1865967350 instance=ExtResource("18_x2xxo")]
 position = Vector2(4874, -9200)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big44" unique_id=588955297]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big45" parent="GrassBig" unique_id=202000398 instance=ExtResource("18_x2xxo")]
 position = Vector2(6942, -9167)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big45" unique_id=537552439]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big46" parent="GrassBig" unique_id=1720335575 instance=ExtResource("18_x2xxo")]
 position = Vector2(4033, -9285)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big46" unique_id=1647047224]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big47" parent="GrassBig" unique_id=1744362804 instance=ExtResource("18_x2xxo")]
 position = Vector2(3468, -9600)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big47" unique_id=1710236963]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big48" parent="GrassBig" unique_id=1650795331 instance=ExtResource("18_x2xxo")]
 position = Vector2(2174, -8891)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big48" unique_id=253236041]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big49" parent="GrassBig" unique_id=67211277 instance=ExtResource("18_x2xxo")]
 position = Vector2(1320, -9003)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big49" unique_id=307435895]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big50" parent="GrassBig" unique_id=2058667283 instance=ExtResource("18_x2xxo")]
 position = Vector2(217, -9174)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big50" unique_id=435653563]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big51" parent="GrassBig" unique_id=817759985 instance=ExtResource("18_x2xxo")]
 position = Vector2(-420, -9443)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big51" unique_id=1948643122]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big52" parent="GrassBig" unique_id=1008327963 instance=ExtResource("18_x2xxo")]
 position = Vector2(-1936, -9055)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big52" unique_id=527274052]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big53" parent="GrassBig" unique_id=1834398911 instance=ExtResource("18_x2xxo")]
 position = Vector2(1764, -6671)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big53" unique_id=756811129]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big54" parent="GrassBig" unique_id=1500617252 instance=ExtResource("18_x2xxo")]
 position = Vector2(4790, -7606)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big54" unique_id=1146181614]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Grass_big55" parent="GrassBig" unique_id=189781121 instance=ExtResource("18_x2xxo")]
 position = Vector2(4694, -6848)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big55" unique_id=1445492520]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
-
 [node name="Grass_big56" parent="GrassBig" unique_id=1354699911 instance=ExtResource("18_x2xxo")]
 position = Vector2(4813, -5330)
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="GrassBig/Grass_big56" unique_id=458391194]
-material = SubResource("ShaderMaterial_nossa")
-position = Vector2(-6.000002, -155)
-rotation = 3.1361961
-scale = Vector2(431.8361, 415.50894)
-mesh = SubResource("QuadMesh_hjqri")
-texture = ExtResource("17_mbb35")
 
 [node name="Rocks" type="Node2D" parent="." unique_id=1006773546]
 y_sort_enabled = true
@@ -6204,47 +4750,17 @@ y_sort_enabled = true
 [node name="Trap" parent="Traps" unique_id=1440000002 instance=ExtResource("17_trap")]
 position = Vector2(-14079, -1076)
 
-[node name="Visual2" type="Sprite2D" parent="Traps/Trap" unique_id=1929888188]
-modulate = Color(0.5, 0.4, 0.6, 1)
-texture_filter = 1
-scale = Vector2(4, 4)
-texture = ExtResource("4_272bh")
-
 [node name="Trap2" parent="Traps" unique_id=124305378 instance=ExtResource("17_trap")]
 position = Vector2(-14217, -2461)
-
-[node name="Visual2" type="Sprite2D" parent="Traps/Trap2" unique_id=355548458]
-modulate = Color(0.5, 0.4, 0.6, 1)
-texture_filter = 1
-scale = Vector2(4, 4)
-texture = ExtResource("4_272bh")
 
 [node name="Trap3" parent="Traps" unique_id=618644557 instance=ExtResource("17_trap")]
 position = Vector2(-9144, -5880)
 
-[node name="Visual2" type="Sprite2D" parent="Traps/Trap3" unique_id=1387413571]
-modulate = Color(0.5, 0.4, 0.6, 1)
-texture_filter = 1
-scale = Vector2(4, 4)
-texture = ExtResource("4_272bh")
-
 [node name="Trap4" parent="Traps" unique_id=1710956786 instance=ExtResource("17_trap")]
 position = Vector2(-11611, 1192)
 
-[node name="Visual2" type="Sprite2D" parent="Traps/Trap4" unique_id=687937719]
-modulate = Color(0.5, 0.4, 0.6, 1)
-texture_filter = 1
-scale = Vector2(4, 4)
-texture = ExtResource("4_272bh")
-
 [node name="Trap5" parent="Traps" unique_id=1879676759 instance=ExtResource("17_trap")]
 position = Vector2(-9620, -3211)
-
-[node name="Visual2" type="Sprite2D" parent="Traps/Trap5" unique_id=276080121]
-modulate = Color(0.5, 0.4, 0.6, 1)
-texture_filter = 1
-scale = Vector2(4, 4)
-texture = ExtResource("4_272bh")
 
 [node name="Interactables" type="Node2D" parent="." unique_id=441863980]
 y_sort_enabled = true
@@ -6253,49 +4769,14 @@ y_sort_enabled = true
 position = Vector2(-8683, 7256)
 scale = Vector2(16, 16)
 
-[node name="Body2" type="CharacterBody2D" parent="Interactables/Box" unique_id=1166049426]
-collision_layer = 4
-collision_mask = 2
-script = ExtResource("22_iw4em")
-
 [node name="IceBlock" parent="Interactables" unique_id=1237292441 instance=ExtResource("9_4c57u")]
 position = Vector2(4843, -3281)
 scale = Vector2(16, 16)
-
-[node name="Collision2" type="CollisionShape2D" parent="Interactables/IceBlock" unique_id=1993002428]
-position = Vector2(1.5, 3.5)
-shape = SubResource("RectangleShape2D_ice")
-
-[node name="Visual2" type="Sprite2D" parent="Interactables/IceBlock" unique_id=1938576913]
-modulate = Color(0.3, 0.55, 1, 1)
-texture_filter = 1
-scale = Vector2(2.6875, 2.25)
-texture = ExtResource("4_272bh")
 
 [node name="Ember" parent="Interactables" unique_id=1805318027 instance=ExtResource("15_2cqfq")]
 position = Vector2(-9781, 8203)
 scale = Vector2(16, 16)
 
-[node name="Collision2" type="CollisionShape2D" parent="Interactables/Ember" unique_id=1593508845]
-position = Vector2(1.5, 3.5)
-shape = SubResource("RectangleShape2D_ember")
-
-[node name="Visual2" type="Sprite2D" parent="Interactables/Ember" unique_id=230031658]
-modulate = Color(1, 0.3, 0.3, 1)
-texture_filter = 1
-scale = Vector2(2.6875, 2.25)
-texture = ExtResource("4_272bh")
-
 [node name="Ember2" parent="Interactables" unique_id=1501727551 instance=ExtResource("15_2cqfq")]
 position = Vector2(-10351, 8059)
 scale = Vector2(16, 16)
-
-[node name="Collision2" type="CollisionShape2D" parent="Interactables/Ember2" unique_id=2112359675]
-position = Vector2(1.5, 3.5)
-shape = SubResource("RectangleShape2D_ember")
-
-[node name="Visual2" type="Sprite2D" parent="Interactables/Ember2" unique_id=1247543110]
-modulate = Color(1, 0.3, 0.3, 1)
-texture_filter = 1
-scale = Vector2(2.6875, 2.25)
-texture = ExtResource("4_272bh")

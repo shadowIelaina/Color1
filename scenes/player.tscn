@@ -21,7 +21,7 @@ script = ExtResource("3_qhqgy")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1266022386]
 texture_filter = 1
-position = Vector2(0, -197)
+position = Vector2(4.9999995, -74.00001)
 scale = Vector2(0.2, 0.2)
 sprite_frames = ExtResource("2_frames")
 animation = &"idle_down"

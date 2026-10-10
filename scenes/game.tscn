@@ -12,7 +12,6 @@ script = ExtResource("1_game")
 [node name="RoomContainer" type="Node2D" parent="." unique_id=1196933740]
 
 [node name="Player" parent="." unique_id=152436479 groups=["player"] instance=ExtResource("2_player")]
-pixel_scale = 0.28
 interact_range = 432.0
 light_radius = 152.0
 
