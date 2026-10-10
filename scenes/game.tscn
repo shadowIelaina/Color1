@@ -51,7 +51,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Darkness" type="Polygon2D" parent="." unique_id=1840203514]
-z_index = 100
+z_index = 4096
 material = ExtResource("5_mat")
 polygon = PackedVector2Array(-20000, -20000, 20000, -20000, 20000, 20000, -20000, 20000)
 script = ExtResource("4_darkness")

@@ -15,7 +15,7 @@ shader_parameter/blur_far = 0.50000002375
 shader_parameter/fade_distance = 0.250000011875
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yddip"]
-size = Vector2(26, 7)
+size = Vector2(26, 9.5)
 
 [node name="Tree" type="StaticBody2D" unique_id=293502526]
 collision_layer = 2
@@ -29,5 +29,5 @@ scale = Vector2(0.073730476, 0.07409667)
 texture = ExtResource("3_mh1gu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2124807367]
-position = Vector2(0, -3)
+position = Vector2(0, -1.75)
 shape = SubResource("RectangleShape2D_yddip")

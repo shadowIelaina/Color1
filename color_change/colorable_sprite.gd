@@ -7,6 +7,7 @@ extends Sprite2D
 const FILL_SHADER := preload("res://shaders/color_fill_texture.gdshader")
 const Rules := preload("res://scripts/element/element_rules.gd")
 const Behavior := preload("res://scripts/element/element_behavior.gd")
+const DepthSort := preload("res://scripts/depth_sort.gd")
 
 @export var fill_duration := 0.5
 @export var fill_softness := 224.0
@@ -22,6 +23,8 @@ var _behavior: ElementBehavior
 
 
 func _ready() -> void:
+	# 深度排序：岩石是居中 Sprite2D，用贴图底边（脚底）作锚点，才能挡住其后侧的玩家。
+	z_index = DepthSort.z_for(to_global(Vector2(0.0, get_rect().end.y)).y)
 	add_to_group("colorable")
 	_current_color = modulate
 	_initial_color = modulate
