@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://q2qyn5kmy3wx"]
+
+[ext_resource type="Script" uid="uid://d1qyft8hlecys" path="res://shaders/frost.gd" id="1_vd6mx"]
+
+[sub_resource type="Gradient" id="Gradient_bhunq"]
+offsets = PackedFloat32Array(0, 0.29362416)
+colors = PackedColorArray(1, 1, 1, 1, 0.46666667, 0.8352941, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_riqys"]
+offsets = PackedFloat32Array(0, 0.21979865)
+colors = PackedColorArray(1, 1, 1, 1, 0.46666667, 0.8352941, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_sn0t7"]
+offsets = PackedFloat32Array(0, 0.17617449)
+colors = PackedColorArray(1, 1, 1, 1, 0.46666667, 0.8352941, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_6f8o3"]
+offsets = PackedFloat32Array(0, 0.19630873)
+colors = PackedColorArray(1, 1, 1, 1, 0.46666667, 0.8352941, 1, 1)
+
+[node name="frost" type="Node2D" unique_id=1689392869]
+script = ExtResource("1_vd6mx")
+
+[node name="Top" type="CPUParticles2D" parent="." unique_id=1413487313]
+position = Vector2(0, -118)
+amount = 50
+lifetime = 1.2
+explosiveness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(128, 10)
+direction = Vector2(0, 1)
+spread = 20.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+damping_max = 2.0
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_bhunq")
+
+[node name="bottom" type="CPUParticles2D" parent="." unique_id=649156673]
+position = Vector2(0, 118)
+amount = 50
+lifetime = 1.2
+explosiveness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(128, 10)
+direction = Vector2(0, -1)
+spread = 20.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+damping_max = 2.0
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_riqys")
+
+[node name="left" type="CPUParticles2D" parent="." unique_id=999342238]
+position = Vector2(-118, 0)
+amount = 50
+lifetime = 1.2
+explosiveness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(10, 128)
+spread = 20.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+damping_max = 2.0
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_sn0t7")
+
+[node name="right" type="CPUParticles2D" parent="." unique_id=298486461]
+position = Vector2(118, 0)
+amount = 50
+lifetime = 1.2
+explosiveness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(10, 128)
+direction = Vector2(-1, 0)
+spread = 20.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+damping_max = 2.0
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_6f8o3")

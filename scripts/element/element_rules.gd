@@ -23,7 +23,7 @@ const ELEMENTS := {
 	"freeze": {
 		"color_name": "蓝",
 		"color": Color(0.3, 0.55, 1.0),
-		"vfx": "res://effects/freeze_spread/freeze_spread.tscn",
+		"vfx": "res://shaders/frost.tscn",
 		"spreads": false,
 		"spread_radius": 880.0,
 		"spread_delay": 0.7,
