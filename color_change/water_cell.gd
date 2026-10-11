@@ -8,6 +8,7 @@ extends StaticBody2D
 
 const Rules := preload("res://scripts/element/element_rules.gd")
 const ICE_WALL_SCENE := preload("res://prefabs/items/interaction/ice_wall.tscn")
+const ICE_GROWTH_SCENE := preload("res://prefabs/Ice_growth/ice_block.tscn")
 
 ## 格子边长（世界单位）。一格水 = 一格 tile（= HeightMap.CELL，256px）。
 var cell_size := Vector2(HeightMap.CELL, HeightMap.CELL)
@@ -29,6 +30,11 @@ const FADE_TIME := 0.2
 @export var shallow := false
 ## 是否由本 WaterCell 绘制基础水面。使用 TileMapLayer 贴图时设为 false，只保留碰撞和结冰。
 @export var draw_water := true
+## 结冰生长方向兜底值：拿不到玩家位置时（非玩家触发的结冰）固定用这个方向。
+## 正常由玩家赋予时，生长方向 = 从玩家站立一侧向外（背离玩家），见 _pick_grow_dir。
+@export var ice_grow_dir := Vector2.RIGHT
+## 结冰生长时长（秒）。ice_growth 预制体默认 3.0 太慢，冻结取 0.6 左右更干脆。
+@export var ice_grow_duration := 0.6
 
 var _frozen := false
 var _col: CollisionShape2D
@@ -69,7 +75,7 @@ func apply_color(_c: Color, color_name: String = "", _from_pos: Vector2 = Vector
 	if color_name != "蓝":
 		return false
 	if not _frozen:
-		_freeze()
+		_freeze(_from_pos)
 		return true
 	# 已结冰：再点一下生成一块可融冰墙（消耗 1 蓝）。
 	if _has_wall():
@@ -109,12 +115,59 @@ func absorb_color() -> Dictionary:
 	}
 
 
-## 结冰：取消碰撞（可通行），冰块淡入盖住水。
-func _freeze() -> void:
+## 结冰：取消碰撞（可通行），冰块以「生长」效果浮现盖住水。
+func _freeze(from_pos: Vector2 = Vector2.INF) -> void:
 	_frozen = true
 	_col.set_deferred("disabled", true)
-	_fade_to(_water, _ice)
+	_reveal_ice(from_pos)
+	if _water != null:
+		_fade_out_visual(_water)
 	HeightMap.set_walkable(global_position, true)   # 冰：可站
+
+
+## 结冰视觉：有 ice_growth 预制体时播放「从边缘生长」效果；纯色兜底沿用淡入。
+func _reveal_ice(from_pos: Vector2 = Vector2.INF) -> void:
+	if _ice == null:
+		return
+	if _tween and _tween.is_valid():
+		_tween.kill()
+	_ice.visible = true
+	if _ice.has_method("start"):
+		_ice.modulate.a = 1.0
+		_ice.grow_dir = _pick_grow_dir(from_pos)
+		_ice.start()
+	else:
+		_ice.modulate.a = 0.0
+		_tween = create_tween()
+		_tween.tween_property(_ice, "modulate:a", 1.0, FADE_TIME)
+
+
+## 结冰生长方向：从玩家站立的一侧向外生长（背离玩家），量化到四向。
+## 生长前端沿 grow_dir 方向推进，所以取「背离玩家」的方向 = 冰从玩家那一侧开始长出去。
+## 拿不到玩家位置（非玩家触发）时退回 ice_grow_dir 固定方向。
+func _pick_grow_dir(from_pos: Vector2 = Vector2.INF) -> Vector2:
+	var origin := from_pos
+	if origin == Vector2.INF:
+		var player := get_tree().get_first_node_in_group("player") as Node2D
+		if player == null:
+			return ice_grow_dir
+		origin = player.global_position
+	var to_player := origin - global_position
+	if absf(to_player.x) >= absf(to_player.y):
+		return Vector2.LEFT if to_player.x >= 0.0 else Vector2.RIGHT
+	return Vector2.UP if to_player.y >= 0.0 else Vector2.DOWN
+
+
+## 单方向淡出一个视觉（冻结时水面淡出）。
+func _fade_out_visual(vis: Node2D) -> void:
+	if vis == null:
+		return
+	var tw := create_tween()
+	tw.tween_property(vis, "modulate:a", 0.0, FADE_TIME)
+	tw.tween_callback(func():
+		vis.visible = false
+		vis.modulate.a = 1.0
+	)
 
 
 func _has_wall() -> bool:
@@ -195,8 +248,37 @@ func _build_water() -> void:
 
 
 func _build_ice() -> void:
-	_ice = _make_visual("Ice", ice_texture, ice_color)
-	add_child(_ice)
+	if ice_texture != null:
+		_build_ice_growth()
+	else:
+		_ice = _make_visual("Ice", null, ice_color)
+		add_child(_ice)
+
+
+## 用 ice_growth 预制体构建冰视觉：冻结时从边缘生长浮现（shader 进度 + 边缘粒子）。
+func _build_ice_growth() -> void:
+	var ice := ICE_GROWTH_SCENE.instantiate()
+	ice.name = "Ice"
+	ice.auto_start = false               # 先不生长，等结冰时再 start()
+	ice.grow_dir = ice_grow_dir
+	ice.grow_duration = ice_grow_duration
+	var sprite := ice.get_node("Sprite2D") as Sprite2D
+	if sprite != null:
+		sprite.texture = ice_texture
+		sprite.centered = true
+		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		var ts := ice_texture.get_size()
+		if ts.x > 0.0 and ts.y > 0.0:
+			sprite.scale = cell_size / ts   # 与 _make_visual 一致：缩到一格
+		# 关键：预制体的 sub_resource 在所有实例间共享。若不复制，多个冰格会共用同一份
+		# ShaderMaterial，后结冰的格子改 progress/grow_dir 会把已结冰格子的生长动画重播一遍。
+		if sprite.material is ShaderMaterial:
+			sprite.material = (sprite.material as ShaderMaterial).duplicate()
+	var particles := ice.get_node("GPUParticles2D") as GPUParticles2D
+	if particles != null and particles.process_material is ParticleProcessMaterial:
+		particles.process_material = (particles.process_material as ParticleProcessMaterial).duplicate()
+	_ice = ice
+	add_child(ice)
 
 
 func _build_preview() -> void:

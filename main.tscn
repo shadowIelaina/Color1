@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" path="res://prefabs/items/interaction/ember.tscn" id="15_2cqfq"]
 [ext_resource type="Material" uid="uid://by7wgjc88b0vq" path="res://shaders/darkness_material.tres" id="16_yaehf"]
 [ext_resource type="Script" uid="uid://bwht6afqxmfus" path="res://scripts/darkness_overlay.gd" id="17_074og"]
-[ext_resource type="PackedScene" path="res://prefabs/items/interaction/trap.tscn" id="17_trap"]
+[ext_resource type="PackedScene" uid="uid://cb56q1q7r7fke" path="res://prefabs/items/interaction/trap.tscn" id="17_trap"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4c57u"]
 texture = ExtResource("13_grass")
