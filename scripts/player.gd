@@ -508,6 +508,10 @@ func _add_outline(target: Node) -> void:
 	_highlight_outline = Sprite2D.new()
 	_highlight_outline.texture = sprite.texture
 	_highlight_outline.centered = sprite.centered
+	# flip 是 Sprite2D 的绘制属性（不走 transform，不会被子节点继承），必须显式抄给描边子节点，
+	# 否则像草这种「网格贴图需要 flip_v」的物体，描边方向会反。
+	_highlight_outline.flip_h = sprite.flip_h
+	_highlight_outline.flip_v = sprite.flip_v
 	_highlight_outline.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_highlight_outline.material = _outline_material
 	sprite.add_child(_highlight_outline)

@@ -3,7 +3,9 @@ uniform float bend_amount : hint_range(-3.0, 3.0) = 0.0;
 uniform float wind_strength : hint_range(0.0,1.0) = 0.01;
 
 void fragment(){
-    COLOR = texture(TEXTURE, UV);
+    // × COLOR：自定义 shader 覆盖了默认 shader，会吞掉 modulate/self_modulate；
+    // 乘回 COLOR（内含 modulate×self_modulate）才能让冻结/燃烧的持续着色生效。
+    COLOR = texture(TEXTURE, UV) * COLOR;
 }
 
 void vertex(){

@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://c0qn21iwkou8v"]
+
+[ext_resource type="PackedScene" uid="uid://ckv74s8mkhqcg" path="res://scenes/player.tscn" id="2_e4wy6"]
+[ext_resource type="Script" uid="uid://djk08ctk7nuni" path="res://scripts/world/chunk_manager.gd" id="2_hrspx"]
+[ext_resource type="PackedScene" uid="uid://cth270frtlesc" path="res://prefabs/items/interaction/ice_block.tscn" id="3_ice"]
+[ext_resource type="Script" uid="uid://dbd2rp0es04o" path="res://scripts/world/cell_hover.gd" id="4_mkakc"]
+
+[node name="ProceduralTest" type="Node2D" unique_id=1692116470]
+
+[node name="World" type="Node2D" parent="." unique_id=393899103]
+script = ExtResource("2_hrspx")
+
+[node name="Player" parent="." unique_id=2123202084 groups=["player"] instance=ExtResource("2_e4wy6")]
+interact_range = 432.0
+light_radius = 152.0
+
+[node name="Camera" type="Camera2D" parent="Player" unique_id=1517274024]
+zoom = Vector2(0.25, 0.25)
+
+[node name="IceBlock" parent="." unique_id=754748458 instance=ExtResource("3_ice") groups=["grid_object"]]
+position = Vector2(384, 128)
+scale = Vector2(5, 5)
+metadata/grid_label = "冰块"
+metadata/footprint = Vector2i(1, 1)
+
+[node name="Hover" type="Node2D" parent="." unique_id=1651407283]
+script = ExtResource("4_mkakc")

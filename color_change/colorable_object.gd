@@ -32,7 +32,7 @@ func _ready() -> void:
 
 
 func _make_material(base: Color) -> ShaderMaterial:
-	var m := ShaderMaterial.new()
+	var m: ShaderMaterial = ShaderMaterial.new()
 	m.shader = FILL_SHADER
 	m.set_shader_parameter("base_color", base)
 	m.set_shader_parameter("fill_color", base)
@@ -62,6 +62,29 @@ func _reset_visual() -> void:
 	_top_mat.set_shader_parameter("fill_color", _top_initial)
 	_front_mat.set_shader_parameter("fill_front", -1.0)
 	_top_mat.set_shader_parameter("fill_front", -1.0)
+
+
+## 融化（自然解冻）时把颜色淡出回初始色（霜渐退）。
+func fade_visual_out() -> void:
+	if _tween and _tween.is_valid():
+		_tween.kill()
+	var t := create_tween()
+	t.set_parallel(true)
+	t.tween_method(_fade_front_to, _front_current, _front_initial, 0.5)
+	t.tween_method(_fade_top_to, _top_current, _top_initial, 0.5)
+	t.chain().tween_callback(_reset_visual)
+
+
+func _fade_front_to(c: Color) -> void:
+	_front_current = c
+	_front_mat.set_shader_parameter("base_color", c)
+	_front_mat.set_shader_parameter("fill_color", c)
+
+
+func _fade_top_to(c: Color) -> void:
+	_top_current = c
+	_top_mat.set_shader_parameter("base_color", c)
+	_top_mat.set_shader_parameter("fill_color", c)
 
 
 func _apply_seed_visual(cfg: Dictionary) -> void:

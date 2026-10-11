@@ -14,6 +14,8 @@ const DepthSort := preload("res://scripts/depth_sort.gd")
 @export var light_offset := Vector2.ZERO
 ## 初始颜色名：非空时开局直接以该颜色/元素起手（如 "red" = 预置燃烧）。
 @export var initial_color_name := ""
+## 物质 id（对应 ElementRules.MATERIALS），决定该物体的专属反应（蔓延/光斑/交叉反应）。
+@export var material_id := "wood"
 
 var _behavior: ElementBehavior
 
@@ -29,6 +31,7 @@ func _ready() -> void:
 func _setup_behavior() -> void:
 	_behavior = Behavior.new()
 	_behavior.name = "ElementBehavior"
+	_behavior.material_id = material_id
 	_behavior.light_radius = light_radius
 	_behavior.light_offset = light_offset
 	_configure_behavior(_behavior)
@@ -70,6 +73,14 @@ func absorb_color() -> Dictionary:
 		"color": cfg.get("color", Color.WHITE),
 		"color_name": cfg.get("color_name", ""),
 	}
+
+
+## 当前元素颜色（无元素时返回透明，供悬停描边取色）。红=烧/蓝=冻/透明=未上色。
+func get_element_color() -> Color:
+	var el := _behavior.current_element()
+	if el == "":
+		return Color.TRANSPARENT
+	return Rules.config(el).get("color", Color.WHITE)
 
 
 ## 开局种子：若在编辑器中设了 initial_color_name，则物体直接以该颜色/元素起手。

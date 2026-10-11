@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://effects/melt_drip/melt_drip.gd" id="1_script"]
+[ext_resource type="Material" uid="uid://b6252iuelp1bu" path="res://effects/life_ring/add_glow.tres" id="2_mat"]
+[ext_resource type="Texture2D" uid="uid://djg3g0rcqg0le" path="res://effects/life_ring/glow_soft.tres" id="3_tex"]
+
+[sub_resource type="Gradient" id="Gradient_drip"]
+offsets = PackedFloat32Array(0, 0.6, 1)
+colors = PackedColorArray(0.4, 0.75, 1, 0.9, 0.5, 0.85, 1, 0.6, 0.6, 0.9, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_drip"]
+gradient = SubResource("Gradient_drip")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_drip"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 380, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 60.0
+scale_min = 0.15
+scale_max = 0.35
+color_ramp = SubResource("GradientTexture1D_drip")
+
+[node name="MeltDrip" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Drips" type="GPUParticles2D" parent="."]
+material = ExtResource("2_mat")
+amount = 60
+texture = ExtResource("3_tex")
+lifetime = 0.9
+one_shot = true
+explosiveness = 0.75
+process_material = SubResource("ParticleProcessMaterial_drip")

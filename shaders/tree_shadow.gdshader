@@ -68,5 +68,7 @@ void fragment() {
     shadow_a *= fade;
 
     vec4 shadow_color_v = vec4(shadow_color.rgb, shadow_a * shadow_color.a);
-    COLOR = mix(shadow_color_v, main_color, main_color.a);
+    // × COLOR：自定义 shader 覆盖默认 shader 会吞掉 modulate/self_modulate，
+    // 乘回 COLOR 才能让树的冻结/燃烧持续着色生效（影子是黑的 ×0 不受影响）。
+    COLOR = mix(shadow_color_v, main_color, main_color.a) * COLOR;
 }

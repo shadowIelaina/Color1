@@ -84,6 +84,22 @@ func _reset_visual() -> void:
 	_mat.set_shader_parameter("fill_front", -1.0)
 
 
+## 融化（自然解冻）时把颜色淡出回初始色（霜渐退）。
+func fade_visual_out() -> void:
+	if _tween and _tween.is_valid():
+		_tween.kill()
+	var from := _current_color
+	_tween = create_tween()
+	_tween.tween_method(_fade_to, from, _initial_color, 0.5)
+	_tween.tween_callback(_reset_visual)
+
+
+func _fade_to(c: Color) -> void:
+	_current_color = c
+	_mat.set_shader_parameter("base_color", c)
+	_mat.set_shader_parameter("fill_color", c)
+
+
 ## 开局种子：若在编辑器中设了 initial_color_name，则物体直接以该颜色/元素起手。
 func _seed_initial_color() -> void:
 	var el := Rules.element_for_color_name(initial_color_name)
