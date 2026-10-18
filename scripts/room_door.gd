@@ -20,6 +20,8 @@ const Lock := preload("res://scripts/lock_condition.gd")
 @export var starts_open := false
 @export var open_fade := 0.3
 @export var state_id: String = ""                # 持久化键，默认 = door_id
+## 仅由程序 open() 打开（谜题/开关直接调用），玩家靠近触发区时不自动开门。
+@export var manual_unlock := false
 ## 自动阻挡区域：阻挡碰撞尺寸 = Visual（橙点）宽高 × block_scale。Vector2.ZERO = 关闭（用场景里手动配的 Collision）。
 ## 点保持小、区域够大，防止玩家从门旁边绕过去。例：(4, 9) = 宽 4 倍点、高 9 倍点。
 @export var block_scale: Vector2 = Vector2.ZERO
@@ -69,6 +71,8 @@ func _on_body_entered(body: Node) -> void:
 	if is_open:
 		return
 	if not body.is_in_group("player"):
+		return
+	if manual_unlock:
 		return
 	if not _lock.on_unlock_side(body, global_position):
 		GameState.hint.emit("这扇门只能从对面开启")

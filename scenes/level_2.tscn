@@ -272,6 +272,9 @@ sources/2 = SubResource("TileSetAtlasSource_172wr")
 sources/3 = SubResource("TileSetAtlasSource_g2hoc")
 sources/4 = SubResource("TileSetAtlasSource_1sb0y")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_puzzle2_door"]
+size = Vector2(1678, 2086.8984)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bhunq"]
 radius = 105.0
 height = 296.0
@@ -403,10 +406,17 @@ scale = Vector2(1.3597211, 1.546819)
 [node name="RoomDoor_Puzzle" parent="." unique_id=784575271 instance=ExtResource("22_63d2t")]
 position = Vector2(-13675, -15193.001)
 scale = Vector2(0.45776185, 0.52350926)
+manual_unlock = true
 
 [node name="RoomDoor_Puzzle2" parent="." unique_id=1549031746 instance=ExtResource("22_63d2t")]
 position = Vector2(1177.0001, -22558.002)
 scale = Vector2(0.45776185, 0.52350926)
+manual_unlock = true
+
+[node name="Collision" parent="RoomDoor_Puzzle2" index="0" unique_id=83457382]
+position = Vector2(-44.49951, -275.55078)
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_puzzle2_door")
 
 [node name="to_level_1" type="Area2D" parent="." unique_id=1761320657]
 position = Vector2(4777, -3791)
@@ -1102,3 +1112,6 @@ position = Vector2(-18544, -24585)
 [node name="BaoXiang2" parent="." unique_id=404647096 instance=ExtResource("24_vwfin")]
 position = Vector2(10086, -3807)
 drop_scene = ExtResource("26_va6c3")
+
+[editable path="RoomDoor_Puzzle"]
+[editable path="RoomDoor_Puzzle2"]

@@ -33,7 +33,6 @@
 [ext_resource type="PackedScene" uid="uid://bv06efk7r2psm" path="res://prefabs/items/static prop/Baoxiang.tscn" id="26_hg84p"]
 [ext_resource type="Script" uid="uid://8xoxo53ss7et" path="res://scripts/companion.gd" id="26_mmfjm"]
 [ext_resource type="Resource" uid="uid://cs4tg8k8wjy13" path="res://dialogue/dia/companion.dialogue" id="27_k8ld0"]
-[ext_resource type="PackedScene" uid="uid://cmdgelgno7nbk" path="res://prefabs/creatures/fire_louse.tscn" id="27_v0i6o"]
 [ext_resource type="Script" uid="uid://bsesqduu4fs8m" path="res://scripts/companion_hint.gd" id="28_k8ld0"]
 [ext_resource type="Texture2D" uid="uid://dbtugj7615pn1" path="res://art/小跟班/xiaogenban2.png" id="29_hnsmf"]
 [ext_resource type="PackedScene" path="res://prefabs/rooms/room_zone.tscn" id="29_mbb35"]
@@ -41,9 +40,6 @@
 [ext_resource type="PackedScene" uid="uid://cy404hpgl6a4i" path="res://prefabs/rooms/checkpoint.tscn" id="33_v8pws"]
 [ext_resource type="PackedScene" uid="uid://dgk72eudaijk4" path="res://prefabs/items/interaction/blue_heart.tscn" id="36_tdlki"]
 [ext_resource type="PackedScene" uid="uid://chdkxg2bd1tkv" path="res://prefabs/rooms/room_door.tscn" id="37_v8pws"]
-[ext_resource type="PackedScene" uid="uid://bgew1y27utuh3" path="res://prefabs/items/interaction/growth_seed.tscn" id="39_rscm6"]
-[ext_resource type="PackedScene" path="res://prefabs/items/interaction/seed_container.tscn" id="39_wom8k"]
-[ext_resource type="PackedScene" uid="uid://dcqt7kn0dxvip" path="res://prefabs/creatures/firefly.tscn" id="41_wa552"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4c57u"]
 texture = ExtResource("13_grass")
@@ -5146,9 +5142,6 @@ scale = Vector2(16, 16)
 position = Vector2(-10351, 8059)
 scale = Vector2(16, 16)
 
-[node name="FireLouse" parent="." unique_id=837049173 instance=ExtResource("27_v0i6o")]
-position = Vector2(682, -761)
-
 [node name="WaterFlow" type="TileMapLayer" parent="." unique_id=1100431437]
 z_index = 10
 tile_map_data = PackedByteArray("AADU/+D/AAADAAAAAADU/+H/AAADAAAAAADU/+L/AAADAAAAAADU/+P/AAADAAAAAADU/+T/AAADAAAAAADU/+X/AAADAAAAAADU/+b/AAADAAAAAADU/+f/AAADAAAAAADU/+j/AAADAAAAAADU/+n/AAADAAAAAADU/+r/AAADAAAAAADU/+v/AAADAAAAAADU/+z/AAADAAAAAADU/+3/AAADAAAAAADU/+7/AAADAAAAAADU/+//AAADAAAAAADV/+D/AAADAAAAAADV/+H/AAADAAAAAADV/+L/AAADAAAAAADV/+P/AAADAAAAAADV/+T/AAADAAAAAADV/+X/AAADAAAAAADV/+b/AAADAAAAAADV/+f/AAADAAAAAADV/+j/AAADAAAAAADV/+n/AAADAAAAAADV/+r/AAADAAAAAADV/+v/AAADAAAAAADV/+z/AAADAAAAAADV/+3/AAADAAAAAADV/+7/AAADAAAAAADV/+//AAADAAAAAADW/+D/AAADAAAAAADW/+H/AAADAAAAAADW/+L/AAADAAAAAADW/+P/AAADAAAAAADW/+T/AAADAAAAAADW/+X/AAADAAAAAADW/+b/AAADAAAAAADW/+f/AAADAAAAAADW/+j/AAADAAAAAADW/+n/AAADAAAAAADW/+r/AAADAAAAAADW/+v/AAADAAAAAADW/+z/AAADAAAAAADW/+3/AAADAAAAAADW/+7/AAADAAAAAADW/+//AAADAAAAAADX/+D/AAADAAAAAADX/+H/AAADAAAAAADX/+L/AAADAAAAAADX/+P/AAADAAAAAADX/+T/AAADAAAAAADX/+X/AAADAAAAAADX/+b/AAADAAAAAADX/+f/AAADAAAAAADX/+j/AAADAAAAAADX/+n/AAADAAAAAADX/+r/AAADAAAAAADX/+v/AAADAAAAAADX/+z/AAADAAAAAADX/+3/AAADAAAAAADX/+7/AAADAAAAAADX/+//AAADAAAAAADY/+D/AAADAAAAAADY/+H/AAADAAAAAADY/+L/AAADAAAAAADY/+P/AAADAAAAAADY/+T/AAADAAAAAADY/+X/AAADAAAAAADY/+b/AAADAAAAAADY/+f/AAADAAAAAADY/+j/AAADAAAAAADY/+n/AAADAAAAAADY/+r/AAADAAAAAADY/+v/AAADAAAAAADY/+z/AAADAAAAAADY/+3/AAADAAAAAADY/+7/AAADAAAAAADY/+//AAADAAAAAADZ/+D/AAADAAAAAADZ/+H/AAADAAAAAADZ/+L/AAADAAAAAADZ/+P/AAADAAAAAADZ/+T/AAADAAAAAADZ/+X/AAADAAAAAADZ/+b/AAADAAAAAADZ/+f/AAADAAAAAADZ/+j/AAADAAAAAADZ/+n/AAADAAAAAADZ/+r/AAADAAAAAADZ/+v/AAADAAAAAADZ/+z/AAADAAAAAADZ/+3/AAADAAAAAADZ/+7/AAADAAAAAADZ/+//AAADAAAAAADU//D/AAADAAAAAADU//H/AAADAAAAAADU//L/AAADAAAAAADU//P/AAADAAAAAADU//T/AAADAAAAAADU//X/AAADAAAAAADU//b/AAADAAAAAADU//f/AAADAAAAAADU//j/AAADAAAAAADU//n/AAADAAAAAADU//r/AAADAAAAAADU//v/AAADAAAAAADU//z/AAADAAAAAADU//3/AAADAAAAAADV//D/AAADAAAAAADV//H/AAADAAAAAADV//L/AAADAAAAAADV//P/AAADAAAAAADV//T/AAADAAAAAADV//X/AAADAAAAAADV//b/AAADAAAAAADV//f/AAADAAAAAADV//j/AAADAAAAAADV//n/AAADAAAAAADV//r/AAADAAAAAADV//v/AAADAAAAAADV//z/AAADAAAAAADV//3/AAADAAAAAADW//D/AAADAAAAAADW//H/AAADAAAAAADW//L/AAADAAAAAADW//P/AAADAAAAAADW//T/AAADAAAAAADW//X/AAADAAAAAADW//b/AAADAAAAAADW//f/AAADAAAAAADW//j/AAADAAAAAADW//n/AAADAAAAAADW//r/AAADAAAAAADW//v/AAADAAAAAADW//z/AAADAAAAAADW//3/AAADAAAAAADX//D/AAADAAAAAADX//H/AAADAAAAAADX//L/AAADAAAAAADX//P/AAADAAAAAADX//T/AAADAAAAAADX//X/AAADAAAAAADX//b/AAADAAAAAADX//f/AAADAAAAAADX//j/AAADAAAAAADX//n/AAADAAAAAADX//r/AAADAAAAAADX//v/AAADAAAAAADX//z/AAADAAAAAADX//3/AAADAAAAAADY//D/AAADAAAAAADY//H/AAADAAAAAADY//L/AAADAAAAAADY//P/AAADAAAAAADY//T/AAADAAAAAADY//X/AAADAAAAAADY//b/AAADAAAAAADY//f/AAADAAAAAADY//j/AAADAAAAAADY//n/AAADAAAAAADY//r/AAADAAAAAADY//v/AAADAAAAAADY//z/AAADAAAAAADY//3/AAADAAAAAADZ//D/AAADAAAAAADZ//H/AAADAAAAAADZ//L/AAADAAAAAADZ//P/AAADAAAAAADZ//T/AAADAAAAAADZ//X/AAADAAAAAADZ//b/AAADAAAAAADZ//f/AAADAAAAAADZ//j/AAADAAAAAADZ//n/AAADAAAAAADZ//r/AAADAAAAAADZ//v/AAADAAAAAADZ//z/AAADAAAAAADZ//3/AAADAAAAAAA=")
@@ -5266,17 +5259,3 @@ drop_id = "1"
 position = Vector2(6661.001, -458)
 scale = Vector2(0.35041574, 0.35999912)
 required_key_id = "1"
-
-[node name="GrowthSeed" parent="." unique_id=1492456846 instance=ExtResource("39_rscm6")]
-position = Vector2(4745, -5774)
-grow_dir = Vector2(0, -1)
-vine_length = 856.0
-vine_thickness = 128.0
-chain_radius = 512.0
-
-[node name="SeedContainer" parent="." unique_id=425245008 instance=ExtResource("39_wom8k")]
-position = Vector2(1174, -98)
-grow_seeds = 3
-
-[node name="Firefly" parent="." unique_id=1805090174 instance=ExtResource("41_wa552")]
-position = Vector2(1427, -207)

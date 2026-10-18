@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bqvmrxeuuahbf" path="res://art/picture_boluo/门tm.png" id="2_wxmyy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
-size = Vector2(1561, 1861)
+size = Vector2(1561, 2464)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
 size = Vector2(1623, 2714)
@@ -13,7 +13,7 @@ size = Vector2(1623, 2714)
 script = ExtResource("1_door")
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=83457382]
-position = Vector2(-44.5, -153.5)
+position = Vector2(-44.5, 148)
 shape = SubResource("RectangleShape2D_door")
 
 [node name="Visual" type="Sprite2D" parent="." unique_id=300107527]
