@@ -18,6 +18,10 @@ const Lock := preload("res://scripts/lock_condition.gd")
 @export var unlock_side: Vector2 = Vector2.ZERO
 ## 「门被解锁了」提示后到切场景的延迟（秒），让玩家看到提示。
 @export var unlock_delay := 0.8
+## 未解锁时完全隐藏（传送门用）：条件满足后再显示并开始检测玩家。
+@export var hidden_until_unlocked := false
+## 解锁时的 HUD 提示文案（普通门 / 传送门可分别配置）。
+@export var unlock_notice := "门被解锁了"
 
 @onready var _visual: Node2D = get_node_or_null("Visual") as Node2D
 
@@ -76,7 +80,7 @@ func _unlock_and_pass(announce: bool) -> void:
 	GameState.mark_gate_opened(door_id)
 	GameState.gate_opened.emit(door_id)
 	if announce:
-		GameState.notice.emit("门被解锁了")
+		GameState.notice.emit(unlock_notice)
 	_fade_open()
 	await get_tree().create_timer(unlock_delay).timeout
 	_teleport()
@@ -91,12 +95,15 @@ func _teleport() -> void:
 
 ## 锁定状态用明暗微调表达：可开时正常，未满足时整体调暗。
 func _refresh_visual(_a = null, _b = null) -> void:
-	if not (_visual is CanvasItem):
-		return
 	var openable := GameState.is_gate_opened(door_id) or _lock.is_met()
 	if not openable and required_key_id != "":
 		openable = GameState.has_key(required_key_id)
-	_visual.modulate = Color(1, 1, 1, 1) if openable else Color(0.55, 0.55, 0.55, 1)
+	if _visual is CanvasItem:
+		_visual.modulate = Color(1, 1, 1, 1) if openable else Color(0.55, 0.55, 0.55, 1)
+		if hidden_until_unlocked:
+			_visual.visible = openable
+	if hidden_until_unlocked:
+		set_deferred("monitoring", openable)
 
 
 func _fade_open() -> void:

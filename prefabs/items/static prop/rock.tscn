@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/rock.gd" id="1_rock"]
+[ext_resource type="Texture2D" path="res://art/picture_boluo/岩石tm.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rock"]
+size = Vector2(170, 78)
+
+[node name="Rock" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_rock")
+
+[node name="Shadow" type="Polygon2D" parent="."]
+z_index = -1
+color = Color(0, 0, 0, 0.22)
+polygon = PackedVector2Array(-210, -20, 210, -20, 150, 55, -150, 55)
+
+[node name="Visual" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -238)
+scale = Vector2(2, 2)
+texture = ExtResource("2_tex")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -39)
+shape = SubResource("RectangleShape2D_rock")

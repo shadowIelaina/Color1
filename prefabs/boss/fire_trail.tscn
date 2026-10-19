@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/ground_hazard.gd" id="1_hazard"]
+
+[sub_resource type="CircleShape2D" id="Circle_hazard"]
+radius = 44.0
+
+[sub_resource type="Curve" id="Curve_fire"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.4), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_fire"]
+offsets = PackedFloat32Array(0, 0.16871166, 0.37730062, 0.8006135, 1)
+colors = PackedColorArray(0.9490196, 0.18431373, 0, 1, 0.91764706, 0.3372549, 0.1764706, 1, 0.9372549, 0.6039216, 0, 1, 0.972549, 0.81960785, 0.5411765, 0, 1, 1, 1, 0)
+
+[node name="FireTrail" type="Area2D"]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_hazard")
+
+[node name="FireParticles" type="CPUParticles2D" parent="."]
+position = Vector2(0, -10)
+amount = 160
+lifetime = 1.0
+speed_scale = 0.75
+explosiveness = 0.1
+randomness = 0.6
+lifetime_randomness = 0.3
+emission_shape = 1
+emission_sphere_radius = 26.0
+gravity = Vector2(0, -480)
+initial_velocity_max = 60.0
+radial_accel_min = -40.0
+radial_accel_max = -30.0
+angle_min = 150.0
+angle_max = 150.0
+scale_amount_max = 30.0
+scale_amount_curve = SubResource("Curve_fire")
+color_ramp = SubResource("Gradient_fire")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("Circle_hazard")

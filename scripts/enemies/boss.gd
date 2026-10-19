@@ -10,12 +10,16 @@ extends CharacterBody2D
 ## 蓝色交互：Boss 加入专用 "boss_paint_target" 组，只实现 apply_boss_color()；
 ##   不进入解密的 "colorable" 契约，避免被元素扩散 / 导管 / 踏板误判。
 ## 青色机制：BossCyanCharge 独立实现，不调用解密「蓝×绿=青」的任何逻辑。
-## 视觉：单个 Polygon2D（Visual 子节点，占位色块）+ SniperSight（蓝色狙击瞄准线）。
+## 视觉：AnimatedSprite2D（Visual 子节点，红/蓝/绿/青待机 + 转换动画）+ SniperSight（蓝色狙击瞄准线）。
 ##
 ## 信号：health_changed(current, max_health) / died。供 HUD 血条订阅；也可读 health_snapshot()。
 
 signal health_changed(current: float, max_health: float)
 signal died
+## 状态切换（CHASE / RING_CAST / ICE_CAST / HEAL / CYAN_CHARGE / STUNNED ...），供场景演出使用。
+signal state_changed(state: int)
+## 青色冲锋撞墙，供场地震屏 / 冲击特效使用。
+signal charge_crashed
 
 enum State { CHASE, RING_CAST, ICE_CAST, HEAL_WINDUP, HEAL, CYAN_CHARGE, STUNNED, DEAD }
 
@@ -26,21 +30,21 @@ const SniperShotScript := preload("res://effects/sniper_shot/sniper_shot.gd")
 
 @export_group("属性")
 @export var max_health := 24.0
-@export_range(0.0, 4000.0, 1.0) var move_speed := 1050.0
+@export_range(0.0, 4000.0, 1.0) var move_speed := 1150.0
 ## 点击命中半径（世界像素），用于「赋予颜色」判定。
 @export_range(8.0, 1024.0, 1.0) var hit_radius := 150.0
 
 @export_group("导航走位")
 ## 想与玩家保持的距离（世界像素）：近了后退、远了靠近。
-@export var preferred_distance := 1400.0
+@export var preferred_distance := 1320.0
 ## 开火前是否需要看得见玩家（掩体阻挡时改为绕侧，不隔墙放弹幕）。
 @export var require_line_of_sight := true
 ## 死区：|当前距离 - 目标距离| 在此范围内视为「已就位」，改为横向漂移。
-@export var distance_deadzone := 80.0
+@export var distance_deadzone := 70.0
 ## 重新下发导航目标点的最小间隔（秒），避免每帧重算路径抖动。
-@export var retarget_interval := 0.15
+@export var retarget_interval := 0.12
 ## 就位时的横向漂移速度（像素/秒），制造游斗感。
-@export var drift_speed := 150.0
+@export var drift_speed := 180.0
 ## 导航代理半径（≈ 本体半宽）。
 @export var nav_radius := 130.0
 ## 到达「路径点 / 最终目标」的判定距离。
@@ -63,8 +67,8 @@ const SniperShotScript := preload("res://effects/sniper_shot/sniper_shot.gd")
 @export var ring_interval_max := 2.3
 @export var ring_interval_min := 1.2
 ## 满血 → 濒死扇形内的弹数。
-@export_range(1, 48, 1) var ring_bullets_min := 12
-@export_range(1, 48, 1) var ring_bullets_max := 20
+@export_range(1, 48, 1) var ring_bullets_min := 8
+@export_range(1, 48, 1) var ring_bullets_max := 12
 ## 扇形张角（度），以「朝玩家方向」为中心。
 @export_range(10.0, 360.0, 1.0) var ring_arc_deg := 90.0
 @export var ring_bullet_speed := 420.0
@@ -93,7 +97,7 @@ const SniperShotScript := preload("res://effects/sniper_shot/sniper_shot.gd")
 ## 出膛半径（世界像素）。0 = 从 Boss 本体中心发射（同环形弹）。
 @export var ice_muzzle := 0.0
 ## 濒死时一次发射的冰弹数（扇形，中心对准锁定方向）。
-@export_range(1, 5, 1) var ice_max_count := 3
+@export_range(1, 5, 1) var ice_max_count := 2
 @export var ice_spread_deg := 12.0
 ## 瞄准预警线长度（世界像素）；实际会被墙体截断。
 @export var aim_line_length := 4000.0
@@ -119,6 +123,8 @@ const SniperShotScript := preload("res://effects/sniper_shot/sniper_shot.gd")
 @export var green_death_heal_lock := 6.0
 ## 小怪补充间隔（秒）。
 @export var minion_respawn_interval := 6.0
+## 血量降到该比例后，整场战斗不再召唤红色小怪（即使之后回血到 50% 以上）。
+@export_range(0.0, 1.0, 0.01) var red_summon_lock_ratio := 0.20
 
 @export_group("绿色回复")
 @export_range(0.0, 1.0, 0.01) var heal_threshold := 0.34
@@ -138,6 +144,7 @@ const SniperShotScript := preload("res://effects/sniper_shot/sniper_shot.gd")
 @export var charge_stun_time := 1.4
 
 @export_group("视觉")
+## 兼容旧场景属性：Boss 贴图已按颜色分套，实际外观由状态动画决定。
 @export var body_color := Color(0.55, 0.22, 0.62)
 @export var ring_telegraph_color := Color(1.0, 0.35, 0.25)
 @export var ice_telegraph_color := Color(0.35, 0.6, 1.0)
@@ -147,11 +154,28 @@ const SniperShotScript := preload("res://effects/sniper_shot/sniper_shot.gd")
 @export var stun_color := Color(0.5, 0.5, 0.5)
 @export var aim_line_color := Color(0.45, 0.75, 1.0, 0.9)
 
+const BOSS_FX_SCALE := 3.9
+
+const BODY_IDLE_ANIMS := {
+	"red": &"idle_red",
+	"blue": &"idle_blue",
+	"green": &"idle_green",
+	"cyan": &"idle_cyan",
+}
+const BODY_TRANSITION_ANIMS := {
+	"blue": &"to_blue",
+	"green": &"to_green",
+	"cyan": &"to_cyan",
+}
+
 var health := 0.0
 
 var _state := State.CHASE
 var _player: Node2D
-var _body: Polygon2D
+var _body: AnimatedSprite2D
+var _body_base_scale := Vector2.ONE
+var _body_color_state := ""
+var _pending_idle_anim: StringName = &""
 var _sight: Node2D
 var _cyan := CyanCharge.new()
 var _heal_pulse: Tween
@@ -168,6 +192,8 @@ var _ice_dir := Vector2.RIGHT
 
 var _respawn_cd := 0.0
 var _phase := -1
+var _phase_change_cd := 0.0
+var _red_summons_locked := false
 var _adds: Array = []
 var _heal_lock_t := 0.0
 
@@ -188,10 +214,14 @@ func _ready() -> void:
 	add_to_group("boss_paint_target")
 	health = max_health
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
-	_body = get_node_or_null("Visual") as Polygon2D
+	_body = get_node_or_null("Visual") as AnimatedSprite2D
+	if _body != null:
+		_body_base_scale = _body.scale
+		if not _body.animation_finished.is_connected(_on_body_animation_finished):
+			_body.animation_finished.connect(_on_body_animation_finished)
 	_player = get_tree().get_first_node_in_group("player") as Node2D
 	z_index = DepthSort.z_for(global_position.y)
-	_apply_body_color(body_color)
+	_play_body_state("red")
 	_sight = SniperSightScript.new()
 	_sight.name = "SniperSight"
 	_sight.z_index = 5
@@ -248,16 +278,23 @@ func _tick_timers(delta: float) -> void:
 	_attack_lock = maxf(_attack_lock - delta, 0.0)
 	_retarget_cd = maxf(_retarget_cd - delta, 0.0)
 	_state_t += delta
-	# 半血时解锁冰子弹（一次性，避免回血到半血以上又锁回去）。
+	_phase_change_cd = maxf(_phase_change_cd - delta, 0.0)
+	# 低血时解锁冰子弹（一次性，避免回血后重新解锁）。
 	if not _ice_enabled and health > 0.0 and health <= max_health * ice_unlock_ratio:
 		_ice_enabled = true
 		_ice_cd = ice_unlock_delay
-		GameState.notice.emit("Boss 解锁冰子弹！变蓝锁定你时快走位")
+		GameState.notice.emit("Boss 解锁冰子弹！变蓝锁定你时快走")
+	# 红色小怪封锁只在小怪阶段生效；Boss 回血后解除，允许当前阶段重新召唤红怪。
+	if _red_summons_locked and health > max_health * red_summon_lock_ratio:
+		_red_summons_locked = false
+	if not _red_summons_locked and health > 0.0 and health <= max_health * red_summon_lock_ratio:
+		_lock_red_summons()
+	# 先按当前阶段校正召唤物，再补足当前阶段的缺口。
+	_check_summons()
 	_respawn_cd = maxf(_respawn_cd - delta, 0.0)
 	if _respawn_cd <= 0.0:
 		_respawn_cd = minion_respawn_interval
 		_try_respawn()
-	_check_summons()
 
 
 ## 阶段组成：>phase1 → 3 红；≤phase1 → 2 红 + 1 蓝；≤phase2 → 2 蓝 + 1 绿。
@@ -289,10 +326,16 @@ func _composition(p: int) -> Array:
 
 ## 血线跨阶段（只升不降：一旦进某阶段就留场，避免被 Boss 回血挤掉）：无伤清旧再按新组成召唤。
 func _check_summons() -> void:
+	if not _nav_ready():
+		return
 	var p := _phase_for_health()
-	if p <= _phase:
+	if p == _phase:
+		return
+	# 防止在阶段血线附近小幅回血/掉血导致反复清怪。
+	if _phase != -1 and _phase_change_cd > 0.0:
 		return
 	_phase = p
+	_phase_change_cd = 0.8
 	_clear_adds()
 	var names: Array = []
 	for entry in _composition(p):
@@ -304,14 +347,30 @@ func _check_summons() -> void:
 
 ## 无伤清除全部召唤物（直接 queue_free，不发 died → 不触发 Boss 扣血）。
 func _clear_adds() -> void:
-	for m in _adds:
-		if is_instance_valid(m):
+	for m in _all_boss_minions():
+		if is_instance_valid(m) and not m.is_queued_for_deletion():
 			m.queue_free()
 	_adds.clear()
 
 
+## 低血后永久锁定红色小怪召唤，并清掉当前已经存在的红小怪。
+func _lock_red_summons() -> void:
+	if _red_summons_locked:
+		return
+	_red_summons_locked = true
+	var kept: Array = []
+	for m in _all_boss_minions():
+		if str(m.get("minion_type")) == "red":
+			m.queue_free()
+		else:
+			kept.append(m)
+	_adds = kept
+
+
 ## 在 Boss 周围均匀召唤 count 只指定类型的小怪；返回是否真的召唤了。
 func _summon(scene: PackedScene, type: String, count: int) -> bool:
+	if _red_summons_locked and type == "red":
+		return false
 	if scene == null or count <= 0:
 		return false
 	var holder := get_parent()
@@ -321,6 +380,7 @@ func _summon(scene: PackedScene, type: String, count: int) -> bool:
 	for i in count:
 		var m := scene.instantiate()
 		holder.add_child(m)
+		m.add_to_group("boss_minion")
 		if m.get("minion_type") != null:
 			m.set("minion_type", type)
 		if m is Node2D:
@@ -333,13 +393,9 @@ func _summon(scene: PackedScene, type: String, count: int) -> bool:
 ## 召唤点：Boss 外一圈的方向点；吸附到导航网格上，避免落到墙外卡住。
 func _spawn_pos(dir: Vector2) -> Vector2:
 	var p := global_position + dir.normalized() * minion_spawn_radius
-	var map := get_world_2d().navigation_map
-	# 地图首次同步前查询会报错，需 iteration_id > 0。
-	if map.is_valid() and NavigationServer2D.map_get_iteration_id(map) > 0:
-		var snapped := NavigationServer2D.map_get_closest_point(map, p)
-		if snapped.distance_to(p) <= minion_spawn_radius * 2.0:
-			return snapped
-	return p
+	if not _nav_ready():
+		return p
+	return NavigationServer2D.map_get_closest_point(get_world_2d().navigation_map, p)
 
 
 ## 监听一只召唤物（阵亡回调）；存活统计走 _alive_count 按需统计。
@@ -352,12 +408,10 @@ func _watch_minion(m: Node) -> void:
 ## 当前存活且未失效的某类型小怪数（顺带清理失效引用）。
 func _alive_count(type: String) -> int:
 	var n := 0
-	var kept: Array = []
-	for m in _adds:
-		if is_instance_valid(m) and not m.is_queued_for_deletion():
-			kept.append(m)
-			if str(m.get("minion_type")) == type:
-				n += 1
+	var kept := _all_boss_minions()
+	for m in kept:
+		if str(m.get("minion_type")) == type:
+			n += 1
 	_adds = kept
 	return n
 
@@ -378,10 +432,30 @@ func _on_minion_died(m: Node = null) -> void:
 
 
 ## 周期性把当前组成逐类补足到目标数（Boss 死后不再补）。
+## 当前 Boss 召唤的全部小怪（列表 + 分组兜底，避免漏清）。
+func _all_boss_minions() -> Array:
+	var out: Array = []
+	var seen := {}
+	for m in _adds:
+		if is_instance_valid(m) and not m.is_queued_for_deletion():
+			seen[m] = true
+			out.append(m)
+	for m in get_tree().get_nodes_in_group("boss_minion"):
+		if GameState.is_in_current_scene(m) and is_instance_valid(m) and not m.is_queued_for_deletion() and not seen.has(m):
+			seen[m] = true
+			out.append(m)
+	return out
+
+
+func _nav_ready() -> bool:
+	var map := get_world_2d().navigation_map
+	return map.is_valid() and NavigationServer2D.map_get_iteration_id(map) > 0
+
+
 func _try_respawn() -> void:
-	if _state == State.DEAD:
+	if _state == State.DEAD or _phase < 0 or not _nav_ready():
 		return
-	for entry in _composition(_phase if _phase >= 0 else 0):
+	for entry in _composition(_phase):
 		var type := str(entry["type"])
 		var target := int(entry["count"])
 		var have := _alive_count(type)
@@ -460,12 +534,9 @@ func _point_has_los(from: Vector2, to: Vector2) -> bool:
 
 ## 把绕侧点吸附到导航网格，避免目标落在墙体内部导致卡住。
 func _snap_to_nav(p: Vector2) -> Vector2:
-	var map := get_world_2d().navigation_map
-	if map.is_valid() and NavigationServer2D.map_get_iteration_id(map) > 0:
-		var snapped := NavigationServer2D.map_get_closest_point(map, p)
-		if snapped.distance_to(p) <= 320.0:
-			return snapped
-	return p
+	if not _nav_ready():
+		return p
+	return NavigationServer2D.map_get_closest_point(get_world_2d().navigation_map, p)
 
 
 ## 距离保持走位：目标点 = 玩家位置 + 朝己方向 × preferred_distance。
@@ -648,6 +719,7 @@ func _do_charge(delta: float) -> void:
 
 ## 撞墙：按最大血比例自伤 + 眩晕；并把回复推后，避免连环刷回复。
 func _charge_crash() -> void:
+	charge_crashed.emit()
 	health = maxf(health - max_health * _cyan.self_damage_ratio, 0.0)
 	health_changed.emit(health, max_health)
 	_flash()
@@ -816,20 +888,22 @@ func _heal_cd_ready() -> bool:
 
 func _enter(s: int) -> void:
 	_state = s
+	state_changed.emit(s)
 	_state_t = 0.0
 	_stop_heal_pulse()
+	_set_body_modulate(Color.WHITE)
 	match s:
 		State.CHASE:
-			_apply_body_color(body_color)
+			_play_body_state("red")
 			_hide_aim_line()
 		State.RING_CAST:
-			_apply_body_color(ring_telegraph_color)
+			_play_body_state("red")
 			_hide_aim_line()
 		State.ICE_CAST:
-			_apply_body_color(ice_telegraph_color)
+			_play_body_state("blue")
 			_begin_ice_aim()
 		State.HEAL_WINDUP:
-			_apply_body_color(heal_windup_color)
+			_play_body_state("green")
 			_hide_aim_line()
 			_start_heal_pulse()
 			_spawn_pulse_ring(heal_windup_color, 120.0, 360.0, heal_windup_time)
@@ -840,16 +914,17 @@ func _enter(s: int) -> void:
 				heal_windup_time
 			)
 		State.HEAL:
-			_apply_body_color(heal_color)
+			_play_body_state("green")
 			_hide_aim_line()
 			_start_heal_pulse()
 			_spawn_pulse_ring(heal_color, 110.0, 320.0, heal_duration)
 		State.CYAN_CHARGE:
-			_apply_body_color(cyan_color)
+			_play_body_state("cyan")
 			_hide_aim_line()
 			_spawn_pulse_ring(cyan_color, 100.0, 320.0, 0.5)
 		State.STUNNED:
-			_apply_body_color(stun_color)
+			_play_body_state("cyan")
+			_set_body_modulate(stun_color)
 			_hide_aim_line()
 		_:
 			pass
@@ -951,9 +1026,35 @@ func contains_point(world_pos: Vector2) -> bool:
 
 # —— 视觉 ——
 
-func _apply_body_color(c: Color) -> void:
+## 切换到某套颜色待机；蓝/绿/青先播一次 4 帧转换动画，再循环对应待机。
+func _play_body_state(kind: String) -> void:
+	if _body == null:
+		return
+	if kind == _body_color_state:
+		return
+	_body_color_state = kind
+	var idle: StringName = BODY_IDLE_ANIMS.get(kind, &"idle_red")
+	var transition: StringName = BODY_TRANSITION_ANIMS.get(kind, &"")
+	if transition != &"" and _body.sprite_frames != null and _body.sprite_frames.has_animation(transition):
+		_pending_idle_anim = idle
+		_body.play(transition)
+	else:
+		_pending_idle_anim = &""
+		_body.play(idle)
+
+
+func _on_body_animation_finished() -> void:
+	if _pending_idle_anim == &"":
+		return
+	var next := _pending_idle_anim
+	_pending_idle_anim = &""
 	if _body != null:
-		_body.color = c
+		_body.play(next)
+
+
+func _set_body_modulate(c: Color) -> void:
+	if _body != null:
+		_body.modulate = c
 
 
 ## 蓄力/回复期间让本体轻微呼吸缩放。
@@ -961,9 +1062,10 @@ func _start_heal_pulse() -> void:
 	if _body == null:
 		return
 	_stop_heal_pulse()
+	var large := _body_base_scale * 1.06
 	_heal_pulse = create_tween().set_loops()
-	_heal_pulse.tween_property(_body, "scale", Vector2(1.06, 1.06), 0.28).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	_heal_pulse.tween_property(_body, "scale", Vector2.ONE, 0.28).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_heal_pulse.tween_property(_body, "scale", large, 0.28).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_heal_pulse.tween_property(_body, "scale", _body_base_scale, 0.28).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 
 func _stop_heal_pulse() -> void:
@@ -971,20 +1073,22 @@ func _stop_heal_pulse() -> void:
 		_heal_pulse.kill()
 	_heal_pulse = null
 	if _body != null:
-		_body.scale = Vector2.ONE
+		_body.scale = _body_base_scale
 
 
 ## 一圈向外扩散并淡出的充能环（绿色回复 / 青色冲锋用）。
 func _spawn_pulse_ring(c: Color, from_radius: float, to_radius: float, duration: float) -> void:
 	var ring := Line2D.new()
-	ring.width = 8.0
+	ring.width = 12.0
 	ring.default_color = Color(c.r, c.g, c.b, 0.75)
 	ring.z_index = 2
-	ring.points = _circle_points(from_radius, 48)
+	var fx_from := from_radius * BOSS_FX_SCALE
+	var fx_to := to_radius * BOSS_FX_SCALE
+	ring.points = _circle_points(fx_from, 48)
 	add_child(ring)
 	var t := create_tween()
 	t.set_parallel(true)
-	var grow := to_radius / maxf(from_radius, 1.0)
+	var grow := fx_to / maxf(fx_from, 1.0)
 	t.tween_property(ring, "scale", Vector2.ONE * grow, duration).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	t.tween_property(ring, "modulate:a", 0.0, duration).set_ease(Tween.EASE_IN)
 	t.chain().tween_callback(ring.queue_free)

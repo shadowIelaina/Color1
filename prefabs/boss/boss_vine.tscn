@@ -1,18 +1,20 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemies/boss_vine.gd" id="1_vine"]
+[ext_resource type="Texture2D" uid="uid://dl8ysxg5qwwxk" path="res://art/BOSS/绿色小怪/藤蔓.png" id="2_visual"]
 
 [sub_resource type="CircleShape2D" id="Circle_vine"]
-radius = 44.0
+radius = 77.0
 
 [node name="BossVine" type="StaticBody2D"]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_vine")
+hit_radius = 84.0
 
-[node name="Visual" type="Polygon2D" parent="."]
-color = Color(0.3, 0.75, 0.35, 1)
-polygon = PackedVector2Array(0, -52, 20, -20, 52, 0, 20, 20, 0, 52, -20, 20, -52, 0, -20, -20)
+[node name="Visual" type="Sprite2D" parent="."]
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("2_visual")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("Circle_vine")
