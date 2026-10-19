@@ -1,37 +1,39 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene format=3 uid="uid://klg65m2b1bv8"]
 
-[ext_resource type="Script" path="res://scripts/boss_altar.gd" id="1_altar"]
-[ext_resource type="Texture2D" path="res://art/picture_boluo/祭坛tm.png" id="2_altar"]
-[ext_resource type="Texture2D" path="res://art/picture_boluo/生命值（红）tm.png" id="3_heart"]
-[ext_resource type="Texture2D" path="res://art/picture_boluo/生命值（蓝）tm.png" id="4_blue"]
-[ext_resource type="Texture2D" path="res://art/picture_boluo/生命值（绿）tm.png" id="5_green"]
+[ext_resource type="Script" uid="uid://w7j75e0gu844" path="res://scripts/boss_altar.gd" id="1_altar"]
+[ext_resource type="Texture2D" uid="uid://c41j1k11w36ib" path="res://art/BOSS/祭坛.png" id="2_71kd3"]
+[ext_resource type="Texture2D" uid="uid://1nuhrkxcu7wr" path="res://art/picture_boluo/生命值（红）tm.png" id="3_heart"]
+[ext_resource type="Texture2D" uid="uid://jgsj4jwo8pwc" path="res://art/picture_boluo/生命值（蓝）tm.png" id="4_blue"]
+[ext_resource type="Texture2D" uid="uid://bebo7geu6d0k3" path="res://art/picture_boluo/生命值（绿）tm.png" id="5_green"]
 
-[node name="BossAltar" type="Node2D"]
+[node name="BossAltar" type="Node2D" unique_id=2061883471]
 z_index = 1
 script = ExtResource("1_altar")
 
-[node name="Visual" type="Sprite2D" parent="."]
+[node name="Visual" type="Sprite2D" parent="." unique_id=607497174]
 texture_filter = 1
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("2_altar")
+position = Vector2(2.9999995, -3.0000153)
+scale = Vector2(0.5791016, 0.5283203)
+texture = ExtResource("2_71kd3")
 
-[node name="HeartSlots" type="Node2D" parent="."]
+[node name="HeartSlots" type="Node2D" parent="." unique_id=722678618]
 z_index = 2
 position = Vector2(0, -360)
 
-[node name="Heart1" type="Sprite2D" parent="HeartSlots"]
-position = Vector2(-90, 0)
+[node name="Heart1" type="Sprite2D" parent="HeartSlots" unique_id=41066266]
 texture_filter = 1
-scale = Vector2(0.24, 0.24)
+position = Vector2(-131, 172)
+scale = Vector2(0.56140625, 0.5496873)
 texture = ExtResource("4_blue")
 
-[node name="Heart2" type="Sprite2D" parent="HeartSlots"]
+[node name="Heart2" type="Sprite2D" parent="HeartSlots" unique_id=1258349427]
 texture_filter = 1
-scale = Vector2(0.24, 0.24)
+position = Vector2(5, 146)
+scale = Vector2(0.60046875, 0.56140614)
 texture = ExtResource("3_heart")
 
-[node name="Heart3" type="Sprite2D" parent="HeartSlots"]
-position = Vector2(90, 0)
+[node name="Heart3" type="Sprite2D" parent="HeartSlots" unique_id=1558320321]
 texture_filter = 1
-scale = Vector2(0.24, 0.24)
+position = Vector2(137, 169)
+scale = Vector2(0.57312495, 0.5535937)
 texture = ExtResource("5_green")
