@@ -7,6 +7,8 @@ const Rules := preload("res://scripts/element/element_rules.gd")
 @export var win_text := ""
 ## 胜利文字字号。0 = 保留场景里的字号。
 @export_range(0, 200, 1) var win_font_size := 0
+## Boss 血条上显示的名字。
+@export var boss_title := "失色之主"
 
 ## 右下角色轮方向盘：红/绿/蓝各一张独立成品图，选中哪个元素就显示哪张。
 ## 每张图都已画好「选中色高亮、其余两色压淡」，无需 shader 旋转 / 扇区遮罩。
@@ -20,6 +22,12 @@ const WHEEL_TEXTURES := {
 const WHEEL_SIZE := 256.0
 const WHEEL_MARGIN := 20.0
 const WHEEL_FADE := 0.22   # 切换颜色时淡入淡出各段时长（秒）
+const BOSS_FONT := preload("res://art/fonts/LXGWWenKaiLite-Regular.ttf")
+const BOSS_GOLD := Color(0.95, 0.78, 0.38, 1.0)
+const BOSS_RED := Color(0.95, 0.28, 0.22, 1.0)
+const BOSS_BLUE := Color(0.3, 0.55, 1.0, 1.0)
+const BOSS_GREEN := Color(0.3, 0.9, 0.42, 1.0)
+const BOSS_CYAN := Color(0.25, 0.9, 0.95, 1.0)
 
 @onready var color_label: RichTextLabel = $ColorLabel
 @onready var win_label: Label = $WinLabel
@@ -47,6 +55,27 @@ var _alert_tween: Tween
 var _alert_left := 0.0
 var _alert_total := 1.0
 
+var boss_root: Control
+var boss_panel: PanelContainer
+var boss_name_label: Label
+var boss_tag: Label
+var boss_phase_label: Label
+var boss_status_label: Label
+var boss_bar: ProgressBar
+var boss_ghost_bar: ProgressBar
+var boss_fill: StyleBoxFlat
+var boss_pips: Array[Label] = []
+var _boss: Node
+var _boss_bar_tween: Tween
+var _boss_ghost_tween: Tween
+var _boss_fade_tween: Tween
+
+var victory_root: Control
+var victory_panel: PanelContainer
+var victory_title: Label
+var victory_subtitle: Label
+var _victory_tween: Tween
+
 
 func _ready() -> void:
 	add_to_group("hud")
@@ -55,7 +84,8 @@ func _ready() -> void:
 	notice_label = _make_notice_label()
 	_make_alert_banner()
 	_make_hearts()
-	_make_boss_bar()
+	_make_boss_hud()
+	_make_victory_banner()
 	_make_wheel()
 	color_label.visible = false   # 调色盘改用右下角色轮，不再用左上角文字
 	GameState.hint.connect(show_hint)
@@ -254,8 +284,8 @@ func _make_alert_banner() -> void:
 	alert_root.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
 	alert_root.offset_left = -360.0
 	alert_root.offset_right = 360.0
-	alert_root.offset_top = 64.0
-	alert_root.offset_bottom = 190.0
+	alert_root.offset_top = 132.0
+	alert_root.offset_bottom = 258.0
 	alert_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	alert_root.pivot_offset = Vector2(360.0, 63.0)
 	alert_root.visible = false
@@ -560,31 +590,308 @@ func _make_heart(filled: bool) -> Control:
 
 # —— Boss 血条（顶部居中，绑定 "boss" 组里的 Boss）——
 
-var boss_bar: ProgressBar
-var _boss: Node
+# —— Boss HUD ——
 
+func _make_boss_hud() -> void:
+	boss_root = Control.new()
+	boss_root.name = "BossHUD"
+	boss_root.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	boss_root.offset_left = -410.0
+	boss_root.offset_right = 410.0
+	boss_root.offset_top = 14.0
+	boss_root.offset_bottom = 124.0
+	boss_root.pivot_offset = Vector2(410.0, 55.0)
+	boss_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	boss_root.visible = false
+	add_child(boss_root)
 
-func _make_boss_bar() -> void:
+	boss_panel = PanelContainer.new()
+	boss_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	boss_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	boss_panel.add_theme_stylebox_override("panel", _boss_panel_style())
+	boss_root.add_child(boss_panel)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 20)
+	margin.add_theme_constant_override("margin_right", 20)
+	margin.add_theme_constant_override("margin_top", 12)
+	margin.add_theme_constant_override("margin_bottom", 10)
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	boss_panel.add_child(margin)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 6)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	margin.add_child(box)
+
+	var top := HBoxContainer.new()
+	top.add_theme_constant_override("separation", 10)
+	top.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_child(top)
+
+	boss_name_label = Label.new()
+	boss_name_label.text = boss_title
+	boss_name_label.add_theme_font_override("font", BOSS_FONT)
+	boss_name_label.add_theme_font_size_override("font_size", 30)
+	boss_name_label.add_theme_color_override("font_color", BOSS_GOLD)
+	boss_name_label.add_theme_constant_override("outline_size", 4)
+	boss_name_label.add_theme_color_override("font_outline_color", Color(0.02, 0.02, 0.03, 0.95))
+	top.add_child(boss_name_label)
+
+	boss_tag = Label.new()
+	boss_tag.text = "BOSS"
+	boss_tag.add_theme_font_override("font", BOSS_FONT)
+	boss_tag.add_theme_font_size_override("font_size", 14)
+	boss_tag.add_theme_color_override("font_color", Color(0.72, 0.55, 0.28, 1.0))
+	boss_tag.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	top.add_child(boss_tag)
+
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(spacer)
+
+	var pips := HBoxContainer.new()
+	pips.add_theme_constant_override("separation", 3)
+	pips.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	top.add_child(pips)
+	boss_pips.clear()
+	for c in [BOSS_RED, BOSS_BLUE, BOSS_GREEN]:
+		var pip := Label.new()
+		pip.text = "◆"
+		pip.add_theme_font_override("font", BOSS_FONT)
+		pip.add_theme_font_size_override("font_size", 16)
+		pip.add_theme_color_override("font_color", c)
+		pip.modulate.a = 0.22
+		pips.add_child(pip)
+		boss_pips.append(pip)
+
+	boss_phase_label = Label.new()
+	boss_phase_label.text = "红相"
+	boss_phase_label.add_theme_font_override("font", BOSS_FONT)
+	boss_phase_label.add_theme_font_size_override("font_size", 16)
+	boss_phase_label.add_theme_color_override("font_color", BOSS_RED)
+	boss_phase_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	top.add_child(boss_phase_label)
+
+	var bar_holder := Control.new()
+	bar_holder.custom_minimum_size = Vector2(0, 20)
+	bar_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_child(bar_holder)
+
+	boss_ghost_bar = ProgressBar.new()
+	boss_ghost_bar.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	boss_ghost_bar.min_value = 0.0
+	boss_ghost_bar.max_value = 100.0
+	boss_ghost_bar.value = 100.0
+	boss_ghost_bar.show_percentage = false
+	boss_ghost_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	boss_ghost_bar.add_theme_stylebox_override("background", _boss_bar_bg())
+	boss_ghost_bar.add_theme_stylebox_override("fill", _boss_bar_fill(Color(1.0, 0.82, 0.55, 0.45)))
+	bar_holder.add_child(boss_ghost_bar)
+
 	boss_bar = ProgressBar.new()
-	boss_bar.name = "BossBar"
+	boss_bar.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	boss_bar.min_value = 0.0
 	boss_bar.max_value = 100.0
 	boss_bar.value = 100.0
 	boss_bar.show_percentage = false
-	boss_bar.visible = false
 	boss_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	boss_bar.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
-	boss_bar.offset_left = -320.0
-	boss_bar.offset_right = 320.0
-	boss_bar.offset_top = 20.0
-	boss_bar.offset_bottom = 48.0
-	var fill := StyleBoxFlat.new()
-	fill.bg_color = Color(0.85, 0.2, 0.25)
-	var bg := StyleBoxFlat.new()
-	bg.bg_color = Color(0.0, 0.0, 0.0, 0.6)
-	boss_bar.add_theme_stylebox_override("fill", fill)
-	boss_bar.add_theme_stylebox_override("background", bg)
-	add_child(boss_bar)
+	boss_fill = _boss_bar_fill(BOSS_RED)
+	var clear_bg := StyleBoxFlat.new()
+	clear_bg.bg_color = Color(0.0, 0.0, 0.0, 0.0)
+	boss_bar.add_theme_stylebox_override("background", clear_bg)
+	boss_bar.add_theme_stylebox_override("fill", boss_fill)
+	bar_holder.add_child(boss_bar)
+
+	for ratio in [0.34, 0.66]:
+		var marker := ColorRect.new()
+		marker.color = Color(0.95, 0.82, 0.5, 0.55)
+		marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		marker.anchor_left = ratio
+		marker.anchor_right = ratio
+		marker.anchor_top = 0.0
+		marker.anchor_bottom = 1.0
+		marker.offset_left = -1.0
+		marker.offset_right = 1.0
+		bar_holder.add_child(marker)
+
+	var bottom := HBoxContainer.new()
+	bottom.add_theme_constant_override("separation", 8)
+	bottom.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_child(bottom)
+
+	var status_tag := Label.new()
+	status_tag.text = "状态"
+	status_tag.add_theme_font_override("font", BOSS_FONT)
+	status_tag.add_theme_font_size_override("font_size", 14)
+	status_tag.add_theme_color_override("font_color", Color(0.6, 0.55, 0.45, 1.0))
+	bottom.add_child(status_tag)
+
+	boss_status_label = Label.new()
+	boss_status_label.text = "追击"
+	boss_status_label.add_theme_font_override("font", BOSS_FONT)
+	boss_status_label.add_theme_font_size_override("font_size", 17)
+	boss_status_label.add_theme_color_override("font_color", BOSS_GOLD)
+	bottom.add_child(boss_status_label)
+
+	var hint := Label.new()
+	hint.text = "蓝可打断回复 · 红+绿变黄反射"
+	hint.add_theme_font_override("font", BOSS_FONT)
+	hint.add_theme_font_size_override("font_size", 13)
+	hint.add_theme_color_override("font_color", Color(0.55, 0.58, 0.66, 1.0))
+	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	bottom.add_child(hint)
+
+
+func _boss_panel_style() -> StyleBoxFlat:
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.02, 0.035, 0.06, 0.92)
+	sb.border_width_left = 2
+	sb.border_width_top = 2
+	sb.border_width_right = 2
+	sb.border_width_bottom = 2
+	sb.border_color = Color(BOSS_GOLD.r, BOSS_GOLD.g, BOSS_GOLD.b, 0.85)
+	sb.set_corner_radius_all(12)
+	sb.shadow_color = Color(0.0, 0.0, 0.0, 0.45)
+	sb.shadow_size = 12
+	sb.shadow_offset = Vector2(0, 4)
+	return sb
+
+
+func _boss_bar_bg() -> StyleBoxFlat:
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.01, 0.02, 0.03, 0.9)
+	sb.border_width_left = 1
+	sb.border_width_top = 1
+	sb.border_width_right = 1
+	sb.border_width_bottom = 1
+	sb.border_color = Color(BOSS_GOLD.r, BOSS_GOLD.g, BOSS_GOLD.b, 0.45)
+	sb.set_corner_radius_all(6)
+	return sb
+
+
+func _boss_bar_fill(c: Color) -> StyleBoxFlat:
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = c
+	sb.set_corner_radius_all(5)
+	return sb
+
+
+# —— 胜利横幅 ——
+
+func _make_victory_banner() -> void:
+	victory_root = Control.new()
+	victory_root.name = "BossVictory"
+	victory_root.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	victory_root.offset_left = -360.0
+	victory_root.offset_right = 360.0
+	victory_root.offset_top = -88.0
+	victory_root.offset_bottom = 88.0
+	victory_root.pivot_offset = Vector2(360.0, 88.0)
+	victory_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	victory_root.visible = false
+	add_child(victory_root)
+
+	victory_panel = PanelContainer.new()
+	victory_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	victory_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	victory_panel.add_theme_stylebox_override("panel", _victory_style())
+	victory_root.add_child(victory_panel)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 34)
+	margin.add_theme_constant_override("margin_right", 34)
+	margin.add_theme_constant_override("margin_top", 18)
+	margin.add_theme_constant_override("margin_bottom", 18)
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	victory_panel.add_child(margin)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 8)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	margin.add_child(box)
+
+	var ornament := HBoxContainer.new()
+	ornament.alignment = BoxContainer.ALIGNMENT_CENTER
+	ornament.add_theme_constant_override("separation", 12)
+	box.add_child(ornament)
+	var line_l := ColorRect.new()
+	line_l.color = Color(BOSS_GOLD.r, BOSS_GOLD.g, BOSS_GOLD.b, 0.65)
+	line_l.custom_minimum_size = Vector2(100, 2)
+	ornament.add_child(line_l)
+	var diamond := Label.new()
+	diamond.text = "◆"
+	diamond.add_theme_font_override("font", BOSS_FONT)
+	diamond.add_theme_font_size_override("font_size", 18)
+	diamond.add_theme_color_override("font_color", BOSS_GOLD)
+	ornament.add_child(diamond)
+	var line_r := ColorRect.new()
+	line_r.color = Color(BOSS_GOLD.r, BOSS_GOLD.g, BOSS_GOLD.b, 0.65)
+	line_r.custom_minimum_size = Vector2(100, 2)
+	ornament.add_child(line_r)
+
+	victory_title = Label.new()
+	victory_title.text = "BOSS 已击败"
+	victory_title.add_theme_font_override("font", BOSS_FONT)
+	victory_title.add_theme_font_size_override("font_size", 46)
+	victory_title.add_theme_color_override("font_color", BOSS_GOLD)
+	victory_title.add_theme_constant_override("outline_size", 5)
+	victory_title.add_theme_color_override("font_outline_color", Color(0.02, 0.02, 0.03, 0.95))
+	victory_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(victory_title)
+
+	victory_subtitle = Label.new()
+	victory_subtitle.text = "归途传送门已开启"
+	victory_subtitle.add_theme_font_override("font", BOSS_FONT)
+	victory_subtitle.add_theme_font_size_override("font_size", 20)
+	victory_subtitle.add_theme_color_override("font_color", Color(0.92, 0.9, 0.82, 1.0))
+	victory_subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(victory_subtitle)
+
+
+func _victory_style() -> StyleBoxFlat:
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.02, 0.03, 0.05, 0.94)
+	sb.border_width_left = 2
+	sb.border_width_top = 2
+	sb.border_width_right = 2
+	sb.border_width_bottom = 2
+	sb.border_color = Color(BOSS_GOLD.r, BOSS_GOLD.g, BOSS_GOLD.b, 0.9)
+	sb.set_corner_radius_all(16)
+	sb.shadow_color = Color(0.0, 0.0, 0.0, 0.55)
+	sb.shadow_size = 18
+	sb.shadow_offset = Vector2(0, 6)
+	return sb
+
+
+func show_boss_victory(title: String, subtitle: String = "归途传送门已开启", duration: float = 3.0) -> void:
+	if victory_root == null:
+		return
+	victory_title.text = title
+	victory_subtitle.text = subtitle
+	victory_root.visible = true
+	victory_root.modulate.a = 0.0
+	victory_root.scale = Vector2(0.94, 0.94)
+	if _victory_tween != null and _victory_tween.is_valid():
+		_victory_tween.kill()
+	_victory_tween = create_tween()
+	_victory_tween.tween_property(victory_root, "modulate:a", 1.0, 0.25)
+	_victory_tween.parallel().tween_property(victory_root, "scale", Vector2.ONE, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_victory_tween.tween_interval(maxf(duration, 0.1))
+	_victory_tween.tween_property(victory_root, "modulate:a", 0.0, 0.4)
+	_victory_tween.tween_callback(func(): victory_root.visible = false)
+
+
+func hide_boss_victory() -> void:
+	if _victory_tween != null and _victory_tween.is_valid():
+		_victory_tween.kill()
+	if victory_root != null:
+		victory_root.visible = false
+		victory_root.modulate.a = 1.0
+		victory_root.scale = Vector2.ONE
+
+# Boss HUD / victory banner end.
 
 
 ## 每帧尝试绑定场景中的 Boss（房间异步加载 / Boss 死亡重生后自动重连）。
@@ -595,25 +902,116 @@ func _process(delta: float) -> void:
 	_boss = null
 	var found := get_tree().get_first_node_in_group("boss")
 	if found == null:
-		boss_bar.visible = false
+		_set_boss_hud_visible(false)
 		return
 	_boss = found
 	if _boss.has_signal("health_changed"):
 		_boss.health_changed.connect(_on_boss_health_changed)
+	if _boss.has_signal("state_changed"):
+		_boss.state_changed.connect(_on_boss_state_changed)
 	if _boss.has_signal("died"):
 		_boss.died.connect(_on_boss_died)
 	var snap: Dictionary = _boss.health_snapshot()
-	_on_boss_health_changed(snap["health"], snap["max_health"])
-	boss_bar.visible = true
+	var current := float(snap["health"])
+	var max_health := float(snap["max_health"])
+	boss_bar.max_value = max_health
+	boss_ghost_bar.max_value = max_health
+	boss_bar.value = current
+	boss_ghost_bar.value = current
+	_on_boss_health_changed(current, max_health)
+	_on_boss_state_changed(Boss.State.CHASE)
+	_set_boss_hud_visible(true)
 
 
 func _on_boss_health_changed(current: float, max_health: float) -> void:
-	if boss_bar == null:
+	if boss_bar == null or boss_ghost_bar == null:
 		return
 	boss_bar.max_value = maxf(max_health, 1.0)
-	boss_bar.value = current
+	boss_ghost_bar.max_value = maxf(max_health, 1.0)
+	if _boss_bar_tween != null and _boss_bar_tween.is_valid():
+		_boss_bar_tween.kill()
+	_boss_bar_tween = create_tween()
+	_boss_bar_tween.tween_property(boss_bar, "value", current, 0.12)
+	if _boss_ghost_tween != null and _boss_ghost_tween.is_valid():
+		_boss_ghost_tween.kill()
+	_boss_ghost_tween = create_tween()
+	_boss_ghost_tween.tween_interval(0.2)
+	_boss_ghost_tween.tween_property(boss_ghost_bar, "value", current, 0.4).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_update_boss_phase(current, max_health)
+
+
+func _update_boss_phase(current: float, max_health: float) -> void:
+	if boss_phase_label == null:
+		return
+	var ratio := current / maxf(max_health, 1.0)
+	var idx := 0
+	if ratio <= 0.66:
+		idx = 1
+	if ratio <= 0.34:
+		idx = 2
+	var colors := [BOSS_RED, BOSS_BLUE, BOSS_GREEN]
+	var names := ["红相", "蓝相", "绿相"]
+	for i in boss_pips.size():
+		boss_pips[i].modulate.a = 1.0 if i == idx else 0.22
+	boss_phase_label.text = names[idx]
+	boss_phase_label.add_theme_color_override("font_color", colors[idx])
+	if boss_fill != null:
+		boss_fill.bg_color = colors[idx]
+
+
+func _on_boss_state_changed(state: int) -> void:
+	if boss_status_label == null:
+		return
+	var text := "追击"
+	var color := BOSS_GOLD
+	match state:
+		Boss.State.RING_CAST:
+			text = "红环蓄力"
+			color = BOSS_RED
+		Boss.State.ICE_CAST:
+			text = "冰弹锁定"
+			color = BOSS_BLUE
+		Boss.State.HEAL_WINDUP:
+			text = "回复蓄力"
+			color = BOSS_GREEN
+		Boss.State.HEAL:
+			text = "回复中"
+			color = BOSS_GREEN
+		Boss.State.CYAN_CHARGE:
+			text = "青色冲锋"
+			color = BOSS_CYAN
+		Boss.State.STUNNED:
+			text = "眩晕"
+			color = BOSS_GOLD
+		Boss.State.DEAD:
+			text = "已击败"
+			color = BOSS_GOLD
+	boss_status_label.text = text
+	boss_status_label.add_theme_color_override("font_color", color)
 
 
 func _on_boss_died() -> void:
-	if boss_bar != null:
-		boss_bar.visible = false
+	_set_boss_hud_visible(false)
+
+
+func _set_boss_hud_visible(visible: bool) -> void:
+	if boss_root == null:
+		return
+	if _boss_fade_tween != null and _boss_fade_tween.is_valid():
+		_boss_fade_tween.kill()
+	if visible:
+		if boss_root.visible and boss_root.modulate.a > 0.99:
+			return
+		boss_root.visible = true
+		boss_root.modulate.a = 0.0
+		boss_root.scale = Vector2(0.97, 0.97)
+		_boss_fade_tween = create_tween()
+		_boss_fade_tween.set_parallel(true)
+		_boss_fade_tween.tween_property(boss_root, "modulate:a", 1.0, 0.25)
+		_boss_fade_tween.tween_property(boss_root, "scale", Vector2.ONE, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	else:
+		if not boss_root.visible:
+			return
+		_boss_fade_tween = create_tween()
+		_boss_fade_tween.tween_property(boss_root, "modulate:a", 0.0, 0.25)
+		_boss_fade_tween.tween_callback(func(): boss_root.visible = false)

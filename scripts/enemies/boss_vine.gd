@@ -13,7 +13,7 @@ const DepthSort := preload("res://scripts/depth_sort.gd")
 var _age := 0.0
 var _dying := false
 
-@onready var visual: Polygon2D = get_node_or_null("Visual")
+@onready var visual: Node2D = get_node_or_null("Visual")
 
 
 func _ready() -> void:

@@ -84,8 +84,26 @@ func bake_now() -> void:
 	NavigationServer2D.bake_from_source_geometry_data(poly, source)
 	last_bake_ms = Time.get_ticks_msec() - started
 	navigation_polygon = poly
+	# 运行时新烘焙的 region 需要等它真正进入 NavigationServer 的 map 后再同步一次。
+	_sync_to_server.call_deferred()
 	_baked = true
 	baked.emit()
+
+
+## 延迟到 region 已注册进 map 后再把多边形推给 NavigationServer。
+func _sync_to_server() -> void:
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	if not is_inside_tree():
+		return
+	var map := get_navigation_map()
+	if not map.is_valid():
+		return
+	NavigationServer2D.region_set_map(get_rid(), map)
+	NavigationServer2D.region_set_enabled(get_rid(), true)
+	NavigationServer2D.region_set_navigation_polygon(get_rid(), navigation_polygon)
+	NavigationServer2D.map_set_active(map, true)
+	NavigationServer2D.map_force_update(map)
 
 
 func is_baked() -> bool:

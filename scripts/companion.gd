@@ -309,8 +309,11 @@ func _execute_task() -> void:
 				if not applied:
 					_task.settled = false
 					_cancel_job(_task)
-				elif target.has_method("release_paint_lock"):
-					target.call("release_paint_lock")
+				else:
+					if target.has_method("release_paint_lock"):
+						target.call("release_paint_lock")
+					if is_instance_valid(player) and player.has_method("purge_element_hazards"):
+						player.call("purge_element_hazards", str(_task.element), global_position)
 			"absorb":
 				var info: Dictionary = target.absorb_color()
 				var element := str(info.get("element", ""))

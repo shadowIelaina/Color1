@@ -48,6 +48,8 @@ var checkpoint_pos: Vector2 = Vector2.ZERO
 const SAVE_PATH := "user://save.json"
 ## 主菜单请求的下一次启动方式。重建玩家和房间，避免继承预览状态。
 var menu_launch_action := ""
+## Boss 测试模式：禁止写盘，避免测试进度覆盖正常存档。
+var debug_save_disabled := false
 
 const ReachabilityScript = preload("res://scripts/reachability.gd")
 
@@ -71,6 +73,7 @@ func reset() -> void:
 	current_room = null
 	checkpoint_scene = ""
 	checkpoint_pos = Vector2.ZERO
+	debug_save_disabled = false
 
 
 # —— 存档 / 读档 ——
@@ -87,6 +90,8 @@ func has_checkpoint() -> bool:
 
 ## 序列化当前进度 + 存档点到 user://save.json。
 func save_game() -> void:
+	if debug_save_disabled:
+		return
 	# 存档点也要抓取当前房间，不能只等离开房间时才记录容器剩余种子。
 	if is_instance_valid(current_room) and current_room.has_method("save_state"):
 		current_room.save_state()
