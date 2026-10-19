@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://sp8ii7v8xgnt"
-path="res://.godot/imported/钥匙tm.png-3420ea7f20b3a1a484958208eb697a3b.ctex"
+uid="uid://jxl8cetg4nil"
+path="res://.godot/imported/土墙块（湖水过渡）3.png-5f6e4a61aeb093b51e5a18ca03d3d0f9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/钥匙tm.png"
-dest_files=["res://.godot/imported/钥匙tm.png-3420ea7f20b3a1a484958208eb697a3b.ctex"]
+source_file="res://art/Ground/土墙块（湖水过渡）3.png"
+dest_files=["res://.godot/imported/土墙块（湖水过渡）3.png-5f6e4a61aeb093b51e5a18ca03d3d0f9.ctex"]
 
 [params]
 

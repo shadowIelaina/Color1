@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clipll4l0n51k"
-path="res://.godot/imported/祭坛tm.png-d07ef44c77afe046a4f5b53cefa7dd64.ctex"
+uid="uid://cnygc4osqxh02"
+path="res://.godot/imported/土墙块（湖水过渡）1.png-9c886b0aca91fb43cf1914b073ca061b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/祭坛tm.png"
-dest_files=["res://.godot/imported/祭坛tm.png-d07ef44c77afe046a4f5b53cefa7dd64.ctex"]
+source_file="res://art/Ground/土墙块（湖水过渡）1.png"
+dest_files=["res://.godot/imported/土墙块（湖水过渡）1.png-9c886b0aca91fb43cf1914b073ca061b.ctex"]
 
 [params]
 

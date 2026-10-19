@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqvmrxeuuahbf"
-path="res://.godot/imported/门tm.png-39ef1b05031bcc44985037aedd0d8d10.ctex"
+uid="uid://dyb3pjtx3pshj"
+path="res://.godot/imported/铁球tm.png-4ae5cfb6f24c1108f030c8d7f2da25ed.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/门tm.png"
-dest_files=["res://.godot/imported/门tm.png-39ef1b05031bcc44985037aedd0d8d10.ctex"]
+source_file="res://art/things/铁球tm.png"
+dest_files=["res://.godot/imported/铁球tm.png-4ae5cfb6f24c1108f030c8d7f2da25ed.ctex"]
 
 [params]
 

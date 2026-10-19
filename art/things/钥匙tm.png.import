@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpp75f0guxi8q"
-path="res://.godot/imported/地块1tm.png-fce3c751c355f130b3c0bfd74e71ddc1.ctex"
+uid="uid://sp8ii7v8xgnt"
+path="res://.godot/imported/钥匙tm.png-3784888a04487363a33c62bb614d464b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/地块1tm.png"
-dest_files=["res://.godot/imported/地块1tm.png-fce3c751c355f130b3c0bfd74e71ddc1.ctex"]
+source_file="res://art/things/钥匙tm.png"
+dest_files=["res://.godot/imported/钥匙tm.png-3784888a04487363a33c62bb614d464b.ctex"]
 
 [params]
 

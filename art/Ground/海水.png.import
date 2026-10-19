@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://5uw5dh6b8w8y"
-path="res://.godot/imported/宝箱（闭）tm.png-e4a53e30d9c11010ff01423431794117.ctex"
+uid="uid://url6j8n8tboj"
+path="res://.godot/imported/海水.png-cbb471abdd702d9c77be8840963abe22.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/宝箱（闭）tm.png"
-dest_files=["res://.godot/imported/宝箱（闭）tm.png-e4a53e30d9c11010ff01423431794117.ctex"]
+source_file="res://art/Ground/海水.png"
+dest_files=["res://.godot/imported/海水.png-cbb471abdd702d9c77be8840963abe22.ctex"]
 
 [params]
 

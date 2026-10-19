@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jgsj4jwo8pwc"
-path="res://.godot/imported/生命值（蓝）tm.png-7760acd86359f11ea2cad2586c91435d.ctex"
+uid="uid://clipll4l0n51k"
+path="res://.godot/imported/祭坛tm.png-3d9514947d76568ec60d2ffb0143a1a5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/生命值（蓝）tm.png"
-dest_files=["res://.godot/imported/生命值（蓝）tm.png-7760acd86359f11ea2cad2586c91435d.ctex"]
+source_file="res://art/things/祭坛tm.png"
+dest_files=["res://.godot/imported/祭坛tm.png-3d9514947d76568ec60d2ffb0143a1a5.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dos3ufdok4ldo"
-path="res://.godot/imported/冰块.png-a78e49f6d9c7a19426ba731a213f4383.ctex"
+uid="uid://6eydo2ole4v0"
+path="res://.godot/imported/草2tm.png-05633af1c76a7f6816d6b67aa268b807.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/冰块.png"
-dest_files=["res://.godot/imported/冰块.png-a78e49f6d9c7a19426ba731a213f4383.ctex"]
+source_file="res://art/things/草2tm.png"
+dest_files=["res://.godot/imported/草2tm.png-05633af1c76a7f6816d6b67aa268b807.ctex"]
 
 [params]
 

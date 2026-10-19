@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bebo7geu6d0k3"
-path="res://.godot/imported/生命值（绿）tm.png-542886b0d4229addf7c44af095868202.ctex"
+uid="uid://dgvdf74ap1f0"
+path="res://.godot/imported/生命值(黑)tm.png-0bd09078e8a3b270a8dc53826ae9c28c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/生命值（绿）tm.png"
-dest_files=["res://.godot/imported/生命值（绿）tm.png-542886b0d4229addf7c44af095868202.ctex"]
+source_file="res://art/things/生命值(黑)tm.png"
+dest_files=["res://.godot/imported/生命值(黑)tm.png-0bd09078e8a3b270a8dc53826ae9c28c.ctex"]
 
 [params]
 

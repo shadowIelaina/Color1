@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ch5gstr807tmq"
-path="res://.godot/imported/传送门tm.png-f55b0545b187cb851019c00392729570.ctex"
+uid="uid://qtux5dvjs0e"
+path="res://.godot/imported/宝箱（开）tm.png-3ba4367ebcb7d67ccca6385ee2fffa36.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/传送门tm.png"
-dest_files=["res://.godot/imported/传送门tm.png-f55b0545b187cb851019c00392729570.ctex"]
+source_file="res://art/things/宝箱（开）tm.png"
+dest_files=["res://.godot/imported/宝箱（开）tm.png-3ba4367ebcb7d67ccca6385ee2fffa36.ctex"]
 
 [params]
 

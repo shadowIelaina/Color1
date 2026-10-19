@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://v05473rse7id"
-path="res://.godot/imported/湖水.png-0229600027520bc2daeae2cb0f518380.ctex"
+uid="uid://ch5gstr807tmq"
+path="res://.godot/imported/传送门tm.png-4dcc54b31330263dc8fc0ee93f87a2ca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/湖水.png"
-dest_files=["res://.godot/imported/湖水.png-0229600027520bc2daeae2cb0f518380.ctex"]
+source_file="res://art/things/传送门tm.png"
+dest_files=["res://.godot/imported/传送门tm.png-4dcc54b31330263dc8fc0ee93f87a2ca.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dixwnvuh2ewkr"
-path="res://.godot/imported/草1tm.png-cbb8b6d2f525b9cf0dd85396ac0245a2.ctex"
+uid="uid://dayyye5465edt"
+path="res://.godot/imported/草块2.png-c0c2564d1cf52da9fe796df459f77e17.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/草1tm.png"
-dest_files=["res://.godot/imported/草1tm.png-cbb8b6d2f525b9cf0dd85396ac0245a2.ctex"]
+source_file="res://art/Ground/草块2.png"
+dest_files=["res://.godot/imported/草块2.png-c0c2564d1cf52da9fe796df459f77e17.ctex"]
 
 [params]
 

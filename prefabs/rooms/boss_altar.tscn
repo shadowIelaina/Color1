@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://w7j75e0gu844" path="res://scripts/boss_altar.gd" id="1_altar"]
 [ext_resource type="Texture2D" uid="uid://c41j1k11w36ib" path="res://art/BOSS/祭坛.png" id="2_71kd3"]
-[ext_resource type="Texture2D" uid="uid://1nuhrkxcu7wr" path="res://art/picture_boluo/生命值（红）tm.png" id="3_heart"]
-[ext_resource type="Texture2D" uid="uid://jgsj4jwo8pwc" path="res://art/picture_boluo/生命值（蓝）tm.png" id="4_blue"]
-[ext_resource type="Texture2D" uid="uid://bebo7geu6d0k3" path="res://art/picture_boluo/生命值（绿）tm.png" id="5_green"]
+[ext_resource type="Texture2D" path="res://art/picture_boluo/生命值（红）tm.png" id="3_heart"]
+[ext_resource type="Texture2D" path="res://art/picture_boluo/生命值（蓝）tm.png" id="4_blue"]
+[ext_resource type="Texture2D" uid="uid://nl0p0kvv0orv" path="res://art/things/生命值_（绿）tm.png" id="5_71kd3"]
 
 [node name="BossAltar" type="Node2D" unique_id=2061883471]
 z_index = 1
@@ -36,4 +36,4 @@ texture = ExtResource("3_heart")
 texture_filter = 1
 position = Vector2(137, 169)
 scale = Vector2(0.57312495, 0.5535937)
-texture = ExtResource("5_green")
+texture = ExtResource("5_71kd3")

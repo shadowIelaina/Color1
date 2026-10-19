@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dk6jnneshuvv0"
-path="res://.godot/imported/藤桥tm.png-f0d34bf0cc38e7b4b18a62b911df3b64.ctex"
+uid="uid://dkmv0qw3vusdq"
+path="res://.godot/imported/压力板tm.png-45555317a223a7241b3d4e826af417c4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/藤桥tm.png"
-dest_files=["res://.godot/imported/藤桥tm.png-f0d34bf0cc38e7b4b18a62b911df3b64.ctex"]
+source_file="res://art/things/压力板tm.png"
+dest_files=["res://.godot/imported/压力板tm.png-45555317a223a7241b3d4e826af417c4.ctex"]
 
 [params]
 
