@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemies/ground_hazard.gd" id="1_hazard"]
+[ext_resource type="Texture2D" uid="uid://bifg8dfs6x45n" path="res://art/things/ice_2.png" id="2_ice"]
 
 [sub_resource type="CircleShape2D" id="Circle_hazard"]
 radius = 44.0
@@ -9,10 +10,13 @@ radius = 44.0
 collision_layer = 0
 collision_mask = 1
 script = ExtResource("1_hazard")
+kind = 1
+lifetime = 1.0
 
-[node name="Visual" type="Polygon2D" parent="."]
-color = Color(1, 0.5, 0.15, 0.75)
-polygon = PackedVector2Array(-40, -40, 40, -40, 40, 40, -40, 40)
+[node name="Visual" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_ice")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("Circle_hazard")

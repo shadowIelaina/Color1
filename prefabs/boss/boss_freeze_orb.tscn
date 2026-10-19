@@ -1,9 +1,11 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemies/boss_freeze_orb.gd" id="1_orb"]
+[ext_resource type="Texture2D" uid="uid://ct8tdblrqmdel" path="res://art/BOSS/蓝子弹.png" id="2_visual"]
+[ext_resource type="PackedScene" path="res://prefabs/boss/ground_hazard.tscn" id="3_hazard"]
 
 [sub_resource type="CircleShape2D" id="Circle_orb"]
-radius = 16.0
+radius = 48.0
 
 [sub_resource type="Gradient" id="Gradient_trail"]
 offsets = PackedFloat32Array(0, 0.72, 1)
@@ -19,13 +21,16 @@ knockback_strength = 400.0
 freeze_duration = 3.0
 parryable = true
 single_parry = true
+trail_scene = ExtResource("3_hazard")
+trail_kind = 1
+trail_interval = 0.2
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("Circle_orb")
 
-[node name="Visual" type="Polygon2D" parent="."]
-color = Color(0.4, 0.6, 1, 1)
-polygon = PackedVector2Array(0, -18, 18, 0, 0, 18, -18, 0)
+[node name="Visual" type="Sprite2D" parent="."]
+scale = Vector2(0.48, 0.48)
+texture = ExtResource("2_visual")
 
 [node name="TracerGlow" type="Line2D" parent="Visual"]
 z_index = -1

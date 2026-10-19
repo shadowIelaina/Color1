@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemies/red_minion.gd" id="1_minion"]
+[ext_resource type="Texture2D" uid="uid://cuw1b1oqf2muq" path="res://art/BOSS/红色小怪/存活.png" id="2_alive"]
+[ext_resource type="Texture2D" uid="uid://do8iatl3vip8o" path="res://art/BOSS/红色小怪/熄灭.png" id="3_lock"]
+[ext_resource type="Texture2D" uid="uid://c4kb5ehqsnh4e" path="res://art/BOSS/红色小怪/死亡.png" id="4_death"]
+[ext_resource type="PackedScene" path="res://prefabs/boss/fire_trail.tscn" id="5_trail"]
 
 [sub_resource type="CircleShape2D" id="Circle_minion"]
-radius = 56.0
+radius = 116.0
 
 [node name="RedMinion" type="CharacterBody2D" groups=["enemy", "minion", "colorable"]]
 collision_layer = 0
@@ -14,15 +18,22 @@ fire_interval = 1.5
 bullet_speed = 520.0
 bullet_count = 3
 bullet_spread_deg = 12.0
+lock_texture = ExtResource("3_lock")
+death_texture = ExtResource("4_death")
+extinguish_texture = ExtResource("3_lock")
+trail_scene = ExtResource("5_trail")
+hit_radius = 124.0
+nav_radius = 116.0
 
 [node name="Shadow" type="Polygon2D" parent="."]
+scale = Vector2(2, 2)
 z_index = -1
 color = Color(0, 0, 0, 0.3)
 polygon = PackedVector2Array(-60, 50, 60, 50, 44, 70, -44, 70)
 
-[node name="Visual" type="Polygon2D" parent="."]
-color = Color(0.95, 0.3, 0.25, 1)
-polygon = PackedVector2Array(-52, -52, 52, -52, 52, 52, -52, 52)
+[node name="Visual" type="Sprite2D" parent="."]
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("2_alive")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("Circle_minion")

@@ -1,0 +1,152 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" uid="uid://dytume56coeac" path="res://art/BOSS/红boss待机/红boss待机-1.png" id="1_red1"]
+[ext_resource type="Texture2D" uid="uid://be6c434rag1fp" path="res://art/BOSS/红boss待机/红boss待机-2.png" id="2_red2"]
+[ext_resource type="Texture2D" uid="uid://yfgd2cf8y80j" path="res://art/BOSS/红boss待机/红boss待机-3.png" id="3_red3"]
+[ext_resource type="Texture2D" uid="uid://1cxyq3whs3e1" path="res://art/BOSS/红boss待机/红boss待机-4.png" id="4_red4"]
+[ext_resource type="Texture2D" uid="uid://cqhpysdclfio3" path="res://art/BOSS/蓝boss待机/boss待机-1.png" id="5_blue1"]
+[ext_resource type="Texture2D" uid="uid://cqi1tmbvhmbcd" path="res://art/BOSS/蓝boss待机/boss待机-2.png" id="6_blue2"]
+[ext_resource type="Texture2D" uid="uid://bmmidlcj11x7j" path="res://art/BOSS/蓝boss待机/boss待机-3.png" id="7_blue3"]
+[ext_resource type="Texture2D" uid="uid://d3lpeak74av4k" path="res://art/BOSS/蓝boss待机/boss待机-4.png" id="8_blue4"]
+[ext_resource type="Texture2D" uid="uid://sdg44gmuc2ua" path="res://art/BOSS/绿boss待机/绿boss待机-1.png" id="9_green1"]
+[ext_resource type="Texture2D" uid="uid://cljxxjgvu0b15" path="res://art/BOSS/绿boss待机/绿boss待机-2.png" id="10_green2"]
+[ext_resource type="Texture2D" uid="uid://cckwvq6428no2" path="res://art/BOSS/绿boss待机/绿boss待机-3.png" id="11_green3"]
+[ext_resource type="Texture2D" uid="uid://dg34e68xcdq0x" path="res://art/BOSS/绿boss待机/绿boss待机-4.png" id="12_green4"]
+[ext_resource type="Texture2D" uid="uid://cn48kdkm65f2b" path="res://art/BOSS/青boss待机/青色boss待机-1.png" id="13_cyan1"]
+[ext_resource type="Texture2D" uid="uid://5lih85l87ioo" path="res://art/BOSS/青boss待机/青色boss待机-2.png" id="14_cyan2"]
+[ext_resource type="Texture2D" uid="uid://dmwb7trtk5mw5" path="res://art/BOSS/青boss待机/青色boss待机-3.png" id="15_cyan3"]
+[ext_resource type="Texture2D" uid="uid://d0plbd5bltfhf" path="res://art/BOSS/青boss待机/青色boss待机-4.png" id="16_cyan4"]
+[ext_resource type="Texture2D" uid="uid://b5qxsnku1w4hx" path="res://art/BOSS/转换蓝色动画/切换-1.png" id="17_toblue1"]
+[ext_resource type="Texture2D" uid="uid://ckpr74oc0b6ji" path="res://art/BOSS/转换蓝色动画/切换-2.png" id="18_toblue2"]
+[ext_resource type="Texture2D" uid="uid://d1mbilwp6matf" path="res://art/BOSS/转换蓝色动画/切换-3.png" id="19_toblue3"]
+[ext_resource type="Texture2D" uid="uid://bquusjab0hcdx" path="res://art/BOSS/转换蓝色动画/切换-4.png" id="20_toblue4"]
+[ext_resource type="Texture2D" uid="uid://sjidiixjujkf" path="res://art/BOSS/转换绿色动画/切换-1.png" id="21_togreen1"]
+[ext_resource type="Texture2D" uid="uid://cdejtam3oxdik" path="res://art/BOSS/转换绿色动画/切换-2.png" id="22_togreen2"]
+[ext_resource type="Texture2D" uid="uid://0c7p7g0qhh0f" path="res://art/BOSS/转换绿色动画/切换-3.png" id="23_togreen3"]
+[ext_resource type="Texture2D" uid="uid://uqhfl6vcq0ap" path="res://art/BOSS/转换绿色动画/切换-4.png" id="24_togreen4"]
+[ext_resource type="Texture2D" uid="uid://dm128o1ywxdon" path="res://art/BOSS/转换青色动画/切换-1.png" id="25_tocyan1"]
+[ext_resource type="Texture2D" uid="uid://dctmflcxllj16" path="res://art/BOSS/转换青色动画/切换-2.png" id="26_tocyan2"]
+[ext_resource type="Texture2D" uid="uid://frl0grcj408b" path="res://art/BOSS/转换青色动画/切换-3.png" id="27_tocyan3"]
+[ext_resource type="Texture2D" uid="uid://chetgq2m3dnuk" path="res://art/BOSS/转换青色动画/切换-4.png" id="28_tocyan4"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_red1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_red2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_red3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_red4")
+}],
+"loop": 1,
+"name": &"idle_red",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_blue1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_blue2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_blue3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_blue4")
+}],
+"loop": 1,
+"name": &"idle_blue",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_green1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_green2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_green3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_green4")
+}],
+"loop": 1,
+"name": &"idle_green",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_cyan1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_cyan2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_cyan3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_cyan4")
+}],
+"loop": 1,
+"name": &"idle_cyan",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("17_toblue1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_toblue2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_toblue3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_toblue4")
+}],
+"loop": 0,
+"name": &"to_blue",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_togreen1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_togreen2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_togreen3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_togreen4")
+}],
+"loop": 0,
+"name": &"to_green",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("25_tocyan1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_tocyan2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_tocyan3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_tocyan4")
+}],
+"loop": 0,
+"name": &"to_cyan",
+"speed": 14.0
+}]

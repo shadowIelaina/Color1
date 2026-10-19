@@ -43,6 +43,8 @@ enum State {
 
 @export_group("Interact")
 @export_range(8.0, 4096.0, 1.0) var interact_range := 1024.0
+## 红/蓝上色成功后，以落点为中心清除对应残留的半径（世界像素）。
+@export_range(0.0, 4000.0, 50.0) var element_purge_radius := 800.0
 
 @export_group("Light")
 ## 玩家自带微光半径（世界像素，256px ≈ 1 格）。暗房里照亮自身周围；相机 zoom 0.25，太小在屏幕上根本看不见。
@@ -652,9 +654,11 @@ func _absorb() -> void:
 func _interact() -> void:
 	if not _companion_recruited():
 		return
-	var chest := _chest_at_mouse()
-	if chest != null:
-		_companion().call("interact", chest)
+	var target := _altar_at_mouse()
+	if target == null:
+		target = _chest_at_mouse()
+	if target != null:
+		_companion().call("interact", target)
 		return
 	_grant()
 
@@ -728,6 +732,29 @@ func _grant() -> void:
 		refund_element(element, 1)
 
 
+## 红/蓝上色成功后，以落点为中心清除对应残留：
+## 红 → 藤蔓 + 冰晶；蓝 → 火焰痕迹。
+func purge_element_hazards(element_id: String, center: Vector2) -> void:
+	if element_id == "burn":
+		_purge_nodes("boss_vine", "_despawn", center)
+		_purge_nodes("ice_crystal", "extinguish", center)
+	elif element_id == "freeze":
+		_purge_nodes("burn_trail", "extinguish", center)
+
+
+func _purge_nodes(group: String, method: String, center: Vector2) -> void:
+	for n in get_tree().get_nodes_in_group(group):
+		if not GameState.is_in_current_scene(n):
+			continue
+		var n2d := n as Node2D
+		if n2d == null or n2d.is_queued_for_deletion():
+			continue
+		if n2d.global_position.distance_to(center) > element_purge_radius:
+			continue
+		if n.has_method(method):
+			n.call(method)
+
+
 ## 扣掉当前选中元素的一颗种子；扣光后保留选中色，由玩家手动切换。
 func _consume_selected() -> void:
 	if _selected_element == "":
@@ -741,6 +768,29 @@ func _consume_selected() -> void:
 	if int(_inventory[_selected_element]) <= 0:
 		_inventory.erase(_selected_element)
 	_notify_inventory()
+
+
+## 鼠标当前指向、尚未激活的圣坛（工作圈内，重叠时取 z_index 最高/最上层）。
+func _altar_at_mouse() -> Node:
+	var mp := get_global_mouse_position()
+	if global_position.distance_to(mp) > interact_range:
+		return null
+	var best: Node = null
+	var best_z := -INF
+	for obj in get_tree().get_nodes_in_group("altar"):
+		if not GameState.is_in_current_scene(obj):
+			continue
+		if not obj.has_method("contains_point"):
+			continue
+		if bool(obj.get("is_open")):
+			continue
+		if not bool(obj.call("contains_point", mp)):
+			continue
+		var z := float(obj.get("z_index"))
+		if z >= best_z:
+			best_z = z
+			best = obj
+	return best
 
 
 ## 鼠标当前指向、且未开启的宝箱（工作圈内，重叠时取 z_index 最高/最上层）。
@@ -816,6 +866,8 @@ func _update_highlight() -> void:
 	var target := _colored_at_mouse()
 	if target == null and _selected_element != "":
 		target = _grantable_at_mouse()
+	if target == null:
+		target = _altar_at_mouse()
 	if target == _highlighted:
 		return
 	_clear_highlight()
