@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnygc4osqxh02"
-path="res://.godot/imported/土墙块（湖水过渡）1.png-f4794066d9c50ce8c902fd17e7ddea4e.ctex"
+uid="uid://jgsj4jwo8pwc"
+path="res://.godot/imported/生命值（蓝）tm.png-12417b3a8e516817c074532d3116bc55.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/土墙块（湖水过渡）1.png"
-dest_files=["res://.godot/imported/土墙块（湖水过渡）1.png-f4794066d9c50ce8c902fd17e7ddea4e.ctex"]
+source_file="res://art/things/生命值（蓝）tm.png"
+dest_files=["res://.godot/imported/生命值（蓝）tm.png-12417b3a8e516817c074532d3116bc55.ctex"]
 
 [params]
 

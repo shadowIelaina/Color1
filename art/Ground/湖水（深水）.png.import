@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3y7dtfx74055"
-path="res://.godot/imported/元素阀门tm.png-5faebdd3270a6f3a879d64fa65bbda05.ctex"
+uid="uid://dq1mvc7v72pfr"
+path="res://.godot/imported/湖水（深水）.png-9cb442d3d2651c571e408913968adce7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/元素阀门tm.png"
-dest_files=["res://.godot/imported/元素阀门tm.png-5faebdd3270a6f3a879d64fa65bbda05.ctex"]
+source_file="res://art/Ground/湖水（深水）.png"
+dest_files=["res://.godot/imported/湖水（深水）.png-9cb442d3d2651c571e408913968adce7.ctex"]
 
 [params]
 

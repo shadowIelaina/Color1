@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqg2xneatgokr"
-path="res://.godot/imported/岩石tm.png-a29e6908070adeb75f0ae0b9b61ed625.ctex"
+uid="uid://cyegdl1jno3wu"
+path="res://.godot/imported/土墙块（湖水过渡）2.png-0590cbd491535f659ed8e4067662f871.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/岩石tm.png"
-dest_files=["res://.godot/imported/岩石tm.png-a29e6908070adeb75f0ae0b9b61ed625.ctex"]
+source_file="res://art/Ground/土墙块（湖水过渡）2.png"
+dest_files=["res://.godot/imported/土墙块（湖水过渡）2.png-0590cbd491535f659ed8e4067662f871.ctex"]
 
 [params]
 

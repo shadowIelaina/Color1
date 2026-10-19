@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://oxidhgibw4fy"
-path="res://.godot/imported/墙体.png-8fd789c9b1d3c2d270f3bf60ec7c9896.ctex"
+uid="uid://cqg2xneatgokr"
+path="res://.godot/imported/岩石tm.png-9be04d2f696720e80f3e0e82da261554.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/墙体.png"
-dest_files=["res://.godot/imported/墙体.png-8fd789c9b1d3c2d270f3bf60ec7c9896.ctex"]
+source_file="res://art/things/岩石tm.png"
+dest_files=["res://.godot/imported/岩石tm.png-9be04d2f696720e80f3e0e82da261554.ctex"]
 
 [params]
 

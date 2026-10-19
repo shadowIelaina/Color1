@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dyb3pjtx3pshj"
-path="res://.godot/imported/铁球tm.png-3f3a56d0944342a5a0a71cc193b8c920.ctex"
+uid="uid://dk6jnneshuvv0"
+path="res://.godot/imported/藤桥tm.png-d11af34532e8dc6bb89a121977d47394.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/铁球tm.png"
-dest_files=["res://.godot/imported/铁球tm.png-3f3a56d0944342a5a0a71cc193b8c920.ctex"]
+source_file="res://art/things/藤桥tm.png"
+dest_files=["res://.godot/imported/藤桥tm.png-d11af34532e8dc6bb89a121977d47394.ctex"]
 
 [params]
 

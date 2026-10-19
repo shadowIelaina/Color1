@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dq1mvc7v72pfr"
-path="res://.godot/imported/湖水（深水）.png-504d0b7c01a9907db5c9ab586cef053f.ctex"
+uid="uid://nl0p0kvv0orv"
+path="res://.godot/imported/生命值_（绿）tm.png-28401cf39a558e0ecfb07e3f14dc9776.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/picture_boluo/湖水（深水）.png"
-dest_files=["res://.godot/imported/湖水（深水）.png-504d0b7c01a9907db5c9ab586cef053f.ctex"]
+source_file="res://art/things/生命值_（绿）tm.png"
+dest_files=["res://.godot/imported/生命值_（绿）tm.png-28401cf39a558e0ecfb07e3f14dc9776.ctex"]
 
 [params]
 
