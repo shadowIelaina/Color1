@@ -61,6 +61,10 @@ func _ready() -> void:
 		InputMap.action_add_event("story_interact", key)
 	_prompt = Label.new()
 	_prompt.text = interaction_text
+	_prompt.add_theme_font_override("font", preload("res://art/fonts/LXGWWenKaiLite-Regular.ttf"))
+	_prompt.add_theme_color_override("font_color", Color("38352f"))
+	_prompt.add_theme_color_override("font_outline_color", Color("f4f0e5"))
+	_prompt.add_theme_constant_override("outline_size", 6)
 	_prompt.add_theme_font_size_override("font_size", 48)
 	_prompt.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_prompt.hide()

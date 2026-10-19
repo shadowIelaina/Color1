@@ -14,7 +14,7 @@
 [ext_resource type="Shader" uid="uid://cc4mtqgwkocui" path="res://shaders/portal.gdshader" id="13_bjw4u"]
 [ext_resource type="Texture2D" uid="uid://jbbq0d4vwblq" path="res://art/else/grass.png" id="13_grass"]
 [ext_resource type="PackedScene" uid="uid://bgew1y27utuh3" path="res://prefabs/items/interaction/growth_seed.tscn" id="13_p3r0x"]
-[ext_resource type="PackedScene" path="res://prefabs/items/interaction/seed_container.tscn" id="14_5xqnf"]
+[ext_resource type="PackedScene" uid="uid://bag3fd8p4bl5t" path="res://prefabs/items/interaction/seed_container.tscn" id="14_5xqnf"]
 [ext_resource type="PackedScene" uid="uid://bgfnfyk13xrue" path="res://prefabs/items/static prop/tree.tscn" id="14_una4e"]
 [ext_resource type="PackedScene" path="res://prefabs/items/interaction/parry_emitter.tscn" id="16_una4e"]
 [ext_resource type="PackedScene" path="res://prefabs/items/interaction/element_plate.tscn" id="17_ema3p"]
@@ -490,7 +490,7 @@ position = Vector2(-1211, 2116.0002)
 scale = Vector2(0.3599991, 0.35999954)
 required_key_id = "3"
 
-[node name="CompanionHint_GrassBig12" type="Node2D" parent="."]
+[node name="CompanionHint_GrassBig12" type="Node2D" parent="." unique_id=1999238148]
 position = Vector2(525, 899)
 script = ExtResource("26_hint")
 dialogue_resource = ExtResource("27_companion")
@@ -498,7 +498,7 @@ cue = "hint_level3_grass_big12"
 hint_id = "hint_level3_grass_big12"
 radius = 512.0
 
-[node name="CompanionHint_Tree11" type="Node2D" parent="."]
+[node name="CompanionHint_Tree11" type="Node2D" parent="." unique_id=958082716]
 position = Vector2(14797, 3855)
 script = ExtResource("26_hint")
 dialogue_resource = ExtResource("27_companion")
@@ -506,7 +506,7 @@ cue = "hint_level3_tree11"
 hint_id = "hint_level3_tree11"
 radius = 512.0
 
-[node name="CompanionHint_GrassBig2" type="Node2D" parent="."]
+[node name="CompanionHint_GrassBig2" type="Node2D" parent="." unique_id=1662847867]
 position = Vector2(5533, 11407)
 script = ExtResource("26_hint")
 dialogue_resource = ExtResource("27_companion")

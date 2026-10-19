@@ -15,6 +15,7 @@ func _ready() -> void:
 	if prop_id == "":
 		prop_id = "heart:%s" % get_path()
 	super._ready()
+	preload("res://scripts/pickup_presentation.gd").register_item("prop", prop_id, display_name, _visual, inventory_icon)
 	_pickup_area.set_deferred("monitoring", false)
 	var rays := get_node_or_null("Visual/Rays") as Control
 	if rays != null:
@@ -44,7 +45,7 @@ func _on_body_entered(body: Node) -> void:
 	_pickup_area.set_deferred("monitoring", false)
 	if _float != null:
 		_float.kill()
-	GameState.notice.emit("获得%s：最大生命 +%d" % [display_name, health_bonus])
+	preload("res://scripts/pickup_presentation.gd").announce("prop", prop_id, item_description if item_description != "" else "最大生命 +%d" % health_bonus)
 	var start := _visual.global_position
 	var original_scale := _visual.scale
 	var tween := create_tween()

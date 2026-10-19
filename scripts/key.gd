@@ -7,6 +7,8 @@ extends StatefulObject
 @export var key_id: String = ""
 ## 提示里显示的钥匙名（留空则用 key_id）。
 @export var key_name: String = ""
+## 拾取纸签下方的说明。
+@export_multiline var item_description: String = "已收好"
 
 @export_group("剧情")
 ## 拾取钥匙时播放的主线剧情段落（prologue.dialogue 的 cue）；空 = 不播。
@@ -24,6 +26,7 @@ func _ready() -> void:
 		key_id = name
 	state_id = "key:" + key_id   # 与门/机关的 state_id 命名空间隔开，避免撞键
 	GameState.register_key(key_id, key_name)
+	preload("res://scripts/pickup_presentation.gd").register_item("key", key_id, _display_name(), _visual)
 	_pickup_area.body_entered.connect(_on_body_entered)
 	_refresh()
 
@@ -35,7 +38,7 @@ func _on_body_entered(body: Node) -> void:
 		return
 	GameState.add_key(key_id)
 	GameState.item_collected.emit(key_id)
-	GameState.notice.emit(KeyLock.pickup_message(_display_name()))
+	preload("res://scripts/pickup_presentation.gd").announce("key", key_id, item_description)
 	StoryPort.play(self, story_cue, story_id)
 	_refresh()
 

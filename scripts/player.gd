@@ -55,6 +55,9 @@ enum State {
 @export_group("Health")
 ## 最大血量（红心数）。初始 1 颗心；后续可加「心之容器」提高上限。
 @export_range(1, 20, 1) var max_health := 1
+## 屏幕像素；设为 0 可关闭受击镜头震动。
+@export_range(0.0, 12.0, 0.5) var hit_shake_pixels := 3.0
+@export var hit_gamepad_vibration := true
 
 @export_group("Testing")
 ## 测试用：开启后玩家永久持有 红/蓝/绿 三色（消耗不减少），方便自由试玩各机制。
@@ -116,6 +119,7 @@ var _dialogue_active := false        # 对话中禁止玩家移动
 var health := 1.0
 var _invincible_until := 0
 var _hit_t := 0.0   # 受击动画计时
+var _hit_feedback: Node
 var _frozen := false        # 被冰冻（Boss 蓝弹）：禁止移动，需用红色解冻
 var _freeze_t := 0.0        # 冰冻剩余时间（超时兜底自动解冻）
 var _slow_t := 0.0          # 减速剩余时间（冰晶等地表）：不禁止移动，只是变慢
@@ -127,6 +131,8 @@ var _slow_factor := 1.0     # 减速系数（1 = 不减速，越小越慢）
 
 
 func _ready() -> void:
+	_hit_feedback = preload("res://scripts/hit_feedback.gd").new()
+	add_child(_hit_feedback)
 	add_to_group("player")
 	DialogueManager.dialogue_started.connect(_on_dialogue_started)
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
@@ -451,6 +457,7 @@ func take_damage(amount: float = 1.0) -> void:
 	health = maxf(health - amount, 0.0)
 	health_changed.emit(health, max_health)
 	_start_hit()
+	_hit_feedback.play(sprite, hit_shake_pixels, hit_gamepad_vibration)
 	if health <= 0.0:
 		_die()
 
@@ -581,6 +588,8 @@ func _color_name_of(element_id: String) -> String:
 
 ## 更新选中元素：同步描边颜色 + 发射 UI 信号。
 func _select_element(element_id: String) -> void:
+	if is_node_ready() and element_id != "" and element_id != _selected_element:
+		AudioManager.play_ui_select()
 	_selected_element = element_id
 	selected_color = _color_of(element_id)
 	selected_color_name = _color_name_of(element_id) if element_id != "" else "无"
@@ -812,6 +821,7 @@ func _update_highlight() -> void:
 	_clear_highlight()
 	if target != null:
 		_highlighted = target
+		AudioManager.play_ui_hover()
 		_add_outline(target)
 
 

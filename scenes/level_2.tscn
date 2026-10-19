@@ -339,7 +339,7 @@ position = Vector2(-300, 0)
 script = ExtResource("2_entrance")
 entrance_id = "spawn"
 
-[node name="CompanionHint_Firefly" type="Node2D" parent="."]
+[node name="CompanionHint_Firefly" type="Node2D" parent="." unique_id=1253514553]
 position = Vector2(-300, 0)
 script = ExtResource("27_hint")
 dialogue_resource = ExtResource("28_companion")
@@ -347,7 +347,7 @@ cue = "hint_level2_firefly"
 hint_id = "hint_level2_firefly"
 radius = 1024.0
 
-[node name="CompanionHint_TreeDead" type="Node2D" parent="."]
+[node name="CompanionHint_TreeDead" type="Node2D" parent="." unique_id=1666151297]
 position = Vector2(782, -12773)
 script = ExtResource("27_hint")
 dialogue_resource = ExtResource("28_companion")
@@ -355,15 +355,15 @@ cue = "hint_level2_tree_dead"
 hint_id = "hint_level2_tree_dead"
 radius = 512.0
 
-[node name="CompanionHint_Grass33" type="Node2D" parent="."]
-position = Vector2(1600, -15289)
+[node name="CompanionHint_Grass33" type="Node2D" parent="." unique_id=542511226]
+position = Vector2(979, -18850)
 script = ExtResource("27_hint")
 dialogue_resource = ExtResource("28_companion")
 cue = "hint_level2_grass33"
 hint_id = "hint_level2_grass33"
 radius = 512.0
 
-[node name="CompanionHint_Checkpoint2" type="Node2D" parent="."]
+[node name="CompanionHint_Checkpoint2" type="Node2D" parent="." unique_id=725934452]
 position = Vector2(9036, -19165)
 script = ExtResource("27_hint")
 dialogue_resource = ExtResource("28_companion")
@@ -371,13 +371,13 @@ cue = "hint_level2_checkpoint2"
 hint_id = "hint_level2_checkpoint2"
 radius = 512.0
 
-[node name="CompanionHint_Grass46" type="Node2D" parent="."]
-position = Vector2(-21596, -13469)
+[node name="CompanionHint_Grass46" type="Node2D" parent="." unique_id=1890911193]
+position = Vector2(-18424, -12804)
 script = ExtResource("27_hint")
 dialogue_resource = ExtResource("28_companion")
 cue = "hint_level2_grass46"
 hint_id = "hint_level2_grass46"
-radius = 512.0
+radius = 1479.0
 
 [node name="Puzzle" type="Node2D" parent="." unique_id=1192312149]
 position = Vector2(-18439, -12858)

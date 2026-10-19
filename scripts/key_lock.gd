@@ -14,7 +14,7 @@ enum Result { NOT_NEEDED, UNLOCKED, NO_KEY }
 
 ## 钥匙系统全部文案（单一来源）。
 const MSG_PICKUP := "拾取了钥匙：%s"
-const MSG_USE := "用「%s」打开了门"
+const MSG_USE := "门锁打开了"
 const MSG_NEED := "门锁住了，需要「%s」"
 
 ## 需要的钥匙 id（空 = 这扇门不用钥匙）。
@@ -41,8 +41,8 @@ static func pickup_message(key_name: String) -> String:
 	return MSG_PICKUP % key_name
 
 
-static func use_message(key_name: String) -> String:
-	return MSG_USE % key_name
+static func use_message(_key_name: String) -> String:
+	return MSG_USE
 
 
 static func need_message(key_name: String) -> String:

@@ -4333,6 +4333,8 @@ camera_limits = Rect2(-20000, -20000, 40000, 40000)
 [node name="IceBlock" parent="." unique_id=1422217170 instance=ExtResource("2_v8pws")]
 position = Vector2(4868, -3299)
 scale = Vector2(16, 16)
+story_cue = "tutorial_blue_absorb"
+story_id = "level1_first_ice_absorb"
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=1123909002]
 z_index = -2
@@ -5136,6 +5138,7 @@ position = Vector2(4845, -430)
 scale = Vector2(0.35, 0.35)
 script = ExtResource("26_mmfjm")
 dialogue_resource = ExtResource("27_k8ld0")
+idle_reminder_cue = ""
 
 [node name="InteractArea" type="Area2D" parent="Companion" unique_id=1914830084]
 collision_layer = 0
@@ -5165,12 +5168,6 @@ erase_speed = 5
 
 [node name="Checkpoint" parent="." unique_id=1314338313 instance=ExtResource("33_v8pws")]
 position = Vector2(-9279, -7906)
-
-[node name="CompanionHint_01" type="Node2D" parent="." unique_id=1147803756]
-position = Vector2(6107, -433)
-script = ExtResource("28_k8ld0")
-dialogue_resource = ExtResource("27_k8ld0")
-cue = "hint_start"
 
 [node name="startroom" parent="." unique_id=110648566 instance=ExtResource("29_mbb35")]
 visible = false
@@ -5243,7 +5240,7 @@ position = Vector2(6661.001, -458)
 scale = Vector2(0.35041574, 0.35999912)
 required_key_id = "1"
 
-[node name="CompanionHint_RoomDoor" type="Node2D" parent="."]
+[node name="CompanionHint_RoomDoor" type="Node2D" parent="." unique_id=1261264160]
 position = Vector2(6661, -458)
 script = ExtResource("28_k8ld0")
 dialogue_resource = ExtResource("27_k8ld0")
@@ -5252,8 +5249,26 @@ hint_id = "hint_roomdoor_key"
 required_key_id = "1"
 radius = 512.0
 
-[node name="CompanionHint_Grass5" type="Node2D" parent="."]
-position = Vector2(4182, 2026)
+[node name="CompanionHint_RoomDoor2" type="Node2D" parent="." unique_id=2132743736]
+position = Vector2(4827, -2797)
+script = ExtResource("28_k8ld0")
+dialogue_resource = ExtResource("27_k8ld0")
+cue = "hint_bin"
+hint_id = "hint_bin"
+required_key_id = "1"
+radius = 512.0
+
+[node name="CompanionHint_RoomDoor3" type="Node2D" parent="." unique_id=2104069373]
+position = Vector2(4753, -5322)
+script = ExtResource("28_k8ld0")
+dialogue_resource = ExtResource("27_k8ld0")
+cue = "hint_宝箱"
+hint_id = "hint_宝箱"
+required_key_id = "1"
+radius = 512.0
+
+[node name="CompanionHint_Grass5" type="Node2D" parent="." unique_id=843735961]
+position = Vector2(4957, 1895)
 script = ExtResource("28_k8ld0")
 dialogue_resource = ExtResource("27_k8ld0")
 cue = "hint_south_item"

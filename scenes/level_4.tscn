@@ -245,8 +245,9 @@ entrance_id = "spawn"
 [node name="Checkpoint" parent="." unique_id=1814421679 instance=ExtResource("23_checkpoint")]
 checkpoint_id = "level4_spawn"
 
-[node name="Story_Shrine" type="Node2D" parent="."]
-position = Vector2(0, 0)
+[node name="Story_Shrine" type="Node2D" parent="." unique_id=2033658687]
+z_index = 4095
+z_as_relative = false
 script = ExtResource("24_dtrigger")
 story_id = "shrine"
 dialogue_resource = ExtResource("25_prologue")

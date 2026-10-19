@@ -140,6 +140,7 @@ func _freeze(from_pos: Vector2 = Vector2.INF) -> void:
 
 ## 火融冰（火 × 冰 = 水）：冰融回水。与吸收蓝的融化一致，但火融化不返还蓝种子。
 func _melt() -> void:
+	if _frozen: AudioManager.play_ice_break()
 	_frozen = false
 	if not shallow:
 		_col.set_deferred("disabled", false)   # 深水恢复碰撞 → 重新挡路

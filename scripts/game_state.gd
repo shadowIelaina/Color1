@@ -5,6 +5,7 @@ extends Node
 ## - 广播全局信号（item_collected、key_added、gate_opened、hint 等）
 
 signal item_collected(item_id: String)
+signal pickup_presented(entry: Dictionary)
 signal key_added(key_id: String)
 signal key_used(key_id: String)
 signal prop_added(prop_id: String)
@@ -12,7 +13,7 @@ signal ability_added(ability_id: String)
 signal switch_changed(switch_id: String, value: bool)
 signal gate_opened(gate_id: String)
 signal hint(text: String)
-## 左上角短暂提示（拾取道具、门被解锁等）。HUD 连接它做顶部左侧的消息行。
+## 普通短提示，HUD 使用底部手绘纸签呈现。
 signal notice(text: String)
 ## Boss 级警告横幅：标题 / 副标题 / 主题色 / 持续秒数（带倒计时）。HUD 连接它做居中横幅。
 signal alert(title: String, subtitle: String, color: Color, duration: float)
@@ -27,6 +28,8 @@ var key_names: Dictionary = {}    # key_id -> 显示名（供提示文案；由 
 var switches: Dictionary = {}     # switch_id -> bool
 var abilities: Dictionary = {}    # ability_id -> bool
 var props: Dictionary = {}        # prop_id -> true（关键道具背包）
+## 收集页的名称与原画路径，随存档保留，跨关也能显示已拾取物品。
+var item_art: Dictionary = {}
 var elements: Dictionary = {}     # element_id -> count（由玩家 inventory 同步，供元素门）
 ## 已解锁的出口门（door_id -> true）。用于「锁定门解锁后重进此关仍保持开启」，避免重复触发。
 var opened_gates: Dictionary = {}
@@ -52,6 +55,13 @@ var menu_launch_action := ""
 const ReachabilityScript = preload("res://scripts/reachability.gd")
 
 
+## 对话中使用 do GameState.kill_player()，执行现有死亡与存档点复活流程。
+func kill_player() -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	if is_instance_valid(player) and not player.is_queued_for_deletion() and player.has_method("_die"):
+		player.call("_die")
+
+
 func reset() -> void:
 	rooms.clear()
 	keys.clear()
@@ -60,6 +70,7 @@ func reset() -> void:
 	switches.clear()
 	abilities.clear()
 	props.clear()
+	item_art.clear()
 	elements.clear()
 	opened_gates.clear()
 	played_story.clear()
@@ -116,6 +127,7 @@ func save_game() -> void:
 		"switches": switches,
 		"abilities": abilities,
 		"props": props,
+		"item_art": item_art,
 		"elements": saved_elements,
 		"seed_containers": seed_containers,
 		"opened_gates": opened_gates,
@@ -205,6 +217,7 @@ func load_game() -> bool:
 	switches = d.get("switches", {})
 	abilities = d.get("abilities", {})
 	props = d.get("props", {})
+	item_art = d.get("item_art", {}) if d.get("item_art", {}) is Dictionary else {}
 	elements = d.get("elements", {})
 	opened_gates = d.get("opened_gates", {})
 	played_story = d.get("played_story", {})

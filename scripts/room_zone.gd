@@ -9,6 +9,8 @@ extends Area2D
 ## 约定：本节点与碰撞盒不缩放、不旋转（轴对齐矩形）。
 
 @export var room_name: String = ""
+## 留空沿用关卡配乐；填写后，本区域固定循环此曲。
+@export var background_music: AudioStream
 ## 暗房：进入时把全局暗房遮罩压黑（darkness→1），只有光源（燃烧/玩家微光）能挖出可见区域。
 @export var dark := false
 @export var fade_time := 0.6
@@ -91,6 +93,8 @@ func _on_body_entered(body: Node) -> void:
 	if not body.is_in_group("player"):
 		return
 	_apply_lighting()
+	if background_music != null: AudioManager.play_music(background_music)
+	else: AudioManager.play_room_music()
 
 
 ## 把相机边界锁到本房间矩形（优先 PhantomCamera2D，回退玩家身上的 Camera2D）。
