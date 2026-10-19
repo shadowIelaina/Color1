@@ -32,6 +32,8 @@ var elements: Dictionary = {}     # element_id -> count（由玩家 inventory �
 var opened_gates: Dictionary = {}
 ## 本次游戏已开始播放的剧情，切关保留，reset 后清空。
 var played_story: Dictionary = {}
+## 小精灵一次性提示已播记录（hint_id -> true），切关保留，reset 后清空。
+var hints: Dictionary = {}
 var companion_recruited := false
 var health_upgrades: Dictionary = {} # 道具唯一 id -> 增加的最大生命值
 var health_upgrade_names: Dictionary = {}
@@ -61,6 +63,7 @@ func reset() -> void:
 	elements.clear()
 	opened_gates.clear()
 	played_story.clear()
+	hints.clear()
 	companion_recruited = false
 	health_upgrades.clear()
 	health_upgrade_names.clear()
@@ -117,6 +120,7 @@ func save_game() -> void:
 		"seed_containers": seed_containers,
 		"opened_gates": opened_gates,
 		"played_story": played_story,
+		"hints": hints,
 		"companion_recruited": companion_recruited,
 		"health_upgrades": health_upgrades,
 		"health_upgrade_names": health_upgrade_names,
@@ -171,7 +175,7 @@ func _read_save() -> Dictionary:
 	for coordinate in position:
 		if not (coordinate is float or coordinate is int) or not is_finite(float(coordinate)):
 			return {}
-	for key in ["keys", "used_keys", "key_names", "switches", "abilities", "props", "elements", "opened_gates", "played_story", "health_upgrades", "health_upgrade_names"]:
+	for key in ["keys", "used_keys", "key_names", "switches", "abilities", "props", "elements", "opened_gates", "played_story", "hints", "health_upgrades", "health_upgrade_names"]:
 		if not d.get(key, {}) is Dictionary:
 			return {}
 	for key in ["elements", "health_upgrades"]:
@@ -204,6 +208,7 @@ func load_game() -> bool:
 	elements = d.get("elements", {})
 	opened_gates = d.get("opened_gates", {})
 	played_story = d.get("played_story", {})
+	hints = d.get("hints", {})
 	# 旧存档无此字段：后续关卡或已获得元素说明已完成跟班教学。
 	companion_recruited = bool(d.get("companion_recruited", checkpoint_scene != "res://scenes/level_1.tscn" or not elements.is_empty()))
 	health_upgrades = d.get("health_upgrades", {})

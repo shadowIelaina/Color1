@@ -13,6 +13,12 @@ const SHATTER := preload("res://effects/shatter/shatter.gd")
 ## 吸收后返还的蓝色数量。默认 3（蓝色种子闸门）；冰墙复用设 1（融化返还 1 蓝）。
 @export var seed_amount := 3
 
+@export_group("剧情")
+## 吸收蓝色时播放的主线剧情段落（prologue.dialogue 的 cue）；空 = 不播。
+@export var story_cue: String = ""
+## 整局唯一标识，防止重复播放；空 = 每次吸收都播。
+@export var story_id: String = ""
+
 @onready var visual: Sprite2D = $Visual
 @onready var collision: CollisionShape2D = $Collision
 
@@ -37,6 +43,9 @@ func absorb_color() -> Dictionary:
 	if not _has_blue:
 		return {"element": "", "color": Color.WHITE, "color_name": ""}
 	_has_blue = false
+	# 用玩家作为对话来源：本节点破碎后 1.4s 会 queue_free，不能作为 StoryDirector 的 source。
+	var talker := get_tree().get_first_node_in_group("player") as Node
+	StoryPort.play(talker if talker != null else self, story_cue, story_id)
 	_break()
 	return {
 		"element": "freeze",

@@ -45,7 +45,7 @@ enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://add
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://dialogue/player.dialogue", "res://dialogue/dia/companion.dialogue", "res://dialogue/dia/story_template.dialogue")
+locale/translations_pot_files=PackedStringArray("res://dialogue/player.dialogue", "res://dialogue/dia/companion.dialogue", "res://dialogue/dia/story_template.dialogue", "res://dialogue/dia/prologue.dialogue")
 
 [physics]
 

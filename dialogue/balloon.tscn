@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://bodxmlpb1ux76" path="res://dialogue/portraits/player.tres" id="3_267us"]
 [ext_resource type="Script" uid="uid://xc1xxfix5qkp" path="res://dialogue/character_portrait.gd" id="4_portrait_script"]
 [ext_resource type="Resource" path="res://dialogue/portraits/companion.tres" id="5_companion_portrait"]
+[ext_resource type="Resource" path="res://dialogue/portraits/spirit.tres" id="7_spirit_portrait"]
 [ext_resource type="Script" path="res://dialogue/portrait_stage.gd" id="6_stage"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_spyqn"]
@@ -118,7 +119,7 @@ _data = {
 [node name="ExampleBalloon" type="CanvasLayer" unique_id=38036521]
 layer = 100
 script = ExtResource("1_36de5")
-character_portraits = Array[ExtResource("4_portrait_script")]([ExtResource("3_267us"), ExtResource("5_companion_portrait")])
+character_portraits = Array[ExtResource("4_portrait_script")]([ExtResource("3_267us"), ExtResource("5_companion_portrait"), ExtResource("7_spirit_portrait")])
 
 [node name="Balloon" type="Control" parent="." unique_id=154399927]
 unique_name_in_owner = true

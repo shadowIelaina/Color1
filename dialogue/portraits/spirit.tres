@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CharacterPortrait" format=3]
+
+[ext_resource type="Script" uid="uid://xc1xxfix5qkp" path="res://dialogue/character_portrait.gd" id="1_config"]
+[ext_resource type="Texture2D" uid="uid://dbtugj7615pn1" path="res://art/小跟班/xiaogenban2.png" id="2_portrait"]
+
+[resource]
+script = ExtResource("1_config")
+character_name = "精灵"
+portrait = ExtResource("2_portrait")
+side = 1
+size_multiplier = 0.75

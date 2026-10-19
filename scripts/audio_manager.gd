@@ -40,6 +40,16 @@ const STEP_STREAMS := {
 const ICE_BREAK_STREAM := preload("res://audio/SE/IceBreak.mp3")
 const WATERFLOW_STREAM := preload("res://audio/BGS/WaterFlow.mp3")
 
+## 普通背景音乐（audio/music/ 下除 trial! 外），轮流循环播放。
+const MUSIC_STREAMS := [
+	preload("res://audio/music/拿铁.mp3"),
+	preload("res://audio/music/谜面.mp3"),
+	preload("res://audio/music/雪云.mp3"),
+]
+## 最终 boss 战音乐，暂未启用。
+const BOSS_MUSIC_STREAM := preload("res://audio/music/trial!.mp3")
+const MUSIC_VOLUME_DB := -10.0
+
 ## 草 / 泥地贴图文件名关键词（小写）。
 const GRASS_KEYWORDS := ["草", "grass"]
 const GROUND_KEYWORDS := ["地块", "土墙", "ground", "dirt", "泥"]
@@ -58,6 +68,8 @@ var _se_next := 0
 var _waterflow_volume := 0.0
 var _wf_cur := 0       # 当前主水流播放器：0=a，1=b
 var _wf_xfade := 0.0   # 交叉淡入进度 0~1（0=全用 cur，1=全用 next）
+var _music_player: AudioStreamPlayer
+var _music_idx := 0
 
 var _player: Node2D = null
 var _last_pos := Vector2.ZERO
@@ -71,6 +83,8 @@ var _water_layers: Array[TileMapLayer] = []
 func _ready() -> void:
 	_ensure_bus("BGS")
 	_ensure_bus("SE")
+	_ensure_bus("Music")
+	_setup_music()
 
 	var wf := WATERFLOW_STREAM
 	if wf is AudioStreamMP3:
@@ -137,6 +151,29 @@ func _play_step(surf: String) -> void:
 	var idx := int(_step_idx.get(surf, 0))
 	_step_idx[surf] = (idx + 1) % streams.size()
 	_play_sfx(streams[idx])
+
+
+## —— 背景音乐（BGM）——
+
+func _setup_music() -> void:
+	_music_player = AudioStreamPlayer.new()
+	_music_player.bus = "Music"
+	_music_player.volume_db = MUSIC_VOLUME_DB
+	add_child(_music_player)
+	_music_player.finished.connect(_on_music_finished)
+	_play_music_track(0)
+
+
+func _play_music_track(idx: int) -> void:
+	if MUSIC_STREAMS.is_empty():
+		return
+	_music_idx = idx % MUSIC_STREAMS.size()
+	_music_player.stream = MUSIC_STREAMS[_music_idx]
+	_music_player.play()
+
+
+func _on_music_finished() -> void:
+	_play_music_track(_music_idx + 1)
 
 
 ## —— 环境音 ——

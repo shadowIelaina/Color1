@@ -13,6 +13,12 @@ signal reached
 ## 是否为最后一间房的目标：true 显示「过关！」；false 显示「门已解锁」提示。
 @export var is_final := false
 
+@export_group("剧情")
+## 玩家踏入目标时播放的主线剧情段落（prologue.dialogue 的 cue）；空 = 不播。
+@export var story_cue: String = ""
+## 整局唯一标识，防止重复播放；空 = 每次踏入都播。
+@export var story_id: String = ""
+
 @onready var visual: Node2D = $Visual
 
 var _reached := false
@@ -37,5 +43,6 @@ func _on_body_entered(body: Node) -> void:
 		return
 	_reached = true
 	reached.emit()
+	StoryPort.play(self, story_cue, story_id)
 	RoomEffects.unlock(self, unlock_door_ids)
 	RoomEffects.notify(self, is_final, not unlock_door_ids.is_empty())

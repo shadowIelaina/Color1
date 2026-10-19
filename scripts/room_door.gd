@@ -29,6 +29,12 @@ const Lock := preload("res://scripts/lock_condition.gd")
 ## 须 >0：大阻挡会把触发区包住，玩家先撞墙、进不了触发区就永远开不了门。
 @export var trigger_pad: float = 0.0
 
+@export_group("剧情")
+## 开门时播放的主线剧情段落（prologue.dialogue 的 cue）；空 = 不播。
+@export var story_cue: String = ""
+## 整局唯一标识，防止重复播放；空 = 每次开门都播。
+@export var story_id: String = ""
+
 @onready var visual: CanvasItem = get_node_or_null("Visual") as CanvasItem
 @onready var collision: CollisionShape2D = get_node_or_null("Collision") as CollisionShape2D
 @onready var trigger: Area2D = get_node_or_null("Trigger") as Area2D
@@ -99,6 +105,7 @@ func open() -> void:
 	GameState.mark_gate_opened(_progress_key)
 	_apply_open()
 	GameState.gate_opened.emit(door_id)
+	StoryPort.play(self, story_cue, story_id)
 
 
 ## 自动区域：把阻挡碰撞设为「橙点(Visual)宽高 × block_scale」，触发区再外扩 trigger_pad。

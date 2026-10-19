@@ -32,6 +32,8 @@
 [ext_resource type="Script" uid="uid://cgwiqk6vc2tbe" path="res://scripts/mechanics/light_switch.gd" id="25_switch"]
 [ext_resource type="Texture2D" uid="uid://b3y7dtfx74055" path="res://art/picture_boluo/元素阀门tm.png" id="26_light"]
 [ext_resource type="PackedScene" uid="uid://bqctqappo14d2" path="res://prefabs/items/interaction/red_heart.tscn" id="26_va6c3"]
+[ext_resource type="Script" uid="uid://bsesqduu4fs8m" path="res://scripts/companion_hint.gd" id="27_hint"]
+[ext_resource type="Resource" uid="uid://cs4tg8k8wjy13" path="res://dialogue/dia/companion.dialogue" id="28_companion"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4c57u"]
 texture = ExtResource("13_grass")
@@ -336,6 +338,46 @@ shallow = true
 position = Vector2(-300, 0)
 script = ExtResource("2_entrance")
 entrance_id = "spawn"
+
+[node name="CompanionHint_Firefly" type="Node2D" parent="."]
+position = Vector2(-300, 0)
+script = ExtResource("27_hint")
+dialogue_resource = ExtResource("28_companion")
+cue = "hint_level2_firefly"
+hint_id = "hint_level2_firefly"
+radius = 1024.0
+
+[node name="CompanionHint_TreeDead" type="Node2D" parent="."]
+position = Vector2(782, -12773)
+script = ExtResource("27_hint")
+dialogue_resource = ExtResource("28_companion")
+cue = "hint_level2_tree_dead"
+hint_id = "hint_level2_tree_dead"
+radius = 512.0
+
+[node name="CompanionHint_Grass33" type="Node2D" parent="."]
+position = Vector2(1600, -15289)
+script = ExtResource("27_hint")
+dialogue_resource = ExtResource("28_companion")
+cue = "hint_level2_grass33"
+hint_id = "hint_level2_grass33"
+radius = 512.0
+
+[node name="CompanionHint_Checkpoint2" type="Node2D" parent="."]
+position = Vector2(9036, -19165)
+script = ExtResource("27_hint")
+dialogue_resource = ExtResource("28_companion")
+cue = "hint_level2_checkpoint2"
+hint_id = "hint_level2_checkpoint2"
+radius = 512.0
+
+[node name="CompanionHint_Grass46" type="Node2D" parent="."]
+position = Vector2(-21596, -13469)
+script = ExtResource("27_hint")
+dialogue_resource = ExtResource("28_companion")
+cue = "hint_level2_grass46"
+hint_id = "hint_level2_grass46"
+radius = 512.0
 
 [node name="Puzzle" type="Node2D" parent="." unique_id=1192312149]
 position = Vector2(-18439, -12858)

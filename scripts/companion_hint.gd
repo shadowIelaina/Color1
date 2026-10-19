@@ -18,6 +18,10 @@ extends Node2D
 		cue = value
 		if Engine.is_editor_hint():
 			update_configuration_warnings()
+## 整局唯一标识（对应 GameState.hints）；填了则整局只播一次，重进场景/读档不再复播。
+@export var hint_id: String = ""
+## 填钥匙 id：已持有或已用掉该钥匙则不提醒。
+@export var required_key_id: String = ""
 ## 触发距离，以世界像素计算；编辑器中的圆圈显示实际范围。
 @export_range(1.0, 4096.0, 1.0, "or_greater") var radius: float = 96.0:
 	set(value):
@@ -96,9 +100,17 @@ func _draw() -> void:
 
 
 func can_trigger() -> bool:
-	return dialogue_resource != null and dialogue_resource.cues.has(cue) and not _triggered
+	if dialogue_resource == null or not dialogue_resource.cues.has(cue) or _triggered:
+		return false
+	if hint_id != "" and GameState.hints.has(hint_id):
+		return false
+	if required_key_id != "" and (GameState.has_key(required_key_id) or GameState.was_key_used(required_key_id)):
+		return false
+	return true
 
 
 func trigger() -> String:
 	_triggered = true
+	if hint_id != "":
+		GameState.hints[hint_id] = true
 	return cue

@@ -15,3 +15,43 @@
 ~ hint_idle
 小白: 嗯……是不是卡住了？看看周围有没有能互动的东西。
 => END
+
+~ hint_key
+小白: 这扇门被锁住了！我们先去找找钥匙吧。
+=> END
+
+~ hint_south_item
+小白: 南边好像有道具在发光，我们过去看看！
+=> END
+
+~ hint_level2_firefly
+小白: 去吸收萤火虫身上的红色，再用它点燃树木照明吧！
+=> END
+
+~ hint_level2_tree_dead
+小白: 这些枯木用红色就能烧掉，清出一条路来！
+=> END
+
+~ hint_level2_grass33
+小白: 去西边的迷宫把机关解锁，机关门就会打开！
+=> END
+
+~ hint_level2_checkpoint2
+小白: 小心！前面有一群小怪，准备好了再过去！
+=> END
+
+~ hint_level2_grass46
+小白: 这附近藏着机关，仔细找找看！
+=> END
+
+~ hint_level3_grass_big12
+小白: 去吸收绿色玻璃瓶里的绿色，给石头染上绿色，就能搭出藤蔓桥啦！
+=> END
+
+~ hint_level3_tree11
+小白: 先给物体染绿色，再加红色，会变成黄色，用反弹子弹去消灭小怪吧！
+=> END
+
+~ hint_level3_grass_big2
+小白: 去东北方向解密，把蓝色和绿色混成青色，就能让树飘起来推走，压到压力板上开门！
+=> END

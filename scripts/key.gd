@@ -8,6 +8,12 @@ extends StatefulObject
 ## 提示里显示的钥匙名（留空则用 key_id）。
 @export var key_name: String = ""
 
+@export_group("剧情")
+## 拾取钥匙时播放的主线剧情段落（prologue.dialogue 的 cue）；空 = 不播。
+@export var story_cue: String = ""
+## 整局唯一标识，防止重复播放；空 = 每次拾取都播。
+@export var story_id: String = ""
+
 @onready var _pickup_area: Area2D = $PickupArea
 @onready var _visual: Node2D = $Visual
 
@@ -30,6 +36,7 @@ func _on_body_entered(body: Node) -> void:
 	GameState.add_key(key_id)
 	GameState.item_collected.emit(key_id)
 	GameState.notice.emit(KeyLock.pickup_message(_display_name()))
+	StoryPort.play(self, story_cue, story_id)
 	_refresh()
 
 

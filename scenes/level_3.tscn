@@ -28,6 +28,8 @@
 [ext_resource type="PackedScene" uid="uid://b4snrjsvg2d6p" path="res://prefabs/items/interaction/element_gate.tscn" id="23_gate"]
 [ext_resource type="PackedScene" path="res://prefabs/items/interaction/green_heart.tscn" id="23_vv2vh"]
 [ext_resource type="PackedScene" uid="uid://chdkxg2bd1tkv" path="res://prefabs/rooms/room_door.tscn" id="25_5kn0t"]
+[ext_resource type="Script" uid="uid://bsesqduu4fs8m" path="res://scripts/companion_hint.gd" id="26_hint"]
+[ext_resource type="Resource" uid="uid://cs4tg8k8wjy13" path="res://dialogue/dia/companion.dialogue" id="27_companion"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4c57u"]
 texture = ExtResource("13_grass")
@@ -487,3 +489,27 @@ position = Vector2(15104, 9685)
 position = Vector2(-1211, 2116.0002)
 scale = Vector2(0.3599991, 0.35999954)
 required_key_id = "3"
+
+[node name="CompanionHint_GrassBig12" type="Node2D" parent="."]
+position = Vector2(525, 899)
+script = ExtResource("26_hint")
+dialogue_resource = ExtResource("27_companion")
+cue = "hint_level3_grass_big12"
+hint_id = "hint_level3_grass_big12"
+radius = 512.0
+
+[node name="CompanionHint_Tree11" type="Node2D" parent="."]
+position = Vector2(14797, 3855)
+script = ExtResource("26_hint")
+dialogue_resource = ExtResource("27_companion")
+cue = "hint_level3_tree11"
+hint_id = "hint_level3_tree11"
+radius = 512.0
+
+[node name="CompanionHint_GrassBig2" type="Node2D" parent="."]
+position = Vector2(5533, 11407)
+script = ExtResource("26_hint")
+dialogue_resource = ExtResource("27_companion")
+cue = "hint_level3_grass_big2"
+hint_id = "hint_level3_grass_big2"
+radius = 512.0

@@ -6,6 +6,12 @@ extends StatefulObject
 
 @export var ability_id: String = ""
 
+@export_group("剧情")
+## 拾取时播放的主线剧情段落（prologue.dialogue 的 cue）；空 = 不播。
+@export var story_cue: String = ""
+## 整局唯一标识，防止重复播放；空 = 每次拾取都播。
+@export var story_id: String = ""
+
 @onready var _pickup_area: Area2D = $PickupArea
 @onready var _visual: Node2D = $Visual
 
@@ -25,6 +31,7 @@ func _on_body_entered(body: Node) -> void:
 		return
 	GameState.set_ability(ability_id)
 	GameState.item_collected.emit(ability_id)
+	StoryPort.play(self, story_cue, story_id)
 	_refresh()
 
 

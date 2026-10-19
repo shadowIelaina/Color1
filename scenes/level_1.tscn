@@ -5242,3 +5242,20 @@ drop_id = "1"
 position = Vector2(6661.001, -458)
 scale = Vector2(0.35041574, 0.35999912)
 required_key_id = "1"
+
+[node name="CompanionHint_RoomDoor" type="Node2D" parent="."]
+position = Vector2(6661, -458)
+script = ExtResource("28_k8ld0")
+dialogue_resource = ExtResource("27_k8ld0")
+cue = "hint_key"
+hint_id = "hint_roomdoor_key"
+required_key_id = "1"
+radius = 512.0
+
+[node name="CompanionHint_Grass5" type="Node2D" parent="."]
+position = Vector2(4182, 2026)
+script = ExtResource("28_k8ld0")
+dialogue_resource = ExtResource("27_k8ld0")
+cue = "hint_south_item"
+hint_id = "hint_grass5_south"
+radius = 1024.0

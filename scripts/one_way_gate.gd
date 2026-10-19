@@ -11,6 +11,12 @@ extends StaticBody2D
 ## 同 RoomDoor：阻挡区 = Visual 宽高 × block_scale。Vector2.ZERO = 用场景里手动配的 Collision。
 @export var block_scale: Vector2 = Vector2.ZERO
 
+@export_group("剧情")
+## 开门时播放的主线剧情段落（prologue.dialogue 的 cue）；空 = 不播。
+@export var story_cue: String = ""
+## 整局唯一标识，防止重复播放；空 = 每次开门都播。
+@export var story_id: String = ""
+
 @onready var collision: CollisionShape2D = get_node_or_null("Collision")
 @onready var visual: CanvasItem = get_node_or_null("Visual") as CanvasItem
 
@@ -64,6 +70,7 @@ func open() -> void:
 		collision.set_deferred("disabled", true)
 	if visual != null:
 		visual.hide()
+	StoryPort.play(self, story_cue, story_id)
 
 
 ## 计算阻挡尺寸与半长：优先 block_scale（按 Visual 放大），否则取 Collision 现有矩形。

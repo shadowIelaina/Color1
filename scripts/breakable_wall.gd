@@ -5,6 +5,12 @@ extends StatefulObject
 
 @export var wall_id: String = ""
 
+@export_group("剧情")
+## 破坏时播放的主线剧情段落（prologue.dialogue 的 cue）；空 = 不播。
+@export var story_cue: String = ""
+## 整局唯一标识，防止重复播放；空 = 每次破坏都播。
+@export var story_id: String = ""
+
 var broken: bool = false
 
 @onready var _break_area: Area2D = $BreakArea
@@ -31,6 +37,7 @@ func break_wall() -> void:
 	broken = true
 	_collision.set_deferred("disabled", true)
 	_apply_visual()
+	StoryPort.play(self, story_cue, story_id)
 
 
 func _apply_visual() -> void:
