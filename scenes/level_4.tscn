@@ -3,25 +3,25 @@
 [ext_resource type="Script" uid="uid://darjnda0vdwpq" path="res://scripts/room.gd" id="1_room"]
 [ext_resource type="Script" uid="uid://dru8kg3d2ewcb" path="res://scripts/entrance.gd" id="2_entrance"]
 [ext_resource type="Script" uid="uid://5mnsopbqo3o5" path="res://scripts/door.gd" id="3_door"]
-[ext_resource type="Texture2D" uid="uid://cnygc4osqxh02" path="res://art/picture_boluo/土墙块（湖水过渡）1.png" id="3_tr1x6"]
-[ext_resource type="Texture2D" uid="uid://cyegdl1jno3wu" path="res://art/picture_boluo/土墙块（湖水过渡）2.png" id="4_wbtxt"]
-[ext_resource type="Texture2D" uid="uid://v05473rse7id" path="res://art/picture_boluo/湖水.png" id="5_isj1j"]
-[ext_resource type="Texture2D" uid="uid://jxl8cetg4nil" path="res://art/picture_boluo/土墙块（湖水过渡）3.png" id="5_x2fux"]
-[ext_resource type="Texture2D" uid="uid://cpp75f0guxi8q" path="res://art/picture_boluo/地块1tm.png" id="6_s7g0b"]
-[ext_resource type="Texture2D" uid="uid://oxidhgibw4fy" path="res://art/picture_boluo/墙体.png" id="7_u7ckc"]
-[ext_resource type="Texture2D" uid="uid://dq1mvc7v72pfr" path="res://art/picture_boluo/湖水（深水）.png" id="8_nossa"]
+[ext_resource type="Texture2D" uid="uid://cnygc4osqxh02" path="res://art/Ground/土墙块（湖水过渡）1.png" id="3_tr1x6"]
+[ext_resource type="Texture2D" uid="uid://cyegdl1jno3wu" path="res://art/Ground/土墙块（湖水过渡）2.png" id="4_wbtxt"]
+[ext_resource type="Texture2D" uid="uid://v05473rse7id" path="res://art/Ground/湖水.png" id="5_isj1j"]
+[ext_resource type="Texture2D" uid="uid://jxl8cetg4nil" path="res://art/Ground/土墙块（湖水过渡）3.png" id="5_x2fux"]
+[ext_resource type="Texture2D" uid="uid://cpp75f0guxi8q" path="res://art/Ground/地块1tm.png" id="6_s7g0b"]
+[ext_resource type="Texture2D" uid="uid://oxidhgibw4fy" path="res://art/Ground/墙体.png" id="7_u7ckc"]
+[ext_resource type="Texture2D" uid="uid://dq1mvc7v72pfr" path="res://art/Ground/湖水（深水）.png" id="8_nossa"]
 [ext_resource type="Script" uid="uid://b1mxwxqbqny2x" path="res://color_change/water_spawner.gd" id="12_spawn"]
 [ext_resource type="Texture2D" uid="uid://jbbq0d4vwblq" path="res://art/else/grass.png" id="13_grass"]
-[ext_resource type="Texture2D" uid="uid://ch5gstr807tmq" path="res://art/picture_boluo/传送门tm.png" id="14_g31h8"]
+[ext_resource type="Texture2D" uid="uid://ch5gstr807tmq" path="res://art/things/传送门tm.png" id="14_g31h8"]
 [ext_resource type="Shader" uid="uid://cc4mtqgwkocui" path="res://shaders/portal.gdshader" id="14_hy5x3"]
 [ext_resource type="Script" uid="uid://c87fgfsseq82n" path="res://color_change/air_wall_spawner.gd" id="22_airwall"]
 [ext_resource type="PackedScene" uid="uid://cy404hpgl6a4i" path="res://prefabs/rooms/checkpoint.tscn" id="23_checkpoint"]
 [ext_resource type="PackedScene" uid="uid://dolv6j8e0ihcs" path="res://prefabs/items/static prop/grass_1.tscn" id="23_rg5ri"]
 [ext_resource type="PackedScene" uid="uid://klg65m2b1bv8" path="res://prefabs/rooms/boss_altar.tscn" id="24_altar"]
 [ext_resource type="Script" uid="uid://bninsmagv0ixe" path="res://scripts/dialogue_trigger.gd" id="24_dtrigger"]
-[ext_resource type="PackedScene" path="res://prefabs/rooms/boss_portal.tscn" id="25_boss_portal"]
+[ext_resource type="PackedScene" uid="uid://c0a7iws0etlio" path="res://prefabs/rooms/boss_portal.tscn" id="25_boss_portal"]
 [ext_resource type="Resource" uid="uid://cebv03je3jibq" path="res://dialogue/dia/prologue.dialogue" id="25_prologue"]
-[ext_resource type="PackedScene" path="res://prefabs/items/static prop/rock.tscn" id="26_rock"]
+[ext_resource type="PackedScene" uid="uid://bjj3ek2w8npqq" path="res://prefabs/items/static prop/rock.tscn" id="26_rock"]
 [ext_resource type="PackedScene" uid="uid://ba8r5yga0iqst" path="res://prefabs/items/static prop/grass_big.tscn" id="27_grass"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s0ibv"]
@@ -690,6 +690,70 @@ scale = Vector2(0.7, 0.7)
 position = Vector2(-2209, 343.99997)
 scale = Vector2(0.7, 0.7)
 
+[node name="Grass_55" parent="." unique_id=62598662 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1449, 541)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_59" parent="." unique_id=1261432880 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1301, 636)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_63" parent="." unique_id=1152176775 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1190, -279.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_67" parent="." unique_id=1058904820 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1451, -397.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_66" parent="." unique_id=284617700 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1863, -421.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_65" parent="." unique_id=1403823645 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2090, -445.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_64" parent="." unique_id=166692647 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2191, -413.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_62" parent="." unique_id=1855681307 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1602, -303.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_61" parent="." unique_id=540349826 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1829, -327.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_60" parent="." unique_id=1155451128 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1930, -295.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_58" parent="." unique_id=2095140892 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1713, 612)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_57" parent="." unique_id=181280175 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1940, 588)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_56" parent="." unique_id=1355911310 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2041, 620)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_54" parent="." unique_id=1137732973 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1861, 517)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_53" parent="." unique_id=1074155280 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2088, 493)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_52" parent="." unique_id=563969084 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2189, 525)
+scale = Vector2(0.7, 0.7)
+
 [node name="Grass_3" parent="." unique_id=39880335 instance=ExtResource("23_rg5ri")]
 position = Vector2(-2104, -189)
 scale = Vector2(0.7, 0.7)
@@ -782,6 +846,46 @@ scale = Vector2(0.7, 0.7)
 position = Vector2(1931.9998, 445.9999)
 scale = Vector2(0.7, 0.7)
 
+[node name="Grass_72" parent="." unique_id=246509272 instance=ExtResource("23_rg5ri")]
+position = Vector2(1280, 504)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_71" parent="." unique_id=294084870 instance=ExtResource("23_rg5ri")]
+position = Vector2(1498, 504)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_70" parent="." unique_id=1867747502 instance=ExtResource("23_rg5ri")]
+position = Vector2(1608, 496)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_69" parent="." unique_id=1586384048 instance=ExtResource("23_rg5ri")]
+position = Vector2(1818, 584.99994)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_68" parent="." unique_id=1643120146 instance=ExtResource("23_rg5ri")]
+position = Vector2(2020, 520)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_77" parent="." unique_id=993459263 instance=ExtResource("23_rg5ri")]
+position = Vector2(1309, -309.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_76" parent="." unique_id=2100791623 instance=ExtResource("23_rg5ri")]
+position = Vector2(1527, -309.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_75" parent="." unique_id=1543538639 instance=ExtResource("23_rg5ri")]
+position = Vector2(1637, -317.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_74" parent="." unique_id=1727568027 instance=ExtResource("23_rg5ri")]
+position = Vector2(1847, -229.00003)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_73" parent="." unique_id=2079749587 instance=ExtResource("23_rg5ri")]
+position = Vector2(2049, -293.99997)
+scale = Vector2(0.7, 0.7)
+
 [node name="Grass_32" parent="." unique_id=302561323 instance=ExtResource("23_rg5ri")]
 position = Vector2(1923.9998, -7.0000095)
 scale = Vector2(0.7, 0.7)
@@ -840,6 +944,54 @@ scale = Vector2(0.7, 0.7)
 
 [node name="Grass_43" parent="." unique_id=222447085 instance=ExtResource("23_rg5ri")]
 position = Vector2(-318.99988, -1009.99994)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_83" parent="." unique_id=1418455649 instance=ExtResource("23_rg5ri")]
+position = Vector2(-317, -1568)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_89" parent="." unique_id=1967259595 instance=ExtResource("23_rg5ri")]
+position = Vector2(221, -1960)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_88" parent="." unique_id=1631272748 instance=ExtResource("23_rg5ri")]
+position = Vector2(279, -1831)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_87" parent="." unique_id=1156957022 instance=ExtResource("23_rg5ri")]
+position = Vector2(221, -1717)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_86" parent="." unique_id=2080286975 instance=ExtResource("23_rg5ri")]
+position = Vector2(150, -1581.0001)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_85" parent="." unique_id=1268413518 instance=ExtResource("23_rg5ri")]
+position = Vector2(85, -1459)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_84" parent="." unique_id=1104229000 instance=ExtResource("23_rg5ri")]
+position = Vector2(150, -1316)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_82" parent="." unique_id=641107079 instance=ExtResource("23_rg5ri")]
+position = Vector2(-259, -1439)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_81" parent="." unique_id=573459822 instance=ExtResource("23_rg5ri")]
+position = Vector2(-317, -1325)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_80" parent="." unique_id=1975731694 instance=ExtResource("23_rg5ri")]
+position = Vector2(-388, -1189.0001)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_79" parent="." unique_id=1599783967 instance=ExtResource("23_rg5ri")]
+position = Vector2(-453, -1067)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_78" parent="." unique_id=257271259 instance=ExtResource("23_rg5ri")]
+position = Vector2(-388, -924.00006)
 scale = Vector2(0.7, 0.7)
 
 [node name="Grass_44" parent="." unique_id=414964164 instance=ExtResource("23_rg5ri")]

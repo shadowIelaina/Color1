@@ -2,8 +2,8 @@ extends Control
 ## 手绘收集页：常驻小图、排队拾取纸签；不阻断场景鼠标输入。
 const Paper := preload("res://scripts/paper_panel.gd")
 const FontHand := preload("res://art/fonts/LXGWWenKaiLite-Regular.ttf")
-const KeyArt := preload("res://art/picture_boluo/钥匙tm.png")
-const HeartArt := preload("res://art/picture_boluo/生命值（红）tm.png")
+const KeyArt := preload("res://art/things/钥匙tm.png")
+const HeartArt := preload("res://art/things/生命值（红）tm.png")
 var shelf: PanelContainer
 var grid: GridContainer
 var scroll: ScrollContainer

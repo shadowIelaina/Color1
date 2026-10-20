@@ -1,27 +1,27 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://bjj3ek2w8npqq"]
 
-[ext_resource type="Script" path="res://scripts/rock.gd" id="1_rock"]
-[ext_resource type="Texture2D" path="res://art/picture_boluo/岩石tm.png" id="2_tex"]
+[ext_resource type="Script" uid="uid://d6uhjue2n1y1" path="res://scripts/rock.gd" id="1_rock"]
+[ext_resource type="Texture2D" uid="uid://cqg2xneatgokr" path="res://art/things/岩石tm.png" id="2_jom21"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rock"]
-size = Vector2(170, 78)
+size = Vector2(413, 78)
 
-[node name="Rock" type="StaticBody2D"]
+[node name="Rock" type="StaticBody2D" unique_id=1747388183]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_rock")
 
-[node name="Shadow" type="Polygon2D" parent="."]
+[node name="Shadow" type="Polygon2D" parent="." unique_id=535384331]
 z_index = -1
 color = Color(0, 0, 0, 0.22)
 polygon = PackedVector2Array(-210, -20, 210, -20, 150, 55, -150, 55)
 
-[node name="Visual" type="Sprite2D" parent="."]
+[node name="Visual" type="Sprite2D" parent="." unique_id=988910506]
 texture_filter = 1
 position = Vector2(0, -238)
 scale = Vector2(2, 2)
-texture = ExtResource("2_tex")
+texture = ExtResource("2_jom21")
 
-[node name="Collision" type="CollisionShape2D" parent="."]
-position = Vector2(0, -39)
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1485441702]
+position = Vector2(-0.5, -39)
 shape = SubResource("RectangleShape2D_rock")

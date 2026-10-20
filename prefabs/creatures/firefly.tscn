@@ -21,7 +21,7 @@ shape = SubResource("CircleShape2D_body")
 
 [node name="Visual" type="Sprite2D" parent="." unique_id=512320836]
 texture_filter = 1
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.55, 0.55)
 texture = ExtResource("4_red")
 
 [node name="Light" type="Node2D" parent="." unique_id=1053322203]
