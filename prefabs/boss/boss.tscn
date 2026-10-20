@@ -17,6 +17,12 @@ minion_spawn_radius = 1400.0
 corner_release_distance = 1360.0
 ring_muzzle = 520.0
 ice_muzzle = 520.0
+ring_interval_max = 4.2
+ring_interval_min = 2.6
+ice_interval_half = 9.0
+ice_interval_min = 4.0
+post_attack_lock = 0.45
+minion_respawn_interval = 9.0
 
 [node name="Shadow" type="Polygon2D" parent="."]
 scale = Vector2(3.9, 3.9)

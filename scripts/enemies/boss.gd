@@ -30,6 +30,8 @@ const SniperShotScript := preload("res://effects/sniper_shot/sniper_shot.gd")
 
 @export_group("属性")
 @export var max_health := 24.0
+## 被弹反子弹命中时扣除的最大生命比例（每颗默认 5%）。
+@export_range(0.0, 1.0, 0.01) var reflected_bullet_damage_ratio := 0.05
 @export_range(0.0, 4000.0, 1.0) var move_speed := 1150.0
 ## 点击命中半径（世界像素），用于「赋予颜色」判定。
 @export_range(8.0, 1024.0, 1.0) var hit_radius := 150.0
@@ -67,10 +69,10 @@ const SniperShotScript := preload("res://effects/sniper_shot/sniper_shot.gd")
 @export var ring_interval_max := 2.3
 @export var ring_interval_min := 1.2
 ## 满血 → 濒死扇形内的弹数。
-@export_range(1, 48, 1) var ring_bullets_min := 8
-@export_range(1, 48, 1) var ring_bullets_max := 12
+@export_range(1, 48, 1) var ring_bullets_min := 7
+@export_range(1, 48, 1) var ring_bullets_max := 10
 ## 扇形张角（度），以「朝玩家方向」为中心。
-@export_range(10.0, 360.0, 1.0) var ring_arc_deg := 90.0
+@export_range(10.0, 360.0, 1.0) var ring_arc_deg := 75.0
 @export var ring_bullet_speed := 420.0
 ## 出膛半径（世界像素）。0 = 从 Boss 本体中心发射（生成时对本体加碰撞例外，见 _spawn_projectile）。
 @export var ring_muzzle := 0.0
@@ -112,11 +114,13 @@ const SniperShotScript := preload("res://effects/sniper_shot/sniper_shot.gd")
 @export var red_minion_scene: PackedScene = preload("res://prefabs/boss/red_minion.tscn")
 @export var blue_minion_scene: PackedScene = preload("res://prefabs/boss/blue_minion.tscn")
 @export var green_minion_scene: PackedScene = preload("res://prefabs/boss/green_minion.tscn")
-## 阶段血量分界：> phase1 → 3 红；≤ phase1 → 2 红 + 1 蓝；≤ phase2 → 2 蓝 + 1 绿。
+## 阶段血量分界：> phase1 → 2 红；≤ phase1 → 2 红 + 1 蓝；≤ phase2 → 2 蓝 + 1 绿。
 @export_range(0.0, 1.0, 0.01) var minion_phase1_ratio := 0.5
 @export_range(0.0, 1.0, 0.01) var minion_phase2_ratio := 0.30
 ## 召唤点围绕 Boss 的半径（世界像素）。
 @export_range(0.0, 2000.0, 8.0) var minion_spawn_radius := 360.0
+## 小怪逐只出现的间隔（秒）。0 = 瞬间全部出现。
+@export_range(0.0, 5.0, 0.1) var minion_summon_stagger := 0.8
 ## 每只（Boss 召唤的）小怪阵亡时，Boss 损失的最大血量比例。
 @export_range(0.0, 1.0, 0.01) var minion_death_damage_ratio := 0.1
 ## 绿怪阵亡时不扣血，改为打断 Boss 回血并封锁该时长（秒）。
@@ -155,6 +159,7 @@ const SniperShotScript := preload("res://effects/sniper_shot/sniper_shot.gd")
 @export var aim_line_color := Color(0.45, 0.75, 1.0, 0.9)
 
 const BOSS_FX_SCALE := 3.9
+const DEATH_ANIM := &"death"
 
 const BODY_IDLE_ANIMS := {
 	"red": &"idle_red",
@@ -195,6 +200,7 @@ var _phase := -1
 var _phase_change_cd := 0.0
 var _red_summons_locked := false
 var _adds: Array = []
+var _summon_generation := 0
 var _heal_lock_t := 0.0
 
 var _agent: NavigationAgent2D
@@ -284,8 +290,8 @@ func _tick_timers(delta: float) -> void:
 		_ice_enabled = true
 		_ice_cd = ice_unlock_delay
 		GameState.notice.emit("Boss 解锁冰子弹！变蓝锁定你时快走")
-	# 红色小怪封锁只在小怪阶段生效；Boss 回血后解除，允许当前阶段重新召唤红怪。
-	if _red_summons_locked and health > max_health * red_summon_lock_ratio:
+	# 红色小怪封锁只在前两阶段生效；进入第三阶段后即使回血也永久保持封锁。
+	if _red_summons_locked and _phase < 2 and health > max_health * red_summon_lock_ratio:
 		_red_summons_locked = false
 	if not _red_summons_locked and health > 0.0 and health <= max_health * red_summon_lock_ratio:
 		_lock_red_summons()
@@ -297,7 +303,7 @@ func _tick_timers(delta: float) -> void:
 		_try_respawn()
 
 
-## 阶段组成：>phase1 → 3 红；≤phase1 → 2 红 + 1 蓝；≤phase2 → 2 蓝 + 1 绿。
+## 阶段组成：>phase1 → 2 红；≤phase1 → 2 红 + 1 蓝；≤phase2 → 2 蓝 + 1 绿。
 func _phase_for_health() -> int:
 	var ratio := health / maxf(max_health, 0.01)
 	if ratio <= minion_phase2_ratio:
@@ -321,32 +327,49 @@ func _composition(p: int) -> Array:
 				{"scene": green_minion_scene, "type": "green", "count": 1},
 			]
 		_:
-			return [{"scene": red_minion_scene, "type": "red", "count": 3}]
+			return [{"scene": red_minion_scene, "type": "red", "count": 2}]
 
 
 ## 血线跨阶段（只升不降：一旦进某阶段就留场，避免被 Boss 回血挤掉）：无伤清旧再按新组成召唤。
 func _check_summons() -> void:
 	if not _nav_ready():
 		return
-	var p := _phase_for_health()
+	# 回血不会降阶段：始终停留在已经到达过的最高阶段。
+	var p := maxi(_phase_for_health(), _phase)
 	if p == _phase:
 		return
 	# 防止在阶段血线附近小幅回血/掉血导致反复清怪。
 	if _phase != -1 and _phase_change_cd > 0.0:
 		return
 	_phase = p
+	if p >= 2:
+		_red_summons_locked = true
 	_phase_change_cd = 0.8
 	_clear_adds()
+	var plan: Array = []
 	var names: Array = []
 	for entry in _composition(p):
-		if _summon(entry["scene"], str(entry["type"]), int(entry["count"])):
-			names.append(str(entry["type"]))
+		var type := str(entry["type"])
+		var count := int(entry["count"])
+		if not _can_summon(entry["scene"], type, count):
+			continue
+		var base_ang := randf() * TAU
+		for i in count:
+			plan.append({
+				"scene": entry["scene"],
+				"type": type,
+				"angle": base_ang + TAU * float(i) / float(count),
+			})
+		names.append(type)
+	_start_summon_plan(plan)
 	if not names.is_empty():
 		GameState.notice.emit("Boss 召唤：%s" % ", ".join(names))
 
 
 ## 无伤清除全部召唤物（直接 queue_free，不发 died → 不触发 Boss 扣血）。
 func _clear_adds() -> void:
+	# 取消仍在逐只等待的旧召唤序列，避免清场后又冒出上一阶段的小怪。
+	_summon_generation += 1
 	for m in _all_boss_minions():
 		if is_instance_valid(m) and not m.is_queued_for_deletion():
 			m.queue_free()
@@ -367,27 +390,48 @@ func _lock_red_summons() -> void:
 	_adds = kept
 
 
-## 在 Boss 周围均匀召唤 count 只指定类型的小怪；返回是否真的召唤了。
-func _summon(scene: PackedScene, type: String, count: int) -> bool:
+## 该类型/数量当前是否允许召唤（红怪可能已被永久封锁）。
+func _can_summon(scene: PackedScene, type: String, count: int) -> bool:
 	if _red_summons_locked and type == "red":
 		return false
-	if scene == null or count <= 0:
-		return false
+	return scene != null and count > 0
+
+
+## 启动一段召唤计划：按顺序逐只出现，每只间隔 minion_summon_stagger。
+func _start_summon_plan(plan: Array) -> void:
+	if plan.is_empty():
+		return
 	var holder := get_parent()
 	if holder == null:
-		return false
-	var base_ang := randf() * TAU
-	for i in count:
-		var m := scene.instantiate()
-		holder.add_child(m)
-		m.add_to_group("boss_minion")
-		if m.get("minion_type") != null:
-			m.set("minion_type", type)
-		if m is Node2D:
-			var ang := base_ang + TAU * float(i) / float(count)
-			(m as Node2D).global_position = _spawn_pos(Vector2.from_angle(ang))
-		_watch_minion(m)
-	return true
+		return
+	# 新计划会取消上一段尚未完成的召唤，避免重叠刷怪。
+	_summon_generation += 1
+	_run_summon_plan(plan, _summon_generation, holder)
+
+
+func _run_summon_plan(plan: Array, generation: int, holder: Node) -> void:
+	for i in plan.size():
+		if _state == State.DEAD or not is_inside_tree() or not is_instance_valid(holder):
+			return
+		if generation != _summon_generation:
+			return
+		var entry: Dictionary = plan[i]
+		_spawn_minion(entry["scene"], str(entry["type"]), float(entry["angle"]), holder)
+		if i < plan.size() - 1 and minion_summon_stagger > 0.0:
+			await get_tree().create_timer(minion_summon_stagger).timeout
+
+
+func _spawn_minion(scene: PackedScene, type: String, angle: float, holder: Node) -> void:
+	if scene == null:
+		return
+	var m := scene.instantiate()
+	holder.add_child(m)
+	m.add_to_group("boss_minion")
+	if m.get("minion_type") != null:
+		m.set("minion_type", type)
+	if m is Node2D:
+		(m as Node2D).global_position = _spawn_pos(Vector2.from_angle(angle))
+	_watch_minion(m)
 
 
 ## 召唤点：Boss 外一圈的方向点；吸附到导航网格上，避免落到墙外卡住。
@@ -455,12 +499,22 @@ func _nav_ready() -> bool:
 func _try_respawn() -> void:
 	if _state == State.DEAD or _phase < 0 or not _nav_ready():
 		return
+	var plan: Array = []
 	for entry in _composition(_phase):
 		var type := str(entry["type"])
 		var target := int(entry["count"])
 		var have := _alive_count(type)
-		if have < target:
-			_summon(entry["scene"], type, target - have)
+		var count := target - have
+		if not _can_summon(entry["scene"], type, count):
+			continue
+		var base_ang := randf() * TAU
+		for i in count:
+			plan.append({
+				"scene": entry["scene"],
+				"type": type,
+				"angle": base_ang + TAU * float(i) / float(count),
+			})
+	_start_summon_plan(plan)
 
 
 # —— 行为 ——
@@ -946,6 +1000,11 @@ func take_damage(amount: float = 1.0) -> void:
 		_die()
 
 
+## 被弹反子弹命中：按最大生命比例扣血（每颗默认 5%）。
+func take_reflected_damage() -> void:
+	take_damage(max_health * reflected_bullet_damage_ratio)
+
+
 ## 回复血量（供绿色小怪等调用）。不超过上限，死亡后无效。
 func heal(amount: float) -> void:
 	if _state == State.DEAD or amount <= 0.0:
@@ -965,6 +1024,15 @@ func _die() -> void:
 	GameState.alert_cancelled.emit()
 	_kill_all_minions()
 	died.emit()
+	_pending_idle_anim = &""
+	var has_death := _body != null and _body.sprite_frames != null and _body.sprite_frames.has_animation(DEATH_ANIM)
+	if has_death:
+		_body.modulate = Color.WHITE
+		_body.self_modulate = Color.WHITE
+		_body.play(DEATH_ANIM)
+		await _body.animation_finished
+		if not is_inside_tree():
+			return
 	var t := create_tween()
 	t.tween_property(self, "modulate:a", 0.0, 0.6)
 	t.tween_callback(queue_free)

@@ -143,7 +143,10 @@ func _resolve_hit(collider: Node) -> void:
 		return
 	if collider.is_in_group(source_group):
 		return   # 同阵营：不造成伤害
-	if collider.has_method("take_damage"):
+	if _parried and collider.has_method("take_reflected_damage"):
+		collider.call("take_reflected_damage")
+		hit.emit(collider)
+	elif collider.has_method("take_damage"):
 		collider.call("take_damage", damage)
 		hit.emit(collider)
 	if collider.has_method("knockback"):

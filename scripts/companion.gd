@@ -215,6 +215,24 @@ func is_available() -> bool:
 	return state == State.FOLLOWING and not _talking
 
 
+## 让跟班主动说一段话（Boss 提示等）。忙/对话中返回 false，调用方可稍后重试。
+## on_started / on_finished / on_cancelled 可选，用于 Boss 对话期间暂停/恢复行动。
+func say(
+	cue: String,
+	resource: DialogueResource = null,
+	on_started: Callable = Callable(),
+	on_finished: Callable = Callable(),
+	on_cancelled: Callable = Callable()
+) -> bool:
+	if not is_available() or StoryDirector.is_busy():
+		return false
+	var source := resource if resource != null else dialogue_resource
+	if source == null or cue == "" or not source.cues.has(cue):
+		return false
+	_play_dialogue(cue, source, on_started, on_finished, on_cancelled)
+	return _talking
+
+
 ## 上色种子由 Player 预留；接受后在到场时消耗，取消/失败则退款。
 func paint(target: Node, color: Color, color_name: String, element: String) -> bool:
 	return _submit({"type": "paint", "color": color, "color_name": color_name, "element": element}, target)
@@ -231,6 +249,9 @@ func interact(target: Node) -> bool:
 func _submit(job: Dictionary, target: Node) -> bool:
 	if state == State.GUIDING: return false
 	if not is_recruited() or _talking or StoryDirector.is_busy() or not _valid_target(target, str(job.type)):
+		return false
+	# 祭坛点亮后的第二次领取必须等跟班回到玩家身边，确保真的再飞一趟。
+	if job.type == "interact" and target.has_method("can_interact") and bool(target.get("is_open")) and state != State.FOLLOWING:
 		return false
 	# 重复点击同一指令不叠加扣种；仅允许一个可替换的下一步。
 	for existing in [_task, _pending]:
@@ -266,7 +287,12 @@ func _valid_target(target: Node, kind: String) -> bool:
 	match kind:
 		"paint": return target.has_method("apply_color") or target.has_method("apply_boss_color")
 		"absorb": return target.has_method("absorb_color") and (not target.has_method("has_color") or target.has_color())
-		"interact": return target.has_method("interact") and not bool(target.get("is_open"))
+		"interact":
+			if not target.has_method("interact"):
+				return false
+			if target.has_method("can_interact"):
+				return bool(target.call("can_interact"))
+			return not bool(target.get("is_open"))
 	return false
 
 
@@ -350,6 +376,10 @@ func _execute_task() -> void:
 					_task.settled = false
 					_cancel_job(_task)
 				else:
+					# 打死小怪 / 命中 Boss 时返还本次消耗的颜色。
+					var is_combat_target := target.is_in_group("minion") or target.is_in_group("boss")
+					if is_combat_target and is_instance_valid(player) and player.has_method("refund_element"):
+						player.call("refund_element", str(_task.element), 1)
 					if is_instance_valid(player) and player.has_method("register_placed_color"):
 						player.register_placed_color(target)
 					AudioManager.play_invoke(str(_task.element))
@@ -470,12 +500,26 @@ func _on_body_entered(body: Node) -> void:
 	_play_dialogue(start_cue)
 
 
-func _play_dialogue(cue: String, resource: DialogueResource = null) -> void:
+func _play_dialogue(
+	cue: String,
+	resource: DialogueResource = null,
+	on_started: Callable = Callable(),
+	on_finished: Callable = Callable(),
+	on_cancelled: Callable = Callable()
+) -> void:
 	var source := resource if resource != null else dialogue_resource
 	if source == null:
 		return
 	_talking = true
-	if not StoryDirector.request(self, source, cue, Callable(), _on_own_dialogue_finished, _on_own_dialogue_cancelled):
+	var finished := func() -> void:
+		_on_own_dialogue_finished()
+		if on_finished.is_valid():
+			on_finished.call()
+	var cancelled := func() -> void:
+		_on_own_dialogue_cancelled()
+		if on_cancelled.is_valid():
+			on_cancelled.call()
+	if not StoryDirector.request(self, source, cue, on_started, finished, cancelled):
 		_talking = false
 
 

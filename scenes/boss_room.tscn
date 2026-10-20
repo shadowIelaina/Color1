@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://cpp75f0guxi8q" path="res://art/Ground/地块1tm.png" id="21_yvuth"]
 [ext_resource type="Texture2D" uid="uid://oxidhgibw4fy" path="res://art/Ground/墙体.png" id="22_l160s"]
 [ext_resource type="Script" uid="uid://c87fgfsseq82n" path="res://color_change/air_wall_spawner.gd" id="23_2dyfp"]
+[ext_resource type="Script" uid="uid://dle3pggta1812" path="res://scripts/boss_hint_director.gd" id="24_hints"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
 size = Vector2(9600, 7800)
@@ -325,21 +326,27 @@ nav_cell_size = 32.0
 
 [node name="Tree" parent="." unique_id=293502526 instance=ExtResource("2_7l8xw")]
 position = Vector2(-1694, -1710)
+colorable = false
 
 [node name="Tree2" parent="." unique_id=1644934081 instance=ExtResource("2_7l8xw")]
 position = Vector2(-2537, -741)
+colorable = false
 
 [node name="Tree3" parent="." unique_id=574665807 instance=ExtResource("2_7l8xw")]
 position = Vector2(-55, -1600)
+colorable = false
 
 [node name="Tree4" parent="." unique_id=292493864 instance=ExtResource("2_7l8xw")]
 position = Vector2(2120, 536)
+colorable = false
 
 [node name="Tree5" parent="." unique_id=906646940 instance=ExtResource("2_7l8xw")]
 position = Vector2(1261, 2269)
+colorable = false
 
 [node name="Tree6" parent="." unique_id=859430812 instance=ExtResource("2_7l8xw")]
 position = Vector2(-1410, 2498)
+colorable = false
 
 [node name="Arena" type="Node2D" parent="." unique_id=948709438]
 scale = Vector2(1.5, 1.5)
@@ -499,6 +506,9 @@ entrance_id = "spawn"
 
 [node name="RuntimeNav" type="NavigationRegion2D" parent="." unique_id=1694723478]
 script = ExtResource("13_nav")
+
+[node name="BossHintDirector" type="Node" parent="."]
+script = ExtResource("24_hints")
 
 [node name="ReturnPortal" parent="." unique_id=2097772817 instance=ExtResource("6_portal")]
 position = Vector2(0, 2494)

@@ -6,6 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://1nuhrkxcu7wr" path="res://art/things/生命值（红）tm.png" id="4_thl1y"]
 [ext_resource type="Texture2D" uid="uid://nl0p0kvv0orv" path="res://art/things/生命值_（绿）tm.png" id="5_71kd3"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_altar_top"]
+size = Vector2(770, 284)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_altar_base"]
+size = Vector2(600, 404)
+
 [node name="BossAltar" type="Node2D" unique_id=2061883471]
 z_index = 1
 script = ExtResource("1_altar")
@@ -14,6 +20,18 @@ script = ExtResource("1_altar")
 texture_filter = 1
 position = Vector2(2.9999995, -3.0000153)
 texture = ExtResource("2_71kd3")
+
+[node name="Body" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="Top" type="CollisionShape2D" parent="Body"]
+position = Vector2(-2, -177)
+shape = SubResource("RectangleShape2D_altar_top")
+
+[node name="Base" type="CollisionShape2D" parent="Body"]
+position = Vector2(-2, 167)
+shape = SubResource("RectangleShape2D_altar_base")
 
 [node name="HeartSlots" type="Node2D" parent="." unique_id=722678618]
 z_index = 2

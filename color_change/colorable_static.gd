@@ -31,6 +31,8 @@ var _enchant_tween: Tween
 
 func _ready() -> void:
 	super._ready()
+	if _behavior == null:
+		return
 	# 开局预置红色（initial_color_name = "红"）时同样烧毁。
 	if burn_down and _behavior.current_element() == "burn":
 		_start_burn_down()

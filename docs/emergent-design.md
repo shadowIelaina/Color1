@@ -25,7 +25,7 @@ scripts/element/
 
 color_change/
   colorable_sprite.gd   ← 可上色物体（Sprite2D 版，石头）
-  colorable_object.gd   ← 可上色物体（Polygon2D 版，箱子）
+  colorable_object.gd   ← 可上色岩石（Sprite2D + Inside 着色，BOSS 场景专用）
   ice_block.gd          ← 冰块闸门（预先赋蓝的挡路物）
   water_cell.gd         ← 单个水格（赋予蓝 → 结冰；吸收蓝 → 融回水）
   water_spawner.gd      ← 把 Water 层每个水 tile 铺成 WaterCell 网格
@@ -75,7 +75,7 @@ prefabs/items/…         ← 冰块等预制体
 | `has_color()` | 是否当前带色 | 同上 + ice_block |
 | `contains_point(world_pos)` | 鼠标点是否落在物体上（点击命中） | 同上 + ice_block |
 
-加入 `"colorable"` group 的**任意**节点（Sprite2D 石头 / StaticBody2D 冰块 / Polygon2D 箱子）都能进入系统。玩家用 `has_method()` + `call()` 鸭子类型地调用，**不依赖具体类**。所以冰块不需要继承任何「可染色基类」，只要实现契约 + 进 group 即可。
+加入 `"colorable"` group 的**任意**节点（Sprite2D 石头 / StaticBody2D 冰块 / BOSS 岩石）都能进入系统。玩家用 `has_method()` + `call()` 鸭子类型地调用，**不依赖具体类**。所以冰块不需要继承任何「可染色基类」，只要实现契约 + 进 group 即可。
 
 ### 4. 吸收 / 赋予 + 颜色库 + 种子守恒
 

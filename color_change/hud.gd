@@ -77,6 +77,8 @@ var victory_title: Label
 var victory_subtitle: Label
 var _victory_tween: Tween
 
+var companion_bubble: Control
+
 
 func _ready() -> void:
 	add_to_group("hud")
@@ -91,6 +93,7 @@ func _ready() -> void:
 	_make_boss_hud()
 	_make_victory_banner()
 	_make_wheel()
+	_make_companion_bubble()
 	color_label.visible = false   # 调色盘改用右下角色轮，不再用左上角文字
 	GameState.hint.connect(show_hint)
 	GameState.notice.connect(show_notice)
@@ -130,6 +133,26 @@ func show_win() -> void:
 ## 交互与通关消息也走同一张纸签，不在画面中央叠加裸文字。
 func show_hint(text: String) -> void:
 	show_notice(text)
+
+
+## 跟班头顶纸片气泡：战斗提示用，不占用对话系统、不挡鼠标。
+func show_companion_hint(text: String, duration := 2.6) -> bool:
+	if companion_bubble == null or not companion_bubble.has_method("show_text"):
+		return false
+	companion_bubble.call("show_text", text, duration)
+	return true
+
+
+func is_companion_hint_showing() -> bool:
+	if companion_bubble == null or not companion_bubble.has_method("is_showing"):
+		return false
+	return bool(companion_bubble.call("is_showing"))
+
+
+func _make_companion_bubble() -> void:
+	companion_bubble = Control.new()
+	companion_bubble.set_script(preload("res://scripts/companion_speech_bubble.gd"))
+	add_child(companion_bubble)
 
 
 ## 代码里创建提示 Label（全屏居中），免去改 .tscn。

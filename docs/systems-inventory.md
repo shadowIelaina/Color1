@@ -57,7 +57,7 @@
 | `element_rules.gd` | 元素数据表（单一数据源）：红=burn、蓝=freeze，绿=grow 已搁置；`spreads=false`（蔓延当前关闭） |
 | `element_behavior.gd` | 元素行为组件：燃烧/冻结 VFX、生成光斑、蔓延链、碎裂销毁 |
 | `colorable_base.gd` | 可上色基类契约（`apply_color/has_color/absorb_color/contains_point` + 视觉钩子） |
-| `colorable_object.gd` | 箱子（Polygon2D 双面 fill shader） |
+| `colorable_object.gd` | 可上色岩石（Sprite2D + Inside 着色，BOSS 场景专用） |
 | `colorable_sprite.gd` | 贴图版（无碰撞，自建 behavior） |
 | `colorable_static.gd` | 带碰撞静态物（树/木条） |
 | `ember.gd` | 火种：开局带红挡路，吸收红→破碎放行（`seed_amount=3`） |
