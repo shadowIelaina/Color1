@@ -8,13 +8,14 @@ func _run() -> void:
 	var state: Node = root.get_node("GameState")
 	state.new_game()
 	var game: Node = load("res://scenes/game.tscn").instantiate()
+	game.debug_boss_test = false
 	game.show_main_menu = false
 	game.start_room = "res://scenes/level_4.tscn"
 	root.add_child(game)
 	current_scene = game
 	await create_timer(0.8).timeout
 	assert(state.checkpoint_scene == "res://scenes/level_4.tscn")
-	assert(state.checkpoint_pos == Vector2.ZERO and state.has_valid_save())
+	assert(state.checkpoint_pos == Vector2(0, 600) and state.has_valid_save())
 	var hints: Array[String] = []
 	state.hint.connect(func(message: String): hints.append(message))
 	var door: Node2D = load("res://prefabs/rooms/room_door.tscn").instantiate()

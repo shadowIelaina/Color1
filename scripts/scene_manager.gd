@@ -71,6 +71,9 @@ func change_room(target_scene: String, target_entrance: String) -> void:
 func _do_change_room(target_scene: String, target_entrance: String) -> void:
 	# 1. 退出并卸载旧房
 	if current_room != null and is_instance_valid(current_room):
+		# 房间卸载后临时冰面/颜色会消失，先收回玩家放置的种子。
+		if is_instance_valid(player) and player.has_method("reclaim_placed_colors"):
+			player.reclaim_placed_colors()
 		room_exited.emit(current_room.get("room_id"))
 		if current_room.has_method("exit"):
 			current_room.exit()

@@ -80,6 +80,9 @@ var mutation_cooldown: Timer = Timer.new()
 func _ready() -> void:
 	add_to_group("dialogue_balloon")
 	balloon.hide()
+	dialogue_label.spoke.connect(func(letter: String, _index: int, _speed: float):
+		if letter.strip_edges() != "": AudioManager.play_event("writing")
+	)
 	dialogue_panel_margin.resized.connect(_layout_portrait_stage)
 	balloon.resized.connect(_layout_portrait_stage)
 	_layout_portrait_stage.call_deferred()

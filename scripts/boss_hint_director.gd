@@ -11,7 +11,7 @@ const DEFAULT_DIALOGUE_UID := "uid://cs4tg8k8wjy13"
 @export var victory_cue := "hint_boss_victory"
 
 @export_group("战斗气泡")
-@export var ring_text := "小心红色弹幕！可以躲到石柱后面，或把场地里的白色立方体染成黄色（红+绿），就能反弹！"
+@export var ring_text := "小心红色弹幕！可以躲到石柱后面，或把场地里可上色的岩石染成黄色（红+绿），就能反弹！"
 @export var ice_text := "Boss 的蓝色瞄准线锁定你了！快离开那条线！"
 @export var heal_text := "Boss 要回血了！用蓝色点 Boss，引它撞墙！"
 @export var charge_text := "Boss 冲过来了！快躲开，让它撞墙！"

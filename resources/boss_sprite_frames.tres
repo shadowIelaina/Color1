@@ -28,6 +28,14 @@
 [ext_resource type="Texture2D" uid="uid://dctmflcxllj16" path="res://art/BOSS/转换青色动画/切换-2.png" id="26_tocyan2"]
 [ext_resource type="Texture2D" uid="uid://frl0grcj408b" path="res://art/BOSS/转换青色动画/切换-3.png" id="27_tocyan3"]
 [ext_resource type="Texture2D" uid="uid://chetgq2m3dnuk" path="res://art/BOSS/转换青色动画/切换-4.png" id="28_tocyan4"]
+[ext_resource type="Texture2D" path="res://art/BOSS/boss死亡动画/青色boss待机-1.png" id="29_death1"]
+[ext_resource type="Texture2D" path="res://art/BOSS/boss死亡动画/青色boss待机-2.png" id="30_death2"]
+[ext_resource type="Texture2D" path="res://art/BOSS/boss死亡动画/青色boss待机-3.png" id="31_death3"]
+[ext_resource type="Texture2D" path="res://art/BOSS/boss死亡动画/青色boss待机-4.png" id="32_death4"]
+[ext_resource type="Texture2D" path="res://art/BOSS/boss死亡动画/青色boss待机-5.png" id="33_death5"]
+[ext_resource type="Texture2D" path="res://art/BOSS/boss死亡动画/青色boss待机-6.png" id="34_death6"]
+[ext_resource type="Texture2D" path="res://art/BOSS/boss死亡动画/青色boss待机-7.png" id="35_death7"]
+[ext_resource type="Texture2D" path="res://art/BOSS/boss死亡动画/青色boss待机-8.png" id="36_death8"]
 
 [resource]
 animations = [{
@@ -149,4 +157,33 @@ animations = [{
 "loop": 0,
 "name": &"to_cyan",
 "speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("29_death1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_death2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_death3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_death4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_death5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_death6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_death7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_death8")
+}],
+"loop": 0,
+"name": &"death",
+"speed": 10.0
 }]

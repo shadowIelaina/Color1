@@ -32,6 +32,16 @@ func _run() -> void:
 	audio.play_ice_break()
 	effect = audio._se_pool[(audio._se_next - 1 + audio.SE_POOL_SIZE) % audio.SE_POOL_SIZE]
 	assert(effect.stream == audio.ICE_BREAK_STREAM and effect.pitch_scale == 1.0 and effect.volume_db == 0.0)
+	for event in audio.EVENT_STREAMS:
+		index = audio._se_next
+		audio.play_event(event)
+		assert(audio._se_next != index, "New audio event must play: " + event)
+		effect = audio._se_pool[(audio._se_next - 1 + audio.SE_POOL_SIZE) % audio.SE_POOL_SIZE]
+		assert(effect.stream == audio.EVENT_STREAMS[event])
+		index = audio._se_next
+		audio.play_event(event)
+		assert(audio._se_next == index, "Repeated audio event must be limited")
+	assert(audio._fire_player.stream.loop and audio._fire_player.bus == "BGS")
 	var camera := Camera2D.new()
 	camera.offset = Vector2(11, 7)
 	camera.zoom = Vector2(0.25, 0.25)
@@ -50,5 +60,17 @@ func _run() -> void:
 	await create_timer(0.3).timeout
 	assert(camera.offset.is_equal_approx(Vector2(11, 7)))
 	assert(player.sprite.self_modulate == Color.WHITE)
-	print("AUDIO_FEEDBACK_OK: region loop, no restart, UI sounds/debounce, pooled audio reset, damage shake/reset/invulnerability")
+	audio._player = player
+	var fire := Node2D.new()
+	root.add_child(fire)
+	fire.add_to_group("heat_source")
+	fire.global_position = player.global_position
+	audio._update_fire(1.0)
+	assert(audio._fire_player.volume_db > -15.0, "Nearby fire must be audible")
+	fire.queue_free()
+	await process_frame
+	audio._update_fire(2.0)
+	assert(audio._fire_player.volume_db < -70.0, "Removed fire must fade out")
+
+	print("AUDIO_FEEDBACK_OK: new event streams/debounce, fire proximity/fade, region loop, no restart, UI sounds/debounce, pooled audio reset, damage shake/reset/invulnerability")
 	quit()

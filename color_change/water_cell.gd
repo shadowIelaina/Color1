@@ -128,6 +128,13 @@ func absorb_color() -> Dictionary:
 	}
 
 
+## 存档点回收已放置的冰：不受旧位置踩冰和冰墙的鼠标吸收限制。
+func reclaim_placed_color() -> Dictionary:
+	if not _frozen: return {"element": ""}
+	_melt()
+	return {"element": "freeze", "amount": 1}
+
+
 ## 结冰：取消碰撞（可通行），冰块以「生长」效果浮现盖住水。
 func _freeze(from_pos: Vector2 = Vector2.INF) -> void:
 	_frozen = true

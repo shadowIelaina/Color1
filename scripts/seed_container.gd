@@ -123,6 +123,12 @@ func has_color() -> bool:
 	return _frozen or (not _store.is_empty())
 
 
+## 回收玩家的冻结封层，绝不继续提取容器内原有种子。
+func reclaim_placed_color() -> Dictionary:
+	if not _frozen: return {"element": ""}
+	return absorb_color()
+
+
 func contains_point(world_pos: Vector2) -> bool:
 	if visual is Polygon2D:
 		var poly := (visual as Polygon2D).polygon

@@ -1,0 +1,4 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ERROR: Can't load the script "tests/test_boss_cyan.gd" as it doesn't inherit from SceneTree or MainLoop.
+   at: start (main/main.cpp:4286)

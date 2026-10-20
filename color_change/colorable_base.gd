@@ -24,6 +24,8 @@ const DepthSort := preload("res://scripts/depth_sort.gd")
 @export var reflect_faction := "player"
 ## 初始颜色名：非空时开局直接以该颜色/元素起手（如 "red" = 预置燃烧）。
 @export var initial_color_name := ""
+## 是否参与上色/元素系统。false 时保留场景物体，但不加入 colorable 组、不创建行为组件。
+@export var colorable := true
 
 var _behavior: ElementBehavior
 
@@ -31,6 +33,8 @@ var _behavior: ElementBehavior
 func _ready() -> void:
 	# 深度排序：按脚底世界 Y 定 z_index，让玩家走到树/箱子后（北）侧时被它们挡住。
 	z_index = DepthSort.z_for(global_position.y)
+	if not colorable:
+		return
 	add_to_group("colorable")
 	_setup_behavior()
 	_seed_initial_color()

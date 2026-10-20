@@ -1,38 +1,27 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://bjce1rxamgxjg"]
 
-[ext_resource type="Script" path="res://scripts/rock.gd" id="1_rock"]
+[ext_resource type="Script" uid="uid://d6uhjue2n1y1" path="res://scripts/rock.gd" id="1_rock"]
+[ext_resource type="Texture2D" uid="uid://dv0dyq0jwodg6" path="res://art/things/祭坛.png" id="2_6yvw4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pillar"]
-size = Vector2(280, 140)
+size = Vector2(142, 140)
 
-[node name="RuinPillar" type="StaticBody2D"]
+[node name="RuinPillar" type="StaticBody2D" unique_id=1838420254]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_rock")
 
-[node name="Shadow" type="Polygon2D" parent="."]
+[node name="Shadow" type="Polygon2D" parent="." unique_id=135405987]
 z_index = -1
 color = Color(0, 0, 0, 0.28)
-polygon = PackedVector2Array(-180, -20, 180, -20, 150, 45, -150, 45)
+texture_scale = Vector2(0.8, 0.8)
+polygon = PackedVector2Array(-91, 1, 70, -3, 53, 45, -64, 45)
 
-[node name="Visual" type="Polygon2D" parent="."]
-color = Color(0.22, 0.21, 0.27, 1)
-polygon = PackedVector2Array(-140, 0, 140, 0, 130, -620, 80, -720, 30, -660, -20, -700, -80, -640, -130, -680)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2095622875]
+position = Vector2(-13.999999, -206.99998)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("2_6yvw4")
 
-[node name="Top" type="Polygon2D" parent="."]
-color = Color(0.36, 0.34, 0.42, 1)
-polygon = PackedVector2Array(-130, -680, 130, -620, 80, -720, 30, -660, -20, -700, -80, -640)
-
-[node name="CrackA" type="Line2D" parent="."]
-points = PackedVector2Array(-60, -80, -30, -220, -70, -360, -30, -500)
-width = 8.0
-default_color = Color(0.12, 0.11, 0.16, 1)
-
-[node name="CrackB" type="Line2D" parent="."]
-points = PackedVector2Array(60, -120, 90, -260, 50, -420)
-width = 7.0
-default_color = Color(0.12, 0.11, 0.16, 1)
-
-[node name="Collision" type="CollisionShape2D" parent="."]
-position = Vector2(0, -70)
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1076810348]
+position = Vector2(-8, -69)
 shape = SubResource("RectangleShape2D_pillar")

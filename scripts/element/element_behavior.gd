@@ -326,10 +326,7 @@ func _set_growth(on: bool) -> void:
 func _spawn_vfx(element_id: String) -> void:
 	_clear_vfx()
 	var cfg := Rules.config(element_id)
-	var vfx_path := str(cfg.get("vfx", ""))
-	if vfx_path == "":
-		return
-	var scene: PackedScene = load(vfx_path)
+	var scene: PackedScene = load(cfg.get("vfx", ""))
 	if scene == null:
 		return
 	_vfx = scene.instantiate()

@@ -1,0 +1,339 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+ERROR: Could not create editor data directory: C:/Users/chen/AppData/Roaming/Godot
+   at: EditorPaths (editor/file_system/editor_paths.cpp:200)
+ERROR: Could not create editor config directory: C:/Users/chen/AppData/Roaming/Godot
+   at: EditorPaths (editor/file_system/editor_paths.cpp:215)
+
+ERROR: Could not open 'user://' directory: 'user://'.
+   at: _get_and_create_snapshot_storage_dir (modules/objectdb_profiler/editor/objectdb_profiler_panel.cpp:154)
+ERROR: Safe save failed. This may be a permissions problem, but also may happen because you are running a paranoid antivirus. If this is the case, please switch to Windows Defender or disable the 'safe save' option in editor settings. This makes it work, but increases the risk of file corruption in a crash.
+   at: _close (drivers/windows/file_access_windows.cpp:276)
+ERROR: Cannot open directory 'C:/Users/chen/AppData/Roaming/Godot/feature_profiles'.
+   at: _update_profile_list (editor/settings/editor_feature_profile.cpp:390)
+[   0% ] first_scan_filesystem | Started 项目初始化 (5 steps)
+[   0% ] first_scan_filesystem | 正在扫描文件结构……
+[  16% ] first_scan_filesystem | 正在加载全局类名……
+[  33% ] first_scan_filesystem | 正在校验 GDExtension……
+[  50% ] first_scan_filesystem | 正在创建自动加载脚本……
+[  66% ] first_scan_filesystem | 正在初始化插件……
+ERROR: Safe save failed. This may be a permissions problem, but also may happen because you are running a paranoid antivirus. If this is the case, please switch to Windows Defender or disable the 'safe save' option in editor settings. This makes it work, but increases the risk of file corruption in a crash.
+   at: _close (drivers/windows/file_access_windows.cpp:276)
+SCRIPT ERROR: Cannot call method 'store_string' on a null value.
+   at: save_user_config (res://addons/dialogue_manager/settings.gd:197)
+   GDScript backtrace (most recent call first):
+       [0] save_user_config (res://addons/dialogue_manager/settings.gd:197)
+       [1] set_user_value (res://addons/dialogue_manager/settings.gd:203)
+       [2] add_recent_file (res://addons/dialogue_manager/settings.gd:222)
+       [3] open_file (res://addons/dialogue_manager/views/main_view.gd:267)
+       [4] _ready (res://addons/dialogue_manager/views/main_view.gd:157)
+       [5] _enter_tree (res://addons/dialogue_manager/plugin.gd:61)
+SCRIPT ERROR: Cannot call method 'store_string' on a null value.
+   at: save_user_config (res://addons/dialogue_manager/settings.gd:197)
+   GDScript backtrace (most recent call first):
+       [0] save_user_config (res://addons/dialogue_manager/settings.gd:197)
+       [1] set_user_value (res://addons/dialogue_manager/settings.gd:203)
+       [2] add_recent_file (res://addons/dialogue_manager/settings.gd:222)
+       [3] open_file (res://addons/dialogue_manager/views/main_view.gd:267)
+       [4] _ready (res://addons/dialogue_manager/views/main_view.gd:157)
+       [5] _enter_tree (res://addons/dialogue_manager/plugin.gd:61)
+SCRIPT ERROR: Cannot call method 'store_string' on a null value.
+   at: save_user_config (res://addons/dialogue_manager/settings.gd:197)
+   GDScript backtrace (most recent call first):
+       [0] save_user_config (res://addons/dialogue_manager/settings.gd:197)
+       [1] set_user_value (res://addons/dialogue_manager/settings.gd:203)
+       [2] add_recent_file (res://addons/dialogue_manager/settings.gd:222)
+       [3] open_file (res://addons/dialogue_manager/views/main_view.gd:267)
+       [4] _ready (res://addons/dialogue_manager/views/main_view.gd:157)
+       [5] _enter_tree (res://addons/dialogue_manager/plugin.gd:61)
+SCRIPT ERROR: Cannot call method 'store_string' on a null value.
+   at: save_user_config (res://addons/dialogue_manager/settings.gd:197)
+   GDScript backtrace (most recent call first):
+       [0] save_user_config (res://addons/dialogue_manager/settings.gd:197)
+       [1] set_user_value (res://addons/dialogue_manager/settings.gd:203)
+       [2] add_recent_file (res://addons/dialogue_manager/settings.gd:222)
+       [3] open_file (res://addons/dialogue_manager/views/main_view.gd:267)
+       [4] _ready (res://addons/dialogue_manager/views/main_view.gd:157)
+       [5] _enter_tree (res://addons/dialogue_manager/plugin.gd:61)
+MCP | plugin disabled in headless mode
+[  83% ] first_scan_filesystem | 正在启动文件扫描……
+[ DONE ] first_scan_filesystem
+
+SCRIPT ERROR: Cannot call method 'store_string' on a null value.
+   at: save_user_config (res://addons/dialogue_manager/settings.gd:197)
+   GDScript backtrace (most recent call first):
+       [0] save_user_config (res://addons/dialogue_manager/settings.gd:197)
+       [1] set_user_value (res://addons/dialogue_manager/settings.gd:203)
+       [2] set_caret (res://addons/dialogue_manager/settings.gd:252)
+       [3] _on_code_edit_caret_changed (res://addons/dialogue_manager/views/main_view.gd:665)
+ERROR: Attempting to parent and popup a dialog that already has a parent.
+   at: _try_parent_dialog (scene/main/window.cpp:2172)
+[   0% ] update_scripts_classes | Started 正在注册全局类…… (5 steps)
+[   0% ] update_scripts_classes | 
+[  16% ] update_scripts_classes | 
+[  33% ] update_scripts_classes | Player
+[  50% ] update_scripts_classes | 
+[  66% ] update_scripts_classes | 
+[ DONE ] update_scripts_classes
+
+[   0% ] _update_scan_actions | Started 正在扫描动作…… (75 steps)
+[   0% ] _update_scan_actions | cue.svg
+[   1% ] _update_scan_actions | icon.svg
+[   2% ] _update_scan_actions | region.svg
+[   3% ] _update_scan_actions | dialogue_actionable_2d.svg
+[   5% ] _update_scan_actions | dialogue_actionable_3d.svg
+[   6% ] _update_scan_actions | dialogue_state_context.svg
+[   7% ] _update_scan_actions | dialogue_label.svg
+[   9% ] _update_scan_actions | dialogue_marker_2d.svg
+[  10% ] _update_scan_actions | dialogue_marker_3d.svg
+[  11% ] _update_scan_actions | dialogue_responses_menu.svg
+[  13% ] _update_scan_actions | BehaviorTree.svg
+[  14% ] _update_scan_actions | BehaviorTreeView.svg
+[  15% ] _update_scan_actions | BlackboardPlan.svg
+[  17% ] _update_scan_actions | BTAction.svg
+[  18% ] _update_scan_actions | BTAlwaysFail.svg
+[  19% ] _update_scan_actions | BTAlwaysSucceed.svg
+[  21% ] _update_scan_actions | BTAwaitAnimation.svg
+[  22% ] _update_scan_actions | BTCallMethod.svg
+[  23% ] _update_scan_actions | BTCheckAgentProperty.svg
+[  25% ] _update_scan_actions | BTCheckTrigger.svg
+[  26% ] _update_scan_actions | BTCheckVar.svg
+[  27% ] _update_scan_actions | BTComment.svg
+[  28% ] _update_scan_actions | BTCondition.svg
+[  30% ] _update_scan_actions | BTConsolePrint.svg
+[  31% ] _update_scan_actions | BTCooldown.svg
+[  32% ] _update_scan_actions | BTDecorator.svg
+[  34% ] _update_scan_actions | BTDelay.svg
+[  35% ] _update_scan_actions | BTDynamicSelector.svg
+[  36% ] _update_scan_actions | BTDynamicSequence.svg
+[  38% ] _update_scan_actions | BTEvaluateExpression.svg
+[  39% ] _update_scan_actions | BTFail.svg
+[  40% ] _update_scan_actions | BTForEach.svg
+[  42% ] _update_scan_actions | BTInvert.svg
+[  43% ] _update_scan_actions | BTNewScope.svg
+[  44% ] _update_scan_actions | BTParallel.svg
+[  46% ] _update_scan_actions | BTPauseAnimation.svg
+[  47% ] _update_scan_actions | BTPlayAnimation.svg
+[  48% ] _update_scan_actions | BTPlayer.svg
+[  50% ] _update_scan_actions | BTProbability.svg
+[  51% ] _update_scan_actions | BTProbabilitySelector.svg
+[  52% ] _update_scan_actions | BTRandomSelector.svg
+[  53% ] _update_scan_actions | BTRandomSequence.svg
+[  55% ] _update_scan_actions | BTRandomWait.svg
+[  56% ] _update_scan_actions | BTRepeat.svg
+[  57% ] _update_scan_actions | BTRepeatUntilFailure.svg
+[  59% ] _update_scan_actions | BTRepeatUntilSuccess.svg
+[  60% ] _update_scan_actions | BTRunLimit.svg
+[  61% ] _update_scan_actions | BTSelector.svg
+[  63% ] _update_scan_actions | BTSequence.svg
+[  64% ] _update_scan_actions | BTSetAgentProperty.svg
+[  65% ] _update_scan_actions | BTSetVar.svg
+[  67% ] _update_scan_actions | BTState.svg
+[  68% ] _update_scan_actions | BTStopAnimation.svg
+[  69% ] _update_scan_actions | BTSubtree.svg
+[  71% ] _update_scan_actions | BTTimeLimit.svg
+[  72% ] _update_scan_actions | BTWait.svg
+[  73% ] _update_scan_actions | BTWaitTicks.svg
+[  75% ] _update_scan_actions | LimboAI.svg
+[  76% ] _update_scan_actions | LimboDeselectAll.svg
+[  77% ] _update_scan_actions | LimboEditBlackboard.svg
+[  78% ] _update_scan_actions | LimboExtraBlackboard.svg
+[  80% ] _update_scan_actions | LimboExtraClock.svg
+[  81% ] _update_scan_actions | LimboExtractSubtree.svg
+[  82% ] _update_scan_actions | LimboExtraVariable.svg
+[  84% ] _update_scan_actions | LimboHSM.svg
+[  85% ] _update_scan_actions | LimboPercent.svg
+[  86% ] _update_scan_actions | LimboSelectAll.svg
+[  88% ] _update_scan_actions | LimboState.svg
+[  89% ] _update_scan_actions | LimboVarAdd.svg
+[  90% ] _update_scan_actions | LimboVarEmpty.svg
+[  92% ] _update_scan_actions | LimboVarError.svg
+[  93% ] _update_scan_actions | LimboVarExists.svg
+[  94% ] _update_scan_actions | LimboVarNotFound.svg
+[  96% ] _update_scan_actions | LimboVarPrivate.svg
+[  97% ] _update_scan_actions | prologue.dialogue
+[ DONE ] _update_scan_actions
+
+[   0% ] reimport | Started 正在导入或重新导入资产 (75 steps)
+[   0% ] reimport | 正在准备重新导入文件……
+[   1% ] reimport | 正在准备重新导入文件……
+[   2% ] reimport | 正在准备重新导入文件……
+[   3% ] reimport | 正在准备重新导入文件……
+[   5% ] reimport | 正在准备重新导入文件……
+[   6% ] reimport | 正在准备重新导入文件……
+[   7% ] reimport | 正在准备重新导入文件……
+[   9% ] reimport | 正在准备重新导入文件……
+[  10% ] reimport | 正在准备重新导入文件……
+[  11% ] reimport | 正在准备重新导入文件……
+[  13% ] reimport | 正在准备重新导入文件……
+[  14% ] reimport | 正在准备重新导入文件……
+[  15% ] reimport | 正在准备重新导入文件……
+[  17% ] reimport | 正在准备重新导入文件……
+[  18% ] reimport | 正在准备重新导入文件……
+[  19% ] reimport | 正在准备重新导入文件……
+[  21% ] reimport | 正在准备重新导入文件……
+[  22% ] reimport | 正在准备重新导入文件……
+[  23% ] reimport | 正在准备重新导入文件……
+[  25% ] reimport | 正在准备重新导入文件……
+[  26% ] reimport | 正在准备重新导入文件……
+[  27% ] reimport | 正在准备重新导入文件……
+[  28% ] reimport | 正在准备重新导入文件……
+[  30% ] reimport | 正在准备重新导入文件……
+[  31% ] reimport | 正在准备重新导入文件……
+[  32% ] reimport | 正在准备重新导入文件……
+[  34% ] reimport | 正在准备重新导入文件……
+[  35% ] reimport | 正在准备重新导入文件……
+[  36% ] reimport | 正在准备重新导入文件……
+[  38% ] reimport | 正在准备重新导入文件……
+[  39% ] reimport | 正在准备重新导入文件……
+[  40% ] reimport | 正在准备重新导入文件……
+[  42% ] reimport | 正在准备重新导入文件……
+[  43% ] reimport | 正在准备重新导入文件……
+[  44% ] reimport | 正在准备重新导入文件……
+[  46% ] reimport | 正在准备重新导入文件……
+[  47% ] reimport | 正在准备重新导入文件……
+[  48% ] reimport | 正在准备重新导入文件……
+[  50% ] reimport | 正在准备重新导入文件……
+[  51% ] reimport | 正在准备重新导入文件……
+[  52% ] reimport | 正在准备重新导入文件……
+[  53% ] reimport | 正在准备重新导入文件……
+[  55% ] reimport | 正在准备重新导入文件……
+[  56% ] reimport | 正在准备重新导入文件……
+[  57% ] reimport | 正在准备重新导入文件……
+[  59% ] reimport | 正在准备重新导入文件……
+[  60% ] reimport | 正在准备重新导入文件……
+[  61% ] reimport | 正在准备重新导入文件……
+[  63% ] reimport | 正在准备重新导入文件……
+[  64% ] reimport | 正在准备重新导入文件……
+[  65% ] reimport | 正在准备重新导入文件……
+[  67% ] reimport | 正在准备重新导入文件……
+[  68% ] reimport | 正在准备重新导入文件……
+[  69% ] reimport | 正在准备重新导入文件……
+[  71% ] reimport | 正在准备重新导入文件……
+[  72% ] reimport | 正在准备重新导入文件……
+[  73% ] reimport | 正在准备重新导入文件……
+[  75% ] reimport | 正在准备重新导入文件……
+[  76% ] reimport | 正在准备重新导入文件……
+[  77% ] reimport | 正在准备重新导入文件……
+[  78% ] reimport | 正在准备重新导入文件……
+[  80% ] reimport | 正在准备重新导入文件……
+[  81% ] reimport | 正在准备重新导入文件……
+[  82% ] reimport | 正在准备重新导入文件……
+[  84% ] reimport | 正在准备重新导入文件……
+[  85% ] reimport | 正在准备重新导入文件……
+[  86% ] reimport | 正在准备重新导入文件……
+[  88% ] reimport | 正在准备重新导入文件……
+[  89% ] reimport | 正在准备重新导入文件……
+[  90% ] reimport | 正在准备重新导入文件……
+[  92% ] reimport | 正在准备重新导入文件……
+[  93% ] reimport | 正在准备重新导入文件……
+[  94% ] reimport | 正在准备重新导入文件……
+[  96% ] reimport | 正在准备重新导入文件……
+[  97% ] reimport | 正在准备重新导入文件……
+[   0% ] reimport | 正在执行重新导入的前置操作……
+[   0% ] reimport | prologue.dialogue
+[   1% ] reimport | prologue.dialogue
+[   2% ] reimport | BTWait.svg
+[   3% ] reimport | BTTimeLimit.svg
+[   5% ] reimport | BTSubtree.svg
+[   6% ] reimport | BTStopAnimation.svg
+[   7% ] reimport | BTState.svg
+[   9% ] reimport | BTSetVar.svg
+[  10% ] reimport | BTSetAgentProperty.svg
+[  11% ] reimport | BTSequence.svg
+[  13% ] reimport | BTSelector.svg
+[  14% ] reimport | BTRunLimit.svg
+[  15% ] reimport | BTRepeatUntilSuccess.svg
+[  17% ] reimport | BTRepeatUntilFailure.svg
+[  18% ] reimport | BTRepeat.svg
+[  19% ] reimport | BTRandomWait.svg
+[  21% ] reimport | BTRandomSequence.svg
+[  22% ] reimport | BTRandomSelector.svg
+[  23% ] reimport | BTProbabilitySelector.svg
+[  25% ] reimport | BTProbability.svg
+[  26% ] reimport | LimboVarPrivate.svg
+[  27% ] reimport | LimboVarNotFound.svg
+[  28% ] reimport | LimboVarExists.svg
+[  30% ] reimport | LimboVarError.svg
+[  31% ] reimport | LimboVarEmpty.svg
+[  32% ] reimport | LimboVarAdd.svg
+[  34% ] reimport | LimboState.svg
+[  35% ] reimport | LimboSelectAll.svg
+[  36% ] reimport | LimboPercent.svg
+[  38% ] reimport | LimboHSM.svg
+[  39% ] reimport | LimboExtraVariable.svg
+[  40% ] reimport | LimboExtractSubtree.svg
+[  42% ] reimport | LimboExtraClock.svg
+[  43% ] reimport | LimboExtraBlackboard.svg
+[  44% ] reimport | LimboEditBlackboard.svg
+[  46% ] reimport | LimboDeselectAll.svg
+[  47% ] reimport | LimboAI.svg
+[  48% ] reimport | BTWaitTicks.svg
+[  50% ] reimport | BTCheckAgentProperty.svg
+[  51% ] reimport | BTCallMethod.svg
+[  52% ] reimport | BTAwaitAnimation.svg
+[  53% ] reimport | BTAlwaysSucceed.svg
+[  55% ] reimport | BTAlwaysFail.svg
+[  56% ] reimport | BTAction.svg
+[  57% ] reimport | BlackboardPlan.svg
+[  59% ] reimport | BehaviorTreeView.svg
+[  60% ] reimport | BehaviorTree.svg
+[  61% ] reimport | dialogue_responses_menu.svg
+[  63% ] reimport | dialogue_marker_3d.svg
+[  64% ] reimport | dialogue_marker_2d.svg
+[  65% ] reimport | dialogue_label.svg
+[  67% ] reimport | dialogue_state_context.svg
+[  68% ] reimport | dialogue_actionable_3d.svg
+[  69% ] reimport | dialogue_actionable_2d.svg
+[  71% ] reimport | region.svg
+[  72% ] reimport | icon.svg
+[  73% ] reimport | cue.svg
+[  75% ] reimport | BTPlayer.svg
+[  76% ] reimport | BTPlayAnimation.svg
+[  77% ] reimport | BTPauseAnimation.svg
+[  78% ] reimport | BTParallel.svg
+[  80% ] reimport | BTNewScope.svg
+[  81% ] reimport | BTInvert.svg
+[  82% ] reimport | BTForEach.svg
+[  84% ] reimport | BTFail.svg
+[  85% ] reimport | BTEvaluateExpression.svg
+[  86% ] reimport | BTDynamicSequence.svg
+[  88% ] reimport | BTDynamicSelector.svg
+[  89% ] reimport | BTDelay.svg
+[  90% ] reimport | BTDecorator.svg
+[  92% ] reimport | BTCooldown.svg
+[  93% ] reimport | BTConsolePrint.svg
+[  94% ] reimport | BTCondition.svg
+[  96% ] reimport | BTComment.svg
+[  97% ] reimport | BTCheckVar.svg
+[  98% ] reimport | 正在结束资产导入……
+[ DONE ] reimport
+
+[   0% ] reimport | Started 正在导入或重新导入资产 (75 steps)
+[   0% ] reimport | 正在执行重新导入的后置操作……
+[ DONE ] reimport
+
+[   0% ] loading_editor_layout | Started 正在加载编辑器 (5 steps)
+[   0% ] loading_editor_layout | 正在加载编辑器布局……
+[  16% ] loading_editor_layout | 正在加载停靠面板……
+[  33% ] loading_editor_layout | 正在重新打开场景……
+[  50% ] loading_editor_layout | 正在加载中央编辑器布局……
+[  66% ] loading_editor_layout | 正在加载插件窗口布局……
+[  83% ] loading_editor_layout | 编辑器布局就绪。
+[ DONE ] loading_editor_layout
+
+SCRIPT ERROR: Cannot call method 'store_string' on a null value.
+   at: save_user_config (res://addons/dialogue_manager/settings.gd:197)
+   GDScript backtrace (most recent call first):
+       [0] save_user_config (res://addons/dialogue_manager/settings.gd:197)
+       [1] set_user_value (res://addons/dialogue_manager/settings.gd:203)
+       [2] _exit_tree (res://addons/dialogue_manager/views/main_view.gd:177)
+SCRIPT ERROR: Cannot call method 'store_string' on a null value.
+   at: save_user_config (res://addons/dialogue_manager/settings.gd:197)
+   GDScript backtrace (most recent call first):
+       [0] save_user_config (res://addons/dialogue_manager/settings.gd:197)
+       [1] set_user_value (res://addons/dialogue_manager/settings.gd:203)
+       [2] _exit_tree (res://addons/dialogue_manager/views/main_view.gd:178)
+ERROR: Can't save resource to empty path. Provide non-empty path or a Resource with non-empty resource_path.
+   at: save (core/io/resource_saver.cpp:106)
+ERROR: Error saving editor settings to 
+   at: save (editor/settings/editor_settings.cpp:1404)

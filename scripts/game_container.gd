@@ -45,6 +45,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	add_child(preload("res://scripts/pause_menu.gd").new())
 	if debug_boss_test:
 		_start_debug_boss_test()
 		return
@@ -53,6 +54,7 @@ func _ready() -> void:
 		add_child(menu)
 		menu.prepare(self)
 	SceneManager.setup(player, room_container)
+	add_child(preload("res://scripts/opening_guide.gd").new())
 	if pcam != null:
 		pcam.follow_target = player
 	if show_main_menu and menu_has_save:
@@ -61,7 +63,8 @@ func _ready() -> void:
 		SceneManager.change_room(start_room, start_entrance)
 
 
-## Boss 测试模式：在 Player._ready 之前预置三颗心，让玩家以 4 颗心出生。
+## Boss 测试模式：在 Player._ready 之前预置蓝/红/绿三个心之容器（可点亮圣坛）。
+## 玩家基础 1 心 + 3 个容器 = HUD 显示 4 颗心。
 func _prepare_debug_boss_test() -> void:
 	GameState.reset()
 	GameState.menu_launch_action = ""
@@ -76,6 +79,8 @@ func _prepare_debug_boss_test() -> void:
 		"heart:debug_green": "绿心",
 	}
 	GameState.companion_recruited = true
+	# 跳过出生点圣坛剧情，避免测试开始就被对话打断。
+	GameState.played_story["shrine"] = true
 	GameState.debug_save_disabled = true
 
 

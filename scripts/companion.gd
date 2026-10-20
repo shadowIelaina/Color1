@@ -5,7 +5,7 @@ extends Node2D
 ## 用 tween 做呼吸挤压、待机浮动、飞行弧线 + squash&stretch 落地弹跳，生动可爱。
 ## 结构：Node2D（本脚本）+ InteractArea（首触检测）+ Visual（占位色块，可换 Sprite2D）。
 
-enum State { IDLE, FOLLOWING, TASK }
+enum State { IDLE, FOLLOWING, TASK, GUIDING }
 
 @export_group("Dialogue")
 @export var dialogue_resource: DialogueResource
@@ -73,6 +73,10 @@ var _visual_base_scale := Vector2.ONE
 
 
 func _ready() -> void:
+	# 精灵悬浮在场景上方；地面物体深度带为 0..4000，暗房遮罩为 4096。
+	# 默认 z=0 会在向北引路时被草丛完全盖住，看起来像没有移动。
+	z_as_relative = false
+	z_index = 4005
 	# 切关后小跟班已常驻；旧关重新实例化时会出现第二个，这里让后加载的自毁，避免重复。
 	for c in get_tree().get_nodes_in_group("companion"):
 		if is_instance_valid(c) and c != self:
@@ -82,6 +86,10 @@ func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player") as Node2D
 	_area = $InteractArea as Area2D
 	_visual = $Visual as Node2D
+	var trail := get_node_or_null("Line2D") as Line2D
+	if trail != null:
+		trail.z_as_relative = false
+		trail.z_index = 4004
 	# 旧跟随动画以 x=1 为基准；保留这个实际游玩尺寸及贴图纵横比例。
 	_visual_base_scale = _visual.scale / maxf(absf(_visual.scale.x), 0.001)
 	_visual.scale = _visual_base_scale
@@ -98,6 +106,9 @@ func _ready() -> void:
 
 ## 读档只恢复可跟随状态，不重复首遇对话或恢复半途飞行任务。
 func restore_following(snap_to_player := true) -> void:
+	if state == State.GUIDING:
+		_kill_fly()
+		_phase = ""
 	state = State.FOLLOWING
 	_talking = false
 	_area.set_deferred("monitoring", false)
@@ -111,6 +122,34 @@ func restore_following(snap_to_player := true) -> void:
 				trail.clear_points()
 				trail.set("points_array", PackedVector2Array())
 				trail.set("last_target_pos", global_position)
+
+
+## 开场引路由跟班持有动画和状态，避免常规跟随或指令覆盖飞行。
+func guide_to(destination: Vector2) -> void:
+	cancel_orders()
+	state = State.GUIDING
+	_talking = false
+	_area.set_deferred("monitoring", false)
+	show()
+	_phase = "guide_fly"
+	var direction := destination - global_position
+	if absf(direction.x) > 1.0:
+		_facing = 1.0 if direction.x > 0.0 else -1.0
+	var start := global_position
+	var control := (start + destination) * 0.5 + Vector2(64, -96)
+	_kill_fly()
+	_fly_tween = create_tween()
+	_fly_tween.tween_method(func(t: float):
+		global_position = start.lerp(control, t).lerp(control.lerp(destination, t), t)
+	, 0.0, 1.0, 1.15).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_fly_tween.tween_callback(func():
+		global_position = destination
+		_phase = "guide_wait"
+	)
+
+
+func is_waiting_for_guide() -> bool:
+	return state == State.GUIDING and _phase == "guide_wait"
 
 
 func _physics_process(delta: float) -> void:
@@ -208,6 +247,7 @@ func interact(target: Node) -> bool:
 
 
 func _submit(job: Dictionary, target: Node) -> bool:
+	if state == State.GUIDING: return false
 	if not is_recruited() or _talking or StoryDirector.is_busy() or not _valid_target(target, str(job.type)):
 		return false
 	# 重复点击同一指令不叠加扣种；仅允许一个可替换的下一步。
@@ -328,12 +368,17 @@ func _execute_task() -> void:
 					_task.settled = false
 					_cancel_job(_task)
 				else:
+					if is_instance_valid(player) and player.has_method("register_placed_color"):
+						player.register_placed_color(target)
+					AudioManager.play_invoke(str(_task.element))
 					if target.has_method("release_paint_lock"):
 						target.call("release_paint_lock")
 					if is_instance_valid(player) and player.has_method("purge_element_hazards"):
 						player.call("purge_element_hazards", str(_task.element), global_position)
 			"absorb":
 				var info: Dictionary = target.absorb_color()
+				if is_instance_valid(target) and player.has_method("settle_placed_absorption"):
+					player.settle_placed_absorption(target, info)
 				var element := str(info.get("element", ""))
 				if element != "":
 					player.receive_element(element, int(info.get("amount", 1)))

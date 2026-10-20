@@ -3,14 +3,12 @@
 [ext_resource type="Script" uid="uid://bk2fps5dk27kv" path="res://scripts/checkpoint.gd" id="1_cp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cp"]
-size = Vector2(256, 566.2788)
+size = Vector2(256, 256)
 
 [node name="Checkpoint" type="Area2D" unique_id=1420885312]
 script = ExtResource("1_cp")
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=1205515240]
-position = Vector2(0, 66.93001)
-scale = Vector2(6.319999, 2.0800002)
 shape = SubResource("RectangleShape2D_cp")
 
 [node name="Visual" type="Polygon2D" parent="." unique_id=1618136833]

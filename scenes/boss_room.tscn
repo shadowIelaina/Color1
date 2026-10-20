@@ -1,15 +1,15 @@
 [gd_scene format=4 uid="uid://bv1ic7mrsomo0"]
 
 [ext_resource type="Script" uid="uid://ovr8sog7bhgx" path="res://scripts/boss_room.gd" id="1_room"]
+[ext_resource type="PackedScene" uid="uid://bgfnfyk13xrue" path="res://prefabs/items/static prop/tree.tscn" id="2_7l8xw"]
 [ext_resource type="Script" uid="uid://swxf624t5rq7" path="res://scripts/boss_arena.gd" id="2_arena"]
 [ext_resource type="Script" uid="uid://dru8kg3d2ewcb" path="res://scripts/entrance.gd" id="3_entrance"]
 [ext_resource type="Script" uid="uid://co6ajp7px4q56" path="res://scripts/room_zone.gd" id="4_zone"]
 [ext_resource type="PackedScene" path="res://prefabs/boss/boss_encounter.tscn" id="5_boss"]
 [ext_resource type="PackedScene" uid="uid://c0a7iws0etlio" path="res://prefabs/rooms/boss_portal.tscn" id="6_portal"]
-[ext_resource type="PackedScene" path="res://prefabs/boss/ruin_pillar.tscn" id="7_pillar"]
+[ext_resource type="PackedScene" uid="uid://bjce1rxamgxjg" path="res://prefabs/boss/ruin_pillar.tscn" id="7_pillar"]
 [ext_resource type="PackedScene" uid="uid://df1g8qqlob4sl" path="res://prefabs/boss/ruin_wall.tscn" id="8_wall"]
-[ext_resource type="PackedScene" path="res://prefabs/boss/arena_obelisk.tscn" id="9_obelisk"]
-[ext_resource type="PackedScene" uid="uid://bjj3ek2w8npqq" path="res://prefabs/items/static prop/rock.tscn" id="10_rock"]
+[ext_resource type="PackedScene" uid="uid://dtafebvy2hoxv" path="res://prefabs/boss/arena_obelisk.tscn" id="9_obelisk"]
 [ext_resource type="Script" uid="uid://ds5o3r2i2ds6p" path="res://scripts/nav/runtime_nav_baker.gd" id="13_nav"]
 [ext_resource type="Texture2D" uid="uid://v05473rse7id" path="res://art/Ground/湖水.png" id="14_4e86d"]
 [ext_resource type="PackedScene" uid="uid://dha0t8jcscj3t" path="res://color_change/object.tscn" id="14_box"]
@@ -23,27 +23,12 @@
 [ext_resource type="Texture2D" uid="uid://oxidhgibw4fy" path="res://art/Ground/墙体.png" id="22_l160s"]
 [ext_resource type="Script" uid="uid://c87fgfsseq82n" path="res://color_change/air_wall_spawner.gd" id="23_2dyfp"]
 [ext_resource type="Script" uid="uid://dle3pggta1812" path="res://scripts/boss_hint_director.gd" id="24_hints"]
-[ext_resource type="Shader" uid="uid://6d0konoghra1" path="res://shaders/arena_rune.gdshader" id="25_rune"]
-[ext_resource type="Shader" uid="uid://ls0qdytscyo0" path="res://shaders/arena_vignette.gdshader" id="26_vignette"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
 size = Vector2(9600, 7800)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_barrier"]
 size = Vector2(9600, 240)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rune"]
-shader = ExtResource("25_rune")
-shader_parameter/rune_color = Color(0.95, 0.3, 0.22, 0.7)
-shader_parameter/intensity = 0.75
-shader_parameter/ring_count = 3.0
-shader_parameter/spoke_count = 12.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
-shader = ExtResource("26_vignette")
-shader_parameter/edge_color = Color(0.02, 0.03, 0.05, 0.85)
-shader_parameter/inner = 0.28
-shader_parameter/outer = 0.72
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rrfgo"]
 texture = ExtResource("14_4e86d")
@@ -339,35 +324,33 @@ camera_limits = Rect2(-4800, -3900, 9600, 7800)
 y_sort_on = false
 nav_cell_size = 32.0
 
+[node name="Tree" parent="." unique_id=293502526 instance=ExtResource("2_7l8xw")]
+position = Vector2(-1694, -1710)
+colorable = false
+
+[node name="Tree2" parent="." unique_id=1644934081 instance=ExtResource("2_7l8xw")]
+position = Vector2(-2537, -741)
+colorable = false
+
+[node name="Tree3" parent="." unique_id=574665807 instance=ExtResource("2_7l8xw")]
+position = Vector2(-55, -1600)
+colorable = false
+
+[node name="Tree4" parent="." unique_id=292493864 instance=ExtResource("2_7l8xw")]
+position = Vector2(2120, 536)
+colorable = false
+
+[node name="Tree5" parent="." unique_id=906646940 instance=ExtResource("2_7l8xw")]
+position = Vector2(1261, 2269)
+colorable = false
+
+[node name="Tree6" parent="." unique_id=859430812 instance=ExtResource("2_7l8xw")]
+position = Vector2(-1410, 2498)
+colorable = false
+
 [node name="Arena" type="Node2D" parent="." unique_id=948709438]
 scale = Vector2(1.5, 1.5)
 script = ExtResource("2_arena")
-
-[node name="Rune" type="Polygon2D" parent="Arena"]
-material = SubResource("ShaderMaterial_rune")
-z_index = -27
-polygon = PackedVector2Array(-950, -950, 950, -950, 950, 950, -950, 950)
-uv = PackedVector2Array(0, 0, 1, 0, 1, 1, 0, 1)
-
-[node name="Vignette" type="ColorRect" parent="Arena"]
-material = SubResource("ShaderMaterial_vignette")
-z_index = 3000
-offset_left = -4000.0
-offset_top = -3000.0
-offset_right = 4000.0
-offset_bottom = 3000.0
-mouse_filter = 2
-color = Color(1, 1, 1, 1)
-
-[node name="GatePostL" parent="Arena" unique_id=27897536 instance=ExtResource("7_pillar")]
-position = Vector2(-665.99994, 1555.3333)
-rotation = 0.08
-scale = Vector2(0.65, 0.65)
-
-[node name="GatePostR" parent="Arena" unique_id=382491277 instance=ExtResource("7_pillar")]
-position = Vector2(581.9999, 1583.3333)
-rotation = -0.08
-scale = Vector2(0.65, 0.65)
 
 [node name="DaisPillarL" parent="Arena" unique_id=1166618462 instance=ExtResource("7_pillar")]
 position = Vector2(-711.3334, -1321.3333)
@@ -375,7 +358,7 @@ rotation = 0.05
 scale = Vector2(0.75, 0.75)
 
 [node name="DaisPillarR" parent="Arena" unique_id=737531186 instance=ExtResource("7_pillar")]
-position = Vector2(459.33337, -1265.3333)
+position = Vector2(872.66675, -909.33325)
 rotation = -0.05
 scale = Vector2(0.75, 0.75)
 
@@ -385,75 +368,67 @@ rotation = 0.15
 scale = Vector2(0.9, 0.9)
 
 [node name="CoverWallNE" parent="Arena" unique_id=1141153748 instance=ExtResource("8_wall")]
-position = Vector2(1423.3334, -916)
+position = Vector2(1620.0002, -798.0001)
 rotation = -0.18
 scale = Vector2(0.9, 0.9)
 
 [node name="CoverWallSW" parent="Arena" unique_id=937301943 instance=ExtResource("8_wall")]
-position = Vector2(-1425.3335, 960.0001)
+position = Vector2(-1654.0001, 1163.3333)
 rotation = 0.2
 scale = Vector2(0.85, 0.85)
 
 [node name="CoverPillarSE" parent="Arena" unique_id=425527426 instance=ExtResource("7_pillar")]
-position = Vector2(1350, 1050)
+position = Vector2(1686.6667, 1196.0001)
 rotation = -0.12
 scale = Vector2(0.9, 0.9)
 
 [node name="RuinMidW" parent="Arena" unique_id=1212230422 instance=ExtResource("7_pillar")]
-position = Vector2(-1336.0001, -266)
+position = Vector2(-1456.6666, -81.33332)
 rotation = 0.1
 scale = Vector2(0.75, 0.75)
 
 [node name="RuinMidE" parent="Arena" unique_id=1880822613 instance=ExtResource("7_pillar")]
-position = Vector2(1350, 0)
+position = Vector2(1636.0001, -178)
 rotation = -0.1
 scale = Vector2(0.75, 0.75)
 
-[node name="RuinRockW" parent="Arena" unique_id=449001604 instance=ExtResource("10_rock")]
-position = Vector2(-1682.6666, -637.33344)
-scale = Vector2(0.8, 0.8)
-
-[node name="RuinRockE" parent="Arena" unique_id=999454328 instance=ExtResource("10_rock")]
-position = Vector2(920.66675, 1203.3333)
-scale = Vector2(0.85, 0.85)
-
-[node name="ReflectBox_NW" parent="Arena" unique_id=1543912867 instance=ExtResource("14_box")]
-position = Vector2(-1000, -500)
+[node name="ColorableRock_NW" parent="Arena" unique_id=1543912867 instance=ExtResource("14_box")]
+position = Vector2(-1521.3334, 663.3333)
 scale = Vector2(4, 4)
 collision_layer = 2
 collision_mask = 0
 reflect_radius = 360.0
 
-[node name="ReflectBox_NE" parent="Arena" unique_id=973475327 instance=ExtResource("14_box")]
-position = Vector2(1000, -500)
+[node name="ColorableRock_NE" parent="Arena" unique_id=973475327 instance=ExtResource("14_box")]
+position = Vector2(1165.3334, -550.6666)
 scale = Vector2(4, 4)
 collision_layer = 2
 collision_mask = 0
 reflect_radius = 360.0
 
-[node name="ReflectBox_SW" parent="Arena" unique_id=1729190824 instance=ExtResource("14_box")]
-position = Vector2(-1335.3334, 458)
+[node name="ColorableRock_SW" parent="Arena" unique_id=1729190824 instance=ExtResource("14_box")]
+position = Vector2(-630, -1016.6666)
 scale = Vector2(4, 4)
 collision_layer = 2
 collision_mask = 0
 reflect_radius = 360.0
 
-[node name="ReflectBox_SE" parent="Arena" unique_id=2066863030 instance=ExtResource("14_box")]
+[node name="ColorableRock_SE" parent="Arena" unique_id=2066863030 instance=ExtResource("14_box")]
 position = Vector2(1052.6666, 705.3334)
 scale = Vector2(4, 4)
 collision_layer = 2
 collision_mask = 0
 reflect_radius = 360.0
 
-[node name="ReflectBox_SW2" parent="Arena" unique_id=34864451 instance=ExtResource("14_box")]
+[node name="ColorableRock_SW2" parent="Arena" unique_id=34864451 instance=ExtResource("14_box")]
 position = Vector2(-500, 1000)
 scale = Vector2(4, 4)
 collision_layer = 2
 collision_mask = 0
 reflect_radius = 360.0
 
-[node name="ReflectBox_SE2" parent="Arena" unique_id=1799526701 instance=ExtResource("14_box")]
-position = Vector2(500, 1000)
+[node name="ColorableRock_SE2" parent="Arena" unique_id=1799526701 instance=ExtResource("14_box")]
+position = Vector2(-2.0000153, 1235.3334)
 scale = Vector2(4, 4)
 collision_layer = 2
 collision_mask = 0
@@ -489,55 +464,22 @@ position = Vector2(542.66675, 120.66668)
 rotation = 1.963495
 scale = Vector2(0.68, 1)
 
-[node name="CoverNorthW" parent="Arena" unique_id=315999837 instance=ExtResource("7_pillar")]
-position = Vector2(-1050, -1250)
-rotation = 0.1
-scale = Vector2(0.7, 0.7)
-
 [node name="CoverNorthE" parent="Arena" unique_id=968648475 instance=ExtResource("7_pillar")]
-position = Vector2(1050, -1250)
+position = Vector2(1266, -1256.6666)
 rotation = -0.1
 scale = Vector2(0.7, 0.7)
 
 [node name="ObeliskRed" parent="Arena" unique_id=585489937 instance=ExtResource("9_obelisk")]
-position = Vector2(-1790, -1379.3334)
+position = Vector2(-334.6667, -272.66663)
 glow_color = Color(1, 0.18, 0.12, 1)
 
 [node name="ObeliskBlue" parent="Arena" unique_id=1087071187 instance=ExtResource("9_obelisk")]
-position = Vector2(1685.3333, -1351.3334)
+position = Vector2(3.333334, -379.33334)
 glow_color = Color(0.2, 0.45, 1, 1)
 
 [node name="ObeliskGreen" parent="Arena" unique_id=2060265848 instance=ExtResource("9_obelisk")]
-position = Vector2(1671.3333, 1462.6666)
+position = Vector2(352.66666, -268)
 glow_color = Color(0.15, 1, 0.3, 1)
-
-[node name="ObeliskCyan" parent="Arena" unique_id=1498045562 instance=ExtResource("9_obelisk")]
-position = Vector2(-1755.3334, 1470)
-glow_color = Color(0.1, 0.95, 1, 1)
-
-[node name="RockDecor1" parent="Arena" unique_id=889692970 instance=ExtResource("10_rock")]
-position = Vector2(-1664.6666, 0)
-scale = Vector2(0.8, 0.8)
-solid = false
-
-[node name="RockDecor2" parent="Arena" unique_id=1405651874 instance=ExtResource("10_rock")]
-position = Vector2(1720.6666, 14)
-scale = Vector2(0.8, 0.8)
-solid = false
-
-[node name="RockDecor3" parent="Arena" unique_id=1442267706 instance=ExtResource("10_rock")]
-position = Vector2(-20.666668, -1314)
-solid = false
-
-[node name="RockDecor4" parent="Arena" unique_id=44345835 instance=ExtResource("10_rock")]
-position = Vector2(-1032, -843.3332)
-scale = Vector2(0.7, 0.7)
-solid = false
-
-[node name="RockDecor5" parent="Arena" unique_id=638673207 instance=ExtResource("10_rock")]
-position = Vector2(710.6666, -1094.6665)
-scale = Vector2(0.7, 0.7)
-solid = false
 
 [node name="RoomZone" type="Area2D" parent="." unique_id=952498389]
 script = ExtResource("4_zone")

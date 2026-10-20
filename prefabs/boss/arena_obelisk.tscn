@@ -1,51 +1,43 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://dtafebvy2hoxv"]
 
-[ext_resource type="Script" path="res://scripts/arena_obelisk.gd" id="1_obelisk"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_obelisk"]
-size = Vector2(180, 120)
+[ext_resource type="Script" uid="uid://dcw5tx3x2cuvk" path="res://scripts/arena_obelisk.gd" id="1_obelisk"]
+[ext_resource type="Texture2D" uid="uid://dv0dyq0jwodg6" path="res://art/things/祭坛.png" id="2_76hhd"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_glow"]
 blend_mode = 1
 
-[node name="ArenaObelisk" type="StaticBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_obelisk"]
+size = Vector2(180, 120)
+
+[node name="ArenaObelisk" type="StaticBody2D" unique_id=1921635607]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_obelisk")
-glow_color = Color(0.95, 0.3, 0.22, 1)
 
-[node name="Shadow" type="Polygon2D" parent="."]
+[node name="Shadow" type="Polygon2D" parent="." unique_id=868875379]
 z_index = -1
 color = Color(0, 0, 0, 0.28)
 polygon = PackedVector2Array(-120, -16, 120, -16, 100, 38, -100, 38)
 
-[node name="Visual" type="Polygon2D" parent="."]
-color = Color(0.2, 0.19, 0.25, 1)
-polygon = PackedVector2Array(-90, 0, 90, 0, 80, -460, 40, -560, -10, -520, -80, -450)
-
-[node name="Top" type="Polygon2D" parent="."]
-color = Color(0.34, 0.32, 0.4, 1)
-polygon = PackedVector2Array(-80, -450, 80, -460, 40, -560, -10, -520)
-
-[node name="Glow" type="Polygon2D" parent="."]
-material = SubResource("CanvasItemMaterial_glow")
+[node name="Halo" type="Polygon2D" parent="." unique_id=725700761]
 z_index = 1
-color = Color(0.95, 0.3, 0.22, 1)
-polygon = PackedVector2Array(-46, -440, 46, -440, 46, -260, -46, -260)
-
-[node name="Halo" type="Polygon2D" parent="."]
 material = SubResource("CanvasItemMaterial_glow")
-z_index = 1
-position = Vector2(0, -500)
+position = Vector2(0, -617)
 color = Color(0.95, 0.3, 0.22, 1)
 polygon = PackedVector2Array(-170, 0, 0, -170, 170, 0, 0, 170)
 
-[node name="Crystal" type="Polygon2D" parent="."]
-material = SubResource("CanvasItemMaterial_glow")
+[node name="Crystal" type="Polygon2D" parent="." unique_id=968950605]
 z_index = 2
+material = SubResource("CanvasItemMaterial_glow")
+position = Vector2(0, -117)
 color = Color(0.95, 0.3, 0.22, 1)
 polygon = PackedVector2Array(0, -640, 45, -560, 0, -500, -45, -560)
 
-[node name="Collision" type="CollisionShape2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=526491619]
+position = Vector2(-6, -314)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_76hhd")
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1003337638]
 position = Vector2(0, -60)
 shape = SubResource("RectangleShape2D_obelisk")

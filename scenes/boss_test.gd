@@ -1,9 +1,9 @@
 extends Node2D
-## Boss 测试场景：开局直接招募跟班，并随机布场（实心障碍 + 可上色反射箱 + 种子箱）。
+## Boss 测试场景：开局直接招募跟班，并随机布场（实心障碍 + 可上色岩石 + 种子箱）。
 ## 每次运行布局都不同：拒绝采样散布，保证互不重叠、且避开玩家/Boss 出生点。
 
 const ObstacleScene := preload("res://prefabs/boss/obstacle.tscn")
-const ReflectBoxScene := preload("res://color_change/object.tscn")
+const ColorableRockScene := preload("res://color_change/object.tscn")
 const SeedScene := preload("res://prefabs/items/interaction/seed_container.tscn")
 
 @export_group("场地")
@@ -29,10 +29,10 @@ const SeedScene := preload("res://prefabs/items/interaction/seed_container.tscn"
 @export var pillar_radius_min := 900.0
 @export var pillar_radius_max := 1650.0
 
-@export_group("可上色反射箱")
-@export var reflect_box_count := 4
-@export var reflect_box_scale_min := 4.0
-@export var reflect_box_scale_max := 6.0
+@export_group("可上色岩石")
+@export var colorable_rock_count := 4
+@export var colorable_rock_scale_min := 4.0
+@export var colorable_rock_scale_max := 6.0
 
 @export_group("安全区")
 ## 玩家 / Boss 出生点周围此半径内不放任何东西。
@@ -74,7 +74,7 @@ func _bake_navigation() -> void:
 	poly.cell_size = nav_cell_size
 	poly.border_size = nav_border_size
 	poly.parsed_geometry_type = NavigationPolygon.PARSED_GEOMETRY_STATIC_COLLIDERS
-	poly.parsed_collision_mask = 2   # 层 2 = 墙 / 障碍 / 反射箱
+	poly.parsed_collision_mask = 2   # 层 2 = 墙 / 障碍 / 可上色岩石
 	# 可行走区域外框 = 墙的内侧（= arena_half）。
 	var hx := arena_half.x
 	var hy := arena_half.y
@@ -96,7 +96,7 @@ func _build_layout() -> void:
 	_place_center_covers()
 	_place_pillars()
 	_place_obstacles()
-	_place_reflect_boxes()
+	_place_colorable_rocks()
 	_place_seed()
 
 
@@ -167,21 +167,21 @@ func _spawn_cover(pos: Vector2, scale: float, node_name: String) -> void:
 	_placed.append({"pos": pos, "r": 100.0 * scale})
 
 
-# —— 可上色反射箱（实心，红+绿变黄后反火球）——
+# —— 可上色岩石（实心，红+绿变黄后反火球）——
 
-func _place_reflect_boxes() -> void:
-	for i in reflect_box_count:
-		var spot := _find_spot(reflect_box_scale_min, reflect_box_scale_max, 30.0)
+func _place_colorable_rocks() -> void:
+	for i in colorable_rock_count:
+		var spot := _find_spot(colorable_rock_scale_min, colorable_rock_scale_max, 30.0)
 		if spot.is_empty():
 			continue
 		var scale: float = float(spot["scale"])
-		var box := ReflectBoxScene.instantiate()
-		box.name = "Prop_%d" % i
-		box.position = spot["pos"]
-		box.scale = Vector2.ONE * scale
-		box.collision_layer = 2                 # 变成实心障碍
-		box.reflect_radius = 60.0 * scale       # 反射范围随体型放大
-		add_child(box)
+		var rock := ColorableRockScene.instantiate()
+		rock.name = "ColorableRock_%d" % i
+		rock.position = spot["pos"]
+		rock.scale = Vector2.ONE * scale
+		rock.collision_layer = 2                 # 变成实心障碍
+		rock.reflect_radius = 60.0 * scale       # 反射范围随体型放大
+		add_child(rock)
 		_placed.append({"pos": spot["pos"], "r": float(spot["r"])})
 
 

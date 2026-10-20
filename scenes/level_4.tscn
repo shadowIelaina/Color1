@@ -267,10 +267,12 @@ script = ExtResource("12_spawn")
 shallow = true
 
 [node name="spawn" type="Marker2D" parent="." unique_id=347443002]
+position = Vector2(0, 600)
 script = ExtResource("2_entrance")
 entrance_id = "spawn"
 
 [node name="Checkpoint" parent="." unique_id=1814421679 instance=ExtResource("23_checkpoint")]
+position = Vector2(0, 600)
 checkpoint_id = "level4_spawn"
 
 [node name="Story_Shrine" type="Node2D" parent="." unique_id=2033658687]
