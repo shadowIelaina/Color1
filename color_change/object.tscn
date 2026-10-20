@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://dha0t8jcscj3t"]
 
 [ext_resource type="Script" uid="uid://sy4wwov0q2lb" path="res://color_change/colorable_object.gd" id="1_obj"]
+[ext_resource type="Texture2D" uid="uid://cqg2xneatgokr" path="res://art/things/岩石tm.png" id="2_518ft"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_object"]
-size = Vector2(32, 26)
+size = Vector2(67, 26)
 
 [node name="ColorableObject" type="StaticBody2D" unique_id=2043507242 groups=["colorable"]]
 script = ExtResource("1_obj")
@@ -12,14 +13,11 @@ script = ExtResource("1_obj")
 color = Color(0, 0, 0, 0.25)
 polygon = PackedVector2Array(20, 0, 14, 5, 0, 7, -14, 5, -20, 0, -14, -5, 0, -7, 14, -5)
 
-[node name="Front" type="Polygon2D" parent="." unique_id=944714319]
-color = Color(0.95, 0.95, 0.95, 1)
-polygon = PackedVector2Array(-16, 0, 16, 0, 16, -26, -16, -26)
-
-[node name="Top" type="Polygon2D" parent="." unique_id=1170137393]
-color = Color(0.78, 0.78, 0.8, 1)
-polygon = PackedVector2Array(-16, -26, -6, -34, 26, -34, 16, -26)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1924604345]
+position = Vector2(-1, -33)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_518ft")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=141303738]
-position = Vector2(0, -13)
+position = Vector2(-0.5, -13)
 shape = SubResource("RectangleShape2D_object")
