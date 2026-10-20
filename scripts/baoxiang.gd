@@ -16,8 +16,10 @@ extends StatefulObject
 @export var drop_scene: PackedScene = preload("res://prefabs/items/interaction/key.tscn")
 ## 掉落物的唯一 id：钥匙=key_id、道具=prop_id、能力=ability_id。留空则用物品节点名。
 @export var drop_id: String = ""
-## 掉落物显示名（仅钥匙 key_name 用到，留空则用 drop_id）。
+## 掉落物显示名；留空沿用物品自身配置。
 @export var drop_name: String = ""
+## 掉落物的拾取说明；留空沿用物品自身配置。
+@export_multiline var drop_description: String = ""
 ## 掉落物相对宝箱的出生落点（世界坐标，y 向下，掉到宝箱脚边）。
 @export var drop_offset: Vector2 = Vector2(0, 90)
 
@@ -77,6 +79,15 @@ func _spawn_drop() -> void:
 
 ## 把 drop_id / drop_name 填到对应拾取脚本的字段上（必须在 add_child 触发 _ready 之前完成）。
 func _configure_drop(item: Node2D) -> void:
+	# 文案独立于唯一 ID，自动生成 ID 的心之容器也能使用宝箱上的设置。
+	if item is KeyItem:
+		if drop_name != "": item.key_name = drop_name
+		if drop_description != "": item.item_description = drop_description
+	elif item is ItemPickup:
+		if drop_name != "":
+			item.item_name = drop_name
+			if item is HeartPickup: item.display_name = drop_name
+		if drop_description != "": item.item_description = drop_description
 	if item is HeartPickup and drop_id == "":
 		item.prop_id = _heart_drop_id()
 		return

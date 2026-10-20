@@ -315,6 +315,13 @@ func _button(parent: Node, text: String, action: Callable) -> Button:
 		style.border_width_bottom = 1
 		style.border_color = Color(0.30, 0.38, 0.26, 0.55 if state != "normal" else 0.16)
 		button.add_theme_stylebox_override(state, style)
+	button.mouse_entered.connect(func():
+		if not button.disabled: AudioManager.play_ui_hover()
+	)
+	button.focus_entered.connect(func():
+		if not button.disabled: AudioManager.play_ui_hover()
+	)
+	button.pressed.connect(AudioManager.play_ui_select)
 	button.pressed.connect(action)
 	parent.add_child(button)
 	return button

@@ -3,26 +3,29 @@
 [ext_resource type="Script" uid="uid://darjnda0vdwpq" path="res://scripts/room.gd" id="1_room"]
 [ext_resource type="Script" uid="uid://dru8kg3d2ewcb" path="res://scripts/entrance.gd" id="2_entrance"]
 [ext_resource type="Script" uid="uid://5mnsopbqo3o5" path="res://scripts/door.gd" id="3_door"]
-[ext_resource type="Texture2D" uid="uid://cnygc4osqxh02" path="res://art/picture_boluo/土墙块（湖水过渡）1.png" id="3_tr1x6"]
-[ext_resource type="Texture2D" uid="uid://cyegdl1jno3wu" path="res://art/picture_boluo/土墙块（湖水过渡）2.png" id="4_wbtxt"]
-[ext_resource type="Texture2D" uid="uid://v05473rse7id" path="res://art/picture_boluo/湖水.png" id="5_isj1j"]
-[ext_resource type="Texture2D" uid="uid://jxl8cetg4nil" path="res://art/picture_boluo/土墙块（湖水过渡）3.png" id="5_x2fux"]
-[ext_resource type="Texture2D" uid="uid://cpp75f0guxi8q" path="res://art/picture_boluo/地块1tm.png" id="6_s7g0b"]
-[ext_resource type="Texture2D" uid="uid://dq1mvc7v72pfr" path="res://art/picture_boluo/湖水（深水）.png" id="8_nossa"]
+[ext_resource type="Texture2D" uid="uid://cnygc4osqxh02" path="res://art/Ground/土墙块（湖水过渡）1.png" id="3_tr1x6"]
+[ext_resource type="Texture2D" uid="uid://cyegdl1jno3wu" path="res://art/Ground/土墙块（湖水过渡）2.png" id="4_wbtxt"]
+[ext_resource type="Texture2D" uid="uid://v05473rse7id" path="res://art/Ground/湖水.png" id="5_isj1j"]
+[ext_resource type="Texture2D" uid="uid://jxl8cetg4nil" path="res://art/Ground/土墙块（湖水过渡）3.png" id="5_x2fux"]
+[ext_resource type="Texture2D" uid="uid://cpp75f0guxi8q" path="res://art/Ground/地块1tm.png" id="6_s7g0b"]
+[ext_resource type="Texture2D" uid="uid://oxidhgibw4fy" path="res://art/Ground/墙体.png" id="7_u7ckc"]
+[ext_resource type="Texture2D" uid="uid://dq1mvc7v72pfr" path="res://art/Ground/湖水（深水）.png" id="8_nossa"]
 [ext_resource type="Script" uid="uid://b1mxwxqbqny2x" path="res://color_change/water_spawner.gd" id="12_spawn"]
 [ext_resource type="Texture2D" uid="uid://jbbq0d4vwblq" path="res://art/else/grass.png" id="13_grass"]
-[ext_resource type="Texture2D" uid="uid://ch5gstr807tmq" path="res://art/picture_boluo/传送门tm.png" id="14_g31h8"]
+[ext_resource type="Texture2D" uid="uid://ch5gstr807tmq" path="res://art/things/传送门tm.png" id="14_g31h8"]
 [ext_resource type="Shader" uid="uid://cc4mtqgwkocui" path="res://shaders/portal.gdshader" id="14_hy5x3"]
 [ext_resource type="Script" uid="uid://c87fgfsseq82n" path="res://color_change/air_wall_spawner.gd" id="22_airwall"]
 [ext_resource type="PackedScene" uid="uid://cy404hpgl6a4i" path="res://prefabs/rooms/checkpoint.tscn" id="23_checkpoint"]
+[ext_resource type="PackedScene" uid="uid://dolv6j8e0ihcs" path="res://prefabs/items/static prop/grass_1.tscn" id="23_rg5ri"]
+[ext_resource type="PackedScene" uid="uid://klg65m2b1bv8" path="res://prefabs/rooms/boss_altar.tscn" id="24_altar"]
 [ext_resource type="Script" uid="uid://bninsmagv0ixe" path="res://scripts/dialogue_trigger.gd" id="24_dtrigger"]
+[ext_resource type="PackedScene" uid="uid://c0a7iws0etlio" path="res://prefabs/rooms/boss_portal.tscn" id="25_boss_portal"]
 [ext_resource type="Resource" uid="uid://cebv03je3jibq" path="res://dialogue/dia/prologue.dialogue" id="25_prologue"]
-[ext_resource type="PackedScene" path="res://prefabs/rooms/boss_altar.tscn" id="24_altar"]
-[ext_resource type="PackedScene" path="res://prefabs/rooms/boss_portal.tscn" id="25_boss_portal"]
-[ext_resource type="PackedScene" path="res://prefabs/items/static prop/rock.tscn" id="26_rock"]
-[ext_resource type="PackedScene" path="res://prefabs/items/static prop/grass_big.tscn" id="27_grass"]
+[ext_resource type="PackedScene" uid="uid://bjj3ek2w8npqq" path="res://prefabs/items/static prop/rock.tscn" id="26_rock"]
+[ext_resource type="PackedScene" uid="uid://ba8r5yga0iqst" path="res://prefabs/items/static prop/grass_big.tscn" id="27_grass"]
+[ext_resource type="Resource" uid="uid://cs4tg8k8wjy13" path="res://dialogue/dia/companion.dialogue" id="28_companion"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4c57u"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s0ibv"]
 texture = ExtResource("13_grass")
 texture_region_size = Vector2i(256, 256)
 0:0/0 = 0
@@ -42,7 +45,7 @@ texture_region_size = Vector2i(256, 256)
 0:2/0 = 0
 0:3/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d5akn"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kqmrt"]
 texture = ExtResource("3_tr1x6")
 texture_region_size = Vector2i(256, 256)
 0:0/0 = 0
@@ -62,7 +65,7 @@ texture_region_size = Vector2i(256, 256)
 2:3/0 = 0
 3:3/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x2fux"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_u7ckc"]
 texture = ExtResource("4_wbtxt")
 texture_region_size = Vector2i(256, 256)
 0:0/0 = 0
@@ -82,7 +85,7 @@ texture_region_size = Vector2i(256, 256)
 2:3/0 = 0
 3:3/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s7g0b"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rg5ri"]
 texture = ExtResource("5_x2fux")
 texture_region_size = Vector2i(256, 256)
 0:0/0 = 0
@@ -102,8 +105,28 @@ texture_region_size = Vector2i(256, 256)
 2:3/0 = 0
 3:3/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mmfjm"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lp0k0"]
 texture = ExtResource("6_s7g0b")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sykev"]
+texture = ExtResource("7_u7ckc")
 texture_region_size = Vector2i(256, 256)
 0:0/0 = 0
 1:0/0 = 0
@@ -126,13 +149,14 @@ texture_region_size = Vector2i(256, 256)
 tile_size = Vector2i(256, 256)
 custom_data_layer_0/name = "height"
 custom_data_layer_0/type = 2
-sources/0 = SubResource("TileSetAtlasSource_4c57u")
-sources/1 = SubResource("TileSetAtlasSource_d5akn")
-sources/2 = SubResource("TileSetAtlasSource_x2fux")
-sources/3 = SubResource("TileSetAtlasSource_s7g0b")
-sources/4 = SubResource("TileSetAtlasSource_mmfjm")
+sources/0 = SubResource("TileSetAtlasSource_s0ibv")
+sources/1 = SubResource("TileSetAtlasSource_kqmrt")
+sources/2 = SubResource("TileSetAtlasSource_u7ckc")
+sources/3 = SubResource("TileSetAtlasSource_rg5ri")
+sources/4 = SubResource("TileSetAtlasSource_lp0k0")
+sources/5 = SubResource("TileSetAtlasSource_sykev")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_water"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ifqri"]
 texture = ExtResource("5_isj1j")
 texture_region_size = Vector2i(256, 256)
 0:0/0 = 0
@@ -152,7 +176,7 @@ texture_region_size = Vector2i(256, 256)
 2:3/0 = 0
 3:3/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hjqri"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hxced"]
 texture = ExtResource("8_nossa")
 texture_region_size = Vector2i(256, 256)
 0:0/0 = 0
@@ -174,8 +198,8 @@ texture_region_size = Vector2i(256, 256)
 
 [sub_resource type="TileSet" id="TileSet_water"]
 tile_size = Vector2i(256, 256)
-sources/0 = SubResource("TileSetAtlasSource_water")
-sources/1 = SubResource("TileSetAtlasSource_hjqri")
+sources/0 = SubResource("TileSetAtlasSource_ifqri")
+sources/1 = SubResource("TileSetAtlasSource_hxced")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sn0t7"]
 radius = 113.0
@@ -214,7 +238,7 @@ room_id = "level_4"
 [node name="Ground" type="TileMapLayer" parent="." unique_id=1871728829]
 z_index = -2
 texture_filter = 1
-tile_map_data = PackedByteArray("AAD0//X/AwADAAAAAAD0//b/AQADAAEAAAD0//f/AQADAAEAAAD0//j/AQADAAEAAAD0//n/AQADAAEAAAD0//r/AQADAAEAAAD0//v/AQADAAEAAAD0//z/AQADAAEAAAD0//3/AQADAAEAAAD0//7/AQADAAEAAAD0////AQADAAEAAAD0/wAAAQADAAEAAAD0/wEAAQADAAEAAAD0/wIAAQADAAEAAAD0/wMAAQADAAEAAAD0/wQAAQADAAEAAAD0/wUAAQADAAEAAAD0/wYAAQADAAEAAAD0/wcAAQADAAEAAAD0/wgAAQADAAEAAAD0/wkAAQADAAEAAAD0/woAAgADAAMAAAD1//X/AQACAAMAAAD1//b/AAABAAIAAAD1//f/AAABAAIAAAD1//j/AAABAAIAAAD1//n/AAABAAIAAAD1//r/AAABAAIAAAD1//v/AAABAAIAAAD1//z/AAABAAIAAAD1//3/AAABAAIAAAD1//7/AAABAAIAAAD1////AAABAAIAAAD1/wAAAAABAAIAAAD1/wEAAAABAAIAAAD1/wIAAAABAAIAAAD1/wMAAAABAAIAAAD1/wQAAAABAAIAAAD1/wUAAAABAAIAAAD1/wYAAAABAAIAAAD1/wcAAAABAAIAAAD1/wgAAAABAAIAAAD1/wkAAAABAAIAAAD1/woAAgABAAAAAAD2//X/AQACAAMAAAD2//b/AAABAAIAAAD2//f/AAABAAIAAAD2//j/AAABAAIAAAD2//n/AAABAAIAAAD2//r/AAABAAIAAAD2//v/AAABAAIAAAD2//z/AAABAAIAAAD2//3/AAABAAIAAAD2//7/AAABAAIAAAD2////AAABAAIAAAD2/wAAAAABAAIAAAD2/wEAAAABAAIAAAD2/wIAAAABAAIAAAD2/wMAAAABAAIAAAD2/wQAAAABAAIAAAD2/wUAAAABAAIAAAD2/wYAAAABAAIAAAD2/wcAAAABAAIAAAD2/wgAAAABAAIAAAD2/wkAAAABAAIAAAD2/woAAgABAAAAAAD3//X/AQACAAMAAAD3//b/AAABAAIAAAD3//f/AAABAAIAAAD3//j/AAABAAIAAAD3//n/AAABAAIAAAD3//r/AAABAAIAAAD3//v/AAABAAIAAAD3//z/AAABAAIAAAD3//3/AAABAAIAAAD3//7/AAABAAIAAAD3////AAABAAIAAAD3/wAAAAABAAIAAAD3/wEAAAABAAIAAAD3/wIAAAABAAIAAAD3/wMAAAABAAIAAAD3/wQAAAABAAIAAAD3/wUAAAABAAIAAAD3/wYAAAABAAIAAAD3/wcAAAABAAIAAAD3/wgAAAABAAIAAAD3/wkAAAABAAIAAAD3/woAAgABAAAAAAD4//X/AQACAAMAAAD4//b/AAABAAIAAAD4//f/AAABAAIAAAD4//j/AAABAAIAAAD4//n/AAABAAIAAAD4//r/AAABAAIAAAD4//v/AAABAAIAAAD4//z/AAABAAIAAAD4//3/AAABAAIAAAD4//7/AAABAAIAAAD4////AAABAAIAAAD4/wAAAAABAAIAAAD4/wEAAAABAAIAAAD4/wIAAAABAAIAAAD4/wMAAAABAAIAAAD4/wQAAAABAAIAAAD4/wUAAAABAAIAAAD4/wYAAAABAAIAAAD4/wcAAAABAAIAAAD4/wgAAAABAAIAAAD4/wkAAAABAAIAAAD4/woAAgABAAAAAAD5//X/AQACAAMAAAD5//b/AAABAAIAAAD5//f/AAABAAIAAAD5//j/AAABAAIAAAD5//n/AAABAAIAAAD5//r/AAABAAIAAAD5//v/AAABAAIAAAD5//z/AAABAAIAAAD5//3/AAABAAIAAAD5//7/AAABAAIAAAD5////AAABAAIAAAD5/wAAAAABAAIAAAD5/wEAAAABAAIAAAD5/wIAAAABAAIAAAD5/wMAAAABAAIAAAD5/wQAAAABAAIAAAD5/wUAAAABAAIAAAD5/wYAAAABAAIAAAD5/wcAAAABAAIAAAD5/wgAAAABAAIAAAD5/wkAAAABAAIAAAD5/woAAgABAAAAAAD6//X/AQACAAMAAAD6//b/AAABAAIAAAD6//f/AAABAAIAAAD6//j/AAABAAIAAAD6//n/AAABAAIAAAD6//r/AAABAAIAAAD6//v/AAABAAIAAAD6//z/AAABAAIAAAD6//3/AAABAAIAAAD6//7/AAABAAIAAAD6////AAABAAIAAAD6/wAAAAABAAIAAAD6/wEAAAABAAIAAAD6/wIAAAABAAIAAAD6/wMAAAABAAIAAAD6/wQAAAABAAIAAAD6/wUAAAABAAIAAAD6/wYAAAABAAIAAAD6/wcAAAABAAIAAAD6/wgAAAABAAIAAAD6/wkAAAABAAIAAAD6/woAAgABAAAAAAD7//X/AQACAAMAAAD7//b/AAABAAIAAAD7//f/AAABAAIAAAD7//j/AAABAAIAAAD7//n/AAABAAIAAAD7//r/AAABAAIAAAD7//v/AAABAAIAAAD7//z/AAABAAIAAAD7//3/AAABAAIAAAD7//7/AAABAAIAAAD7////AAABAAIAAAD7/wAAAAABAAIAAAD7/wEAAAABAAIAAAD7/wIAAAABAAIAAAD7/wMAAAABAAIAAAD7/wQAAAABAAIAAAD7/wUAAAABAAIAAAD7/wYAAAABAAIAAAD7/wcAAAABAAIAAAD7/wgAAAABAAIAAAD7/wkAAAABAAIAAAD7/woAAgABAAAAAAD8//X/AQACAAMAAAD8//b/AAABAAIAAAD8//f/AAABAAIAAAD8//j/AAABAAIAAAD8//n/AAABAAIAAAD8//r/AAABAAIAAAD8//v/AAABAAIAAAD8//z/AAABAAIAAAD8//3/AAABAAIAAAD8//7/AAABAAIAAAD8////AAABAAIAAAD8/wAAAAABAAIAAAD8/wEAAAABAAIAAAD8/wIAAAABAAIAAAD8/wMAAAABAAIAAAD8/wQAAAABAAIAAAD8/wUAAAABAAIAAAD8/wYAAAABAAIAAAD8/wcAAAABAAIAAAD8/wgAAAABAAIAAAD8/wkAAAABAAIAAAD8/woAAgABAAAAAAD9//X/AQACAAMAAAD9//b/AAABAAIAAAD9//f/AAABAAIAAAD9//j/AAABAAIAAAD9//n/AAABAAIAAAD9//r/AAABAAIAAAD9//v/AAABAAIAAAD9//z/AAABAAIAAAD9//3/AAABAAIAAAD9//7/AAABAAIAAAD9////AAABAAIAAAD9/wAAAAABAAIAAAD9/wEAAAABAAIAAAD9/wIAAAABAAIAAAD9/wMAAAABAAIAAAD9/wQAAAABAAIAAAD9/wUAAAABAAIAAAD9/wYAAAABAAIAAAD9/wcAAAABAAIAAAD9/wgAAAABAAIAAAD9/wkAAAABAAIAAAD9/woAAgABAAAAAAD+//X/AQACAAMAAAD+//b/AAABAAIAAAD+//f/AAABAAIAAAD+//j/AAABAAIAAAD+//n/AAABAAIAAAD+//r/AAABAAIAAAD+//v/AAABAAIAAAD+//z/AAABAAIAAAD+//3/AAABAAIAAAD+//7/AAABAAIAAAD+////AAABAAIAAAD+/wAAAAABAAIAAAD+/wEAAAABAAIAAAD+/wIAAAABAAIAAAD+/wMAAAABAAIAAAD+/wQAAAABAAIAAAD+/wUAAAABAAIAAAD+/wYAAAABAAIAAAD+/wcAAAABAAIAAAD+/wgAAAABAAIAAAD+/wkAAAABAAIAAAD+/woAAgABAAAAAAD///X/AQACAAMAAAD///b/AAABAAIAAAD///f/AAABAAIAAAD///j/AAABAAIAAAD///n/AAABAAIAAAD///r/AAABAAIAAAD///v/AAABAAIAAAD///z/AAABAAIAAAD///3/AAABAAIAAAD///7/AAABAAIAAAD/////AAABAAIAAAD//wAAAAABAAIAAAD//wEAAAABAAIAAAD//wIAAAABAAIAAAD//wMAAAABAAIAAAD//wQAAAABAAIAAAD//wUAAAABAAIAAAD//wYAAAABAAIAAAD//wcAAAABAAIAAAD//wgAAAABAAIAAAD//wkAAAABAAIAAAD//woAAgABAAAAAAAAAPX/AQACAAMAAAAAAPb/AAABAAIAAAAAAPf/AAABAAIAAAAAAPj/AAABAAIAAAAAAPn/AAABAAIAAAAAAPr/AAABAAIAAAAAAPv/AAABAAIAAAAAAPz/AAABAAIAAAAAAP3/AAABAAIAAAAAAP7/AAABAAIAAAAAAP//AAABAAIAAAAAAAAAAAABAAIAAAAAAAEAAAABAAIAAAAAAAIAAAABAAIAAAAAAAMAAAABAAIAAAAAAAQAAAABAAIAAAAAAAUAAAABAAIAAAAAAAYAAAABAAIAAAAAAAcAAAABAAIAAAAAAAgAAAABAAIAAAAAAAkAAAABAAIAAAAAAAoAAgABAAAAAAABAPX/AQACAAMAAAABAPb/AAABAAIAAAABAPf/AAABAAIAAAABAPj/AAABAAIAAAABAPn/AAABAAIAAAABAPr/AAABAAIAAAABAPv/AAABAAIAAAABAPz/AAABAAIAAAABAP3/AAABAAIAAAABAP7/AAABAAIAAAABAP//AAABAAIAAAABAAAAAAABAAIAAAABAAEAAAABAAIAAAABAAIAAAABAAIAAAABAAMAAAABAAIAAAABAAQAAAABAAIAAAABAAUAAAABAAIAAAABAAYAAAABAAIAAAABAAcAAAABAAIAAAABAAgAAAABAAIAAAABAAkAAAABAAIAAAABAAoAAgABAAAAAAACAPX/AQACAAMAAAACAPb/AAABAAIAAAACAPf/AAABAAIAAAACAPj/AAABAAIAAAACAPn/AAABAAIAAAACAPr/AAABAAIAAAACAPv/AAABAAIAAAACAPz/AAABAAIAAAACAP3/AAABAAIAAAACAP7/AAABAAIAAAACAP//AAABAAIAAAACAAAAAAABAAIAAAACAAEAAAABAAIAAAACAAIAAAABAAIAAAACAAMAAAABAAIAAAACAAQAAAABAAIAAAACAAUAAAABAAIAAAACAAYAAAABAAIAAAACAAcAAAABAAIAAAACAAgAAAABAAIAAAACAAkAAAABAAIAAAACAAoAAgABAAAAAAADAPX/AQACAAMAAAADAPb/AAABAAIAAAADAPf/AAABAAIAAAADAPj/AAABAAIAAAADAPn/AAABAAIAAAADAPr/AAABAAIAAAADAPv/AAABAAIAAAADAPz/AAABAAIAAAADAP3/AAABAAIAAAADAP7/AAABAAIAAAADAP//AAABAAIAAAADAAAAAAABAAIAAAADAAEAAAABAAIAAAADAAIAAAABAAIAAAADAAMAAAABAAIAAAADAAQAAAABAAIAAAADAAUAAAABAAIAAAADAAYAAAABAAIAAAADAAcAAAABAAIAAAADAAgAAAABAAIAAAADAAkAAAABAAIAAAADAAoAAgABAAAAAAAEAPX/AQACAAMAAAAEAPb/AAABAAIAAAAEAPf/AAABAAIAAAAEAPj/AAABAAIAAAAEAPn/AAABAAIAAAAEAPr/AAABAAIAAAAEAPv/AAABAAIAAAAEAPz/AAABAAIAAAAEAP3/AAABAAIAAAAEAP7/AAABAAIAAAAEAP//AAABAAIAAAAEAAAAAAABAAIAAAAEAAEAAAABAAIAAAAEAAIAAAABAAIAAAAEAAMAAAABAAIAAAAEAAQAAAABAAIAAAAEAAUAAAABAAIAAAAEAAYAAAABAAIAAAAEAAcAAAABAAIAAAAEAAgAAAABAAIAAAAEAAkAAAABAAIAAAAEAAoAAgABAAAAAAAFAPX/AQACAAMAAAAFAPb/AAABAAIAAAAFAPf/AAABAAIAAAAFAPj/AAABAAIAAAAFAPn/AAABAAIAAAAFAPr/AAABAAIAAAAFAPv/AAABAAIAAAAFAPz/AAABAAIAAAAFAP3/AAABAAIAAAAFAP7/AAABAAIAAAAFAP//AAABAAIAAAAFAAAAAAABAAIAAAAFAAEAAAABAAIAAAAFAAIAAAABAAIAAAAFAAMAAAABAAIAAAAFAAQAAAABAAIAAAAFAAUAAAABAAIAAAAFAAYAAAABAAIAAAAFAAcAAAABAAIAAAAFAAgAAAABAAIAAAAFAAkAAAABAAIAAAAFAAoAAgABAAAAAAAGAPX/AQACAAMAAAAGAPb/AAABAAIAAAAGAPf/AAABAAIAAAAGAPj/AAABAAIAAAAGAPn/AAABAAIAAAAGAPr/AAABAAIAAAAGAPv/AAABAAIAAAAGAPz/AAABAAIAAAAGAP3/AAABAAIAAAAGAP7/AAABAAIAAAAGAP//AAABAAIAAAAGAAAAAAABAAIAAAAGAAEAAAABAAIAAAAGAAIAAAABAAIAAAAGAAMAAAABAAIAAAAGAAQAAAABAAIAAAAGAAUAAAABAAIAAAAGAAYAAAABAAIAAAAGAAcAAAABAAIAAAAGAAgAAAABAAIAAAAGAAkAAAABAAIAAAAGAAoAAgABAAAAAAAHAPX/AQACAAMAAAAHAPb/AAABAAIAAAAHAPf/AAABAAIAAAAHAPj/AAABAAIAAAAHAPn/AAABAAIAAAAHAPr/AAABAAIAAAAHAPv/AAABAAIAAAAHAPz/AAABAAIAAAAHAP3/AAABAAIAAAAHAP7/AAABAAIAAAAHAP//AAABAAIAAAAHAAAAAAABAAIAAAAHAAEAAAABAAIAAAAHAAIAAAABAAIAAAAHAAMAAAABAAIAAAAHAAQAAAABAAIAAAAHAAUAAAABAAIAAAAHAAYAAAABAAIAAAAHAAcAAAABAAIAAAAHAAgAAAABAAIAAAAHAAkAAAABAAIAAAAHAAoAAgABAAAAAAAIAPX/AQACAAMAAAAIAPb/AAABAAIAAAAIAPf/AAABAAIAAAAIAPj/AAABAAIAAAAIAPn/AAABAAIAAAAIAPr/AAABAAIAAAAIAPv/AAABAAIAAAAIAPz/AAABAAIAAAAIAP3/AAABAAIAAAAIAP7/AAABAAIAAAAIAP//AAABAAIAAAAIAAAAAAABAAIAAAAIAAEAAAABAAIAAAAIAAIAAAABAAIAAAAIAAMAAAABAAIAAAAIAAQAAAABAAIAAAAIAAUAAAABAAIAAAAIAAYAAAABAAIAAAAIAAcAAAABAAIAAAAIAAgAAAABAAIAAAAIAAkAAAABAAIAAAAIAAoAAgABAAAAAAAJAPX/AQACAAMAAAAJAPb/AAABAAIAAAAJAPf/AAABAAIAAAAJAPj/AAABAAIAAAAJAPn/AAABAAIAAAAJAPr/AAABAAIAAAAJAPv/AAABAAIAAAAJAPz/AAABAAIAAAAJAP3/AAABAAIAAAAJAP7/AAABAAIAAAAJAP//AAABAAIAAAAJAAAAAAABAAIAAAAJAAEAAAABAAIAAAAJAAIAAAABAAIAAAAJAAMAAAABAAIAAAAJAAQAAAABAAIAAAAJAAUAAAABAAIAAAAJAAYAAAABAAIAAAAJAAcAAAABAAIAAAAJAAgAAAABAAIAAAAJAAkAAAABAAIAAAAJAAoAAgABAAAAAAAKAPX/AQACAAMAAAAKAPb/AAABAAIAAAAKAPf/AAABAAIAAAAKAPj/AAABAAIAAAAKAPn/AAABAAIAAAAKAPr/AAABAAIAAAAKAPv/AAABAAIAAAAKAPz/AAABAAIAAAAKAP3/AAABAAIAAAAKAP7/AAABAAIAAAAKAP//AAABAAIAAAAKAAAAAAABAAIAAAAKAAEAAAABAAIAAAAKAAIAAAABAAIAAAAKAAMAAAABAAIAAAAKAAQAAAABAAIAAAAKAAUAAAABAAIAAAAKAAYAAAABAAIAAAAKAAcAAAABAAIAAAAKAAgAAAABAAIAAAAKAAkAAAABAAIAAAAKAAoAAgABAAAAAAALAPX/AwAAAAAAAAALAPb/AQAAAAEAAAALAPf/AQAAAAEAAAALAPj/AQAAAAEAAAALAPn/AQAAAAEAAAALAPr/AQAAAAEAAAALAPv/AQAAAAEAAAALAPz/AQAAAAEAAAALAP3/AQAAAAEAAAALAP7/AQAAAAEAAAALAP//AQAAAAEAAAALAAAAAQAAAAEAAAALAAEAAQAAAAEAAAALAAIAAQAAAAEAAAALAAMAAQAAAAEAAAALAAQAAQAAAAEAAAALAAUAAQAAAAEAAAALAAYAAQAAAAEAAAALAAcAAQAAAAEAAAALAAgAAQAAAAEAAAALAAkAAQAAAAEAAAALAAoAAgAAAAMAAAA=")
+tile_map_data = PackedByteArray("AAD0//X/AwADAAAAAAD0//b/AQADAAEAAAD0//f/AQADAAEAAAD0//j/AQADAAEAAAD0//n/AQADAAEAAAD0//r/AQADAAEAAAD0//v/AQADAAEAAAD0//z/AQADAAEAAAD0//3/AQADAAEAAAD0//7/AQADAAEAAAD0////AQADAAEAAAD0/wAAAQADAAEAAAD0/wEAAQADAAEAAAD0/wIAAQADAAEAAAD0/wMAAQADAAEAAAD0/wQAAQADAAEAAAD0/wUAAQADAAEAAAD0/wYAAQADAAEAAAD0/wcAAQADAAEAAAD0/wgAAQADAAEAAAD0/wkAAQADAAEAAAD0/woAAgADAAMAAAD1//X/AQACAAMAAAD1//b/AAABAAIAAAD1//f/AAABAAIAAAD1//j/AAABAAIAAAD1//n/AAABAAIAAAD1//r/AAABAAIAAAD1//v/AAABAAIAAAD1//z/AAABAAIAAAD1//3/AAABAAIAAAD1//7/AAABAAIAAAD1////AAABAAIAAAD1/wAAAAABAAIAAAD1/wEAAAABAAIAAAD1/wIAAAABAAIAAAD1/wMAAAABAAIAAAD1/wQAAAABAAIAAAD1/wUAAAABAAIAAAD1/wYAAAABAAIAAAD1/wcAAAABAAIAAAD1/wgAAAABAAIAAAD1/wkAAAABAAIAAAD1/woAAgABAAAAAAD2//X/AQACAAMAAAD2//b/AAABAAIAAAD2//f/AAABAAIAAAD2//j/AAABAAIAAAD2//n/AAABAAIAAAD2//r/AAABAAIAAAD2//v/AAABAAIAAAD2//z/AAABAAIAAAD2//3/AAABAAIAAAD2//7/AAABAAIAAAD2////AAABAAIAAAD2/wAAAAABAAIAAAD2/wEAAAABAAIAAAD2/wIAAAABAAIAAAD2/wMAAAABAAIAAAD2/wQAAAABAAIAAAD2/wUAAAABAAIAAAD2/wYAAAABAAIAAAD2/wcAAAABAAIAAAD2/wgAAAABAAIAAAD2/wkAAAABAAIAAAD2/woAAgABAAAAAAD3//X/AQACAAMAAAD3//b/AAABAAIAAAD3//f/AAABAAIAAAD3//j/AAABAAIAAAD3//n/AAABAAIAAAD3//r/AAABAAIAAAD3//v/AAABAAIAAAD3//z/AAABAAIAAAD3//3/AAABAAIAAAD3//7/AAABAAIAAAD3////AAABAAIAAAD3/wAAAAABAAIAAAD3/wEAAAABAAIAAAD3/wIAAAABAAIAAAD3/wMAAAABAAIAAAD3/wQAAAABAAIAAAD3/wUAAAABAAIAAAD3/wYAAAABAAIAAAD3/wcAAAABAAIAAAD3/wgAAAABAAIAAAD3/wkAAAABAAIAAAD3/woAAgABAAAAAAD4//X/AQACAAMAAAD4//b/AAABAAIAAAD4//f/AAABAAIAAAD4//j/AAABAAIAAAD4//n/AAABAAIAAAD4//r/AAABAAIAAAD4//v/AAABAAIAAAD4//z/AAABAAIAAAD4//3/AAABAAIAAAD4//7/AAABAAIAAAD4////AAABAAIAAAD4/wAAAAABAAIAAAD4/wEAAAABAAIAAAD4/wIAAAABAAIAAAD4/wMAAAABAAIAAAD4/wQAAAABAAIAAAD4/wUAAAABAAIAAAD4/wYAAAABAAIAAAD4/wcAAAABAAIAAAD4/wgAAAABAAIAAAD4/wkAAAABAAIAAAD4/woAAgABAAAAAAD5//X/AQACAAMAAAD5//b/AAABAAIAAAD5//f/AAABAAIAAAD5//j/AAABAAIAAAD5//n/AAABAAIAAAD5//r/AAABAAIAAAD5//v/AAABAAIAAAD5//z/AAABAAIAAAD5//3/AAABAAIAAAD5//7/AAABAAIAAAD5////AAABAAIAAAD5/wAAAAABAAIAAAD5/wEAAAABAAIAAAD5/wIAAAABAAIAAAD5/wMAAAABAAIAAAD5/wQAAAABAAIAAAD5/wUAAAABAAIAAAD5/wYAAAABAAIAAAD5/wcAAAABAAIAAAD5/wgAAAABAAIAAAD5/wkAAAABAAIAAAD5/woAAgABAAAAAAD6//X/AQACAAMAAAD6//b/AAABAAIAAAD6//f/AAABAAIAAAD6//j/AAABAAIAAAD6//n/AAABAAIAAAD6//r/AAABAAIAAAD6//v/AAABAAIAAAD6//z/AAABAAIAAAD6//3/AAABAAIAAAD6//7/AAABAAIAAAD6////AAABAAIAAAD6/wAAAAABAAIAAAD6/wEAAAABAAIAAAD6/wIAAAABAAIAAAD6/wMAAAABAAIAAAD6/wQAAAABAAIAAAD6/wUAAAABAAIAAAD6/wYAAAABAAIAAAD6/wcAAAABAAIAAAD6/wgAAAABAAIAAAD6/wkAAAABAAIAAAD6/woAAgABAAAAAAD7//X/AQACAAMAAAD7//b/AAABAAIAAAD7//f/AAABAAIAAAD7//j/AAABAAIAAAD7//n/AAABAAIAAAD7//r/AAABAAIAAAD7//v/AAABAAIAAAD7//z/AAABAAIAAAD7//3/AAABAAIAAAD7//7/AAABAAIAAAD7////AAABAAIAAAD7/wAAAAABAAIAAAD7/wEAAAABAAIAAAD7/wIAAAABAAIAAAD7/wMAAAABAAIAAAD7/wQAAAABAAIAAAD7/wUAAAABAAIAAAD7/wYAAAABAAIAAAD7/wcAAAABAAIAAAD7/wgAAAABAAIAAAD7/wkAAAABAAIAAAD7/woAAgABAAAAAAD8//X/AQACAAMAAAD8//b/AAABAAIAAAD8//f/AAABAAIAAAD8//j/AAABAAIAAAD8//n/AAABAAIAAAD8//r/AAABAAIAAAD8//v/AAABAAIAAAD8//z/AAABAAIAAAD8//3/AAABAAIAAAD8//7/AAABAAIAAAD8////AAABAAIAAAD8/wAAAAABAAIAAAD8/wEAAAABAAIAAAD8/wIAAAABAAIAAAD8/wMAAAABAAIAAAD8/wQAAAABAAIAAAD8/wUAAAABAAIAAAD8/wYAAAABAAIAAAD8/wcAAAABAAIAAAD8/wgAAAABAAIAAAD8/wkAAAABAAIAAAD8/woAAgABAAAAAAD9//X/AQACAAMAAAD9//b/AAABAAIAAAD9//f/AAABAAIAAAD9//j/AAABAAIAAAD9//n/AAABAAIAAAD9//r/AAABAAIAAAD9//v/AAABAAIAAAD9//z/AAABAAIAAAD9//3/AAABAAIAAAD9//7/BQABAAEAAAD9////BQABAAIAAAD9/wAABQABAAEAAAD9/wEABQABAAIAAAD9/wIAAAABAAIAAAD9/wMAAAABAAIAAAD9/wQAAAABAAIAAAD9/wUAAAABAAIAAAD9/wYAAAABAAIAAAD9/wcAAAABAAIAAAD9/wgAAAABAAIAAAD9/wkAAAABAAIAAAD9/woAAgABAAAAAAD+//X/AQACAAMAAAD+//b/AAABAAIAAAD+//f/AAABAAIAAAD+//j/AAABAAIAAAD+//n/AAABAAIAAAD+//r/AAABAAIAAAD+//v/AAABAAIAAAD+//z/AAABAAIAAAD+//3/AAABAAIAAAD+//7/BQABAAEAAAD+////BQABAAIAAAD+/wAABQABAAEAAAD+/wEABQABAAIAAAD+/wIAAAABAAIAAAD+/wMAAAABAAIAAAD+/wQAAAABAAIAAAD+/wUAAAABAAIAAAD+/wYAAAABAAIAAAD+/wcAAAABAAIAAAD+/wgAAAABAAIAAAD+/wkAAAABAAIAAAD+/woAAgABAAAAAAD///X/AQACAAMAAAD///b/AAABAAIAAAD///f/AAABAAIAAAD///j/AAABAAIAAAD///n/AAABAAIAAAD///r/AAABAAIAAAD///v/AAABAAIAAAD///z/AAABAAIAAAD///3/AAABAAIAAAD///7/BQABAAEAAAD/////BQABAAIAAAD//wAABQABAAEAAAD//wEABQABAAIAAAD//wIAAAABAAIAAAD//wMAAAABAAIAAAD//wQAAAABAAIAAAD//wUAAAABAAIAAAD//wYAAAABAAIAAAD//wcAAAABAAIAAAD//wgAAAABAAIAAAD//wkAAAABAAIAAAD//woAAgABAAAAAAAAAPX/AQACAAMAAAAAAPb/AAABAAIAAAAAAPf/AAABAAIAAAAAAPj/AAABAAIAAAAAAPn/AAABAAIAAAAAAPr/AAABAAIAAAAAAPv/AAABAAIAAAAAAPz/AAABAAIAAAAAAP3/AAABAAIAAAAAAP7/BQABAAEAAAAAAP//BQABAAIAAAAAAAAABQABAAEAAAAAAAEABQABAAIAAAAAAAIAAAABAAIAAAAAAAMAAAABAAIAAAAAAAQAAAABAAIAAAAAAAUAAAABAAIAAAAAAAYAAAABAAIAAAAAAAcAAAABAAIAAAAAAAgAAAABAAIAAAAAAAkAAAABAAIAAAAAAAoAAgABAAAAAAABAPX/AQACAAMAAAABAPb/AAABAAIAAAABAPf/AAABAAIAAAABAPj/AAABAAIAAAABAPn/AAABAAIAAAABAPr/AAABAAIAAAABAPv/AAABAAIAAAABAPz/AAABAAIAAAABAP3/AAABAAIAAAABAP7/BQABAAEAAAABAP//BQABAAIAAAABAAAABQABAAEAAAABAAEABQABAAIAAAABAAIAAAABAAIAAAABAAMAAAABAAIAAAABAAQAAAABAAIAAAABAAUAAAABAAIAAAABAAYAAAABAAIAAAABAAcAAAABAAIAAAABAAgAAAABAAIAAAABAAkAAAABAAIAAAABAAoAAgABAAAAAAACAPX/AQACAAMAAAACAPb/AAABAAIAAAACAPf/AAABAAIAAAACAPj/AAABAAIAAAACAPn/AAABAAIAAAACAPr/AAABAAIAAAACAPv/AAABAAIAAAACAPz/AAABAAIAAAACAP3/AAABAAIAAAACAP7/BQABAAEAAAACAP//BQABAAIAAAACAAAABQABAAEAAAACAAEABQABAAIAAAACAAIAAAABAAIAAAACAAMAAAABAAIAAAACAAQAAAABAAIAAAACAAUAAAABAAIAAAACAAYAAAABAAIAAAACAAcAAAABAAIAAAACAAgAAAABAAIAAAACAAkAAAABAAIAAAACAAoAAgABAAAAAAADAPX/AQACAAMAAAADAPb/AAABAAIAAAADAPf/AAABAAIAAAADAPj/AAABAAIAAAADAPn/AAABAAIAAAADAPr/AAABAAIAAAADAPv/AAABAAIAAAADAPz/AAABAAIAAAADAP3/AAABAAIAAAADAP7/AAABAAIAAAADAP//AAABAAIAAAADAAAAAAABAAIAAAADAAEAAAABAAIAAAADAAIAAAABAAIAAAADAAMAAAABAAIAAAADAAQAAAABAAIAAAADAAUAAAABAAIAAAADAAYAAAABAAIAAAADAAcAAAABAAIAAAADAAgAAAABAAIAAAADAAkAAAABAAIAAAADAAoAAgABAAAAAAAEAPX/AQACAAMAAAAEAPb/AAABAAIAAAAEAPf/AAABAAIAAAAEAPj/AAABAAIAAAAEAPn/AAABAAIAAAAEAPr/AAABAAIAAAAEAPv/AAABAAIAAAAEAPz/AAABAAIAAAAEAP3/AAABAAIAAAAEAP7/AAABAAIAAAAEAP//AAABAAIAAAAEAAAAAAABAAIAAAAEAAEAAAABAAIAAAAEAAIAAAABAAIAAAAEAAMAAAABAAIAAAAEAAQAAAABAAIAAAAEAAUAAAABAAIAAAAEAAYAAAABAAIAAAAEAAcAAAABAAIAAAAEAAgAAAABAAIAAAAEAAkAAAABAAIAAAAEAAoAAgABAAAAAAAFAPX/AQACAAMAAAAFAPb/AAABAAIAAAAFAPf/AAABAAIAAAAFAPj/AAABAAIAAAAFAPn/AAABAAIAAAAFAPr/AAABAAIAAAAFAPv/AAABAAIAAAAFAPz/AAABAAIAAAAFAP3/AAABAAIAAAAFAP7/AAABAAIAAAAFAP//AAABAAIAAAAFAAAAAAABAAIAAAAFAAEAAAABAAIAAAAFAAIAAAABAAIAAAAFAAMAAAABAAIAAAAFAAQAAAABAAIAAAAFAAUAAAABAAIAAAAFAAYAAAABAAIAAAAFAAcAAAABAAIAAAAFAAgAAAABAAIAAAAFAAkAAAABAAIAAAAFAAoAAgABAAAAAAAGAPX/AQACAAMAAAAGAPb/AAABAAIAAAAGAPf/AAABAAIAAAAGAPj/AAABAAIAAAAGAPn/AAABAAIAAAAGAPr/AAABAAIAAAAGAPv/AAABAAIAAAAGAPz/AAABAAIAAAAGAP3/AAABAAIAAAAGAP7/AAABAAIAAAAGAP//AAABAAIAAAAGAAAAAAABAAIAAAAGAAEAAAABAAIAAAAGAAIAAAABAAIAAAAGAAMAAAABAAIAAAAGAAQAAAABAAIAAAAGAAUAAAABAAIAAAAGAAYAAAABAAIAAAAGAAcAAAABAAIAAAAGAAgAAAABAAIAAAAGAAkAAAABAAIAAAAGAAoAAgABAAAAAAAHAPX/AQACAAMAAAAHAPb/AAABAAIAAAAHAPf/AAABAAIAAAAHAPj/AAABAAIAAAAHAPn/AAABAAIAAAAHAPr/AAABAAIAAAAHAPv/AAABAAIAAAAHAPz/AAABAAIAAAAHAP3/AAABAAIAAAAHAP7/AAABAAIAAAAHAP//AAABAAIAAAAHAAAAAAABAAIAAAAHAAEAAAABAAIAAAAHAAIAAAABAAIAAAAHAAMAAAABAAIAAAAHAAQAAAABAAIAAAAHAAUAAAABAAIAAAAHAAYAAAABAAIAAAAHAAcAAAABAAIAAAAHAAgAAAABAAIAAAAHAAkAAAABAAIAAAAHAAoAAgABAAAAAAAIAPX/AQACAAMAAAAIAPb/AAABAAIAAAAIAPf/AAABAAIAAAAIAPj/AAABAAIAAAAIAPn/AAABAAIAAAAIAPr/AAABAAIAAAAIAPv/AAABAAIAAAAIAPz/AAABAAIAAAAIAP3/AAABAAIAAAAIAP7/AAABAAIAAAAIAP//AAABAAIAAAAIAAAAAAABAAIAAAAIAAEAAAABAAIAAAAIAAIAAAABAAIAAAAIAAMAAAABAAIAAAAIAAQAAAABAAIAAAAIAAUAAAABAAIAAAAIAAYAAAABAAIAAAAIAAcAAAABAAIAAAAIAAgAAAABAAIAAAAIAAkAAAABAAIAAAAIAAoAAgABAAAAAAAJAPX/AQACAAMAAAAJAPb/AAABAAIAAAAJAPf/AAABAAIAAAAJAPj/AAABAAIAAAAJAPn/AAABAAIAAAAJAPr/AAABAAIAAAAJAPv/AAABAAIAAAAJAPz/AAABAAIAAAAJAP3/AAABAAIAAAAJAP7/AAABAAIAAAAJAP//AAABAAIAAAAJAAAAAAABAAIAAAAJAAEAAAABAAIAAAAJAAIAAAABAAIAAAAJAAMAAAABAAIAAAAJAAQAAAABAAIAAAAJAAUAAAABAAIAAAAJAAYAAAABAAIAAAAJAAcAAAABAAIAAAAJAAgAAAABAAIAAAAJAAkAAAABAAIAAAAJAAoAAgABAAAAAAAKAPX/AQACAAMAAAAKAPb/AAABAAIAAAAKAPf/AAABAAIAAAAKAPj/AAABAAIAAAAKAPn/AAABAAIAAAAKAPr/AAABAAIAAAAKAPv/AAABAAIAAAAKAPz/AAABAAIAAAAKAP3/AAABAAIAAAAKAP7/AAABAAIAAAAKAP//AAABAAIAAAAKAAAAAAABAAIAAAAKAAEAAAABAAIAAAAKAAIAAAABAAIAAAAKAAMAAAABAAIAAAAKAAQAAAABAAIAAAAKAAUAAAABAAIAAAAKAAYAAAABAAIAAAAKAAcAAAABAAIAAAAKAAgAAAABAAIAAAAKAAkAAAABAAIAAAAKAAoAAgABAAAAAAALAPX/AwAAAAAAAAALAPb/AQAAAAEAAAALAPf/AQAAAAEAAAALAPj/AQAAAAEAAAALAPn/AQAAAAEAAAALAPr/AQAAAAEAAAALAPv/AQAAAAEAAAALAPz/AQAAAAEAAAALAP3/AQAAAAEAAAALAP7/AQAAAAEAAAALAP//AQAAAAEAAAALAAAAAQAAAAEAAAALAAEAAQAAAAEAAAALAAIAAQAAAAEAAAALAAMAAQAAAAEAAAALAAQAAQAAAAEAAAALAAUAAQAAAAEAAAALAAYAAQAAAAEAAAALAAcAAQAAAAEAAAALAAgAAQAAAAEAAAALAAkAAQAAAAEAAAALAAoAAgAAAAMAAAA=")
 tile_set = SubResource("TileSet_co6qv")
 
 [node name="AirWall" type="TileMapLayer" parent="." unique_id=1596897962]
@@ -249,8 +273,9 @@ entrance_id = "spawn"
 [node name="Checkpoint" parent="." unique_id=1814421679 instance=ExtResource("23_checkpoint")]
 checkpoint_id = "level4_spawn"
 
-[node name="Story_Shrine" type="Node2D" parent="."]
-position = Vector2(0, 0)
+[node name="Story_Shrine" type="Node2D" parent="." unique_id=2033658687]
+z_index = 4095
+z_as_relative = false
 script = ExtResource("24_dtrigger")
 story_id = "shrine"
 dialogue_resource = ExtResource("25_prologue")
@@ -304,359 +329,702 @@ material = SubResource("ShaderMaterial_jscgt")
 scale = Vector2(2, 2)
 texture = ExtResource("14_g31h8")
 
-[node name="boss_return" type="Marker2D" parent="."]
+[node name="boss_return" type="Marker2D" parent="." unique_id=1181568002]
 position = Vector2(0, 1350)
 script = ExtResource("2_entrance")
 entrance_id = "boss_return"
 
-[node name="BossAltar" parent="." instance=ExtResource("24_altar")]
-position = Vector2(0, -800)
+[node name="BossAltar" parent="." unique_id=10390204 instance=ExtResource("24_altar")]
+position = Vector2(-4, 5)
+activated_dialogue = ExtResource("28_companion")
+activated_cue = "hint_boss_portal"
 
-[node name="BossPortal" parent="." instance=ExtResource("25_boss_portal")]
-position = Vector2(0, 800)
+[node name="BossPortal" parent="." unique_id=1155425802 instance=ExtResource("25_boss_portal")]
+position = Vector2(0, 1295)
 
-[node name="Rocks" type="Node2D" parent="."]
+[node name="Rocks" type="Node2D" parent="." unique_id=550687382]
 y_sort_enabled = true
 
-[node name="Rock_01" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_01" parent="Rocks" unique_id=1505954042 instance=ExtResource("26_rock")]
 position = Vector2(-1150, -1150)
 rotation = -0.08
 scale = Vector2(1.5, 1.5)
 
-[node name="Rock_02" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_02" parent="Rocks" unique_id=1999598810 instance=ExtResource("26_rock")]
 position = Vector2(1150, -1150)
 rotation = 0.1
 scale = Vector2(1.6, 1.6)
 
-[node name="Rock_03" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_03" parent="Rocks" unique_id=725584992 instance=ExtResource("26_rock")]
 position = Vector2(-700, -1450)
 rotation = 0.12
 scale = Vector2(1.4, 1.4)
 
-[node name="Rock_04" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_04" parent="Rocks" unique_id=996936036 instance=ExtResource("26_rock")]
 position = Vector2(700, -1450)
 rotation = -0.12
 scale = Vector2(1.5, 1.5)
 
-[node name="Rock_05" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_05" parent="Rocks" unique_id=332247516 instance=ExtResource("26_rock")]
 position = Vector2(-1300, -600)
 rotation = 0.05
 scale = Vector2(1.2, 1.2)
 
-[node name="Rock_06" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_06" parent="Rocks" unique_id=651547914 instance=ExtResource("26_rock")]
 position = Vector2(1300, -600)
 rotation = -0.06
 scale = Vector2(1.3, 1.3)
 
-[node name="Rock_07" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(-850, 650)
+[node name="Rock_07" parent="Rocks" unique_id=2031007087 instance=ExtResource("26_rock")]
+position = Vector2(-977.99994, 1095)
 rotation = -0.05
 scale = Vector2(1.5, 1.5)
 
-[node name="Rock_08" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(850, 650)
+[node name="Rock_08" parent="Rocks" unique_id=1553014226 instance=ExtResource("26_rock")]
+position = Vector2(972.0001, 1151)
 rotation = 0.07
 scale = Vector2(1.6, 1.6)
 
-[node name="Rock_09" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(-1050, 1050)
+[node name="Rock_09" parent="Rocks" unique_id=499067583 instance=ExtResource("26_rock")]
+position = Vector2(-1179, 1337.0001)
 rotation = 0.1
 scale = Vector2(1.1, 1.1)
 
-[node name="Rock_10" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(1050, 1050)
+[node name="Rock_10" parent="Rocks" unique_id=2022002008 instance=ExtResource("26_rock")]
+position = Vector2(1093, 1473)
 rotation = -0.1
 scale = Vector2(1.2, 1.2)
 
-[node name="Rock_11" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_11" parent="Rocks" unique_id=1778233314 instance=ExtResource("26_rock")]
 position = Vector2(-650, 1250)
 rotation = 0.04
 scale = Vector2(0.7, 0.7)
 
-[node name="Rock_12" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_12" parent="Rocks" unique_id=2019016884 instance=ExtResource("26_rock")]
 position = Vector2(650, 1250)
 rotation = -0.04
 scale = Vector2(0.7, 0.7)
 
-[node name="Rock_13" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(-2850, -550)
+[node name="Rock_13" parent="Rocks" unique_id=1418583439 instance=ExtResource("26_rock")]
+position = Vector2(-2603.0002, -530.00006)
 rotation = 0.08
 scale = Vector2(1.3, 1.3)
 
-[node name="Rock_14" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(-2850, 650)
+[node name="Rock_14" parent="Rocks" unique_id=1720576086 instance=ExtResource("26_rock")]
+position = Vector2(-2542.0002, 697.00006)
 rotation = -0.06
 scale = Vector2(1.2, 1.2)
 
-[node name="Rock_15" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_15" parent="Rocks" unique_id=425412184 instance=ExtResource("26_rock")]
 position = Vector2(-2200, -700)
 rotation = 0.12
 scale = Vector2(0.9, 0.9)
 
-[node name="Rock_16" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(-800, -2550)
+[node name="Rock_16" parent="Rocks" unique_id=1683313312 instance=ExtResource("26_rock")]
+position = Vector2(-584.99994, -2119.9998)
 rotation = -0.1
 scale = Vector2(1.3, 1.3)
 
-[node name="Rock_17" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(800, -2550)
+[node name="Rock_17" parent="Rocks" unique_id=1041402707 instance=ExtResource("26_rock")]
+position = Vector2(542, -2142)
 rotation = 0.09
 scale = Vector2(1.4, 1.4)
 
-[node name="Rock_18" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_18" parent="Rocks" unique_id=807560487 instance=ExtResource("26_rock")]
 position = Vector2(-900, -1950)
 rotation = 0.06
 scale = Vector2(0.9, 0.9)
 
-[node name="Rock_19" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(2850, -550)
+[node name="Rock_19" parent="Rocks" unique_id=1656912231 instance=ExtResource("26_rock")]
+position = Vector2(2542.0002, -314.00006)
 rotation = -0.08
 scale = Vector2(1.3, 1.3)
 
-[node name="Rock_20" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(2850, 650)
+[node name="Rock_20" parent="Rocks" unique_id=1860907277 instance=ExtResource("26_rock")]
+position = Vector2(2391.0002, 829.00006)
 rotation = 0.06
 scale = Vector2(1.2, 1.2)
 
-[node name="Rock_21" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_21" parent="Rocks" unique_id=461411764 instance=ExtResource("26_rock")]
 position = Vector2(2200, -700)
 rotation = -0.12
 scale = Vector2(0.9, 0.9)
 
-[node name="Rock_22" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(-2700, -2600)
+[node name="Rock_22" parent="Rocks" unique_id=541455066 instance=ExtResource("26_rock")]
+position = Vector2(-2544, -2222.0002)
 rotation = 0.05
 scale = Vector2(1.1, 1.1)
 
-[node name="Rock_23" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(-1900, -2600)
+[node name="Rock_23" parent="Rocks" unique_id=1656498415 instance=ExtResource("26_rock")]
+position = Vector2(-1991.0001, -2066)
 rotation = -0.08
 scale = Vector2(1.2, 1.2)
 
-[node name="Rock_24" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(-1100, -2600)
+[node name="Rock_24" parent="Rocks" unique_id=1825395507 instance=ExtResource("26_rock")]
+position = Vector2(-1380.0001, -2248)
 rotation = 0.1
-scale = Vector2(1, 1)
 
-[node name="Rock_25" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(1100, -2600)
+[node name="Rock_25" parent="Rocks" unique_id=608753506 instance=ExtResource("26_rock")]
+position = Vector2(1121, -2249)
 rotation = -0.05
 scale = Vector2(1.1, 1.1)
 
-[node name="Rock_26" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(1900, -2600)
+[node name="Rock_26" parent="Rocks" unique_id=1649639269 instance=ExtResource("26_rock")]
+position = Vector2(1778.0001, -2242)
 rotation = 0.08
 scale = Vector2(1.2, 1.2)
 
-[node name="Rock_27" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(2700, -2600)
+[node name="Rock_27" parent="Rocks" unique_id=1362658531 instance=ExtResource("26_rock")]
+position = Vector2(2507, -2342)
 rotation = -0.1
-scale = Vector2(1, 1)
 
-[node name="Rock_28" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(-2700, 2600)
+[node name="Rock_28" parent="Rocks" unique_id=1417875370 instance=ExtResource("26_rock")]
+position = Vector2(-2570, 2487.9998)
 rotation = -0.07
 scale = Vector2(1.1, 1.1)
 
-[node name="Rock_29" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_29" parent="Rocks" unique_id=1094212795 instance=ExtResource("26_rock")]
 position = Vector2(-1900, 2600)
 rotation = 0.06
 scale = Vector2(1.2, 1.2)
 
-[node name="Rock_30" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_30" parent="Rocks" unique_id=142752679 instance=ExtResource("26_rock")]
 position = Vector2(1900, 2600)
 rotation = -0.06
 scale = Vector2(1.2, 1.2)
 
-[node name="Rock_31" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_31" parent="Rocks" unique_id=1114431838 instance=ExtResource("26_rock")]
 position = Vector2(2700, 2600)
 rotation = 0.07
 scale = Vector2(1.1, 1.1)
 
-[node name="Rock_32" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(-2850, -1600)
+[node name="Rock_32" parent="Rocks" unique_id=772665675 instance=ExtResource("26_rock")]
+position = Vector2(-2668, -1561)
 rotation = 0.04
 scale = Vector2(1.1, 1.1)
 
-[node name="Rock_33" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(-2850, 1600)
+[node name="Rock_33" parent="Rocks" unique_id=842869741 instance=ExtResource("26_rock")]
+position = Vector2(-2607, 1647)
 rotation = -0.04
 scale = Vector2(1.1, 1.1)
 
-[node name="Rock_34" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(2850, -1600)
+[node name="Rock_34" parent="Rocks" unique_id=250622030 instance=ExtResource("26_rock")]
+position = Vector2(2649, -1700)
 rotation = -0.04
 scale = Vector2(1.1, 1.1)
 
-[node name="Rock_35" parent="Rocks" instance=ExtResource("26_rock")]
-position = Vector2(2850, 1600)
+[node name="Rock_35" parent="Rocks" unique_id=654550409 instance=ExtResource("26_rock")]
+position = Vector2(2585, 1686)
 rotation = 0.04
 scale = Vector2(1.1, 1.1)
 
-[node name="Rock_36" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_36" parent="Rocks" unique_id=1092943649 instance=ExtResource("26_rock")]
 position = Vector2(-1800, -1800)
 rotation = 0.1
 scale = Vector2(0.9, 0.9)
 
-[node name="Rock_37" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_37" parent="Rocks" unique_id=285624234 instance=ExtResource("26_rock")]
 position = Vector2(-2100, -1500)
 rotation = -0.12
 scale = Vector2(0.7, 0.7)
 
-[node name="Rock_38" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_38" parent="Rocks" unique_id=858543175 instance=ExtResource("26_rock")]
 position = Vector2(1800, -1800)
 rotation = -0.1
 scale = Vector2(0.9, 0.9)
 
-[node name="Rock_39" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_39" parent="Rocks" unique_id=2001139044 instance=ExtResource("26_rock")]
 position = Vector2(2100, -1500)
 rotation = 0.12
 scale = Vector2(0.7, 0.7)
 
-[node name="Rock_40" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_40" parent="Rocks" unique_id=1056168015 instance=ExtResource("26_rock")]
 position = Vector2(-1800, 1800)
 rotation = -0.1
 scale = Vector2(0.9, 0.9)
 
-[node name="Rock_41" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_41" parent="Rocks" unique_id=665560131 instance=ExtResource("26_rock")]
 position = Vector2(-2100, 1500)
 rotation = 0.12
 scale = Vector2(0.7, 0.7)
 
-[node name="Rock_42" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_42" parent="Rocks" unique_id=1672135796 instance=ExtResource("26_rock")]
 position = Vector2(1800, 1800)
 rotation = 0.1
 scale = Vector2(0.9, 0.9)
 
-[node name="Rock_43" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_43" parent="Rocks" unique_id=359128356 instance=ExtResource("26_rock")]
 position = Vector2(2100, 1500)
 rotation = -0.12
 scale = Vector2(0.7, 0.7)
 
-[node name="Rock_44" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_44" parent="Rocks" unique_id=1771448059 instance=ExtResource("26_rock")]
 position = Vector2(0, 2350)
 rotation = 0.03
 scale = Vector2(1.8, 1.8)
 
-[node name="Rock_45" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_45" parent="Rocks" unique_id=459028582 instance=ExtResource("26_rock")]
 position = Vector2(-450, 2200)
 rotation = 0.08
 scale = Vector2(1.1, 1.1)
 
-[node name="Rock_46" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_46" parent="Rocks" unique_id=2116142571 instance=ExtResource("26_rock")]
 position = Vector2(450, 2200)
 rotation = -0.08
 scale = Vector2(1.1, 1.1)
 
-[node name="Rock_47" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_47" parent="Rocks" unique_id=1374806600 instance=ExtResource("26_rock")]
 position = Vector2(0, 2570)
 rotation = -0.05
-scale = Vector2(1, 1)
 
-[node name="Rock_48" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_48" parent="Rocks" unique_id=792523746 instance=ExtResource("26_rock")]
 position = Vector2(-2450, -1300)
 rotation = 0.2
 scale = Vector2(0.55, 0.55)
 solid = false
 
-[node name="Rock_49" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_49" parent="Rocks" unique_id=51953804 instance=ExtResource("26_rock")]
 position = Vector2(2450, -1300)
 rotation = -0.2
 scale = Vector2(0.55, 0.55)
 solid = false
 
-[node name="Rock_50" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_50" parent="Rocks" unique_id=2001382677 instance=ExtResource("26_rock")]
 position = Vector2(-2450, 1300)
 rotation = -0.2
 scale = Vector2(0.55, 0.55)
 solid = false
 
-[node name="Rock_51" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_51" parent="Rocks" unique_id=956259594 instance=ExtResource("26_rock")]
 position = Vector2(2450, 1300)
 rotation = 0.2
 scale = Vector2(0.55, 0.55)
 solid = false
 
-[node name="Rock_52" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_52" parent="Rocks" unique_id=150304131 instance=ExtResource("26_rock")]
 position = Vector2(-600, -1100)
 rotation = 0.15
 scale = Vector2(0.45, 0.45)
 solid = false
 
-[node name="Rock_53" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_53" parent="Rocks" unique_id=1578311687 instance=ExtResource("26_rock")]
 position = Vector2(600, -1100)
 rotation = -0.15
 scale = Vector2(0.45, 0.45)
 solid = false
 
-[node name="Rock_54" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_54" parent="Rocks" unique_id=771758135 instance=ExtResource("26_rock")]
 position = Vector2(-500, 1050)
 rotation = -0.15
 scale = Vector2(0.45, 0.45)
 solid = false
 
-[node name="Rock_55" parent="Rocks" instance=ExtResource("26_rock")]
+[node name="Rock_55" parent="Rocks" unique_id=53422029 instance=ExtResource("26_rock")]
 position = Vector2(500, 1050)
 rotation = 0.15
 scale = Vector2(0.45, 0.45)
 solid = false
 
-[node name="Grass_01" parent="." instance=ExtResource("27_grass")]
+[node name="Grass_01" parent="." unique_id=503476330 instance=ExtResource("27_grass")]
 z_index = 1755
-position = Vector2(-2750, -2450)
+position = Vector2(-2535, -2190)
 scale = Vector2(0.8, 0.8)
 
-[node name="Grass_02" parent="." instance=ExtResource("27_grass")]
+[node name="Grass_02" parent="." unique_id=1848393993 instance=ExtResource("27_grass")]
 z_index = 1740
-position = Vector2(-1600, -2600)
+position = Vector2(-1385, -2185)
 scale = Vector2(0.9, 0.9)
 
-[node name="Grass_03" parent="." instance=ExtResource("27_grass")]
+[node name="Grass_03" parent="." unique_id=392097780 instance=ExtResource("27_grass")]
 z_index = 1750
 position = Vector2(-950, -2500)
 scale = Vector2(0.7, 0.7)
 
-[node name="Grass_04" parent="." instance=ExtResource("27_grass")]
+[node name="Grass_04" parent="." unique_id=1382764069 instance=ExtResource("27_grass")]
 z_index = 1750
-position = Vector2(950, -2500)
+position = Vector2(413.00006, -2128.0002)
 scale = Vector2(0.7, 0.7)
 
-[node name="Grass_05" parent="." instance=ExtResource("27_grass")]
+[node name="Grass_05" parent="." unique_id=1550612769 instance=ExtResource("27_grass")]
 z_index = 1740
-position = Vector2(1600, -2600)
+position = Vector2(1442, -2235)
 scale = Vector2(0.9, 0.9)
 
-[node name="Grass_06" parent="." instance=ExtResource("27_grass")]
+[node name="Grass_06" parent="." unique_id=694710735 instance=ExtResource("27_grass")]
 z_index = 1755
-position = Vector2(2750, -2450)
+position = Vector2(2284, -1977)
 scale = Vector2(0.8, 0.8)
 
-[node name="Grass_07" parent="." instance=ExtResource("27_grass")]
+[node name="Grass_07" parent="." unique_id=595027281 instance=ExtResource("27_grass")]
 z_index = 1910
-position = Vector2(-2850, -900)
+position = Vector2(-2537, -483.00003)
 scale = Vector2(0.8, 0.8)
 
-[node name="Grass_08" parent="." instance=ExtResource("27_grass")]
+[node name="Grass_08" parent="." unique_id=436557364 instance=ExtResource("27_grass")]
 z_index = 1910
-position = Vector2(2850, -900)
+position = Vector2(2592, -936)
 scale = Vector2(0.8, 0.8)
 
-[node name="Grass_09" parent="." instance=ExtResource("27_grass")]
+[node name="Grass_09" parent="." unique_id=1929029190 instance=ExtResource("27_grass")]
 z_index = 2090
 position = Vector2(-2850, 900)
 scale = Vector2(0.8, 0.8)
 
-[node name="Grass_10" parent="." instance=ExtResource("27_grass")]
+[node name="Grass_10" parent="." unique_id=463695535 instance=ExtResource("27_grass")]
 z_index = 2090
-position = Vector2(2850, 900)
+position = Vector2(2506, 900)
 scale = Vector2(0.8, 0.8)
 
-[node name="Grass_11" parent="." instance=ExtResource("27_grass")]
+[node name="Grass_11" parent="." unique_id=149327378 instance=ExtResource("27_grass")]
 z_index = 1955
 position = Vector2(-1200, -450)
 scale = Vector2(0.7, 0.7)
 
-[node name="Grass_12" parent="." instance=ExtResource("27_grass")]
+[node name="Grass_12" parent="." unique_id=1696496948 instance=ExtResource("27_grass")]
 z_index = 1955
 position = Vector2(1200, -450)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_1" parent="." unique_id=11092768 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2217, -157)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_2" parent="." unique_id=104230430 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2209, 343.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_55" parent="." unique_id=62598662 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1449, 541)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_59" parent="." unique_id=1261432880 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1301, 636)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_63" parent="." unique_id=1152176775 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1190, -279.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_67" parent="." unique_id=1058904820 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1451, -397.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_66" parent="." unique_id=284617700 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1863, -421.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_65" parent="." unique_id=1403823645 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2090, -445.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_64" parent="." unique_id=166692647 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2191, -413.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_62" parent="." unique_id=1855681307 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1602, -303.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_61" parent="." unique_id=540349826 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1829, -327.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_60" parent="." unique_id=1155451128 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1930, -295.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_58" parent="." unique_id=2095140892 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1713, 612)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_57" parent="." unique_id=181280175 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1940, 588)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_56" parent="." unique_id=1355911310 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2041, 620)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_54" parent="." unique_id=1137732973 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1861, 517)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_53" parent="." unique_id=1074155280 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2088, 493)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_52" parent="." unique_id=563969084 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2189, 525)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_3" parent="." unique_id=39880335 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2104, -189)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_4" parent="." unique_id=243100026 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2108, 311.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_5" parent="." unique_id=1720965519 instance=ExtResource("23_rg5ri")]
+position = Vector2(-2007, -145)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_6" parent="." unique_id=330909585 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1991, 343.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_7" parent="." unique_id=214372524 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1902, -117)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_8" parent="." unique_id=997723212 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1881, 335.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_9" parent="." unique_id=140969204 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1796, -80.00001)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_13" parent="." unique_id=1788396364 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1784, 372.9999)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_14" parent="." unique_id=2104605699 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1679, -28.000008)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_15" parent="." unique_id=202732477 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1671, 424.9999)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_16" parent="." unique_id=1488938186 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1578, -68.00001)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_17" parent="." unique_id=1662339437 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1469, -84.00001)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_18" parent="." unique_id=1822633300 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1566, 400.9999)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_19" parent="." unique_id=417585097 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1469, 359.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_20" parent="." unique_id=691054215 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1360, -109)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_21" parent="." unique_id=260684079 instance=ExtResource("23_rg5ri")]
+position = Vector2(-1364, 327.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_39" parent="." unique_id=139617521 instance=ExtResource("23_rg5ri")]
+position = Vector2(2238.9998, 348.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_38" parent="." unique_id=1852562535 instance=ExtResource("23_rg5ri")]
+position = Vector2(2242.9998, -88)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_37" parent="." unique_id=2032596233 instance=ExtResource("23_rg5ri")]
+position = Vector2(2133.9998, 380.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_36" parent="." unique_id=183619052 instance=ExtResource("23_rg5ri")]
+position = Vector2(2036.9998, 421.9999)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_35" parent="." unique_id=596831337 instance=ExtResource("23_rg5ri")]
+position = Vector2(2133.9998, -63.000008)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_34" parent="." unique_id=76157067 instance=ExtResource("23_rg5ri")]
+position = Vector2(2024.9998, -47.000008)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_33" parent="." unique_id=360231724 instance=ExtResource("23_rg5ri")]
+position = Vector2(1931.9998, 445.9999)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_72" parent="." unique_id=246509272 instance=ExtResource("23_rg5ri")]
+position = Vector2(1280, 504)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_71" parent="." unique_id=294084870 instance=ExtResource("23_rg5ri")]
+position = Vector2(1498, 504)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_70" parent="." unique_id=1867747502 instance=ExtResource("23_rg5ri")]
+position = Vector2(1608, 496)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_69" parent="." unique_id=1586384048 instance=ExtResource("23_rg5ri")]
+position = Vector2(1818, 584.99994)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_68" parent="." unique_id=1643120146 instance=ExtResource("23_rg5ri")]
+position = Vector2(2020, 520)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_77" parent="." unique_id=993459263 instance=ExtResource("23_rg5ri")]
+position = Vector2(1309, -309.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_76" parent="." unique_id=2100791623 instance=ExtResource("23_rg5ri")]
+position = Vector2(1527, -309.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_75" parent="." unique_id=1543538639 instance=ExtResource("23_rg5ri")]
+position = Vector2(1637, -317.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_74" parent="." unique_id=1727568027 instance=ExtResource("23_rg5ri")]
+position = Vector2(1847, -229.00003)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_73" parent="." unique_id=2079749587 instance=ExtResource("23_rg5ri")]
+position = Vector2(2049, -293.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_32" parent="." unique_id=302561323 instance=ExtResource("23_rg5ri")]
+position = Vector2(1923.9998, -7.0000095)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_31" parent="." unique_id=464997236 instance=ExtResource("23_rg5ri")]
+position = Vector2(1818.9998, 393.9999)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_30" parent="." unique_id=288523514 instance=ExtResource("23_rg5ri")]
+position = Vector2(1806.9998, -59.000008)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_29" parent="." unique_id=1886546743 instance=ExtResource("23_rg5ri")]
+position = Vector2(1721.9998, 356.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_28" parent="." unique_id=1448680653 instance=ExtResource("23_rg5ri")]
+position = Vector2(1700.9998, -96)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_27" parent="." unique_id=624375823 instance=ExtResource("23_rg5ri")]
+position = Vector2(1611.9998, 364.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_26" parent="." unique_id=468735738 instance=ExtResource("23_rg5ri")]
+position = Vector2(1595.9998, -124)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_25" parent="." unique_id=1891967632 instance=ExtResource("23_rg5ri")]
+position = Vector2(1494.9998, 332.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_24" parent="." unique_id=891899778 instance=ExtResource("23_rg5ri")]
+position = Vector2(1498.9998, -168)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_23" parent="." unique_id=613427215 instance=ExtResource("23_rg5ri")]
+position = Vector2(1393.9998, 364.99997)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_22" parent="." unique_id=1469890840 instance=ExtResource("23_rg5ri")]
+position = Vector2(1385.9998, -136)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_40" parent="." unique_id=1052913674 instance=ExtResource("23_rg5ri")]
+position = Vector2(261.00012, -808.99994)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_41" parent="." unique_id=275059777 instance=ExtResource("23_rg5ri")]
+position = Vector2(-253.99988, -866.99994)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_42" parent="." unique_id=2057819882 instance=ExtResource("23_rg5ri")]
+position = Vector2(304.00012, -937.99994)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_43" parent="." unique_id=222447085 instance=ExtResource("23_rg5ri")]
+position = Vector2(-318.99988, -1009.99994)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_83" parent="." unique_id=1418455649 instance=ExtResource("23_rg5ri")]
+position = Vector2(-317, -1568)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_89" parent="." unique_id=1967259595 instance=ExtResource("23_rg5ri")]
+position = Vector2(221, -1960)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_88" parent="." unique_id=1631272748 instance=ExtResource("23_rg5ri")]
+position = Vector2(279, -1831)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_87" parent="." unique_id=1156957022 instance=ExtResource("23_rg5ri")]
+position = Vector2(221, -1717)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_86" parent="." unique_id=2080286975 instance=ExtResource("23_rg5ri")]
+position = Vector2(150, -1581.0001)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_85" parent="." unique_id=1268413518 instance=ExtResource("23_rg5ri")]
+position = Vector2(85, -1459)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_84" parent="." unique_id=1104229000 instance=ExtResource("23_rg5ri")]
+position = Vector2(150, -1316)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_82" parent="." unique_id=641107079 instance=ExtResource("23_rg5ri")]
+position = Vector2(-259, -1439)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_81" parent="." unique_id=573459822 instance=ExtResource("23_rg5ri")]
+position = Vector2(-317, -1325)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_80" parent="." unique_id=1975731694 instance=ExtResource("23_rg5ri")]
+position = Vector2(-388, -1189.0001)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_79" parent="." unique_id=1599783967 instance=ExtResource("23_rg5ri")]
+position = Vector2(-453, -1067)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_78" parent="." unique_id=257271259 instance=ExtResource("23_rg5ri")]
+position = Vector2(-388, -924.00006)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_44" parent="." unique_id=414964164 instance=ExtResource("23_rg5ri")]
+position = Vector2(-253.99988, -1132)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_45" parent="." unique_id=1105217395 instance=ExtResource("23_rg5ri")]
+position = Vector2(261.00012, -1074)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_46" parent="." unique_id=439589777 instance=ExtResource("23_rg5ri")]
+position = Vector2(211.00012, -1217.9999)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_47" parent="." unique_id=1721276437 instance=ExtResource("23_rg5ri")]
+position = Vector2(-182.99988, -1267.9999)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_48" parent="." unique_id=396309022 instance=ExtResource("23_rg5ri")]
+position = Vector2(-124.99988, -1381.9999)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_49" parent="." unique_id=1613793860 instance=ExtResource("23_rg5ri")]
+position = Vector2(247.00012, -1338.9999)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_50" parent="." unique_id=574898408 instance=ExtResource("23_rg5ri")]
+position = Vector2(283.00012, -1475.9999)
+scale = Vector2(0.7, 0.7)
+
+[node name="Grass_51" parent="." unique_id=759754666 instance=ExtResource("23_rg5ri")]
+position = Vector2(-182.99988, -1510.9999)
 scale = Vector2(0.7, 0.7)

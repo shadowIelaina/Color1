@@ -38,9 +38,11 @@ const STEP_STREAMS := {
 	],
 }
 const ICE_BREAK_STREAM := preload("res://audio/SE/IceBreak.mp3")
+const UI_HOVER_STREAM := preload("res://audio/SE/UIHover.ogg")
+const UI_SELECT_STREAM := preload("res://audio/SE/UISelect.ogg")
 const WATERFLOW_STREAM := preload("res://audio/BGS/WaterFlow.mp3")
 
-## 普通背景音乐（audio/music/ 下除 trial! 外），轮流循环播放。
+## 普通背景音乐：按区域选曲，每首独立循环，不再轮播列表。
 const MUSIC_STREAMS := [
 	preload("res://audio/music/拿铁.mp3"),
 	preload("res://audio/music/谜面.mp3"),
@@ -70,6 +72,11 @@ var _wf_cur := 0       # 当前主水流播放器：0=a，1=b
 var _wf_xfade := 0.0   # 交叉淡入进度 0~1（0=全用 cur，1=全用 next）
 var _music_player: AudioStreamPlayer
 var _music_idx := 0
+var _music_fade: Tween
+var _music_source: AudioStream
+var _last_hover_ms := -1000
+var _last_select_ms := -1000
+var _last_ice_ms := -1000
 
 var _player: Node2D = null
 var _last_pos := Vector2.ZERO
@@ -168,12 +175,29 @@ func _play_music_track(idx: int) -> void:
 	if MUSIC_STREAMS.is_empty():
 		return
 	_music_idx = idx % MUSIC_STREAMS.size()
-	_music_player.stream = MUSIC_STREAMS[_music_idx]
-	_music_player.play()
+	play_music(MUSIC_STREAMS[_music_idx])
+
+
+## 同一片区域重复进入不重播；换曲时先淡出再淡入。
+func play_music(stream: AudioStream) -> void:
+	if stream == null or stream == _music_source: return
+	_music_source = stream
+	if _music_fade != null and _music_fade.is_valid(): _music_fade.kill()
+	_music_fade = create_tween()
+	if _music_player.playing:
+		_music_fade.tween_property(_music_player, "volume_db", -50.0, 0.45)
+	_music_fade.tween_callback(func():
+		_music_player.stream = stream.duplicate()
+		if _music_player.stream is AudioStreamMP3: _music_player.stream.loop = true
+		elif _music_player.stream is AudioStreamOggVorbis: _music_player.stream.loop = true
+		_music_player.volume_db = -50.0
+		_music_player.play()
+	)
+	_music_fade.tween_property(_music_player, "volume_db", MUSIC_VOLUME_DB, 0.65)
 
 
 func _on_music_finished() -> void:
-	_play_music_track(_music_idx + 1)
+	_music_player.play() # 非循环格式兜底，仍播放本区域这一首。
 
 
 ## —— 环境音 ——
@@ -245,15 +269,31 @@ func _nearest_water_distance(pos: Vector2) -> float:
 ## —— 音效（冰块破碎等） ——
 
 func play_ice_break() -> void:
+	if Time.get_ticks_msec() - _last_ice_ms < 100: return
+	_last_ice_ms = Time.get_ticks_msec()
 	_play_sfx(ICE_BREAK_STREAM)
 
 
-func _play_sfx(stream: AudioStream) -> void:
+func play_ui_hover() -> void:
+	if Time.get_ticks_msec() - _last_hover_ms < 160: return
+	_last_hover_ms = Time.get_ticks_msec()
+	_play_sfx(UI_HOVER_STREAM, randf_range(0.94, 1.06), -9.0)
+
+
+func play_ui_select() -> void:
+	if Time.get_ticks_msec() - _last_select_ms < 80: return
+	_last_select_ms = Time.get_ticks_msec()
+	_play_sfx(UI_SELECT_STREAM, randf_range(0.92, 1.08), -5.0)
+
+
+func _play_sfx(stream: AudioStream, pitch: float = 1.0, volume: float = 0.0) -> void:
 	if stream == null or _se_pool.is_empty():
 		return
 	var p := _se_pool[_se_next]
 	_se_next = (_se_next + 1) % _se_pool.size()
 	p.stream = stream
+	p.pitch_scale = pitch
+	p.volume_db = volume
 	p.play()
 
 
@@ -294,12 +334,20 @@ func surface_at(pos: Vector2) -> String:
 ## —— 地面层收集 ——
 
 func _on_room_changed(_room_id: String) -> void:
+	play_room_music()
 	# 立即清空旧层引用：切关后旧场景的 TileMapLayer 已释放，rescan 延迟执行前不能留着 freed 引用。
 	_ground_layers.clear()
 	_water_layers.clear()
 	_rescan_layers.call_deferred()
 	_step_accum = 0.0
 	_surface = ""
+
+
+func play_room_music() -> void:
+	match SceneManager.current_room_scene.get_file():
+		"level_2.tscn": _play_music_track(1)
+		"level_3.tscn", "level_4.tscn": _play_music_track(2)
+		_: _play_music_track(0)
 
 
 func _rescan_layers() -> void:

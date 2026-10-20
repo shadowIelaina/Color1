@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene format=3 uid="uid://c0a7iws0etlio"]
 
-[ext_resource type="Script" path="res://scripts/door.gd" id="1_door"]
-[ext_resource type="Texture2D" path="res://art/picture_boluo/传送门tm.png" id="2_portal"]
-[ext_resource type="Shader" path="res://shaders/portal.gdshader" id="3_shader"]
+[ext_resource type="Script" uid="uid://5mnsopbqo3o5" path="res://scripts/door.gd" id="1_door"]
+[ext_resource type="Texture2D" uid="uid://ch5gstr807tmq" path="res://art/things/传送门tm.png" id="3_4l3w8"]
+[ext_resource type="Shader" uid="uid://cc4mtqgwkocui" path="res://shaders/portal.gdshader" id="3_shader"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_portal"]
 radius = 110.0
@@ -14,7 +14,7 @@ shader_parameter/distortion_strength = 0.015
 shader_parameter/distortion_speed = 2.0
 shader_parameter/portal_radius = 0.48
 
-[node name="BossPortal" type="Area2D"]
+[node name="BossPortal" type="Area2D" unique_id=1386686518]
 collision_layer = 0
 script = ExtResource("1_door")
 door_id = "to_boss"
@@ -25,10 +25,10 @@ unlock_delay = 0.5
 hidden_until_unlocked = true
 unlock_notice = "Boss 传送门已开启"
 
-[node name="Collision" type="CollisionShape2D" parent="."]
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1756144462]
 shape = SubResource("CapsuleShape2D_portal")
 
-[node name="Visual" type="Sprite2D" parent="."]
+[node name="Visual" type="Sprite2D" parent="." unique_id=200301649]
 material = SubResource("ShaderMaterial_portal")
 scale = Vector2(2.2, 2.2)
-texture = ExtResource("2_portal")
+texture = ExtResource("3_4l3w8")

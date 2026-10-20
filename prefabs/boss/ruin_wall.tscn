@@ -1,39 +1,27 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://df1g8qqlob4sl"]
 
-[ext_resource type="Script" path="res://scripts/rock.gd" id="1_rock"]
+[ext_resource type="Script" uid="uid://d6uhjue2n1y1" path="res://scripts/rock.gd" id="1_rock"]
+[ext_resource type="Texture2D" uid="uid://ptaqhiejxxgx" path="res://art/things/Dead_Wood.png" id="2_hcu6b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
 size = Vector2(1000, 180)
 
-[node name="RuinWall" type="StaticBody2D"]
+[node name="RuinWall" type="StaticBody2D" unique_id=2125926151]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_rock")
 z_offset = -20
 
-[node name="Shadow" type="Polygon2D" parent="."]
+[node name="Shadow" type="Polygon2D" parent="." unique_id=1856279571]
 z_index = -1
 color = Color(0, 0, 0, 0.28)
 polygon = PackedVector2Array(-520, -24, 520, -24, 460, 42, -460, 42)
 
-[node name="Visual" type="Polygon2D" parent="."]
-color = Color(0.22, 0.21, 0.27, 1)
-polygon = PackedVector2Array(-500, 0, 500, 0, 500, -240, 300, -240, 260, -300, 120, -260, -20, -300, -160, -250, -300, -290, -500, -240)
-
-[node name="Top" type="Polygon2D" parent="."]
-color = Color(0.36, 0.34, 0.42, 1)
-polygon = PackedVector2Array(-500, -240, 500, -240, 500, -280, -500, -280)
-
-[node name="CrackA" type="Line2D" parent="."]
-points = PackedVector2Array(-260, -40, -220, -110, -270, -180)
-width = 8.0
-default_color = Color(0.12, 0.11, 0.16, 1)
-
-[node name="CrackB" type="Line2D" parent="."]
-points = PackedVector2Array(180, -50, 230, -120, 190, -190)
-width = 7.0
-default_color = Color(0.12, 0.11, 0.16, 1)
-
-[node name="Collision" type="CollisionShape2D" parent="."]
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1941560797]
 position = Vector2(0, -90)
 shape = SubResource("RectangleShape2D_wall")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=434418693]
+position = Vector2(13, -199.00002)
+scale = Vector2(4.3125005, 2.8964844)
+texture = ExtResource("2_hcu6b")

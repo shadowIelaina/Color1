@@ -27,6 +27,7 @@ extends CanvasLayer
 @onready var portrait_stage: Control = %PortraitStage
 @onready var dialogue_panel_margin: MarginContainer = $Balloon/MarginContainer
 var _closing := false
+var _response_shakes: Dictionary = {}
 
 ## A sound player for voice lines (if they exist).
 @onready var audio_stream_player: AudioStreamPlayer = %AudioStreamPlayer
@@ -136,6 +137,10 @@ func start(with_dialogue_resource: DialogueResource = null, cue: String = "", ex
 
 ## Apply any changes to the balloon given a new [DialogueLine].
 func apply_dialogue_line() -> void:
+	for animation in _response_shakes.values():
+		if animation.is_valid():
+			animation.kill()
+	_response_shakes.clear()
 	mutation_cooldown.stop()
 
 	progress.hide()
@@ -254,7 +259,26 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 
 
 func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
+	# 标记为 [#shake] 的假选项只反馈颤抖，不推进分支、结束对话或触发招募。
+	if response.has_tag("shake"):
+		for item in responses_menu.get_menu_items():
+			if item.get_meta("response", null) == response:
+				_shake_response(item)
+				break
+		return
 	next(response.next_id)
+
+
+func _shake_response(item: Control) -> void:
+	var key := item.get_instance_id()
+	if _response_shakes.has(key):
+		return  # 连点不叠加位移，防止按钮越抖越偏。
+	var origin := item.position
+	var animation := create_tween()
+	_response_shakes[key] = animation
+	for offset in [6.0, -6.0, 4.0, -4.0, 2.0, 0.0]:
+		animation.tween_property(item, "position:x", origin.x + offset, 0.035)
+	animation.tween_callback(func(): _response_shakes.erase(key))
 
 
 #endregion

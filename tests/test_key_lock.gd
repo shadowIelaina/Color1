@@ -33,7 +33,7 @@ func test_pickup_message() -> void:
 
 
 func test_use_message() -> void:
-	assert_eq(KeyLockScript.use_message("银钥匙"), "用「银钥匙」打开了门", "使用文案")
+	assert_eq(KeyLockScript.use_message("银钥匙"), "门锁打开了", "使用文案不暴露内部钥匙 ID")
 
 
 func test_need_message() -> void:

@@ -11,6 +11,12 @@ signal activated
 @export var active_color := Color(1.0, 0.96, 0.82, 1.0)
 @export var interact_radius := 480.0
 
+@export_group("剧情")
+## 点亮圣坛后播放的跟班对话资源（留空 = 不播）。
+@export var activated_dialogue: DialogueResource
+## 点亮圣坛后播放的段落名。
+@export var activated_cue := "hint_boss_portal"
+
 @onready var visual: Sprite2D = get_node_or_null("Visual") as Sprite2D
 @onready var heart_slots: Node2D = get_node_or_null("HeartSlots") as Node2D
 
@@ -51,6 +57,15 @@ func _activate() -> void:
 	_refresh_visual()
 	_start_pulse()
 	activated.emit()
+	_play_activated_dialogue()
+
+
+func _play_activated_dialogue() -> void:
+	if activated_dialogue == null or activated_cue == "":
+		return
+	if not activated_dialogue.cues.has(activated_cue):
+		return
+	StoryDirector.request(self, activated_dialogue, activated_cue)
 
 
 ## 鼠标命中检测（Player._interact 通过 contains_point 选中）。

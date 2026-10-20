@@ -2,6 +2,7 @@ extends CanvasLayer
 ## 顶部 HUD：显示玩家颜色库（持有的元素种子与数量）与当前选中。
 
 const Rules := preload("res://scripts/element/element_rules.gd")
+const HAND_FONT := preload("res://art/fonts/LXGWWenKaiLite-Regular.ttf")
 
 ## 胜利/击败文字。留空则保留场景里 WinLabel 的文本。
 @export var win_text := ""
@@ -76,17 +77,23 @@ var victory_title: Label
 var victory_subtitle: Label
 var _victory_tween: Tween
 
+var companion_bubble: Control
+
 
 func _ready() -> void:
 	add_to_group("hud")
 	hint_label = _make_hint_label()
 	status_label = _make_status_label()
 	notice_label = _make_notice_label()
+	var collection := Control.new()
+	collection.set_script(preload("res://scripts/collection_ui.gd"))
+	add_child(collection)
 	_make_alert_banner()
 	_make_hearts()
 	_make_boss_hud()
 	_make_victory_banner()
 	_make_wheel()
+	_make_companion_bubble()
 	color_label.visible = false   # 调色盘改用右下角色轮，不再用左上角文字
 	GameState.hint.connect(show_hint)
 	GameState.notice.connect(show_notice)
@@ -98,6 +105,10 @@ func _ready() -> void:
 	GameState.ability_added.connect(_refresh_status)
 	_refresh_status()
 	if win_label:
+		win_label.add_theme_font_override("font", HAND_FONT)
+		win_label.add_theme_color_override("font_color", Color("38352f"))
+		win_label.add_theme_constant_override("outline_size", 5)
+		win_label.add_theme_color_override("font_outline_color", Color("f4f0e5"))
 		if win_text != "":
 			win_label.text = win_text
 		if win_font_size > 0:
@@ -118,22 +129,29 @@ func show_win() -> void:
 		win_label.visible = true
 
 
-## 顶部短暂提示（如「门已解锁」）：显示 1.5 秒后淡出。
+## 交互与通关消息也走同一张纸签，不在画面中央叠加裸文字。
 func show_hint(text: String) -> void:
-	if hint_label == null:
-		return
-	hint_label.text = text
-	hint_label.modulate.a = 1.0
-	hint_label.visible = true
-	if _hint_tween and _hint_tween.is_valid():
-		_hint_tween.kill()
-	_hint_tween = create_tween()
-	_hint_tween.tween_interval(1.5)
-	_hint_tween.tween_property(hint_label, "modulate:a", 0.0, 0.4)
-	_hint_tween.tween_callback(func():
-		hint_label.visible = false
-		hint_label.modulate.a = 1.0
-	)
+	show_notice(text)
+
+
+## 跟班头顶纸片气泡：战斗提示用，不占用对话系统、不挡鼠标。
+func show_companion_hint(text: String, duration := 2.6) -> bool:
+	if companion_bubble == null or not companion_bubble.has_method("show_text"):
+		return false
+	companion_bubble.call("show_text", text, duration)
+	return true
+
+
+func is_companion_hint_showing() -> bool:
+	if companion_bubble == null or not companion_bubble.has_method("is_showing"):
+		return false
+	return bool(companion_bubble.call("is_showing"))
+
+
+func _make_companion_bubble() -> void:
+	companion_bubble = Control.new()
+	companion_bubble.set_script(preload("res://scripts/companion_speech_bubble.gd"))
+	add_child(companion_bubble)
 
 
 ## 代码里创建提示 Label（全屏居中），免去改 .tscn。
@@ -160,6 +178,7 @@ func _make_status_label() -> Label:
 	l.offset_right = 720.0
 	l.offset_bottom = 96.0
 	l.add_theme_font_size_override("font_size", 18)
+	l.add_theme_font_override("font", HAND_FONT)
 	l.add_theme_color_override("font_color", Color(0.0, 0.0, 0.0))
 	l.visible = false
 	add_child(l)
@@ -169,23 +188,12 @@ func _make_status_label() -> Label:
 func _refresh_status(_a = null, _b = null) -> void:
 	if status_label == null:
 		return
-	var parts: Array[String] = []
-	var key_ids := GameState.held_key_ids()
-	if not key_ids.is_empty():
-		var names: Array[String] = []
-		for k in key_ids:
-			names.append(GameState.key_display(k))
-		parts.append("钥匙：%s" % ", ".join(names))
-	var props := _true_keys(GameState.props)
-	if not props.is_empty():
-		for i in props.size():
-			props[i] = str(GameState.health_upgrade_names.get(props[i], props[i]))
-		parts.append("道具：%s" % ", ".join(props))
 	var abilities := _true_keys(GameState.abilities)
-	if not abilities.is_empty():
-		parts.append("能力：%s" % ", ".join(abilities))
-	status_label.text = "　".join(parts)
-	status_label.visible = not parts.is_empty()
+	# 钥匙与道具交给贴图收集页，能力仍保留简短文字说明。
+	status_label.text = "能力：%s" % ", ".join(abilities) if not abilities.is_empty() else ""
+	status_label.offset_top = 350.0
+	status_label.offset_bottom = 380.0
+	status_label.visible = not abilities.is_empty()
 
 
 ## 取字典里值为 true 的键（背包用 id -> true 存法），排序后返回。
@@ -198,17 +206,17 @@ static func _true_keys(d: Dictionary) -> Array[String]:
 	return out
 
 
-## 左上角短暂消息：圆角深色卡片 + 主题色左侧描边 + 小圆点，显示 2 秒后淡出。
+## 底部纸签短提示，与手绘收集页使用相同的纸张、铅笔边线。
 func _make_notice_label() -> Label:
 	notice_panel = PanelContainer.new()
 	notice_panel.name = "NoticePanel"
-	notice_panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
-	notice_panel.offset_left = 12.0
-	notice_panel.offset_top = 100.0
-	notice_panel.offset_right = 320.0
-	notice_panel.offset_bottom = 144.0
+	notice_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	notice_panel.offset_left = -160.0
+	notice_panel.offset_top = -94.0
+	notice_panel.offset_right = 160.0
+	notice_panel.offset_bottom = -42.0
 	notice_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	notice_panel.add_theme_stylebox_override("panel", _notice_style())
+	notice_panel.set_script(preload("res://scripts/paper_panel.gd"))
 	notice_panel.visible = false
 	add_child(notice_panel)
 
@@ -224,36 +232,21 @@ func _make_notice_label() -> Label:
 	margin.add_child(row)
 
 	_notice_dot = Label.new()
-	_notice_dot.text = "●"
+	_notice_dot.text = "—"
 	_notice_dot.add_theme_font_size_override("font_size", 16)
-	_notice_dot.add_theme_color_override("font_color", Color(1.0, 0.82, 0.35))
+	_notice_dot.add_theme_color_override("font_color", Color("686154"))
 	_notice_dot.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	row.add_child(_notice_dot)
 
 	var l := Label.new()
 	l.name = "NoticeLabel"
+	l.add_theme_font_override("font", preload("res://art/fonts/LXGWWenKaiLite-Regular.ttf"))
 	l.add_theme_font_size_override("font_size", 20)
-	l.add_theme_color_override("font_color", Color(0.97, 0.93, 0.76))
-	l.add_theme_constant_override("outline_size", 4)
-	l.add_theme_color_override("font_outline_color", Color(0.02, 0.03, 0.05, 0.9))
+	l.add_theme_color_override("font_color", Color("38352f"))
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	row.add_child(l)
 	return l
-
-
-func _notice_style() -> StyleBoxFlat:
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.02, 0.035, 0.06, 0.88)
-	sb.border_width_left = 5
-	sb.border_width_top = 1
-	sb.border_width_right = 1
-	sb.border_width_bottom = 1
-	sb.border_color = Color(1.0, 0.82, 0.35, 0.9)
-	sb.set_corner_radius_all(10)
-	sb.shadow_color = Color(0.0, 0.0, 0.0, 0.4)
-	sb.shadow_size = 8
-	sb.shadow_offset = Vector2(0, 3)
-	return sb
 
 
 func show_notice(text: String) -> void:
@@ -262,13 +255,16 @@ func show_notice(text: String) -> void:
 	notice_label.text = text
 	notice_label.update_minimum_size()
 	var text_size := notice_label.get_minimum_size()
-	notice_panel.offset_right = notice_panel.offset_left + clampf(text_size.x + 92.0, 220.0, 760.0)
+	var width := clampf(text_size.x + 92.0, 180.0, 760.0)
+	notice_panel.offset_left = -width * 0.5
+	notice_panel.offset_right = width * 0.5
 	notice_panel.offset_bottom = notice_panel.offset_top + maxf(text_size.y + 24.0, 44.0)
 	notice_panel.modulate.a = 1.0
 	notice_panel.visible = true
 	if _notice_tween and _notice_tween.is_valid():
 		_notice_tween.kill()
 	_notice_tween = create_tween()
+	_notice_tween.tween_property(notice_panel, "modulate:a", 1.0, 0.18).from(0.0)
 	_notice_tween.tween_interval(2.0)
 	_notice_tween.tween_property(notice_panel, "modulate:a", 0.0, 0.5)
 	_notice_tween.tween_callback(func():
@@ -282,19 +278,19 @@ func _make_alert_banner() -> void:
 	alert_root = Control.new()
 	alert_root.name = "BossAlert"
 	alert_root.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
-	alert_root.offset_left = -360.0
-	alert_root.offset_right = 360.0
+	alert_root.offset_left = -220.0
+	alert_root.offset_right = 220.0
 	alert_root.offset_top = 132.0
 	alert_root.offset_bottom = 258.0
 	alert_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	alert_root.pivot_offset = Vector2(360.0, 63.0)
+	alert_root.pivot_offset = Vector2(220.0, 63.0)
 	alert_root.visible = false
 	add_child(alert_root)
 
 	alert_panel = PanelContainer.new()
+	alert_panel.set_script(preload("res://scripts/paper_panel.gd"))
 	alert_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	alert_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	alert_panel.add_theme_stylebox_override("panel", _alert_style(Color(0.45, 0.85, 0.5)))
 	alert_root.add_child(alert_panel)
 
 	var margin := MarginContainer.new()
@@ -340,27 +336,17 @@ func _make_alert_banner() -> void:
 	alert_subtitle.add_theme_color_override("font_color", Color(0.86, 0.9, 0.96))
 	alert_subtitle.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	box.add_child(alert_subtitle)
+	for label in [alert_icon, alert_title, alert_count, alert_subtitle]:
+		label.add_theme_font_override("font", HAND_FONT)
+		label.add_theme_color_override("font_color", Color("38352f"))
+		label.add_theme_constant_override("outline_size", 0)
+	alert_subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 	alert_bar = ProgressBar.new()
 	alert_bar.custom_minimum_size = Vector2(0, 6)
 	alert_bar.show_percentage = false
 	alert_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_child(alert_bar)
-
-
-func _alert_style(c: Color) -> StyleBoxFlat:
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.02, 0.035, 0.06, 0.92)
-	sb.border_width_left = 3
-	sb.border_width_top = 3
-	sb.border_width_right = 3
-	sb.border_width_bottom = 3
-	sb.border_color = Color(c.r, c.g, c.b, 0.95)
-	sb.set_corner_radius_all(14)
-	sb.shadow_color = Color(c.r, c.g, c.b, 0.35)
-	sb.shadow_size = 14
-	sb.shadow_offset = Vector2(0, 4)
-	return sb
 
 
 func show_alert(title: String, subtitle: String, color: Color, duration: float) -> void:
@@ -370,16 +356,17 @@ func show_alert(title: String, subtitle: String, color: Color, duration: float) 
 	_alert_left = _alert_total
 	alert_title.text = title
 	alert_subtitle.text = subtitle
-	alert_icon.add_theme_color_override("font_color", color)
-	alert_title.add_theme_color_override("font_color", color.lightened(0.2))
-	alert_count.add_theme_color_override("font_color", color.lightened(0.35))
-	alert_panel.add_theme_stylebox_override("panel", _alert_style(color))
+	# 纸上使用较深的彩铅色，避免亮色文字在纸白底上难以辨认。
+	var pencil := color.darkened(0.55)
+	alert_icon.add_theme_color_override("font_color", pencil)
+	alert_title.add_theme_color_override("font_color", pencil)
+	alert_count.add_theme_color_override("font_color", Color("38352f"))
 
 	var fill := StyleBoxFlat.new()
-	fill.bg_color = color
+	fill.bg_color = pencil
 	fill.set_corner_radius_all(3)
 	var bg := StyleBoxFlat.new()
-	bg.bg_color = Color(1.0, 1.0, 1.0, 0.08)
+	bg.bg_color = Color(0.2, 0.18, 0.15, 0.12)
 	bg.set_corner_radius_all(3)
 	alert_bar.add_theme_stylebox_override("fill", fill)
 	alert_bar.add_theme_stylebox_override("background", bg)
@@ -513,7 +500,7 @@ func _switch_wheel_texture(tex: Texture2D) -> void:
 
 
 # —— 黑白贴图血量显示 ——
-const HEART_TEXTURE := preload("res://art/picture_boluo/生命值(黑)tm.png")
+const HEART_TEXTURE := preload("res://art/things/生命值(黑)tm.png")
 const HEART_ICON_SIZE := 56.0
 
 var hearts: GridContainer

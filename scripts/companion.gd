@@ -176,6 +176,24 @@ func is_available() -> bool:
 	return state == State.FOLLOWING and not _talking
 
 
+## 让跟班主动说一段话（Boss 提示等）。忙/对话中返回 false，调用方可稍后重试。
+## on_started / on_finished / on_cancelled 可选，用于 Boss 对话期间暂停/恢复行动。
+func say(
+	cue: String,
+	resource: DialogueResource = null,
+	on_started: Callable = Callable(),
+	on_finished: Callable = Callable(),
+	on_cancelled: Callable = Callable()
+) -> bool:
+	if not is_available() or StoryDirector.is_busy():
+		return false
+	var source := resource if resource != null else dialogue_resource
+	if source == null or cue == "" or not source.cues.has(cue):
+		return false
+	_play_dialogue(cue, source, on_started, on_finished, on_cancelled)
+	return _talking
+
+
 ## 上色种子由 Player 预留；接受后在到场时消耗，取消/失败则退款。
 func paint(target: Node, color: Color, color_name: String, element: String) -> bool:
 	return _submit({"type": "paint", "color": color, "color_name": color_name, "element": element}, target)
@@ -425,12 +443,26 @@ func _on_body_entered(body: Node) -> void:
 	_play_dialogue(start_cue)
 
 
-func _play_dialogue(cue: String, resource: DialogueResource = null) -> void:
+func _play_dialogue(
+	cue: String,
+	resource: DialogueResource = null,
+	on_started: Callable = Callable(),
+	on_finished: Callable = Callable(),
+	on_cancelled: Callable = Callable()
+) -> void:
 	var source := resource if resource != null else dialogue_resource
 	if source == null:
 		return
 	_talking = true
-	if not StoryDirector.request(self, source, cue, Callable(), _on_own_dialogue_finished, _on_own_dialogue_cancelled):
+	var finished := func() -> void:
+		_on_own_dialogue_finished()
+		if on_finished.is_valid():
+			on_finished.call()
+	var cancelled := func() -> void:
+		_on_own_dialogue_cancelled()
+		if on_cancelled.is_valid():
+			on_cancelled.call()
+	if not StoryDirector.request(self, source, cue, on_started, finished, cancelled):
 		_talking = false
 
 
