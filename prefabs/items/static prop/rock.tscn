@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cqg2xneatgokr" path="res://art/things/岩石tm.png" id="2_jom21"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rock"]
-size = Vector2(170, 78)
+size = Vector2(413, 78)
 
 [node name="Rock" type="StaticBody2D" unique_id=1747388183]
 collision_layer = 2
@@ -23,5 +23,5 @@ scale = Vector2(2, 2)
 texture = ExtResource("2_jom21")
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=1485441702]
-position = Vector2(0, -39)
+position = Vector2(-0.5, -39)
 shape = SubResource("RectangleShape2D_rock")

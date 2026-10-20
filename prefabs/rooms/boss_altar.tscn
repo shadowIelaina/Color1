@@ -13,7 +13,6 @@ script = ExtResource("1_altar")
 [node name="Visual" type="Sprite2D" parent="." unique_id=607497174]
 texture_filter = 1
 position = Vector2(2.9999995, -3.0000153)
-scale = Vector2(0.5791016, 0.5283203)
 texture = ExtResource("2_71kd3")
 
 [node name="HeartSlots" type="Node2D" parent="." unique_id=722678618]
@@ -22,18 +21,15 @@ position = Vector2(0, -360)
 
 [node name="Heart1" type="Sprite2D" parent="HeartSlots" unique_id=41066266]
 texture_filter = 1
-position = Vector2(-131, 172)
-scale = Vector2(0.56140625, 0.5496873)
+position = Vector2(-239, 10)
 texture = ExtResource("3_71kd3")
 
 [node name="Heart2" type="Sprite2D" parent="HeartSlots" unique_id=1258349427]
 texture_filter = 1
-position = Vector2(5, 146)
-scale = Vector2(0.60046875, 0.56140614)
+position = Vector2(-1, -18)
 texture = ExtResource("4_thl1y")
 
 [node name="Heart3" type="Sprite2D" parent="HeartSlots" unique_id=1558320321]
 texture_filter = 1
-position = Vector2(137, 169)
-scale = Vector2(0.57312495, 0.5535937)
+position = Vector2(235, 16)
 texture = ExtResource("5_71kd3")

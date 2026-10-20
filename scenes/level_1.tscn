@@ -28,6 +28,7 @@
 [ext_resource type="Script" uid="uid://cj32gld0g6dep" path="res://scripts/flow_marker_spawner.gd" id="20_so66j"]
 [ext_resource type="Script" uid="uid://cy2d5bdlhq86l" path="res://scripts/one_way_gate.gd" id="21_oneway"]
 [ext_resource type="Script" uid="uid://c87fgfsseq82n" path="res://color_change/air_wall_spawner.gd" id="22_airwall"]
+[ext_resource type="PackedScene" uid="uid://bjj3ek2w8npqq" path="res://prefabs/items/static prop/rock.tscn" id="23_rscm6"]
 [ext_resource type="PackedScene" uid="uid://bv06efk7r2psm" path="res://prefabs/items/static prop/Baoxiang.tscn" id="26_hg84p"]
 [ext_resource type="Script" uid="uid://8xoxo53ss7et" path="res://scripts/companion.gd" id="26_mmfjm"]
 [ext_resource type="Resource" uid="uid://cs4tg8k8wjy13" path="res://dialogue/dia/companion.dialogue" id="27_k8ld0"]
@@ -4825,7 +4826,7 @@ position = Vector2(2719, -9335)
 position = Vector2(664, -9414)
 
 [node name="Grass_58" parent="Grass" unique_id=1713965819 instance=ExtResource("9_ycdy4")]
-position = Vector2(-518, -8954)
+position = Vector2(-655, -9109)
 
 [node name="Grass_59" parent="Grass" unique_id=1761958486 instance=ExtResource("9_ycdy4")]
 position = Vector2(-1411, -9453)
@@ -4834,16 +4835,25 @@ position = Vector2(-1411, -9453)
 position = Vector2(-1923, -9499)
 
 [node name="Grass_61" parent="Grass" unique_id=636981679 instance=ExtResource("9_ycdy4")]
-position = Vector2(-1522, -8908)
+position = Vector2(-1522, -8990)
 
 [node name="Grass_62" parent="Grass" unique_id=2147397607 instance=ExtResource("9_ycdy4")]
 position = Vector2(1390, -6700)
 
 [node name="Grass_63" parent="Grass" unique_id=776668406 instance=ExtResource("9_ycdy4")]
-position = Vector2(757, -6589)
+position = Vector2(757, -6843)
 
 [node name="Grass_64" parent="Grass" unique_id=176484936 instance=ExtResource("9_ycdy4")]
 position = Vector2(4832, -8256)
+
+[node name="Rock" parent="Grass" unique_id=1747388183 instance=ExtResource("23_rscm6")]
+position = Vector2(4641, 6207)
+
+[node name="Rock3" parent="Grass" unique_id=439127617 instance=ExtResource("23_rscm6")]
+position = Vector2(3237, 11293)
+
+[node name="Rock2" parent="Grass" unique_id=160030489 instance=ExtResource("23_rscm6")]
+position = Vector2(6065, 9739)
 
 [node name="GrassBig" type="Node2D" parent="." unique_id=944446294]
 y_sort_enabled = true
@@ -4879,13 +4889,13 @@ position = Vector2(5705, 6559)
 position = Vector2(5317, 6355)
 
 [node name="Grass_big63" parent="GrassBig" unique_id=1920584049 instance=ExtResource("18_x2xxo")]
-position = Vector2(3675, 11331)
+position = Vector2(4399, 6517)
 
 [node name="Grass_big64" parent="GrassBig" unique_id=401976480 instance=ExtResource("18_x2xxo")]
-position = Vector2(5574, 9353)
+position = Vector2(6197, 11158)
 
 [node name="Grass_big65" parent="GrassBig" unique_id=254323542 instance=ExtResource("18_x2xxo")]
-position = Vector2(6225, 11406)
+position = Vector2(5895, 9787)
 
 [node name="Grass_big5" parent="GrassBig" unique_id=933545374 instance=ExtResource("18_x2xxo")]
 position = Vector2(3284, -9042)
@@ -5216,12 +5226,10 @@ position = Vector2(-737, -189)
 size = Vector2(6500, 5500)
 
 [node name="startroom2" parent="." unique_id=894835832 instance=ExtResource("29_mbb35")]
-visible = false
 position = Vector2(4767, -196)
 size = Vector2(4500, 7000)
 
 [node name="startroom3" parent="." unique_id=1860127233 instance=ExtResource("29_mbb35")]
-visible = false
 position = Vector2(13021, -355)
 size = Vector2(12000, 7000)
 
@@ -5271,7 +5279,7 @@ color = Color(0.5, 0.85, 0.5, 1)
 polygon = PackedVector2Array(-32, -48, 32, -48, 32, 48, -32, 48)
 
 [node name="BaoXiang" parent="." unique_id=1645125291 instance=ExtResource("26_hg84p")]
-position = Vector2(3769, 10947)
+position = Vector2(3762, 11047)
 drop_scene = ExtResource("36_tdlki")
 
 [node name="BaoXiang2" parent="." unique_id=217552730 instance=ExtResource("26_hg84p")]

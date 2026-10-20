@@ -477,7 +477,7 @@ func _switch_wheel_texture(tex: Texture2D) -> void:
 
 
 # —— 黑白贴图血量显示 ——
-const HEART_TEXTURE := preload("res://art/picture_boluo/生命值(黑)tm.png")
+const HEART_TEXTURE := preload("res://art/things/生命值(黑)tm.png")
 const HEART_ICON_SIZE := 56.0
 
 var hearts: GridContainer

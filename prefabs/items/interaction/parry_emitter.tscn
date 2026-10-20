@@ -1,13 +1,13 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://u2wqdymn8aon"]
 
-[ext_resource type="Script" path="res://scripts/mechanics/parry_emitter.gd" id="1_emit"]
+[ext_resource type="Script" uid="uid://qysx3xvp5ifb" path="res://scripts/mechanics/parry_emitter.gd" id="1_emit"]
 [ext_resource type="Texture2D" uid="uid://b5t8gfrpg0my6" path="res://art/creature/Bee_Jaw/待机状态.png" id="2_idle"]
 [ext_resource type="Texture2D" uid="uid://df2l353sa74wi" path="res://art/creature/Bee_Jaw/攻击前摇.png" id="3_windup"]
 
 [sub_resource type="RectangleShape2D" id="Rect_emit"]
-size = Vector2(128, 128)
+size = Vector2(221, 231)
 
-[node name="ParryEmitter" type="CharacterBody2D"]
+[node name="ParryEmitter" type="CharacterBody2D" unique_id=87147312]
 collision_layer = 4
 collision_mask = 2
 motion_mode = 1
@@ -15,10 +15,11 @@ script = ExtResource("1_emit")
 idle_texture = ExtResource("2_idle")
 windup_texture = ExtResource("3_windup")
 
-[node name="Visual" type="Sprite2D" parent="."]
+[node name="Visual" type="Sprite2D" parent="." unique_id=216541786]
 texture_filter = 1
-scale = Vector2(0.35, 0.35)
+scale = Vector2(0.7, 0.7)
 texture = ExtResource("2_idle")
 
-[node name="Collision" type="CollisionShape2D" parent="."]
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=515215163]
+position = Vector2(5.5, -15.5)
 shape = SubResource("Rect_emit")
