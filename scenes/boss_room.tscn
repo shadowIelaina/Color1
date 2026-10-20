@@ -392,42 +392,42 @@ position = Vector2(1636.0001, -178)
 rotation = -0.1
 scale = Vector2(0.75, 0.75)
 
-[node name="ColorableRock_NW" parent="Arena" unique_id=1543912867 instance=ExtResource("14_box")]
+[node name="ReflectBox_NW" parent="Arena" unique_id=1543912867 instance=ExtResource("14_box")]
 position = Vector2(-1521.3334, 663.3333)
 scale = Vector2(4, 4)
 collision_layer = 2
 collision_mask = 0
 reflect_radius = 360.0
 
-[node name="ColorableRock_NE" parent="Arena" unique_id=973475327 instance=ExtResource("14_box")]
+[node name="ReflectBox_NE" parent="Arena" unique_id=973475327 instance=ExtResource("14_box")]
 position = Vector2(1165.3334, -550.6666)
 scale = Vector2(4, 4)
 collision_layer = 2
 collision_mask = 0
 reflect_radius = 360.0
 
-[node name="ColorableRock_SW" parent="Arena" unique_id=1729190824 instance=ExtResource("14_box")]
+[node name="ReflectBox_SW" parent="Arena" unique_id=1729190824 instance=ExtResource("14_box")]
 position = Vector2(-630, -1016.6666)
 scale = Vector2(4, 4)
 collision_layer = 2
 collision_mask = 0
 reflect_radius = 360.0
 
-[node name="ColorableRock_SE" parent="Arena" unique_id=2066863030 instance=ExtResource("14_box")]
+[node name="ReflectBox_SE" parent="Arena" unique_id=2066863030 instance=ExtResource("14_box")]
 position = Vector2(1052.6666, 705.3334)
 scale = Vector2(4, 4)
 collision_layer = 2
 collision_mask = 0
 reflect_radius = 360.0
 
-[node name="ColorableRock_SW2" parent="Arena" unique_id=34864451 instance=ExtResource("14_box")]
+[node name="ReflectBox_SW2" parent="Arena" unique_id=34864451 instance=ExtResource("14_box")]
 position = Vector2(-500, 1000)
 scale = Vector2(4, 4)
 collision_layer = 2
 collision_mask = 0
 reflect_radius = 360.0
 
-[node name="ColorableRock_SE2" parent="Arena" unique_id=1799526701 instance=ExtResource("14_box")]
+[node name="ReflectBox_SE2" parent="Arena" unique_id=1799526701 instance=ExtResource("14_box")]
 position = Vector2(-2.0000153, 1235.3334)
 scale = Vector2(4, 4)
 collision_layer = 2
