@@ -5,31 +5,23 @@
 [ext_resource type="Script" uid="uid://dru8kg3d2ewcb" path="res://scripts/entrance.gd" id="3_entrance"]
 [ext_resource type="Script" uid="uid://co6ajp7px4q56" path="res://scripts/room_zone.gd" id="4_zone"]
 [ext_resource type="PackedScene" path="res://prefabs/boss/boss_encounter.tscn" id="5_boss"]
-[ext_resource type="PackedScene" path="res://prefabs/rooms/boss_portal.tscn" id="6_portal"]
+[ext_resource type="PackedScene" uid="uid://c0a7iws0etlio" path="res://prefabs/rooms/boss_portal.tscn" id="6_portal"]
 [ext_resource type="PackedScene" path="res://prefabs/boss/ruin_pillar.tscn" id="7_pillar"]
 [ext_resource type="PackedScene" path="res://prefabs/boss/ruin_wall.tscn" id="8_wall"]
 [ext_resource type="PackedScene" path="res://prefabs/boss/arena_obelisk.tscn" id="9_obelisk"]
-[ext_resource type="PackedScene" path="res://prefabs/items/static prop/rock.tscn" id="10_rock"]
-[ext_resource type="Shader" uid="uid://6d0konoghra1" path="res://shaders/arena_rune.gdshader" id="11_rune"]
+[ext_resource type="PackedScene" uid="uid://bjj3ek2w8npqq" path="res://prefabs/items/static prop/rock.tscn" id="10_rock"]
 [ext_resource type="Script" uid="uid://ds5o3r2i2ds6p" path="res://scripts/nav/runtime_nav_baker.gd" id="13_nav"]
-[ext_resource type="Texture2D" uid="uid://v05473rse7id" path="res://art/picture_boluo/湖水.png" id="14_4e86d"]
+[ext_resource type="Texture2D" uid="uid://v05473rse7id" path="res://art/Ground/湖水.png" id="14_4e86d"]
 [ext_resource type="PackedScene" uid="uid://dha0t8jcscj3t" path="res://color_change/object.tscn" id="14_box"]
-[ext_resource type="Texture2D" uid="uid://dq1mvc7v72pfr" path="res://art/picture_boluo/湖水（深水）.png" id="15_xmdvo"]
+[ext_resource type="Texture2D" uid="uid://dq1mvc7v72pfr" path="res://art/Ground/湖水（深水）.png" id="15_xmdvo"]
 [ext_resource type="Script" uid="uid://b1mxwxqbqny2x" path="res://color_change/water_spawner.gd" id="16_okx5s"]
 [ext_resource type="Texture2D" uid="uid://jbbq0d4vwblq" path="res://art/else/grass.png" id="17_votf5"]
-[ext_resource type="Texture2D" uid="uid://cnygc4osqxh02" path="res://art/picture_boluo/土墙块（湖水过渡）1.png" id="18_skgx8"]
-[ext_resource type="Texture2D" uid="uid://cyegdl1jno3wu" path="res://art/picture_boluo/土墙块（湖水过渡）2.png" id="19_gjhnn"]
-[ext_resource type="Texture2D" uid="uid://jxl8cetg4nil" path="res://art/picture_boluo/土墙块（湖水过渡）3.png" id="20_geu3j"]
-[ext_resource type="Texture2D" uid="uid://cpp75f0guxi8q" path="res://art/picture_boluo/地块1tm.png" id="21_yvuth"]
-[ext_resource type="Texture2D" uid="uid://oxidhgibw4fy" path="res://art/picture_boluo/墙体.png" id="22_l160s"]
+[ext_resource type="Texture2D" uid="uid://cnygc4osqxh02" path="res://art/Ground/土墙块（湖水过渡）1.png" id="18_skgx8"]
+[ext_resource type="Texture2D" uid="uid://cyegdl1jno3wu" path="res://art/Ground/土墙块（湖水过渡）2.png" id="19_gjhnn"]
+[ext_resource type="Texture2D" uid="uid://jxl8cetg4nil" path="res://art/Ground/土墙块（湖水过渡）3.png" id="20_geu3j"]
+[ext_resource type="Texture2D" uid="uid://cpp75f0guxi8q" path="res://art/Ground/地块1tm.png" id="21_yvuth"]
+[ext_resource type="Texture2D" uid="uid://oxidhgibw4fy" path="res://art/Ground/墙体.png" id="22_l160s"]
 [ext_resource type="Script" uid="uid://c87fgfsseq82n" path="res://color_change/air_wall_spawner.gd" id="23_2dyfp"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rune"]
-shader = ExtResource("11_rune")
-shader_parameter/rune_color = Color(0.95, 0.3, 0.22, 0.7)
-shader_parameter/intensity = 0.75
-shader_parameter/ring_count = 3.0
-shader_parameter/spoke_count = 12.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
 size = Vector2(9600, 7800)
@@ -335,70 +327,6 @@ nav_cell_size = 32.0
 scale = Vector2(1.5, 1.5)
 script = ExtResource("2_arena")
 
-[node name="Water" type="Polygon2D" parent="Arena" unique_id=1451907621]
-z_index = -36
-color = Color(0.035, 0.075, 0.1, 1)
-polygon = PackedVector2Array(1100, -2400, 3000, -1100, 3000, 1100, 1100, 2400, -1100, 2400, -3000, 1100, -3000, -1100, -1100, -2400)
-
-[node name="Rim" type="Polygon2D" parent="Arena" unique_id=640114647]
-z_index = -34
-color = Color(0.3, 0.28, 0.36, 1)
-polygon = PackedVector2Array(980, -2220, 2820, -980, 2820, 980, 980, 2220, -980, 2220, -2820, 980, -2820, -980, -980, -2220)
-
-[node name="Platform" type="Polygon2D" parent="Arena" unique_id=88279338]
-z_index = -32
-color = Color(0.2, 0.19, 0.25, 1)
-polygon = PackedVector2Array(950, -2100, 2700, -950, 2700, 950, 950, 2100, -950, 2100, -2700, 950, -2700, -950, -950, -2100)
-
-[node name="PlatformInner" type="Polygon2D" parent="Arena" unique_id=2099129092]
-z_index = -30
-color = Color(0.24, 0.23, 0.3, 1)
-polygon = PackedVector2Array(820, -1600, 2150, -820, 2150, 820, 820, 1600, -820, 1600, -2150, 820, -2150, -820, -820, -1600)
-
-[node name="Dais" type="Polygon2D" parent="Arena" unique_id=548434689]
-z_index = -29
-color = Color(0.3, 0.28, 0.37, 1)
-polygon = PackedVector2Array(-1100, -1850, 1100, -1850, 1000, -1250, -1000, -1250)
-
-[node name="GateBase" type="Polygon2D" parent="Arena" unique_id=112020365]
-z_index = -29
-color = Color(0.27, 0.25, 0.33, 1)
-polygon = PackedVector2Array(-900, 1850, 900, 1850, 800, 2150, -800, 2150)
-
-[node name="Rune" type="Polygon2D" parent="Arena" unique_id=52915801]
-z_index = -27
-material = SubResource("ShaderMaterial_rune")
-polygon = PackedVector2Array(-950, -950, 950, -950, 950, 950, -950, 950)
-uv = PackedVector2Array(0, 0, 1, 0, 1, 1, 0, 1)
-
-[node name="EdgeLine" type="Line2D" parent="Arena" unique_id=1908629177]
-z_index = -25
-points = PackedVector2Array(950, -2100, 2700, -950, 2700, 950, 950, 2100, -950, 2100, -2700, 950, -2700, -950, -950, -2100, 950, -2100)
-default_color = Color(0.55, 0.5, 0.62, 0.8)
-
-[node name="Crack1" type="Line2D" parent="Arena" unique_id=52116939]
-z_index = -26
-points = PackedVector2Array(0, 0, 600, 300, 1300, 500)
-default_color = Color(0.08, 0.07, 0.11, 0.9)
-
-[node name="Crack2" type="Line2D" parent="Arena" unique_id=680914895]
-z_index = -26
-points = PackedVector2Array(-200, 100, -900, 500, -1600, 700)
-width = 9.0
-default_color = Color(0.08, 0.07, 0.11, 0.9)
-
-[node name="Crack3" type="Line2D" parent="Arena" unique_id=1302867881]
-z_index = -26
-points = PackedVector2Array(100, -200, 700, -900, 1100, -1300)
-width = 8.0
-default_color = Color(0.08, 0.07, 0.11, 0.9)
-
-[node name="Crack4" type="Line2D" parent="Arena" unique_id=1090657182]
-z_index = -26
-points = PackedVector2Array(-100, -100, -600, -700, -900, -1100)
-width = 8.0
-default_color = Color(0.08, 0.07, 0.11, 0.9)
-
 [node name="GatePostL" parent="Arena" unique_id=27897536 instance=ExtResource("7_pillar")]
 position = Vector2(-665.99994, 1555.3333)
 rotation = 0.08
@@ -528,16 +456,6 @@ scale = Vector2(0.68, 1)
 position = Vector2(692.91, 287.01)
 rotation = 1.963495
 scale = Vector2(0.68, 1)
-
-[node name="RingGateL" parent="Arena" unique_id=2117195110 instance=ExtResource("7_pillar")]
-position = Vector2(-530.33, 530.33)
-rotation = 0.785398
-scale = Vector2(0.45, 0.45)
-
-[node name="RingGateR" parent="Arena" unique_id=1151385861 instance=ExtResource("7_pillar")]
-position = Vector2(530.33, 530.33)
-rotation = -0.785398
-scale = Vector2(0.45, 0.45)
 
 [node name="CoverNorthW" parent="Arena" unique_id=315999837 instance=ExtResource("7_pillar")]
 position = Vector2(-1050, -1250)

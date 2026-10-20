@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bgew1y27utuh3"]
 
 [ext_resource type="Script" uid="uid://cnghxwksus7nk" path="res://scripts/growth_seed.gd" id="1_grow"]
-[ext_resource type="Texture2D" uid="uid://cqg2xneatgokr" path="res://art/picture_boluo/岩石tm.png" id="2_qma38"]
-[ext_resource type="Texture2D" uid="uid://dk6jnneshuvv0" path="res://art/picture_boluo/藤桥tm.png" id="3_gbqwb"]
+[ext_resource type="Texture2D" uid="uid://cqg2xneatgokr" path="res://art/things/岩石tm.png" id="2_qma38"]
+[ext_resource type="Texture2D" uid="uid://dk6jnneshuvv0" path="res://art/things/藤桥tm.png" id="3_gbqwb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vine"]
 size = Vector2(256, 40)
