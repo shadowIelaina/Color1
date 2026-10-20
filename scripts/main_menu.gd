@@ -145,7 +145,10 @@ func _build_ui() -> void:
 	_button(_new_game_prompt, "返回", func(): _show_new_game_prompt(false))
 	_new_game_prompt.hide()
 	_settings_button = _button(_panel, "设置", _toggle_settings)
-	_quit_button = _button(_panel, "退出游戏", func(): get_tree().quit())
+	_quit_button = _button(_panel, "退出游戏", func():
+		UserSettings.save_now()
+		get_tree().quit()
+	)
 	_settings = VBoxContainer.new()
 	_settings.add_theme_constant_override("separation", 10)
 	_panel.add_child(_settings)
@@ -153,16 +156,16 @@ func _build_ui() -> void:
 	var volume := HSlider.new()
 	volume.max_value = 1.0
 	volume.step = 0.01
-	volume.value = AudioServer.get_bus_volume_linear(0)
-	volume.value_changed.connect(func(value: float): AudioServer.set_bus_volume_linear(0, value))
+	volume.value = UserSettings.volume
+	volume.value_changed.connect(UserSettings.set_volume)
 	_settings.add_child(volume)
 	var fullscreen := CheckButton.new()
 	fullscreen.text = "全屏显示"
 	fullscreen.add_theme_color_override("font_color", Color("41483c"))
 	fullscreen.add_theme_color_override("font_hover_color", Color("263e30"))
 	fullscreen.add_theme_color_override("font_pressed_color", Color("263e30"))
-	fullscreen.button_pressed = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
-	fullscreen.toggled.connect(func(enabled: bool): DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if enabled else DisplayServer.WINDOW_MODE_WINDOWED))
+	fullscreen.button_pressed = UserSettings.fullscreen
+	fullscreen.toggled.connect(UserSettings.set_fullscreen)
 	_settings.add_child(fullscreen)
 	_settings.hide()
 	_hint = Label.new()

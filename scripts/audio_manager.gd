@@ -40,6 +40,16 @@ const STEP_STREAMS := {
 const ICE_BREAK_STREAM := preload("res://audio/SE/IceBreak.mp3")
 const UI_HOVER_STREAM := preload("res://audio/SE/UIHover.ogg")
 const UI_SELECT_STREAM := preload("res://audio/SE/UISelect.ogg")
+const EVENT_STREAMS := {
+	"invoke_fire": preload("res://audio/SE/InvokeFire.mp3"),
+	"invoke_ice": preload("res://audio/SE/InvokeIce.mp3"),
+	"boss_hit": preload("res://audio/SE/BossHit.mp3"),
+	"boss_wall": preload("res://audio/SE/BossHitWall.mp3"),
+	"boss_heal": preload("res://audio/SE/BossHealing.mp3"),
+	"blue_shoot": preload("res://audio/SE/BlueShoot.mp3"),
+	"writing": preload("res://audio/SE/PencilWriting.ogg"),
+}
+const FIRE_STREAM := preload("res://audio/BGS/FireBurning.mp3")
 const WATERFLOW_STREAM := preload("res://audio/BGS/WaterFlow.mp3")
 
 ## 普通背景音乐：按区域选曲，每首独立循环，不再轮播列表。
@@ -63,6 +73,8 @@ const WATER_EXCLUDE := ["过渡", "土墙", "地块", "rock", "草"]
 ## SE 播放器池大小（轮换播放，允许脚步轻微重叠）。
 const SE_POOL_SIZE := 6
 
+var _fire_player: AudioStreamPlayer
+var _event_times := {}
 var _wf_a: AudioStreamPlayer
 var _wf_b: AudioStreamPlayer
 var _se_pool: Array[AudioStreamPlayer] = []
@@ -92,6 +104,13 @@ func _ready() -> void:
 	_ensure_bus("SE")
 	_ensure_bus("Music")
 	_setup_music()
+	_fire_player = AudioStreamPlayer.new()
+	_fire_player.bus = "BGS"
+	_fire_player.stream = FIRE_STREAM.duplicate()
+	_fire_player.stream.loop = true
+	_fire_player.volume_db = -80.0
+	add_child(_fire_player)
+	_fire_player.play()
 
 	var wf := WATERFLOW_STREAM
 	if wf is AudioStreamMP3:
@@ -116,12 +135,14 @@ func _process(delta: float) -> void:
 	if _player == null or not is_instance_valid(_player):
 		_player = get_tree().get_first_node_in_group("player") as Node2D
 		if _player == null:
+			_fire_player.volume_db = -80.0
 			return
 		_last_pos = _player.global_position
 		_step_accum = 0.0
 		_surface = ""
 	_update_footsteps()
 	_update_waterflow(delta)
+	_update_fire(delta)
 
 
 ## —— 脚步声 ——
@@ -284,6 +305,34 @@ func play_ui_select() -> void:
 	if Time.get_ticks_msec() - _last_select_ms < 80: return
 	_last_select_ms = Time.get_ticks_msec()
 	_play_sfx(UI_SELECT_STREAM, randf_range(0.92, 1.08), -5.0)
+
+
+## 事件独立限频，避免同帧多次命中或逐字对白挤满播放器池。
+func play_event(event: String) -> void:
+	if not EVENT_STREAMS.has(event):
+		return
+	var now := Time.get_ticks_msec()
+	var interval := 120 if event == "writing" else 100
+	if now - int(_event_times.get(event, -1000)) < interval:
+		return
+	_event_times[event] = now
+	_play_sfx(EVENT_STREAMS[event], 1.0, -12.0 if event == "writing" else -5.0)
+
+
+func play_invoke(element: String) -> void:
+	if element == "burn": play_event("invoke_fire")
+	elif element == "freeze": play_event("invoke_ice")
+
+
+## 多个火源按最近距离混音，避免蔓延后音量叠加。
+func _update_fire(delta: float) -> void:
+	var distance := INF
+	for source in get_tree().get_nodes_in_group("heat_source"):
+		if source is Node2D and GameState.is_in_current_scene(source):
+			distance = minf(distance, _player.global_position.distance_to(source.global_position))
+	var gain := clampf(1.0 - distance / (CELL * 5.0), 0.0, 1.0) * 0.5
+	var target := linear_to_db(maxf(gain, 0.0001))
+	_fire_player.volume_db = lerpf(_fire_player.volume_db, target, 1.0 - exp(-3.0 * delta))
 
 
 func _play_sfx(stream: AudioStream, pitch: float = 1.0, volume: float = 0.0) -> void:

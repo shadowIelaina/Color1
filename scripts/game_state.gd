@@ -15,6 +15,7 @@ signal gate_opened(gate_id: String)
 signal hint(text: String)
 ## 普通短提示，HUD 使用底部手绘纸签呈现。
 signal notice(text: String)
+signal tutorial_notice(text: String, duration: float)
 ## Boss 级警告横幅：标题 / 副标题 / 主题色 / 持续秒数（带倒计时）。HUD 连接它做居中横幅。
 signal alert(title: String, subtitle: String, color: Color, duration: float)
 ## 立即收起当前 Boss 警告横幅（打断回血、Boss 死亡等）。

@@ -4358,6 +4358,26 @@ scale = Vector2(16, 16)
 story_cue = "tutorial_blue_absorb"
 story_id = "level1_first_ice_absorb"
 
+[node name="OpeningGuidePath" type="Node2D" parent="." unique_id=747053662]
+
+[node name="AcrossStartRoom" type="Marker2D" parent="OpeningGuidePath" unique_id=142764725]
+position = Vector2(1024, 0)
+
+[node name="EastPassage" type="Marker2D" parent="OpeningGuidePath" unique_id=1341194693]
+position = Vector2(2048, 0)
+
+[node name="IntoEastRoom" type="Marker2D" parent="OpeningGuidePath" unique_id=1094104205]
+position = Vector2(3072, -256)
+
+[node name="TurnNorth" type="Marker2D" parent="OpeningGuidePath" unique_id=1591439859]
+position = Vector2(4096, -512)
+
+[node name="NorthPassage" type="Marker2D" parent="OpeningGuidePath" unique_id=1811269888]
+position = Vector2(4864, -1280)
+
+[node name="BeforeBlueIce" type="Marker2D" parent="OpeningGuidePath" unique_id=1744442451]
+position = Vector2(4864, -2560)
+
 [node name="Ground" type="TileMapLayer" parent="." unique_id=1123909002]
 z_index = -2
 texture_filter = 1
@@ -5220,6 +5240,11 @@ erase_speed = 5
 
 [node name="Checkpoint" parent="." unique_id=1314338313 instance=ExtResource("33_v8pws")]
 position = Vector2(-9279, -7906)
+scale = Vector2(2, 2)
+
+[node name="Checkpoint2" parent="." unique_id=1420885312 instance=ExtResource("33_v8pws")]
+position = Vector2(4775, 6108)
+scale = Vector2(8, 2)
 
 [node name="startroom" parent="." unique_id=110648566 instance=ExtResource("29_mbb35")]
 position = Vector2(-737, -189)

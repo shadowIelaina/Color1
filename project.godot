@@ -18,10 +18,11 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameState="*res://scripts/game_state.gd"
+UserSettings="*res://scripts/user_settings.gd"
 SceneManager="*res://scripts/scene_manager.gd"
 HeightMap="*res://scripts/height_map.gd"
-DialogueManager="*uid://c3rodes2l3gxb"
-PhantomCameraManager="*uid://duq6jhf6unyis"
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 AudioManager="*res://scripts/audio_manager.gd"
 StoryDirector="*res://scripts/story_director.gd"
 _mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"

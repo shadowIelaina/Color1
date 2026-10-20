@@ -53,6 +53,8 @@ func _on_boss_died() -> void:
 	if not is_inside_tree():
 		return
 	GameState.set_switch(defeated_switch, true)
+	# 战斗完成后立即保存，避免尚未碰到下个存档点就退出导致胜利记录丢失。
+	GameState.save_game()
 	var arena := get_node_or_null("Arena")
 	if arena != null and arena.has_method("play_victory"):
 		arena.call("play_victory")

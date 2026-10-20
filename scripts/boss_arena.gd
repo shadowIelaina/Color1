@@ -9,7 +9,7 @@ const COLORS := {
 }
 
 @onready var rune: Polygon2D = $Rune
-@onready var vignette: ColorRect = $Vignette
+@onready var vignette: ColorRect = get_node_or_null("Vignette") as ColorRect
 @onready var obelisks := {
 	"red": $ObeliskRed,
 	"blue": $ObeliskBlue,
@@ -27,7 +27,7 @@ var _rune_pulse: Tween
 
 func _ready() -> void:
 	_rune_mat = rune.material as ShaderMaterial
-	_vignette_mat = vignette.material as ShaderMaterial
+	_vignette_mat = vignette.material as ShaderMaterial if vignette != null else null
 	# BossEncounter 可能在本节点之后才 _ready 入组，延后一帧再连接。
 	_connect_boss.call_deferred()
 
@@ -93,16 +93,17 @@ func _apply_phase(phase: String, instant := false) -> void:
 	_set_glow_phase(phase, instant)
 	if instant:
 		_rune_mat.set_shader_parameter("rune_color", color)
-		_vignette_mat.set_shader_parameter("edge_color", _edge_color(color))
+		if _vignette_mat != null: _vignette_mat.set_shader_parameter("edge_color", _edge_color(color))
 		return
 	if _phase_tween != null and _phase_tween.is_valid():
 		_phase_tween.kill()
 	_phase_tween = create_tween().set_parallel(true)
 	var from_rune: Color = _rune_mat.get_shader_parameter("rune_color")
-	var from_edge: Color = _vignette_mat.get_shader_parameter("edge_color")
 	var to_edge := _edge_color(color)
 	_phase_tween.tween_method(func(c: Color): _rune_mat.set_shader_parameter("rune_color", c), from_rune, color, 0.55)
-	_phase_tween.tween_method(func(c: Color): _vignette_mat.set_shader_parameter("edge_color", c), from_edge, to_edge, 0.55)
+	if _vignette_mat != null:
+		var from_edge: Color = _vignette_mat.get_shader_parameter("edge_color")
+		_phase_tween.tween_method(func(c: Color): _vignette_mat.set_shader_parameter("edge_color", c), from_edge, to_edge, 0.55)
 	_pulse_rune()
 
 
@@ -127,7 +128,7 @@ func _pulse_rune() -> void:
 
 ## Boss 胜利：所有方尖碑亮起，符文变金白并扩散一下。
 func play_victory(instant := false) -> void:
-	if _rune_mat == null or _vignette_mat == null:
+	if _rune_mat == null:
 		return
 	_phase = "victory"
 	var gold := Color(1.0, 0.86, 0.42, 1.0)
@@ -137,11 +138,12 @@ func play_victory(instant := false) -> void:
 			obelisk.call("set_active", true, instant)
 	if instant:
 		_rune_mat.set_shader_parameter("rune_color", gold)
-		_vignette_mat.set_shader_parameter("edge_color", _edge_color(gold))
+		if _vignette_mat != null: _vignette_mat.set_shader_parameter("edge_color", _edge_color(gold))
 		return
 	var from_rune: Color = _rune_mat.get_shader_parameter("rune_color")
-	var from_edge: Color = _vignette_mat.get_shader_parameter("edge_color")
 	var t := create_tween().set_parallel(true)
 	t.tween_method(func(c: Color): _rune_mat.set_shader_parameter("rune_color", c), from_rune, gold, 0.7)
-	t.tween_method(func(c: Color): _vignette_mat.set_shader_parameter("edge_color", c), from_edge, _edge_color(gold), 0.7)
+	if _vignette_mat != null:
+		var from_edge: Color = _vignette_mat.get_shader_parameter("edge_color")
+		t.tween_method(func(c: Color): _vignette_mat.set_shader_parameter("edge_color", c), from_edge, _edge_color(gold), 0.7)
 	_pulse_rune()

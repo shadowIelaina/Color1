@@ -1,0 +1,31 @@
+{
+  "duration_seconds": 47.1,
+  "width": 1152,
+  "height": 648,
+  "fps": 30,
+  "video_codec": "H.264",
+  "audio_codec": "AAC",
+  "file_bytes": 7687817,
+  "timeline": [
+    {
+      "shot": "green",
+      "start": 0.0,
+      "duration": 20.033
+    },
+    {
+      "shot": "blue",
+      "start": 20.033,
+      "duration": 7.033
+    },
+    {
+      "shot": "water",
+      "start": 27.067,
+      "duration": 10.0
+    },
+    {
+      "shot": "boss",
+      "start": 37.067,
+      "duration": 10.033
+    }
+  ]
+}

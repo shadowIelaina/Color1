@@ -117,11 +117,20 @@ var _base_collision_mask := 0    # 场景里配好的碰撞掩码（含水层）
 var _in_water := false           # 是否正站在水里（不可站水格）→ 临时忽略水层碰撞以便踩水
 var _knockback_vel := Vector2.ZERO   # 被飞行物命中时的击退速度（逐帧衰减）
 var _move_vel := Vector2.ZERO        # 输入产生的平滑移动速度（加减速用）
+var opening_input_locked := false
+## 只登记玩家实际赋予成功的目标，避免回收关卡原有的种子源。
+var _placed_colors: Dictionary = {}
+const COLOR_WHEEL_HINT := "tutorial_color_wheel"
+const COLOR_QUANTITY_HINT := "tutorial_color_quantity"
+var _color_quantity_hint_delay := -1.0
+var _color_tutorial_wait := 0.0
+var _color_wheel_hint_delay := -1.0
 var _dialogue_active := false        # 对话中禁止玩家移动
 var health := 1.0
 var _invincible_until := 0
 var _hit_t := 0.0   # 受击动画计时
 var _hit_feedback: Node
+var _action_input_guard_until := 0
 var _frozen := false        # 被冰冻（Boss 蓝弹）：禁止移动，需用红色解冻
 var _freeze_t := 0.0        # 冰冻剩余时间（超时兜底自动解冻）
 var _slow_t := 0.0          # 减速剩余时间（冰晶等地表）：不禁止移动，只是变慢
@@ -158,6 +167,8 @@ func _ready() -> void:
 	_outline_material = ShaderMaterial.new()
 	_outline_material.shader = OUTLINE_SHADER
 	_inventory = GameState.elements.duplicate()
+	for element in _held_elements():
+		_remember_acquired_color(str(element))
 	var saved_elements := _held_elements()
 	_select_element(str(saved_elements[0]) if not saved_elements.is_empty() else "")
 	_seed_infinite_elements()
@@ -201,6 +212,10 @@ func _setup_range_indicator() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if opening_input_locked:
+		velocity = Vector2.ZERO
+		_move_vel = Vector2.ZERO
+		return
 	if _frozen:
 		_process_frozen(delta)
 		return
@@ -473,6 +488,8 @@ func _die() -> void:
 
 ## 重生：回到当前房间出生点，恢复满血并给略长一点的无敌时间。
 func _respawn() -> void:
+	var companion := _companion()
+	if is_instance_valid(companion): companion.cancel_orders()
 	unfreeze()
 	_slow_t = 0.0
 	_slow_factor = 1.0
@@ -481,6 +498,11 @@ func _respawn() -> void:
 	velocity = Vector2.ZERO
 	_knockback_vel = Vector2.ZERO
 	global_position = _spawn_position()
+	reclaim_placed_colors()
+	state = State.IDLE
+	_apply_animation()
+	if is_instance_valid(companion) and GameState.companion_recruited:
+		companion.restore_following()
 	_invincible_until = Time.get_ticks_msec() + INVINCIBLE_MS * 2
 	health_changed.emit(health, max_health)
 
@@ -489,11 +511,76 @@ func _respawn() -> void:
 func _spawn_position() -> Vector2:
 	# 有存档点且存档点就在当前场景 → 优先复活到存档点。
 	if GameState.has_checkpoint() and GameState.checkpoint_scene == SceneManager.current_room_scene:
-		return GameState.checkpoint_pos
+		if is_safe_respawn_position(GameState.checkpoint_pos):
+			return GameState.checkpoint_pos
 	var room := GameState.current_room as Room
 	if room == null:
 		return global_position  # 兜底：不知道出生点就原地满血复活
 	return room.get_entrance_position("spawn")
+
+
+## 存档位置必须是稳定地面，不能依赖即将收回的冰面或藤桥。
+func is_safe_respawn_position(pos: Vector2) -> bool:
+	for obj in get_tree().get_nodes_in_group("colorable"):
+		if not GameState.is_in_current_scene(obj): continue
+		if obj is WaterCell and (obj.contains_point(pos) or obj.contains_point(pos + collision.position)): return false
+	var shape := get_node_or_null("Collision") as CollisionShape2D
+	if shape == null or shape.shape == null: return false
+	var query := PhysicsShapeQueryParameters2D.new()
+	query.shape = shape.shape
+	query.transform = shape.global_transform
+	query.transform.origin += pos - global_position
+	query.collision_mask = 6
+	query.exclude = [get_rid()]
+	return get_world_2d().direct_space_state.intersect_shape(query, 1).is_empty()
+
+
+func register_placed_color(target: Node) -> void:
+	if infinite_elements or not is_instance_valid(target): return
+	if not target.has_method("absorb_color") or not target.has_method("has_color") or not target.has_color(): return
+	var id := target.get_instance_id()
+	var count := int(_placed_colors.get(id, {}).get("count", 0))
+	_placed_colors[id] = {"target": weakref(target), "count": count + 1}
+
+
+## 普通吸收同步扣除登记；混色一次吸收会清空目标，并自行返还两色。
+func settle_placed_absorption(target: Node, info: Dictionary) -> void:
+	var id := target.get_instance_id()
+	if not _placed_colors.has(id): return
+	if not target.has_color():
+		_placed_colors.erase(id)
+	elif str(info.get("element", "")) != "":
+		_placed_colors[id].count -= 1
+		if _placed_colors[id].count <= 0: _placed_colors.erase(id)
+
+
+func reclaim_placed_colors() -> void:
+	var companion := _companion()
+	if is_instance_valid(companion): companion.cancel_orders()
+	var entries := _placed_colors.values()
+	_placed_colors.clear() # 先清账，防止回调或重复返回造成重复领取。
+	for entry in entries:
+		var target: Node = entry.target.get_ref()
+		if not is_instance_valid(target) or target.is_queued_for_deletion(): continue
+		for i in int(entry.count):
+			if not target.has_color(): break
+			var info: Dictionary
+			if target.has_method("reclaim_placed_color"):
+				info = target.reclaim_placed_color()
+			else:
+				info = target.absorb_color()
+			var element := str(info.get("element", ""))
+			if element == "": break
+			receive_element(element, int(info.get("amount", 1)))
+
+
+func return_to_checkpoint() -> bool:
+	if opening_input_locked or StoryDirector.is_busy() or SceneManager.is_busy(): return false
+	_respawn()
+	if GameState.has_checkpoint() and GameState.checkpoint_scene != SceneManager.current_room_scene:
+		SceneManager.resume_from_checkpoint()
+	GameState.notice.emit("已返回存档点，放置的颜色已收回" if GameState.has_checkpoint() else "已返回出生点，放置的颜色已收回")
+	return true
 
 
 ## 供 HUD 在连接信号前读取当前血量快照。
@@ -568,6 +655,7 @@ func _dir_from_input(v: Vector2) -> int:
 
 
 func _handle_color_input() -> void:
+	if Time.get_ticks_msec() < _action_input_guard_until: return
 	if Input.is_action_just_pressed("absorb"):
 		_absorb()
 	if Input.is_action_just_pressed("interact"):
@@ -576,6 +664,11 @@ func _handle_color_input() -> void:
 		_cycle_selection(1)
 	if Input.is_action_just_pressed("cycle_color_down"):
 		_cycle_selection(-1)
+
+
+## 暂停菜单鼠标点击返回时，避免同一次点击透传为场景上色。
+func suppress_action_input() -> void:
+	_action_input_guard_until = Time.get_ticks_msec() + 120
 
 
 ## 当前选中元素的颜色（未选中时为白）。
@@ -685,6 +778,7 @@ func receive_element(element: String, amount: int) -> void:
 		return
 	var had_before := int(_inventory.get(element, 0)) > 0
 	_inventory[element] = int(_inventory.get(element, 0)) + amount
+	_remember_acquired_color(element)
 	if not had_before:
 		_select_element(element)
 	else:
@@ -696,7 +790,50 @@ func refund_element(element: String, amount: int) -> void:
 	if amount <= 0 or element == "":
 		return
 	_inventory[element] = int(_inventory.get(element, 0)) + amount
+	_remember_acquired_color(element)
 	_notify_inventory()
+
+
+## 记录曾获得的颜色：第一种全部用出去后，拿到第二种仍要提示。
+func _remember_acquired_color(element: String) -> void:
+	if infinite_elements or element not in ["burn", "freeze", "grow"]: return
+	GameState.hints["tutorial_color_seen_" + element] = true
+	if not GameState.hints.has(COLOR_QUANTITY_HINT) and _color_quantity_hint_delay < 0.0:
+		_color_quantity_hint_delay = 0.5
+	if GameState.hints.has(COLOR_WHEEL_HINT): return
+	var count := 0
+	for color in ["burn", "freeze", "grow"]:
+		if GameState.hints.has("tutorial_color_seen_" + color): count += 1
+	if count >= 2 and _color_wheel_hint_delay < 0.0:
+		_color_wheel_hint_delay = 0.5
+
+
+func _process(delta: float) -> void:
+	if _color_tutorial_wait > 0.0:
+		_color_tutorial_wait -= delta
+		return
+	if _color_quantity_hint_delay >= 0.0:
+		if StoryDirector.is_busy() or SceneManager.is_busy() or opening_input_locked:
+			_color_quantity_hint_delay = 0.5
+			return
+		_color_quantity_hint_delay -= delta
+		if _color_quantity_hint_delay <= 0.0:
+			_color_quantity_hint_delay = -1.0
+			GameState.hints[COLOR_QUANTITY_HINT] = true
+			GameState.tutorial_notice.emit("颜色种子数量有限，赋予一次消耗一颗。\n右键吸收可以收回；返回存档点会回收已放置的颜色。", 6.0)
+			_color_tutorial_wait = 6.7
+		return
+	if _color_wheel_hint_delay < 0.0: return
+	# 让拾取反馈和相关对白先结束，避免滚轮教学被盖住或立刻覆盖。
+	if StoryDirector.is_busy() or SceneManager.is_busy() or opening_input_locked:
+		_color_wheel_hint_delay = 0.5
+		return
+	_color_wheel_hint_delay -= delta
+	if _color_wheel_hint_delay <= 0.0:
+		_color_wheel_hint_delay = -1.0
+		if GameState.hints.has(COLOR_WHEEL_HINT): return
+		GameState.hints[COLOR_WHEEL_HINT] = true
+		GameState.notice.emit("已获得两种颜色！滚动鼠标滚轮，可以切换当前颜色。")
 
 
 ## 敌人（焰虱）碰到玩家时抢走库存种子——种子守恒的反向操作。抢到返回 true，抢不到返回 false。

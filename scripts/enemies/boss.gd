@@ -719,6 +719,7 @@ func _do_charge(delta: float) -> void:
 
 ## 撞墙：按最大血比例自伤 + 眩晕；并把回复推后，避免连环刷回复。
 func _charge_crash() -> void:
+	AudioManager.play_event("boss_wall")
 	charge_crashed.emit()
 	health = maxf(health - max_health * _cyan.self_damage_ratio, 0.0)
 	health_changed.emit(health, max_health)
@@ -784,6 +785,7 @@ func _fire_ring() -> void:
 func _fire_ice() -> void:
 	if ice_scene == null:
 		return
+	AudioManager.play_event("blue_shoot")
 	var count := maxi(_ice_count(), 1)
 	var base := _ice_dir if _ice_dir != Vector2.ZERO else Vector2.RIGHT
 	_spawn_sniper_flash(base)
@@ -914,6 +916,7 @@ func _enter(s: int) -> void:
 				heal_windup_time
 			)
 		State.HEAL:
+			AudioManager.play_event("boss_heal")
 			_play_body_state("green")
 			_hide_aim_line()
 			_start_heal_pulse()
@@ -935,6 +938,7 @@ func _enter(s: int) -> void:
 func take_damage(amount: float = 1.0) -> void:
 	if _state == State.DEAD or amount <= 0.0:
 		return
+	AudioManager.play_event("boss_hit")
 	health = maxf(health - amount, 0.0)
 	health_changed.emit(health, max_health)
 	_flash()

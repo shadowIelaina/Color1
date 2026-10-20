@@ -45,6 +45,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	add_child(preload("res://scripts/pause_menu.gd").new())
 	if debug_boss_test:
 		_start_debug_boss_test()
 		return
@@ -53,6 +54,7 @@ func _ready() -> void:
 		add_child(menu)
 		menu.prepare(self)
 	SceneManager.setup(player, room_container)
+	add_child(preload("res://scripts/opening_guide.gd").new())
 	if pcam != null:
 		pcam.follow_target = player
 	if show_main_menu and menu_has_save:

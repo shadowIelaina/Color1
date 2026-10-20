@@ -94,6 +94,7 @@ func _ready() -> void:
 	color_label.visible = false   # 调色盘改用右下角色轮，不再用左上角文字
 	GameState.hint.connect(show_hint)
 	GameState.notice.connect(show_notice)
+	GameState.tutorial_notice.connect(show_notice)
 	GameState.alert.connect(show_alert)
 	GameState.alert_cancelled.connect(_on_alert_cancelled)
 	GameState.key_added.connect(_refresh_status)
@@ -226,7 +227,7 @@ func _make_notice_label() -> Label:
 	return l
 
 
-func show_notice(text: String) -> void:
+func show_notice(text: String, duration: float = 2.0) -> void:
 	if notice_label == null or notice_panel == null:
 		return
 	notice_label.text = text
@@ -242,7 +243,7 @@ func show_notice(text: String) -> void:
 		_notice_tween.kill()
 	_notice_tween = create_tween()
 	_notice_tween.tween_property(notice_panel, "modulate:a", 1.0, 0.18).from(0.0)
-	_notice_tween.tween_interval(2.0)
+	_notice_tween.tween_interval(duration)
 	_notice_tween.tween_property(notice_panel, "modulate:a", 0.0, 0.5)
 	_notice_tween.tween_callback(func():
 		notice_panel.visible = false
