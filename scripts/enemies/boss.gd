@@ -69,10 +69,10 @@ const SniperShotScript := preload("res://effects/sniper_shot/sniper_shot.gd")
 @export var ring_interval_max := 2.3
 @export var ring_interval_min := 1.2
 ## 满血 → 濒死扇形内的弹数。
-@export_range(1, 48, 1) var ring_bullets_min := 8
-@export_range(1, 48, 1) var ring_bullets_max := 12
+@export_range(1, 48, 1) var ring_bullets_min := 7
+@export_range(1, 48, 1) var ring_bullets_max := 10
 ## 扇形张角（度），以「朝玩家方向」为中心。
-@export_range(10.0, 360.0, 1.0) var ring_arc_deg := 90.0
+@export_range(10.0, 360.0, 1.0) var ring_arc_deg := 75.0
 @export var ring_bullet_speed := 420.0
 ## 出膛半径（世界像素）。0 = 从 Boss 本体中心发射（生成时对本体加碰撞例外，见 _spawn_projectile）。
 @export var ring_muzzle := 0.0

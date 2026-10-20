@@ -61,12 +61,6 @@ enum State {
 @export_range(0.0, 12.0, 0.5) var hit_shake_pixels := 3.0
 @export var hit_gamepad_vibration := true
 
-@export_group("Testing")
-## 测试用：开启后玩家永久持有 红/蓝/绿 三色（消耗不减少），方便自由试玩各机制。
-@export var infinite_elements := false
-## 测试模式下的初始持有量（仅用于 HUD 显示，不参与扣除）。
-@export var infinite_amount := 999
-
 const FOOTPRINT_RADIUS := 64.0
 const OUTLINE_SHADER := preload("res://shaders/outline_colorful.gdshader")
 const Rules := preload("res://scripts/element/element_rules.gd")
@@ -171,17 +165,8 @@ func _ready() -> void:
 		_remember_acquired_color(str(element))
 	var saved_elements := _held_elements()
 	_select_element(str(saved_elements[0]) if not saved_elements.is_empty() else "")
-	_seed_infinite_elements()
 	_setup_light()
 	_setup_range_indicator()
-
-
-## 测试模式：直接把红/蓝/绿塞进颜色库（HUD 显示 infinite_amount），供自由试玩。
-func _seed_infinite_elements() -> void:
-	if not infinite_elements:
-		return
-	_inventory = {"burn": infinite_amount, "freeze": infinite_amount, "grow": infinite_amount}
-	_select_element("burn")
 
 
 func _on_dialogue_started(_resource: DialogueResource) -> void:
@@ -413,8 +398,6 @@ func _process_frozen(delta: float) -> void:
 func _consume_element(element: String, amount: int = 1) -> bool:
 	if element == "" or amount <= 0:
 		return false
-	if infinite_elements:
-		return true
 	var have := int(_inventory.get(element, 0))
 	if have < amount:
 		return false
@@ -536,7 +519,7 @@ func is_safe_respawn_position(pos: Vector2) -> bool:
 
 
 func register_placed_color(target: Node) -> void:
-	if infinite_elements or not is_instance_valid(target): return
+	if not is_instance_valid(target): return
 	if not target.has_method("absorb_color") or not target.has_method("has_color") or not target.has_color(): return
 	var id := target.get_instance_id()
 	var count := int(_placed_colors.get(id, {}).get("count", 0))
@@ -796,7 +779,7 @@ func refund_element(element: String, amount: int) -> void:
 
 ## 记录曾获得的颜色：第一种全部用出去后，拿到第二种仍要提示。
 func _remember_acquired_color(element: String) -> void:
-	if infinite_elements or element not in ["burn", "freeze", "grow"]: return
+	if element not in ["burn", "freeze", "grow"]: return
 	GameState.hints["tutorial_color_seen_" + element] = true
 	if not GameState.hints.has(COLOR_QUANTITY_HINT) and _color_quantity_hint_delay < 0.0:
 		_color_quantity_hint_delay = 0.5
@@ -855,7 +838,7 @@ func steal_element(element: String, amount: int = 1) -> bool:
 func _grant() -> void:
 	if _selected_element == "" or not _companion_recruited():
 		return
-	if not infinite_elements and int(_inventory.get(_selected_element, 0)) <= 0:
+	if int(_inventory.get(_selected_element, 0)) <= 0:
 		return
 	var target := _grantable_at_mouse()
 	if target == null:
@@ -896,9 +879,6 @@ func _purge_nodes(group: String, method: String, center: Vector2) -> void:
 func _consume_selected() -> void:
 	if _selected_element == "":
 		return
-	if infinite_elements:
-		_notify_inventory()
-		return
 	if int(_inventory.get(_selected_element, 0)) <= 0:
 		return
 	_inventory[_selected_element] = int(_inventory[_selected_element]) - 1
@@ -907,7 +887,8 @@ func _consume_selected() -> void:
 	_notify_inventory()
 
 
-## 鼠标当前指向、尚未激活的圣坛（工作圈内，重叠时取 z_index 最高/最上层）。
+## 鼠标当前指向、仍可交互的圣坛（工作圈内，重叠时取 z_index 最高/最上层）。
+## 未点亮时可点亮；点亮后还能再交互一次领取赐福。
 func _altar_at_mouse() -> Node:
 	var mp := get_global_mouse_position()
 	if global_position.distance_to(mp) > interact_range:
@@ -919,7 +900,10 @@ func _altar_at_mouse() -> Node:
 			continue
 		if not obj.has_method("contains_point"):
 			continue
-		if bool(obj.get("is_open")):
+		if obj.has_method("can_interact"):
+			if not bool(obj.call("can_interact")):
+				continue
+		elif bool(obj.get("is_open")):
 			continue
 		if not bool(obj.call("contains_point", mp)):
 			continue

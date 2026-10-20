@@ -8,7 +8,6 @@ func _run() -> void:
 	var state: Node = root.get_node("GameState")
 	state.new_game()
 	var game: Node = load("res://scenes/game.tscn").instantiate()
-	game.debug_boss_test = false
 	game.show_main_menu = false
 	game.start_room = "res://scenes/level_4.tscn"
 	root.add_child(game)

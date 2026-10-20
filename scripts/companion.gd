@@ -250,6 +250,9 @@ func _submit(job: Dictionary, target: Node) -> bool:
 	if state == State.GUIDING: return false
 	if not is_recruited() or _talking or StoryDirector.is_busy() or not _valid_target(target, str(job.type)):
 		return false
+	# 祭坛点亮后的第二次领取必须等跟班回到玩家身边，确保真的再飞一趟。
+	if job.type == "interact" and target.has_method("can_interact") and bool(target.get("is_open")) and state != State.FOLLOWING:
+		return false
 	# 重复点击同一指令不叠加扣种；仅允许一个可替换的下一步。
 	for existing in [_task, _pending]:
 		if not existing.is_empty() and existing.type == job.type and existing.target.get_ref() == target and existing.get("element", "") == job.get("element", ""):
@@ -284,7 +287,12 @@ func _valid_target(target: Node, kind: String) -> bool:
 	match kind:
 		"paint": return target.has_method("apply_color") or target.has_method("apply_boss_color")
 		"absorb": return target.has_method("absorb_color") and (not target.has_method("has_color") or target.has_color())
-		"interact": return target.has_method("interact") and not bool(target.get("is_open"))
+		"interact":
+			if not target.has_method("interact"):
+				return false
+			if target.has_method("can_interact"):
+				return bool(target.call("can_interact"))
+			return not bool(target.get("is_open"))
 	return false
 
 
@@ -368,6 +376,10 @@ func _execute_task() -> void:
 					_task.settled = false
 					_cancel_job(_task)
 				else:
+					# 打死小怪 / 命中 Boss 时返还本次消耗的颜色。
+					var is_combat_target := target.is_in_group("minion") or target.is_in_group("boss")
+					if is_combat_target and is_instance_valid(player) and player.has_method("refund_element"):
+						player.call("refund_element", str(_task.element), 1)
 					if is_instance_valid(player) and player.has_method("register_placed_color"):
 						player.register_placed_color(target)
 					AudioManager.play_invoke(str(_task.element))

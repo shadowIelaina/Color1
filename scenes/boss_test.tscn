@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://c4e5vywf65834"]
+[gd_scene format=3 uid="uid://dnpc2hd0rtbpi"]
 
-[ext_resource type="Script" uid="uid://cgt3avsol48dj" path="res://scenes/boss_test.gd" id="1_ctrl"]
+[ext_resource type="Script" path="res://scenes/boss_test.gd" id="1_ctrl"]
 [ext_resource type="PackedScene" uid="uid://ckv74s8mkhqcg" path="res://scenes/player.tscn" id="2_player"]
 [ext_resource type="Script" uid="uid://8xoxo53ss7et" path="res://scripts/companion.gd" id="3_companion"]
 [ext_resource type="Resource" uid="uid://cs4tg8k8wjy13" path="res://dialogue/dia/companion.dialogue" id="4_dialogue"]
@@ -77,7 +77,6 @@ shape = SubResource("Rect_wall_v")
 [node name="Player" parent="." unique_id=1034897621 groups=["player"] instance=ExtResource("2_player")]
 position = Vector2(0, 1400)
 max_health = 6
-infinite_elements = true
 
 [node name="Camera" type="Camera2D" parent="Player" unique_id=448283495]
 zoom = Vector2(0.22, 0.22)
