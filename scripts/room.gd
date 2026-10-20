@@ -44,13 +44,16 @@ func exit() -> void:
 ## 查找本房间内 matching entrance_id 的入口位置。
 func get_entrance_position(entrance_id: String) -> Vector2:
 	if entrance_id == "":
-		return Vector2.ZERO
+		entrance_id = start_entrance if start_entrance != "" else "spawn"
 	for e in get_tree().get_nodes_in_group("entrance"):
 		if e.get("entrance_id") == entrance_id and e is Node2D and _is_descendant(e):
 			return e.global_position
 	var by_name := get_node_or_null(entrance_id)
 	if by_name is Node2D:
 		return by_name.global_position
+	# 未配置或已改名的入口回到正式出生点，避免落在原点的机关内。
+	if entrance_id != "spawn":
+		return get_entrance_position("spawn")
 	return Vector2.ZERO
 
 

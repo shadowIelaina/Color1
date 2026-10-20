@@ -123,9 +123,27 @@ func _do_change_room(target_scene: String, target_entrance: String) -> void:
 	if player is CharacterBody2D:
 		player.velocity = Vector2.ZERO
 	_restore_companion()
+	_ensure_safe_arrival(new_room)
 
 	room_entered.emit(new_room.get("room_id"))
 	room_changed.emit(new_room.get("room_id"))
+
+
+## 新房碰撞需等物理同步后才能查询；也修复旧存档里落在机关内的位置。
+func _ensure_safe_arrival(room: Node) -> void:
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	if not is_instance_valid(room) or current_room != room or not is_instance_valid(player):
+		return
+	if not player.has_method("is_safe_respawn_position") or player.is_safe_respawn_position(player.global_position):
+		return
+	var spawn: Vector2 = room.get_entrance_position("spawn")
+	if not player.is_safe_respawn_position(spawn):
+		return
+	player.global_position = spawn
+	if player is CharacterBody2D:
+		player.velocity = Vector2.ZERO
+	_restore_companion()
 
 
 func _restore_companion() -> void:

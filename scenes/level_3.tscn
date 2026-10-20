@@ -385,7 +385,7 @@ position = Vector2(118, 3412)
 drop_scene = ExtResource("23_vv2vh")
 
 [node name="BaoXiang2" parent="." unique_id=2009497491 instance=ExtResource("21_wu3ic")]
-position = Vector2(16121, 10241)
+position = Vector2(15843, 10327)
 drop_id = "3"
 
 [node name="Grasses" type="Node2D" parent="." unique_id=823188263]
@@ -1069,7 +1069,7 @@ position = Vector2(13552, 2730)
 position = Vector2(8558, 11015)
 
 [node name="Grass_big10" parent="Grasses" unique_id=966267624 instance=ExtResource("22_w5nkq")]
-position = Vector2(125, 9102)
+position = Vector2(292, 9208)
 
 [node name="Grass_big11" parent="Grasses" unique_id=1447483562 instance=ExtResource("22_w5nkq")]
 position = Vector2(846, 5982)
@@ -1147,7 +1147,7 @@ position = Vector2(-531, 2408)
 position = Vector2(1654, 2306)
 
 [node name="Grass_big8" parent="Grasses" unique_id=93171816 instance=ExtResource("22_w5nkq")]
-position = Vector2(14594, 3984)
+position = Vector2(14472, 4157)
 
 [node name="Grass_9" parent="Grasses" unique_id=1174634317 instance=ExtResource("21_k5r18")]
 position = Vector2(13997, 9548)

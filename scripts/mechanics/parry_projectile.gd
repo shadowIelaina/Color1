@@ -57,6 +57,7 @@ var _age := 0.0
 var _parried := false
 var _traveled := 0.0
 var _trail_cd := 0.0
+var _source_body: WeakRef
 
 
 func _ready() -> void:
@@ -71,6 +72,13 @@ func setup(dir: Vector2, from: String = "enemy") -> void:
 	direction = dir.normalized() if dir != Vector2.ZERO else Vector2.RIGHT
 	source_group = from
 	_update_visual_rotation()
+
+
+## 出膛时忽略发射器；弹反后解除，允许子弹反打原发射器。
+func set_source_body(body: PhysicsBody2D) -> void:
+	if not is_instance_valid(body): return
+	_source_body = weakref(body)
+	add_collision_exception_with(body)
 
 
 func is_parried() -> bool:
@@ -89,6 +97,10 @@ func parry(deflect_dir: Vector2, parrier: Node) -> bool:
 	direction = deflect_dir.normalized() if deflect_dir != Vector2.ZERO else -direction
 	speed *= reflect_speed_scale
 	source_group = _faction_of(parrier)
+	if _source_body != null:
+		var source := _source_body.get_ref() as PhysicsBody2D
+		if is_instance_valid(source): remove_collision_exception_with(source)
+		_source_body = null
 	_age = 0.0
 	_traveled = 0.0
 	# 归属翻转后不再命中「玩家层」（层 1），避免刚弹反就被自己挡住。

@@ -51,10 +51,22 @@ func _run() -> void:
 	var back: Node = manager.current_room.get_node("ReturnPortal")
 	assert(back.monitoring and back.get_node("Visual").visible)
 	back._on_body_entered(game.player)
-	await create_timer(1.5).timeout
-	assert(manager.current_room_scene == "res://scenes/level_4.tscn")
-	print("BOSS_RETURN_CHECK actual=", game.player.global_position, " entrance=", manager.current_room.get_entrance_position("boss_return"))
-	assert(game.player.global_position == manager.current_room.get_entrance_position("boss_return"))
+	# 结局等胜利对白退场，不强行覆盖尚未读完的台词。
+	for i in 400:
+		if get_first_node_in_group("ending") != null: break
+		var balloon := get_first_node_in_group("dialogue_balloon")
+		if balloon != null and is_instance_valid(balloon.dialogue_line) and not balloon._closing:
+			if balloon.dialogue_label.is_typing:
+				balloon.dialogue_label.skip_typing()
+			elif balloon.is_waiting_for_input:
+				balloon.next(balloon.dialogue_line.next_id)
+		await create_timer(0.05).timeout
+	var ending: Node = get_first_node_in_group("ending")
+	assert(ending != null and paused and state.is_switch_on("ending_seen"))
+	assert(manager.current_room_scene == "res://scenes/boss_room.tscn")
+	ending.queue_free()
+	await process_frame
+	assert(not paused)
 	assert(get_nodes_in_group("companion").size() == 1)
 	state.save_game()
 	assert(state.load_game() and state.is_switch_on("boss_defeated"))
@@ -62,5 +74,5 @@ func _run() -> void:
 	await create_timer(1.5).timeout
 	assert(manager.current_room.get_node_or_null("BossEncounter/Boss") == null)
 	assert(manager.current_room.get_node("ReturnPortal").monitoring)
-	print("RELEASE_FLOW_OK: altar requirements, real portal, boss spawn/death/victory/return, save and reentry")
+	print("RELEASE_FLOW_OK: altar requirements, real portal, boss spawn/death/victory/ending, save and reentry")
 	quit()

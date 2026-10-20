@@ -24,6 +24,8 @@
 [ext_resource type="Script" uid="uid://c87fgfsseq82n" path="res://color_change/air_wall_spawner.gd" id="23_2dyfp"]
 [ext_resource type="Script" uid="uid://dle3pggta1812" path="res://scripts/boss_hint_director.gd" id="24_hints"]
 
+[ext_resource type="Script" path="res://scripts/ending_portal.gd" id="25_ending"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
 size = Vector2(9600, 7800)
 
@@ -511,12 +513,13 @@ script = ExtResource("13_nav")
 script = ExtResource("24_hints")
 
 [node name="ReturnPortal" parent="." unique_id=2097772817 instance=ExtResource("6_portal")]
+script = ExtResource("25_ending")
 position = Vector2(0, 2494)
 door_id = "boss_return"
-target_scene = "res://scenes/level_4.tscn"
-target_entrance = "boss_return"
+target_scene = ""
+target_entrance = ""
 unlock_options = Array[String](["switch:boss_defeated"])
-unlock_notice = "返回传送门已开启"
+unlock_notice = "终点传送门已开启"
 
 [node name="Water" type="TileMapLayer" parent="." unique_id=341646607]
 z_index = -3

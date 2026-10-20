@@ -31,7 +31,7 @@
 [ext_resource type="Script" uid="uid://bqt4yb3ygmiwl" path="res://scripts/mechanics/lights_out_puzzle.gd" id="24_puzzle"]
 [ext_resource type="PackedScene" uid="uid://bv06efk7r2psm" path="res://prefabs/items/static prop/Baoxiang.tscn" id="24_vwfin"]
 [ext_resource type="Script" uid="uid://cgwiqk6vc2tbe" path="res://scripts/mechanics/light_switch.gd" id="25_switch"]
-[ext_resource type="Texture2D" uid="uid://b3y7dtfx74055" path="res://art/things/元素阀门tm.png" id="26_light"]
+[ext_resource type="Texture2D" path="res://art/things/元素阀门tm_.png" id="26_light"]
 [ext_resource type="PackedScene" uid="uid://bqctqappo14d2" path="res://prefabs/items/interaction/red_heart.tscn" id="26_va6c3"]
 [ext_resource type="Script" uid="uid://bsesqduu4fs8m" path="res://scripts/companion_hint.gd" id="27_hint"]
 [ext_resource type="Resource" uid="uid://cs4tg8k8wjy13" path="res://dialogue/dia/companion.dialogue" id="28_companion"]

@@ -1,0 +1,12 @@
+Godot Engine v4.7.2.stable.steam.ed1daf0bf - https://godotengine.org
+
+ERROR: Unable to open file: res://.godot/imported/草2tm.png-981474d04ad665c2400edd52514345c4.ctex.
+   at: _load_data (scene/resources/compressed_texture.cpp:45)
+   GDScript backtrace (most recent call first):
+       [0] _do_change_room (res://scripts/scene_manager.gd:99)
+ERROR: Unable to open file: res://.godot/imported/草2tm.png-981474d04ad665c2400edd52514345c4.ctex.
+   at: _load_data (scene/resources/compressed_texture.cpp:45)
+   GDScript backtrace (most recent call first):
+       [0] _do_change_room (res://scripts/scene_manager.gd:99)
+BOSS_RETURN_CHECK actual=(0.0, 1350.0) entrance=(0.0, 1350.0)
+RELEASE_FLOW_OK: altar requirements, real portal, boss spawn/death/victory/return, save and reentry

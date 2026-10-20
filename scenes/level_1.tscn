@@ -5065,7 +5065,7 @@ position = Vector2(5597, 1805)
 position = Vector2(5590, 314)
 
 [node name="Grass_big32" parent="GrassBig" unique_id=966094753 instance=ExtResource("18_x2xxo")]
-position = Vector2(1627, -9327)
+position = Vector2(1456, -9331)
 
 [node name="Grass_big33" parent="GrassBig" unique_id=122432952 instance=ExtResource("18_x2xxo")]
 position = Vector2(2276, -9494)
@@ -5133,7 +5133,7 @@ position = Vector2(-420, -9443)
 position = Vector2(-1936, -9055)
 
 [node name="Grass_big66" parent="GrassBig" unique_id=1363905014 instance=ExtResource("18_x2xxo")]
-position = Vector2(-7876, -7692)
+position = Vector2(-7661, -7541)
 
 [node name="Grass_big90" parent="GrassBig" unique_id=280950013 instance=ExtResource("18_x2xxo")]
 position = Vector2(-8815, -6914)

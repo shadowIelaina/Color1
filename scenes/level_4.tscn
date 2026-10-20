@@ -339,7 +339,6 @@ entrance_id = "boss_return"
 [node name="BossAltar" parent="." unique_id=10390204 instance=ExtResource("24_altar")]
 position = Vector2(-4, 5)
 activated_dialogue = ExtResource("28_companion")
-activated_cue = "hint_boss_portal"
 
 [node name="BossPortal" parent="." unique_id=1155425802 instance=ExtResource("25_boss_portal")]
 position = Vector2(0, 1295)
@@ -644,7 +643,7 @@ scale = Vector2(0.7, 0.7)
 
 [node name="Grass_04" parent="." unique_id=1382764069 instance=ExtResource("27_grass")]
 z_index = 1750
-position = Vector2(413.00006, -2128.0002)
+position = Vector2(-265.99994, -1981.0002)
 scale = Vector2(0.7, 0.7)
 
 [node name="Grass_05" parent="." unique_id=1550612769 instance=ExtResource("27_grass")]

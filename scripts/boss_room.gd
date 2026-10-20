@@ -1,5 +1,5 @@
 extends Room
-## Boss 房：监听 Boss 阵亡，显示胜利并开启返回 level_4 的传送门。
+## Boss 房：监听 Boss 阵亡，显示胜利并开启结局传送门。
 
 @export var defeated_switch := "boss_defeated"
 @export var victory_text := "BOSS 已击败"
@@ -58,7 +58,7 @@ func _on_boss_died() -> void:
 	var arena := get_node_or_null("Arena")
 	if arena != null and arena.has_method("play_victory"):
 		arena.call("play_victory")
-	GameState.notice.emit("返回传送门已开启")
+	GameState.notice.emit("终点传送门已开启")
 	_show_victory()
 
 
@@ -73,7 +73,7 @@ func _show_victory() -> void:
 	if hud == null:
 		return
 	if hud.has_method("show_boss_victory"):
-		hud.call("show_boss_victory", victory_text, "归途传送门已开启", 3.0)
+		hud.call("show_boss_victory", victory_text, "穿过传送门，离开这里", 3.0)
 	elif hud.has_method("show_win"):
 		hud.show_win()
 

@@ -1,5 +1,7 @@
 class_name ParryEmitter
 extends CharacterBody2D
+const DepthSort := preload("res://scripts/depth_sort.gd")
+signal projectile_fired(projectile: Node)
 ## 弹幕发射怪（示例 / 测试用）：周期性朝玩家发射 ParryProjectile，可选沿直线走位。
 ##
 ## 它自己在 "enemy" 组里并带 take_damage，因此被弹反回来的子弹命中会掉血直至销毁——
@@ -61,6 +63,7 @@ var _travel_dist := 0.0
 func _ready() -> void:
 	add_to_group("enemy")
 	add_to_group("parry_emitter")
+	z_index = DepthSort.z_for(global_position.y)
 	health = max_health
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 	_player = get_tree().get_first_node_in_group("player") as Node2D
@@ -80,6 +83,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	_patrol(delta)
+	z_index = DepthSort.z_for(global_position.y)
 	_tick_fire(delta)
 
 
@@ -163,11 +167,17 @@ func fire() -> Node:
 		proj.queue_free()
 		return null
 	holder.add_child(proj)
+	if proj.has_method("set_source_body"):
+		proj.set_source_body(self)
 	if proj is Node2D:
 		(proj as Node2D).global_position = global_position + dir.normalized() * muzzle_offset
+		# 飞行弹体置于地面物体深度带之上，暗房遮罩之下。
+		proj.z_as_relative = false
+		proj.z_index = 4001
 	if proj.has_method("setup"):
 		proj.call("setup", dir, "enemy")
 		proj.set("speed", projectile_speed)
+	projectile_fired.emit(proj)
 	return proj
 
 

@@ -1,0 +1,14 @@
+Godot Engine v4.7.2.stable.steam.ed1daf0bf - https://godotengine.org
+
+ERROR: Unable to open file: res://.godot/imported/草2tm.png-981474d04ad665c2400edd52514345c4.ctex.
+   at: _load_data (scene/resources/compressed_texture.cpp:45)
+   GDScript backtrace (most recent call first):
+       [0] _do_change_room (res://scripts/scene_manager.gd:99)
+ERROR: Node not found: "Checkpoint_ItemRoute" (relative to "/root/Game/RoomContainer/Level1").
+   at: get_node (scene/main/node.cpp:1975)
+   GDScript backtrace (most recent call first):
+       [0] _run (E:/Godot/github-project/Color1/output/verify_updated_package.gd:23)
+SCRIPT ERROR: Invalid access to property or key 'show_marker' on a base object of type 'null instance'.
+   at: _run (E:/Godot/github-project/Color1/output/verify_updated_package.gd:24)
+   GDScript backtrace (most recent call first):
+       [0] _run (E:/Godot/github-project/Color1/output/verify_updated_package.gd:24)
